@@ -5,6 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Animated Navbar</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  .site-footer{
+  background:#0b0b0b;
+  padding:24px 8%;
+}
+
+.footer-container{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  color:#aaa;
+}
+
+/* LEFT */
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.footer-brand h3{
+  color:#fff;
+  font-weight:600;
+}
+
+.footer-brand p{
+  font-size:14px;
+  opacity:.7;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  background:#ff3c3c;
+  border-radius:50%;
+  animation:pulse 1.5s infinite;
+}
+
+/* CENTER */
+.footer-links{
+  display:flex;
+  gap:20px;
+  list-style:none;
+}
+
+.footer-links a{
+  color:#aaa;
+  text-decoration:none;
+  transition:.3s;
+}
+
+.footer-links a:hover{
+  color:#fff;
+  transform:translateY(-3px);
+}
+
+/* RIGHT */
+.footer-social a{
+  width:36px;
+  height:36px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#111;
+  color:#fff;
+  margin-left:10px;
+  transition:.3s;
+}
+
+.footer-social a:hover{
+  background:#ff3c3c;
+  transform:translateY(-4px);
+}
+
+/* ANIMATION */
+@keyframes pulse{
+  0%{ box-shadow:0 0 0 0 rgba(255,60,60,.6); }
+  100%{ box-shadow:0 0 0 12px rgba(255,60,60,0); }
+}
+</style>
 
 </head>
 
@@ -85,6 +167,34 @@
 
 </section>
 
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <!-- Left -->
+    <div class="footer-brand">
+      <span class="dot"></span>
+      <h3>Portfolio</h3>
+      <p>© 2024 Portfolio</p>
+    </div>
+
+    <!-- Center -->
+    <ul class="footer-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="project.html">Projects</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <!-- Right -->
+    <div class="footer-social">
+      <a href="#" title="Facebook">f</a>
+      <a href="#" title="Twitter">𝕏</a>
+      <a href="https://www.instagram.com/" title="Instagram">📸</a>
+      <a href="https://www.linkedin.com/" title="LinkedIn">in</a>
+    </div>
+
+  </div>
+</footer>
 
 
 
