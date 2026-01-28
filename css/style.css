@@ -607,3 +607,242 @@ p{color:rgba(255,255,255,.8);line-height:1.8}
   .cta-section{padding:2rem 1.5rem}
 }
 
+
+/* Hero Section */
+        .hera {
+            padding: 5rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hera h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+        }
+
+        .hera p {
+            font-size: 1.1rem;
+            color: #aaa;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* Main Content */
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Two Column Layout */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 5rem;
+        }
+
+        /* Contact Info Section */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .info-block {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #ff3c3c;
+            font-weight: 700;
+        }
+
+        .info-value {
+            font-size: 1.3rem;
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .info-value:hover {
+            color: #ff3c3c;
+        }
+
+        .info-desc {
+            font-size: 0.95rem;
+            color: #888;
+            line-height: 1.6;
+        }
+
+        /* Contact Form */
+        .form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .form-section h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-size: 0.9rem;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        input, textarea {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 6px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #555;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ff3c3c;
+            box-shadow: 0 0 15px rgba(255, 60, 60, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .submit-btn {
+            background: #ff3c3c;
+            color: #ffffff;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #ff5555;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 60, 60, 0.3);
+        }
+
+        /* Social Section */
+        .social-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-top: 5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-section h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 700;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1.5px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            font-size: 1.3rem;
+        }
+
+        .social-link:hover {
+            background: #ff3c3c;
+            border-color: #ff3c3c;
+            color: #ffffff;
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: #555;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .hera h1 {
+                font-size: 2.5rem;
+            }
+
+            .hera p {
+                font-size: 1rem;
+            }
+
+            .contact-layout {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .form-section h2 {
+                font-size: 1.5rem;
+            }
+
+            input, textarea {
+                padding: 0.8rem;
+            }
+
+            .social-link {
+                width: 50px;
+                height: 50px;
+                font-size: 1.1rem;
+            }
+        }
