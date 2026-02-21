@@ -3,145 +3,526 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About - Vivek</title>
-<link rel="stylesheet" href="css/style.css">
+<title>About — Vivek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
 <style>
-  h1{
-    color: white;
-  }
-  body{
-  margin:0;
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#050505;
+  --surface:#0f0f0f;
+  --border:#1a1a1a;
+  --accent:#c8ff00;
+  --text:#f0f0f0;
+  --muted:#555;
+}
+
+html{scroll-behavior:smooth}
+
+body{
   min-height:100vh;
-  color:#fff;
-  background:
-    linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)),
-    url("ab.jpg") center/cover no-repeat;
+  font-family:'DM Mono',monospace;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* ── CUSTOM CURSOR ── */
+#cursor{
+  position:fixed;width:10px;height:10px;border-radius:50%;
+  background:var(--accent);pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:transform .1s;
+  mix-blend-mode:difference;
+}
+#cursor-ring{
+  position:fixed;width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(200,255,0,.4);pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:all .18s ease;
+}
+
+/* ── NOISE ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:999;opacity:.4;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 3rem;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  background:rgba(5,5,5,.85);
+}
+.logo-text{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em;text-decoration:none;color:var(--text);}
+.logo-text span{color:var(--accent);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--text);}
+
+/* ── HERO ── */
+.hero{
+  padding:13rem 3rem 5rem;
+  max-width:1400px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:end;
+  position:relative;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:2rem;
+  animation:fadeUp .6s .1s ease both;
+}
+.hero-label::before{content:'';width:30px;height:1px;background:var(--accent);}
+
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(4rem,9vw,8rem);
+  font-weight:800;line-height:.92;letter-spacing:-.04em;
+  animation:fadeUp .6s .2s ease both;
+}
+.hero h1 em{color:var(--accent);font-style:normal;}
+
+.hero-right{
+  padding-bottom:.5rem;
+  animation:fadeUp .6s .35s ease both;
+}
+.hero-right p{font-size:.9rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+.hero-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+  margin-top:2.5rem;
+}
+.stat{
+  background:var(--bg);padding:1.5rem;
+}
+.stat-num{
+  font-family:'Syne',sans-serif;font-size:2.2rem;font-weight:800;
+  color:var(--accent);line-height:1;margin-bottom:.4rem;
+}
+.stat-label{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);}
+
+/* ── DIVIDER ── */
+.divider{
+  max-width:1400px;margin:0 auto;padding:0 3rem;
+}
+.divider hr{border:none;border-top:1px solid var(--border);}
+.section-label{
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2.5rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── ABOUT STRIP ── */
+.about-strip{
+  max-width:1400px;margin:0 auto;
+  padding:5rem 3rem;
+  display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:start;
+}
+.about-strip-label{
+  position:sticky;top:8rem;
+}
+.about-strip-label h2{
+  font-family:'Syne',sans-serif;font-size:3rem;font-weight:800;
+  letter-spacing:-.03em;line-height:1.1;
+  margin-bottom:1rem;
+}
+.about-strip-label h2 span{
+  display:block;-webkit-text-stroke:1px #2a2a2a;color:transparent;
+  font-size:4rem;
+}
+.about-strip-content p{
+  font-size:.9rem;color:var(--muted);line-height:2;
+  margin-bottom:1.8rem;
+  padding-bottom:1.8rem;
+  border-bottom:1px solid var(--border);
+}
+.about-strip-content p:last-child{border-bottom:none;}
+.about-strip-content p strong{color:var(--text);font-weight:400;}
+.highlight-text{
+  font-family:'Syne',sans-serif;font-size:1.5rem!important;
+  font-weight:700!important;letter-spacing:-.02em;
+  color:var(--text)!important;line-height:1.5!important;
+}
+
+/* ── SKILLS ── */
+.skills-section{
+  max-width:1400px;margin:0 auto;padding:0 3rem 6rem;
+}
+.skills-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.skill-card{
+  background:var(--bg);padding:3rem 2.5rem;
+  position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.skill-card:hover{background:#0c0c0c;}
+.skill-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.skill-card:hover::before{transform:scaleX(1);}
+.skill-num{font-size:.7rem;letter-spacing:.12em;color:var(--accent);margin-bottom:1.5rem;}
+.skill-icon-wrap{
+  width:52px;height:52px;
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;margin-bottom:1.8rem;
+  transition:border-color .3s;
+}
+.skill-card:hover .skill-icon-wrap{border-color:#333;}
+.skill-card h3{
+  font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;
+  margin-bottom:.8rem;letter-spacing:-.01em;
+}
+.skill-card p{font-size:.78rem;color:var(--muted);line-height:1.8;}
+.skill-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1.5rem;}
+.skill-tag{
+  font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid #1e1e1e;padding:.25rem .55rem;color:#444;
+}
+
+/* ── TOOLS ── */
+.tools-section{
+  max-width:1400px;margin:0 auto;padding:0 3rem 6rem;
+}
+.tools-row{
+  display:flex;flex-wrap:wrap;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.tool-pill{
+  background:var(--bg);padding:1.2rem 2rem;
+  font-size:.78rem;letter-spacing:.06em;color:var(--muted);
+  transition:background .25s,color .25s;
+  display:flex;align-items:center;gap:.7rem;
+}
+.tool-pill:hover{background:var(--surface);color:var(--text);}
+.tool-pill span{color:var(--accent);font-size:.9rem;}
+
+/* ── TIMELINE ── */
+.timeline-section{
+  max-width:1400px;margin:0 auto;padding:0 3rem 6rem;
+}
+.timeline{display:flex;flex-direction:column;gap:0;}
+.timeline-item{
+  display:grid;grid-template-columns:200px 1fr;
+  gap:3rem;padding:2.5rem 0;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.timeline-item:last-child{border-bottom:none;}
+.timeline-year{
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
+  color:var(--accent);padding-top:.1rem;
+}
+.timeline-content h4{
+  font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;
+  margin-bottom:.5rem;letter-spacing:-.01em;
+}
+.timeline-content p{font-size:.8rem;color:var(--muted);line-height:1.8;}
+.timeline-dot{
+  position:absolute;left:190px;top:2.9rem;
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+}
+
+/* ── CTA ── */
+.cta-section{
+  max-width:1400px;margin:0 auto;padding:0 3rem 8rem;
+}
+.cta-inner{
+  border:1px solid var(--border);padding:5rem;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:3rem;
+}
+.cta-inner::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 80% 50%, rgba(200,255,0,.04) 0%, transparent 60%);
+  pointer-events:none;
+}
+.cta-text h2{
+  font-family:'Syne',sans-serif;font-size:clamp(2rem,4vw,3.5rem);
+  font-weight:800;letter-spacing:-.03em;line-height:1.1;
+  margin-bottom:1rem;
+}
+.cta-text p{font-size:.85rem;color:var(--muted);line-height:1.8;max-width:400px;}
+.btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  color:#000;background:var(--accent);
+  padding:.9rem 2rem;text-decoration:none;
+  font-family:'DM Mono',monospace;
+  transition:opacity .2s;white-space:nowrap;flex-shrink:0;
+}
+.btn:hover{opacity:.85;}
+.cta-arrow{
+  position:absolute;right:3rem;bottom:2rem;
+  font-family:'Syne',sans-serif;font-size:6rem;font-weight:800;
+  color:transparent;-webkit-text-stroke:1px #111;
+  pointer-events:none;line-height:1;
+}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 3rem;
+  max-width:1400px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+}
+footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2rem;padding-top:10rem;}
+  .about-strip{grid-template-columns:1fr;gap:2rem;}
+  .about-strip-label{position:static;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .timeline-item{grid-template-columns:100px 1fr;gap:1.5rem;}
+  nav,.divider,.about-strip,.skills-section,.tools-section,.timeline-section,.cta-section,.hero,footer{
+    padding-left:1.5rem;padding-right:1.5rem;
+  }
+  .cta-inner{padding:3rem 2rem;flex-direction:column;align-items:flex-start;}
+}
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:1fr;}
+  .hero h1{font-size:3.5rem;}
+  .nav-links{display:none;}
+  .hero-stats{grid-template-columns:1fr 1fr;}
 }
 </style>
-
 </head>
-
 <body>
 
-  <nav class="navbar">
-  <div class="nav-content">
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-    <div class="logo">
-      <img src="logo.png" alt="Logo">
-    </div>
-
-    <input type="checkbox" id="menu" class="menu-checkbox">
-    <label for="menu" class="menu-toggle">
-      <span></span><span></span><span></span>
-    </label>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="project.html">Project</a></li>
-    </ul>
-
-  </div>
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo-text">V<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="project.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
 
-
-
-<section class="about-modern">
-  <div class="about-header">
-    <h1>About Me</h1>
-    <p>Designing modern, performant digital experiences with passion.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-label">About Me</div>
+    <h1>VIVEK<br><em>Dandotiya</em></h1>
   </div>
-
-  <div class="about-grid">
-
-    <div class="about-text">
-      <h2>Who I Am</h2>
-      <span class="accent-line"></span>
-
-      <p>
-        I’m a creative web designer and developer focused on crafting clean,
-        user-friendly, and visually refined digital products.
-      </p>
-
-      <p>
-        I blend strong UI aesthetics with solid technical foundations to
-        build experiences that not only look great but perform flawlessly.
-      </p>
-
-      <p class="highlight">
-        My goal is simple — create digital work that feels premium, intuitive,
-        and meaningful.
-      </p>
+  <div class="hero-right">
+    <p>Creative web designer & developer focused on crafting clean, user-friendly, and visually refined digital products. I blend strong UI aesthetics with solid technical foundations.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">09+</div>
+        <div class="stat-label">Projects Done</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">2+</div>
+        <div class="stat-label">Years Exp.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">5+</div>
+        <div class="stat-label">Tech Stacks</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Curiosity</div>
+      </div>
     </div>
-
-  <div class="logo-stage">
-  <div class="rock"></div>
-
-  <div class="logo-3d">
-    <img src="logo.png" alt="Vivek Logo">
   </div>
-</div>
+</section>
 
-
+<!-- ABOUT TEXT -->
+<section class="about-strip">
+  <div class="about-strip-label reveal">
+    <h2>Who<br>I <span>AM</span></h2>
+  </div>
+  <div class="about-strip-content reveal">
+    <p class="highlight-text">"My goal is simple — create digital work that feels premium, intuitive, and meaningful."</p>
+    <p>I'm a <strong>creative web designer and developer</strong> who started this journey out of pure curiosity and turned it into a craft. Every project I take on is an opportunity to push the boundaries of what's possible on the web.</p>
+    <p>I believe great design is invisible. When everything works perfectly, users don't notice the design — they just enjoy the experience. That philosophy drives every decision I make, from typography choices to interaction patterns.</p>
+    <p>Beyond the screen, I'm constantly exploring new technologies, studying great design, and building things just to see if I can. The web is endlessly interesting to me — and that excitement shows up in my work.</p>
   </div>
 </section>
 
 <!-- SKILLS -->
 <section class="skills-section">
-  <h2 class="skills-title">My Skills</h2>
-
-  <div class="skills-grid">
+  <div class="section-label reveal">02 — Core Skills</div>
+  <div class="skills-grid reveal">
 
     <div class="skill-card">
-      <div class="skill-inner">
-        <div class="skill-front">
-          <span class="skill-icon">💻</span>
-          <h3>Web Development</h3>
-        </div>
-        <div class="skill-back">
-          <p>Building fast, responsive, and scalable websites using modern web standards.</p>
-        </div>
+      <div class="skill-num">[01]</div>
+      <div class="skill-icon-wrap">💻</div>
+      <h3>Web Development</h3>
+      <p>Building fast, responsive, and scalable websites using modern web standards and best practices.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">React</span>
       </div>
     </div>
 
     <div class="skill-card">
-      <div class="skill-inner">
-        <div class="skill-front">
-          <span class="skill-icon">🎨</span>
-          <h3>UI / UX Design</h3>
-        </div>
-        <div class="skill-back">
-          <p>Designing intuitive interfaces focused on usability and visual hierarchy.</p>
-        </div>
+      <div class="skill-num">[02]</div>
+      <div class="skill-icon-wrap">🎨</div>
+      <h3>UI / UX Design</h3>
+      <p>Designing intuitive interfaces focused on usability, visual hierarchy, and delightful interactions.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">Wireframes</span>
+        <span class="skill-tag">Prototypes</span>
       </div>
     </div>
 
     <div class="skill-card">
-      <div class="skill-inner">
-        <div class="skill-front">
-          <span class="skill-icon">⚡</span>
-          <h3>Performance</h3>
-        </div>
-        <div class="skill-back">
-          <p>Optimizing speed, SEO, and smooth interactions for real-world users.</p>
-        </div>
+      <div class="skill-num">[03]</div>
+      <div class="skill-icon-wrap">⚡</div>
+      <h3>Performance</h3>
+      <p>Optimizing for speed, SEO, and smooth interactions. Real-world performance for real users.</p>
+      <div class="skill-tags">
+        <span class="skill-tag">SEO</span>
+        <span class="skill-tag">Speed</span>
+        <span class="skill-tag">Next.js</span>
       </div>
     </div>
 
   </div>
 </section>
 
-
-
-
-
-<!-- CALL TO ACTION -->
-<section class="cta-section">
-  <h2>Let's Work Together</h2>
-  <p>Ready to bring your project to life? Get in touch with me to discuss your next big idea.</p>
-  <a href="contact.html" class="cta-button">Get In Touch</a>
+<!-- TOOLS -->
+<section class="tools-section">
+  <div class="section-label reveal">03 — Tools & Technologies</div>
+  <div class="tools-row reveal">
+    <div class="tool-pill"><span>▸</span> HTML5</div>
+    <div class="tool-pill"><span>▸</span> CSS3</div>
+    <div class="tool-pill"><span>▸</span> JavaScript</div>
+    <div class="tool-pill"><span>▸</span> TypeScript</div>
+    <div class="tool-pill"><span>▸</span> React</div>
+    <div class="tool-pill"><span>▸</span> Next.js</div>
+    <div class="tool-pill"><span>▸</span> Figma</div>
+    <div class="tool-pill"><span>▸</span> Framer</div>
+    <div class="tool-pill"><span>▸</span> Git</div>
+    <div class="tool-pill"><span>▸</span> Vercel</div>
+    <div class="tool-pill"><span>▸</span> Tailwind CSS</div>
+    <div class="tool-pill"><span>▸</span> Node.js</div>
+    <div class="tool-pill"><span>▸</span> Render</div>
+    <div class="tool-pill"><span>▸</span> Netlify</div>
+    <div class="tool-pill"><span>▸</span> Canva</div>
+    <div class="tool-pill"><span>▸</span> Learning..</div>
+  </div>
 </section>
 
+<!-- JOURNEY / TIMELINE -->
+<section class="timeline-section">
+  <div class="section-label reveal">04 — Journey</div>
+  <div class="timeline reveal">
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2023</div>
+      <div class="timeline-content">
+        <h4>Started Web Development</h4>
+        <p>Began with HTML & CSS, fell in love with the ability to create things in the browser. Built my first portfolio and never looked back.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2024</div>
+      <div class="timeline-content">
+        <h4>Levelled Up — React & TypeScript</h4>
+        <p>Dived deep into React, TypeScript, and Next.js. Started building real-world apps — dashboards, booking systems, food delivery platforms.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2024</div>
+      <div class="timeline-content">
+        <h4>Explored UI/UX & Figma</h4>
+        <p>Started treating design as seriously as code. Built Figma prototypes, studied design systems, and developed an eye for visual refinement.</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">2025</div>
+      <div class="timeline-content">
+        <h4>Freelancing & Open to Opportunities</h4>
+        <p>Currently taking on freelance projects and actively looking for exciting roles where I can build meaningful digital products at scale.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <div class="cta-text">
+      <h2>Let's Build<br>Something<br><em style="color:var(--accent);font-style:normal;">Great.</em></h2>
+      <p>Ready to bring your project to life? I'm open to freelance work, collaborations, and full-time opportunities.</p>
+    </div>
+    <a href="contact.html" class="btn">Get In Touch →</a>
+    <div class="cta-arrow">↗</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Vivek Dandotiya</span>
+  <span>Designer & Developer</span>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  ring.style.left = e.clientX + 'px';
+  ring.style.top = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.skill-card,.tool-pill').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.style.transform = 'translate(-50%,-50%) scale(1.8)');
+  el.addEventListener('mouseleave', () => ring.style.transform = 'translate(-50%,-50%) scale(1)');
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting){
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>

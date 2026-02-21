@@ -3,162 +3,548 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects - Vivek</title>
-<link rel="stylesheet" href="css/style.css">
-
+<title>Projects — Vivek</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-body{
-  min-height:100vh;
-  font-family:system-ui,sans-serif;
-  background-color: black;
-  color: #fff;
+:root{
+  --bg: #050505;
+  --surface: #0f0f0f;
+  --border: #1a1a1a;
+  --accent: #c8ff00;
+  --accent2: #ff4d4d;
+  --text: #f0f0f0;
+  --muted: #555;
+  --card-bg: #0a0a0a;
 }
 
+html{scroll-behavior:smooth}
+
+body{
+  min-height:100vh;
+  font-family:'DM Mono',monospace;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ─── NOISE OVERLAY ─── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:9999;opacity:.4;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 3rem;
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(20px);
+  background:rgba(5,5,5,.85);
+}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em;}
+.logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--text);}
+
+/* ─── HERO ─── */
+.hero{
+  padding:14rem 3rem 6rem;
+  max-width:1400px;margin:0 auto;
+  position:relative;
+}
+.hero-label{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:2rem;
+}
+.hero-label::before{content:'';width:30px;height:1px;background:var(--accent);}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(4rem,10vw,9rem);
+  font-weight:800;
+  line-height:.92;
+  letter-spacing:-.04em;
+}
+.hero h1 em{color:var(--accent);font-style:normal;}
+.hero-sub{
+  margin-top:2.5rem;
+  font-size:.85rem;color:var(--muted);
+  max-width:420px;line-height:1.8;
+}
+.hero-count{
+  position:absolute;right:3rem;top:14rem;
+  font-family:'Syne',sans-serif;font-size:7rem;font-weight:800;
+  color:transparent;-webkit-text-stroke:1px #1e1e1e;
+  line-height:1;pointer-events:none;
+  animation:fadeUp .8s ease forwards;
+}
+
+/* ─── TICKER ─── */
+.ticker{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:.8rem 0;
+  overflow:hidden;
+  margin-bottom:4rem;
+}
+.ticker-inner{
+  display:flex;gap:4rem;
+  animation:tick 20s linear infinite;
+  white-space:nowrap;width:max-content;
+}
+.ticker-item{
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:1rem;
+}
+.ticker-item span{color:var(--accent);font-size:.8rem;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── FEATURED ─── */
+.featured{
+  max-width:1400px;margin:0 auto;
+  padding:0 3rem 6rem;
+}
+.section-label{
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem;
+}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.featured-card{
+  border:1px solid var(--border);
+  border-radius:4px;
+  overflow:hidden;
+  display:grid;grid-template-columns:1fr 1fr;
+  transition:border-color .3s;
+  position:relative;
+}
+.featured-card:hover{border-color:#333;}
+.featured-card::before{
+  content:'FEATURED';
+  position:absolute;top:1.5rem;right:1.5rem;
+  font-size:.65rem;letter-spacing:.2em;
+  background:var(--accent);color:#000;
+  padding:.25rem .6rem;font-weight:700;
+}
+
+.featured-info{padding:3.5rem;}
+.featured-num{font-size:.72rem;color:var(--muted);letter-spacing:.1em;margin-bottom:1.5rem;}
+.featured-info h2{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.1;
+  margin-bottom:1rem;letter-spacing:-.02em;
+}
+.featured-info p{font-size:.82rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem;}
+.tag{
+  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--border);padding:.3rem .7rem;
+  color:var(--muted);
+}
+.btn{
+  display:inline-flex;align-items:center;gap:.7rem;
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  color:#000;background:var(--accent);
+  padding:.75rem 1.6rem;text-decoration:none;
+  font-family:'DM Mono',monospace;
+  transition:opacity .2s;
+}
+.btn:hover{opacity:.85;}
+.btn-ghost{
+  background:transparent;color:var(--text);border:1px solid var(--border);
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+
+.featured-visual{
+  background:var(--surface);
+  display:flex;align-items:center;justify-content:center;
+  font-size:6rem;
+  position:relative;overflow:hidden;
+  min-height:320px;
+}
+.featured-visual::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 60% 40%, rgba(200,255,0,.06) 0%, transparent 70%);
+}
+
+/* VIDEO EMBED */
+.video-wrapper{
+  position:relative;width:100%;padding-bottom:56.25%;
+  background:#000;
+}
+.video-wrapper iframe,.video-wrapper video{
+  position:absolute;inset:0;width:100%;height:100%;border:none;
+}
+.video-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--surface);
+  gap:1rem;color:var(--muted);font-size:.8rem;letter-spacing:.05em;
+}
+.video-placeholder .play-icon{
+  width:60px;height:60px;border-radius:50%;
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.4rem;
+}
+
+/* ─── GRID ─── */
+.projects-section{
+  max-width:1400px;margin:0 auto;padding:0 3rem 8rem;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+
+.card{
+  background:var(--card-bg);
+  padding:2.5rem;
+  position:relative;
+  transition:background .3s;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.card:hover{background:#0e0e0e;}
+.card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--accent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .4s ease;
+}
+.card:hover::after{transform:scaleX(1);}
+
+.card-num{
+  font-size:.7rem;letter-spacing:.12em;color:var(--accent);
+  margin-bottom:1.5rem;
+}
+.card-icon{font-size:2.2rem;margin-bottom:1.5rem;}
+.card-title{
+  font-family:'Syne',sans-serif;font-weight:700;
+  font-size:1.1rem;letter-spacing:-.01em;margin-bottom:.8rem;
+}
+.card-desc{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;flex:1;}
+.card-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.8rem;}
+.card-tag{
+  font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid #1e1e1e;padding:.2rem .5rem;color:#444;
+}
+.card-link{
+  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text);text-decoration:none;
+  display:inline-flex;align-items:center;gap:.5rem;
+  transition:color .2s;
+}
+.card-link:hover{color:var(--accent);}
+.card-link::after{content:'→';transition:transform .2s;}
+.card-link:hover::after{transform:translateX(4px);}
+
+/* VIDEO CARD */
+.card.has-video .card-video{
+  margin:-2.5rem -2.5rem 2rem;
+  position:relative;
+}
+.card.has-video .card-video video,
+.card.has-video .card-video iframe{
+  width:100%;height:180px;object-fit:cover;display:block;
+}
+.card.has-video .video-add-btn{
+  width:100%;height:180px;
+  background:#0f0f0f;
+  border:1px dashed #1e1e1e;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:.5rem;
+  color:var(--muted);font-size:.75rem;letter-spacing:.06em;
+  cursor:pointer;
+}
+
+/* ─── FIGMA CARD ─── */
+.card.figma .card-icon{color:#f24e1e;}
+
+/* ─── ADD VIDEO BANNER ─── */
+.video-banner{
+  max-width:1400px;margin:0 auto;
+  padding:0 3rem 4rem;
+}
+.video-banner-inner{
+  border:1px dashed #222;
+  padding:3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:2rem;
+}
+.video-banner-text h3{
+  font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:.5rem;
+}
+.video-banner-text p{font-size:.8rem;color:var(--muted);line-height:1.7;}
+.video-banner-icon{font-size:3rem;opacity:.3;}
+
+/* ─── FOOTER ─── */
+footer{
+  border-top:1px solid var(--border);
+  padding:2rem 3rem;
+  max-width:1400px;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;
+}
+footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
+
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-label{animation:fadeUp .6s .1s ease both;}
+.hero h1{animation:fadeUp .6s .2s ease both;}
+.hero-sub{animation:fadeUp .6s .3s ease both;}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr 1fr;}
+  .featured-card{grid-template-columns:1fr;}
+  nav{padding:1rem 1.5rem;}
+  .hero,.featured,.projects-section,.video-banner{padding-left:1.5rem;padding-right:1.5rem;}
+  .hero{padding-top:10rem;}
+}
+@media(max-width:600px){
+  .grid{grid-template-columns:1fr;}
+  .nav-links{display:none;}
+  .hero h1{font-size:3.5rem;}
+}
 </style>
 </head>
-
 <body>
 
-<nav class="navbar">
-  <div class="nav-content">
-
-    <div class="logo">
-      <img src="logo.png" alt="Logo">
-    </div>
-
-    <input type="checkbox" id="menu" class="menu-checkbox">
-    <label for="menu" class="menu-toggle">
-      <span></span><span></span><span></span>
-    </label>
-
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="project.html">Project</a></li>
-    </ul>
-
-  </div>
+<!-- NAV -->
+<nav>
+  <div class="logo">V<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="project.html">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
 
-<!-- PAGE HEADER -->
-<section class="projects-header">
-  <h1>My Projects</h1>
-  <p>A showcase of my recent work in web design, development, and digital solutions.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label">Selected Work</div>
+  <h1>MY<br><em>PROJECTS</em></h1>
+  <p class="hero-sub">9 projects spanning full-stack development, UI/UX, branding & interactive experiences.</p>
+  <div class="hero-count">09</div>
 </section>
 
-<!-- FEATURED PROJECT -->
-<section class="featured-section">
-  <h2 class="featured-title">Featured Project</h2>
-  
-  <div class="featured-project">
-    <div class="featured-content">
-      <h3>Project Spotlight</h3>
-      <h2>E-Commerce Platform</h2>
-      <p>A fully responsive e-commerce platform built with modern HTML, CSS, and JavaScript. Features include product filtering, shopping cart functionality, and a smooth checkout experience.</p>
-      <a href="#" class="project-link">View Full Case Study</a>
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span>★</span> Portfolio Website</span>
+    <span class="ticker-item"><span>★</span> Freelance Platform</span>
+    <span class="ticker-item"><span>★</span> Live Crypto Tracker</span>
+    <span class="ticker-item"><span>★</span> Movie Booking App</span>
+    <span class="ticker-item"><span>★</span> TypeScript Dashboard</span>
+    <span class="ticker-item"><span>★</span> Food Delivery Site</span>
+    <span class="ticker-item"><span>★</span> Task Manager</span>
+    <span class="ticker-item"><span>★</span> Figma Prototype</span>
+    <span class="ticker-item"><span>★</span> Framer Portfolio</span>
+    <!-- repeat -->
+    <span class="ticker-item"><span>★</span> Portfolio Website</span>
+    <span class="ticker-item"><span>★</span> Freelance Platform</span>
+    <span class="ticker-item"><span>★</span> Live Crypto Tracker</span>
+    <span class="ticker-item"><span>★</span> Movie Booking App</span>
+    <span class="ticker-item"><span>★</span> TypeScript Dashboard</span>
+    <span class="ticker-item"><span>★</span> Food Delivery Site</span>
+    <span class="ticker-item"><span>★</span> Task Manager</span>
+    <span class="ticker-item"><span>★</span> Figma Prototype</span>
+    <span class="ticker-item"><span>★</span> Framer Portfolio</span>
+  </div>
+</div>
+
+<!-- FEATURED -->
+<section class="featured">
+  <div class="section-label">01 — Featured Project</div>
+
+  <div class="featured-card">
+    <div class="featured-info">
+      <p class="featured-num">PROJECT.01 / HTML · CSS</p>
+      <h2>Portfolio<br>Website</h2>
+      <p>A hand-crafted personal portfolio built with pure HTML & CSS. Clean layout, smooth interactions, and a design that represents Vivek's brand as a developer.</p>
+      <div class="tags">
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">Responsive</span>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="https://vivek0052.in/" target="_blank" class="btn">Live Site →</a>
+      </div>
     </div>
-    <div class="featured-image">🛍️</div>
+    <div class="featured-visual">
+      <!-- Swap this div for a video when ready -->
+      <div class="video-wrapper">
+        <div class="video-placeholder">
+          <div class="play-icon">▶</div>
+          <span>Project Video Coming Soon</span>
+          <span style="font-size:.65rem;color:#333">Replace with &lt;iframe&gt; or &lt;video&gt; tag</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- PROJECTS GRID -->
-<section class="projects-grid">
+<section class="projects-section">
+  <div class="section-label">02 — All Projects</div>
 
-  <div class="project-card">
-    <div class="project-card-image">💼</div>
-    <div class="project-card-content">
-      <span class="project-number">[01]</span>
-      <h3 class="project-title">Web Design & Development</h3>
-      <p class="project-description">Creating stunning and functional websites tailored to client needs with responsive design and optimal user experience.</p>
-      <div class="project-tags">
-        <span class="tag">HTML</span>
-        <span class="tag">CSS</span>
-        <span class="tag">JavaScript</span>
+  <div class="grid">
+
+    <!-- P2 -->
+    <div class="card">
+      <div class="card-num">[02]</div>
+      <div class="card-icon">💼</div>
+      <h3 class="card-title">Freelancing Portfolio</h3>
+      <p class="card-desc">Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.</p>
+      <div class="card-tags">
+        <span class="card-tag">Fullstack</span>
+        <span class="card-tag">React</span>
+        <span class="card-tag">Vercel</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <!-- VIDEO SLOT: uncomment and replace src when ready
+      <div style="margin:-2.5rem -2.5rem 1.5rem;"><video src="your-video.mp4" autoplay muted loop playsinline style="width:100%;height:160px;object-fit:cover;display:block;"></video></div>
+      -->
+      <a href="https://freelance-portfolio-client-delta.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
-  <div class="project-card">
-    <div class="project-card-image">🎨</div>
-    <div class="project-card-content">
-      <span class="project-number">[02]</span>
-      <h3 class="project-title">UI/UX Design</h3>
-      <p class="project-description">Designing intuitive user interfaces with a focus on user experience, accessibility, and modern design principles.</p>
-      <div class="project-tags">
-        <span class="tag">Figma</span>
-        <span class="tag">Wireframes</span>
-        <span class="tag">Prototypes</span>
+    <!-- P3 -->
+    <div class="card">
+      <div class="card-num">[03]</div>
+      <div class="card-icon">📈</div>
+      <h3 class="card-title">Live Crypto Tracker</h3>
+      <p class="card-desc">Real-time cryptocurrency price tracking site with live updates, charts, and clean data presentation for crypto enthusiasts.</p>
+      <div class="card-tags">
+        <span class="card-tag">API</span>
+        <span class="card-tag">Real-time</span>
+        <span class="card-tag">Charts</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <a href="https://live-crypto-update.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
-  <div class="project-card">
-    <div class="project-card-image">🏢</div>
-    <div class="project-card-content">
-      <span class="project-number">[03]</span>
-      <h3 class="project-title">Branding & Identity</h3>
-      <p class="project-description">Developing comprehensive brand identities including logo design, color schemes, and brand guidelines for businesses.</p>
-      <div class="project-tags">
-        <span class="tag">Logo Design</span>
-        <span class="tag">Branding</span>
-        <span class="tag">Guidelines</span>
+    <!-- P4 -->
+    <div class="card">
+      <div class="card-num">[04]</div>
+      <div class="card-icon">🎬</div>
+      <h3 class="card-title">Movie Booking App</h3>
+      <p class="card-desc">Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.</p>
+      <div class="card-tags">
+        <span class="card-tag">JavaScript</span>
+        <span class="card-tag">UI/UX</span>
+        <span class="card-tag">Booking</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <a href="https://ticket-booking-green.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
-  <div class="project-card">
-    <div class="project-card-image">📱</div>
-    <div class="project-card-content">
-      <span class="project-number">[04]</span>
-      <h3 class="project-title">Mobile Responsive Sites</h3>
-      <p class="project-description">Building websites optimized for all devices, ensuring seamless experience across mobile, tablet, and desktop screens.</p>
-      <div class="project-tags">
-        <span class="tag">Mobile First</span>
-        <span class="tag">Responsive</span>
-        <span class="tag">CSS Grid</span>
+    <!-- P5 -->
+    <div class="card">
+      <div class="card-num">[05]</div>
+      <div class="card-icon">⚡</div>
+      <h3 class="card-title">Real-Time Dashboard</h3>
+      <p class="card-desc">Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.</p>
+      <div class="card-tags">
+        <span class="card-tag">TypeScript</span>
+        <span class="card-tag">Dashboard</span>
+        <span class="card-tag">Data Viz</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <a href="https://real-time-dashboard-three.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
-  <div class="project-card">
-    <div class="project-card-image">⚡</div>
-    <div class="project-card-content">
-      <span class="project-number">[05]</span>
-      <h3 class="project-title">Performance Optimization</h3>
-      <p class="project-description">Optimizing websites for speed and performance, implementing best practices for faster load times and better SEO rankings.</p>
-      <div class="project-tags">
-        <span class="tag">Speed</span>
-        <span class="tag">SEO</span>
-        <span class="tag">Optimization</span>
+    <!-- P6 -->
+    <div class="card">
+      <div class="card-num">[06]</div>
+      <div class="card-icon">🍔</div>
+      <h3 class="card-title">Food Delivery Site</h3>
+      <p class="card-desc">Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.</p>
+      <div class="card-tags">
+        <span class="card-tag">Next.js</span>
+        <span class="card-tag">TypeScript</span>
+        <span class="card-tag">E-commerce</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <a href="https://fast-food-website-two.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
-  <div class="project-card">
-    <div class="project-card-image">🎯</div>
-    <div class="project-card-content">
-      <span class="project-number">[06]</span>
-      <h3 class="project-title">Interactive Experiences</h3>
-      <p class="project-description">Creating engaging and interactive web experiences with smooth animations, transitions, and user-driven interactions.</p>
-      <div class="project-tags">
-        <span class="tag">Animations</span>
-        <span class="tag">Interactions</span>
-        <span class="tag">JavaScript</span>
+    <!-- P7 -->
+    <div class="card">
+      <div class="card-num">[07]</div>
+      <div class="card-icon">✅</div>
+      <h3 class="card-title">Live Task Manager</h3>
+      <p class="card-desc">A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.</p>
+      <div class="card-tags">
+        <span class="card-tag">JavaScript</span>
+        <span class="card-tag">Productivity</span>
+        <span class="card-tag">Live App</span>
       </div>
-      <a href="#" class="project-link">View Project</a>
+      <a href="https://taskmaster-liart.vercel.app/" target="_blank" class="card-link">View Live</a>
     </div>
-  </div>
 
+    <!-- P8 FIGMA -->
+    <div class="card figma">
+      <div class="card-num">[08]</div>
+      <div class="card-icon">🎨</div>
+      <h3 class="card-title">Figma Prototype</h3>
+      <p class="card-desc">Cake & Pastry — a high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.</p>
+      <div class="card-tags">
+        <span class="card-tag">Figma</span>
+        <span class="card-tag">UI Design</span>
+        <span class="card-tag">Prototype</span>
+      </div>
+      <a href="https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/Cake-and-pastry--VH-Design-?node-id=472-15094&starting-point-node-id=472%3A15094" target="_blank" class="card-link">View Prototype</a>
+    </div>
+
+    <!-- P9 FRAMER -->
+    <div class="card">
+      <div class="card-num">[09]</div>
+      <div class="card-icon">🖥️</div>
+      <h3 class="card-title">Framer Portfolio</h3>
+      <p class="card-desc">A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.</p>
+      <div class="card-tags">
+        <span class="card-tag">Framer</span>
+        <span class="card-tag">Motion</span>
+        <span class="card-tag">Portfolio</span>
+      </div>
+      <a href="https://vkdportfolio.framer.website/" target="_blank" class="card-link">View Live</a>
+    </div>
+
+    <!-- EMPTY / CTA CARD -->
+    <div class="card" style="border:1px dashed #1a1a1a;background:transparent;justify-content:center;align-items:center;text-align:center;gap:1rem;">
+      <div style="font-size:2.5rem;opacity:.2;">+</div>
+      <p style="font-size:.75rem;color:var(--muted);letter-spacing:.06em;">More projects<br>coming soon</p>
+    </div>
+
+  </div>
 </section>
+
+<!-- VIDEO INSTRUCTIONS BANNER -->
+<section class="video-banner">
+  <div class="video-banner-inner">
+    <div class="video-banner-text">
+      <h3>Adding Project Videos</h3>
+      <p>To add a demo video, replace the placeholder inside each card with:<br>
+      <code style="color:var(--accent);font-size:.75rem;">&lt;video src="demo.mp4" autoplay muted loop playsinline&gt;&lt;/video&gt;</code><br>
+      or embed a YouTube/Vimeo iframe. Each card has a commented-out VIDEO SLOT ready to use.</p>
+    </div>
+    <div class="video-banner-icon">🎥</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Vivek — All Projects</span>
+  <span></span>
+</footer>
 
 </body>
 </html>
