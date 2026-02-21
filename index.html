@@ -147,6 +147,129 @@ nav{
 }
 .foot-brand.revealed .foot-brand-text{transform:translateY(0);}
 
+/* ===============================
+   IMPROVED GLASS SIDEBAR
+================================ */
+
+.mob{
+  position:fixed;
+  top:0;
+  left:0;
+  height:100%;
+  width:80%;
+  max-width:320px;
+
+  background:linear-gradient(
+    180deg,
+    rgba(20,20,20,.95),
+    rgba(10,10,10,.92)
+  );
+
+  backdrop-filter:blur(30px);
+  border-right:1px solid rgba(255,255,255,.08);
+
+  z-index:400;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:2.4rem;
+  padding-left:2.2rem;
+
+  transform:translateX(-100%);
+  transition:transform .55s cubic-bezier(.16,1,.3,1);
+}
+
+.mob.open{
+  transform:translateX(0);
+}
+
+/* Dim background overlay */
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.45);
+  backdrop-filter:blur(4px);
+  opacity:0;
+  visibility:hidden;
+  transition:opacity .3s ease;
+  z-index:350;
+}
+
+.menu-overlay.active{
+  opacity:1;
+  visibility:visible;
+}
+
+/* Links */
+.mob a{
+  font-family:'Syne',sans-serif;
+  font-size:2rem;
+  font-weight:700;
+  color:var(--text);
+  text-decoration:none;
+  letter-spacing:-.01em;
+  transition:all .25s ease;
+}
+
+.mob a:hover{
+  color:var(--accent);
+  transform:translateX(6px);
+}
+
+/* ===============================
+   GLASS NAVBAR EFFECT
+================================ */
+
+.main-nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:500;
+
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 2rem;
+
+  /* Glass effect */
+  background:rgba(15, 15, 15, 0.55);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.main-nav{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:500;
+
+  height:65px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 2rem;
+
+  background:linear-gradient(
+    to bottom,
+    rgba(20,20,20,0.7),
+    rgba(10,10,10,0.4)
+  );
+
+  backdrop-filter:blur(25px) saturate(140%);
+  -webkit-backdrop-filter:blur(25px) saturate(140%);
+
+  border-bottom:1px solid rgba(255,255,255,0.07);
+
+  box-shadow:0 4px 30px rgba(0,0,0,0.3);
+}
 /* ═════════════════════════════════════════
    PAGE — sits on top of fixed footer (z:2)
 ═════════════════════════════════════════ */
@@ -282,16 +405,31 @@ nav{
   <div class="i-logo"><img src="logo.png" alt="VD"></div>
 </div>
 
-<!-- NAV -->
-<nav>
+<nav class="main-nav">
+  <div class="ham" id="ham">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
   <a href="index.html" class="logo-text">V<span>.</span></a>
+
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html" class="active">Home</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="project.html">Projects</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
 </nav>
+
+<div class="mob" id="mob">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="project.html">Projects</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<div class="menu-overlay" id="menuOverlay"></div>
 <!-- ═══════════════════════════════════
      FIXED FOOTER — always behind page
 ═══════════════════════════════════ -->
@@ -566,10 +704,39 @@ const rObs = new IntersectionObserver(entries=>{
 },{threshold:.06});
 document.querySelectorAll('.rev').forEach(el=>rObs.observe(el));
 
-/* ─── Mobile menu ─── */
-document.getElementById('ham').addEventListener('click',()=>document.getElementById('mob').classList.add('open'));
-document.getElementById('mobX').addEventListener('click',()=>document.getElementById('mob').classList.remove('open'));
-document.querySelectorAll('#mob a').forEach(a=>a.addEventListener('click',()=>document.getElementById('mob').classList.remove('open')));
+const ham = document.getElementById("ham");
+const mob = document.getElementById("mob");
+const overlay = document.getElementById("menuOverlay");
+
+function openMenu(){
+  ham.classList.add("active");
+  mob.classList.add("open");
+  overlay.classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMenu(){
+  ham.classList.remove("active");
+  mob.classList.remove("open");
+  overlay.classList.remove("active");
+  document.body.style.overflow = "auto";
+}
+
+ham.addEventListener("click", () => {
+  if(mob.classList.contains("open")){
+    closeMenu();
+  } else {
+    openMenu();
+  }
+});
+
+/* Close when clicking overlay */
+overlay.addEventListener("click", closeMenu);
+
+/* Close when clicking link */
+document.querySelectorAll("#mob a").forEach(link=>{
+  link.addEventListener("click", closeMenu);
+});
 </script>
 </body>
 </html>

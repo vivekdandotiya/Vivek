@@ -323,15 +323,31 @@ footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
 <body>
 
 <!-- NAV -->
-<nav>
-  <div class="logo">V<span>.</span></div>
+<nav class="main-nav">
+  <div class="ham" id="ham">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+  <a href="index.html" class="logo-text">V<span>.</span></a>
+
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html" >Home</a></li>
     <li><a href="about.html">About</a></li>
-    <li><a href="project.html">Projects</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="project.html" class="active">Projects</a></li>
+    <li><a href="contact.html" >Contact</a></li>
   </ul>
 </nav>
+
+<div class="mob" id="mob">
+  <a href="index.html">Home</a>
+  <a href="about.html">About</a>
+  <a href="project.html">Projects</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<div class="menu-overlay" id="menuOverlay"></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -546,5 +562,21 @@ footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
   <span></span>
 </footer>
 
+<script>
+  // Mobile menu toggle
+  const ham = document.getElementById('ham');
+  const mob = document.getElementById('mob');
+  const menuOverlay = document.getElementById('menuOverlay');
+
+  ham.addEventListener('click', () => {
+    mob.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+  });
+
+  menuOverlay.addEventListener('click', () => {
+    mob.classList.remove('active');
+    menuOverlay.classList.remove('active');
+  });
+</script>
 </body>
 </html>
