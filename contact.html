@@ -394,6 +394,145 @@ footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
 @media(max-width:600px){
   .hero h1{font-size:3.5rem;}
   .nav-links{display:none;}
+  .ham{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  cursor:pointer;
+}
+
+.ham span{
+  width:24px;
+  height:2px;
+  background:#fff;
+}
+}
+
+/* =====================================
+   PERFECT MOBILE OPTIMIZATION
+===================================== */
+
+@media(max-width:768px){
+
+  /* NAV */
+  nav{
+    padding:1rem 1.2rem;
+  }
+
+  .logo-text{
+    font-size:1rem;
+  }
+
+  /* HERO */
+  .hero{
+    grid-template-columns:1fr;
+    padding:8rem 1.2rem 3rem;
+    gap:1.5rem;
+  }
+
+  .hero h1{
+    font-size:2.6rem;
+    line-height:1.05;
+    word-break:break-word;
+  }
+
+  .hero-right p{
+    font-size:.8rem;
+    line-height:1.7;
+  }
+
+  /* STATS */
+  .hero-stats{
+    grid-template-columns:1fr 1fr;
+    margin-top:1.5rem;
+  }
+
+  .stat{
+    padding:1.2rem;
+  }
+
+  .stat-num{
+    font-size:1.8rem;
+  }
+
+  /* ABOUT STRIP */
+  .about-strip{
+    grid-template-columns:1fr;
+    gap:2rem;
+    padding:3rem 1.2rem;
+  }
+
+  .about-strip-label{
+    position:static;
+  }
+
+  .about-strip-label h2{
+    font-size:2rem;
+  }
+
+  .about-strip-label h2 span{
+    font-size:2.5rem;
+  }
+
+  .about-strip-content p{
+    font-size:.8rem;
+  }
+
+  /* SKILLS */
+  .skills-grid{
+    grid-template-columns:1fr;
+  }
+
+  .skill-card{
+    padding:2rem 1.5rem;
+  }
+
+  /* TOOLS */
+  .tools-row{
+    flex-direction:column;
+  }
+
+  .tool-pill{
+    width:100%;
+  }
+
+  /* TIMELINE */
+  .timeline-item{
+    grid-template-columns:1fr;
+    gap:1rem;
+    padding:2rem 0;
+  }
+
+  .timeline-year{
+    font-size:.9rem;
+  }
+
+  .timeline-dot{
+    display:none;
+  }
+
+  /* CTA */
+  .cta-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    padding:2.5rem 1.5rem;
+  }
+
+  .cta-text h2{
+    font-size:1.8rem;
+  }
+
+  .cta-arrow{
+    display:none;
+  }
+
+  /* FOOTER */
+  footer{
+    flex-direction:column;
+    gap:.5rem;
+    text-align:center;
+  }
+
 }
 </style>
 </head>
@@ -594,18 +733,20 @@ form.addEventListener('submit', async e => {
 
 // Mobile menu toggle
   const ham = document.getElementById('ham');
-  const mob = document.getElementById('mob');
-  const menuOverlay = document.getElementById('menuOverlay');
+const mob = document.getElementById('mob');
+const menuOverlay = document.getElementById('menuOverlay');
 
-  ham.addEventListener('click', () => {
-    mob.classList.toggle('active');
-    menuOverlay.classList.toggle('active');
-  });
+ham.addEventListener('click', () => {
+  mob.classList.toggle('open');
+  menuOverlay.classList.toggle('active');
+  document.body.classList.toggle('menu-open');
+});
 
-  menuOverlay.addEventListener('click', () => {
-    mob.classList.remove('active');
-    menuOverlay.classList.remove('active');
-  });
+menuOverlay.addEventListener('click', () => {
+  mob.classList.remove('open');
+  menuOverlay.classList.remove('active');
+  document.body.classList.remove('menu-open');
+});
 </script>
 </body>
 </html>
