@@ -5,475 +5,487 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Projects — Vivek</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@400;500;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-:root{
-  --bg: #050505;
-  --surface: #0f0f0f;
-  --border: #1a1a1a;
-  --accent: #c8ff00;
-  --accent2: #ff4d4d;
-  --text: #f0f0f0;
-  --muted: #555;
-  --card-bg: #0a0a0a;
-}
-
-html{scroll-behavior:smooth}
-
-body{
-  min-height:100vh;
-  font-family:'DM Mono',monospace;
-  background:var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
+:root {
+  --bg: #060608;
+  --surface: #0d0d10;
+  --border: rgba(255,255,255,.06);
+  --accent: #b8ff57;
+  --accent-dim: rgba(184,255,87,.12);
+  --accent2: #ff5c5c;
+  --text: #f2f2f0;
+  --muted: #4a4a52;
+  --muted2: #2a2a32;
 }
 
-/* ─── NOISE OVERLAY ─── */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:9999;opacity:.4;
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Mono', monospace;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
 }
 
-/* ─── NAV ─── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.2rem 3rem;
-  border-bottom:1px solid var(--border);
-  backdrop-filter:blur(20px);
-  background:rgba(5,5,5,.85);
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width .2s, height .2s, opacity .2s;
+  mix-blend-mode: difference;
 }
-.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;letter-spacing:-.02em;}
-.logo span{color:var(--accent);}
-.nav-links{display:flex;gap:2.5rem;list-style:none;}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
-.nav-links a:hover{color:var(--text);}
+.cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid rgba(184,255,87,.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform .12s ease, width .3s, height .3s, border-color .3s;
+}
+body:has(a:hover) .cursor { width: 18px; height: 18px; }
+body:has(a:hover) .cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
 
-/* ─── HERO ─── */
-.hero{
-  padding:14rem 3rem 6rem;
-  max-width:1400px;margin:0 auto;
-  position:relative;
-}
-.hero-label{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--accent);margin-bottom:2rem;
-}
-.hero-label::before{content:'';width:30px;height:1px;background:var(--accent);}
-.hero h1{
-  font-family:'Syne',sans-serif;
-  font-size:clamp(4rem,10vw,9rem);
-  font-weight:800;
-  line-height:.92;
-  letter-spacing:-.04em;
-}
-.hero h1 em{color:var(--accent);font-style:normal;}
-.hero-sub{
-  margin-top:2.5rem;
-  font-size:.85rem;color:var(--muted);
-  max-width:420px;line-height:1.8;
-}
-.hero-count{
-  position:absolute;right:3rem;top:14rem;
-  font-family:'Syne',sans-serif;font-size:7rem;font-weight:800;
-  color:transparent;-webkit-text-stroke:1px #1e1e1e;
-  line-height:1;pointer-events:none;
-  animation:fadeUp .8s ease forwards;
+/* ── GRAIN ── */
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9997;
 }
 
-/* ─── TICKER ─── */
-.ticker{
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  padding:.8rem 0;
-  overflow:hidden;
-  margin-bottom:4rem;
+/* ── BACKGROUND GLOW BLOBS ── */
+.bg-blob {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
 }
-.ticker-inner{
-  display:flex;gap:4rem;
-  animation:tick 20s linear infinite;
-  white-space:nowrap;width:max-content;
-}
-.ticker-item{
-  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted);display:flex;align-items:center;gap:1rem;
-}
-.ticker-item span{color:var(--accent);font-size:.8rem;}
-@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.blob-1 { width: 600px; height: 600px; background: rgba(184,255,87,.035); top: -200px; right: -100px; }
+.blob-2 { width: 400px; height: 400px; background: rgba(255,92,92,.025); bottom: 20%; left: -100px; }
+.blob-3 { width: 300px; height: 300px; background: rgba(92,130,255,.03); top: 60%; right: 20%; }
 
-/* ─── FEATURED ─── */
-.featured{
-  max-width:1400px;margin:0 auto;
-  padding:0 3rem 6rem;
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem; height: 68px;
+  background: rgba(6,6,8,.7);
+  backdrop-filter: blur(24px) saturate(150%);
+  border-bottom: 1px solid var(--border);
 }
-.section-label{
-  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:2rem;
-  display:flex;align-items:center;gap:1rem;
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: .08em;
+  color: var(--text); text-decoration: none;
 }
-.section-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  transition: color .2s;
+  position: relative;
+}
+.nav-links a::after {
+  content: '';
+  position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s ease;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
 
-.featured-card{
-  border:1px solid var(--border);
-  border-radius:4px;
-  overflow:hidden;
-  display:grid;grid-template-columns:1fr 1fr;
-  transition:border-color .3s;
-  position:relative;
-}
-.featured-card:hover{border-color:#333;}
-.featured-card::before{
-  content:'FEATURED';
-  position:absolute;top:1.5rem;right:1.5rem;
-  font-size:.65rem;letter-spacing:.2em;
-  background:var(--accent);color:#000;
-  padding:.25rem .6rem;font-weight:700;
-}
+/* ── MOBILE NAV ── */
+.ham { display: none; flex-direction: column; gap: 5px; cursor: none; z-index: 600; }
+.ham span { width: 24px; height: 1.5px; background: var(--text); transition: all .3s ease; display: block; }
+.ham.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.ham.open span:nth-child(2) { opacity: 0; }
+.ham.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-.featured-info{padding:3.5rem;}
-.featured-num{font-size:.72rem;color:var(--muted);letter-spacing:.1em;margin-bottom:1.5rem;}
-.featured-info h2{
-  font-family:'Syne',sans-serif;font-weight:800;
-  font-size:clamp(1.8rem,3vw,2.8rem);line-height:1.1;
-  margin-bottom:1rem;letter-spacing:-.02em;
+.mob {
+  position: fixed; inset: 0; z-index: 450;
+  background: rgba(6,6,8,.97);
+  backdrop-filter: blur(40px);
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  gap: 2.5rem;
+  transform: translateY(-100%);
+  transition: transform .6s cubic-bezier(.16,1,.3,1);
 }
-.featured-info p{font-size:.82rem;color:var(--muted);line-height:1.9;margin-bottom:2rem;}
-.tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2.5rem;}
-.tag{
-  font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
-  border:1px solid var(--border);padding:.3rem .7rem;
-  color:var(--muted);
+.mob.open { transform: translateY(0); }
+.mob a {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem; letter-spacing: .06em;
+  color: var(--text); text-decoration: none;
+  transition: color .2s;
 }
-.btn{
-  display:inline-flex;align-items:center;gap:.7rem;
-  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
-  color:#000;background:var(--accent);
-  padding:.75rem 1.6rem;text-decoration:none;
-  font-family:'DM Mono',monospace;
-  transition:opacity .2s;
-}
-.btn:hover{opacity:.85;}
-.btn-ghost{
-  background:transparent;color:var(--text);border:1px solid var(--border);
-}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent);}
+.mob a:hover { color: var(--accent); }
 
-.featured-visual{
-  background:var(--surface);
-  display:flex;align-items:center;justify-content:center;
-  font-size:6rem;
-  position:relative;overflow:hidden;
-  min-height:320px;
-}
-.featured-visual::after{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 60% 40%, rgba(200,255,0,.06) 0%, transparent 70%);
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 3rem 5rem;
+  position: relative; z-index: 1;
 }
 
-/* VIDEO EMBED */
-.video-wrapper{
-  position:relative;width:100%;padding-bottom:56.25%;
-  background:#000;
+.hero-eyebrow {
+  display: flex; align-items: center; gap: .8rem;
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 1.5rem;
+  opacity: 0; animation: rise .7s .3s forwards;
 }
-.video-wrapper iframe,.video-wrapper video{
-  position:absolute;inset:0;width:100%;height:100%;border:none;
-}
-.video-placeholder{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--surface);
-  gap:1rem;color:var(--muted);font-size:.8rem;letter-spacing:.05em;
-}
-.video-placeholder .play-icon{
-  width:60px;height:60px;border-radius:50%;
-  border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.4rem;
-}
+.hero-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--accent); }
 
-/* ─── GRID ─── */
-.projects-section{
-  max-width:1400px;margin:0 auto;padding:0 3rem 8rem;
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(5rem, 16vw, 16rem);
+  line-height: .88;
+  letter-spacing: -.01em;
+  opacity: 0; animation: rise .8s .4s forwards;
 }
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--border);
-  border:1px solid var(--border);
+.hero-title .outline {
+  -webkit-text-stroke: 1px rgba(242,242,240,.2);
+  color: transparent;
 }
+.hero-title .filled { color: var(--text); }
+.hero-title .green { color: var(--accent); }
 
-.card{
-  background:var(--card-bg);
-  padding:2.5rem;
-  position:relative;
-  transition:background .3s;
-  overflow:hidden;
-  display:flex;flex-direction:column;
+.hero-meta {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-top: 3rem;
+  opacity: 0; animation: rise .7s .6s forwards;
 }
-.card:hover{background:#0e0e0e;}
-.card::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:var(--accent);
-  transform:scaleX(0);transform-origin:left;
-  transition:transform .4s ease;
+.hero-desc {
+  font-size: .82rem; color: var(--muted);
+  line-height: 1.9; max-width: 340px;
 }
-.card:hover::after{transform:scaleX(1);}
-
-.card-num{
-  font-size:.7rem;letter-spacing:.12em;color:var(--accent);
-  margin-bottom:1.5rem;
+.hero-stats {
+  display: flex; gap: 3rem;
 }
-.card-icon{font-size:2.2rem;margin-bottom:1.5rem;}
-.card-title{
-  font-family:'Syne',sans-serif;font-weight:700;
-  font-size:1.1rem;letter-spacing:-.01em;margin-bottom:.8rem;
+.stat { text-align: right; }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; line-height: 1;
+  color: var(--accent);
 }
-.card-desc{font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem;flex:1;}
-.card-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.8rem;}
-.card-tag{
-  font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;
-  border:1px solid #1e1e1e;padding:.2rem .5rem;color:#444;
-}
-.card-link{
-  font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--text);text-decoration:none;
-  display:inline-flex;align-items:center;gap:.5rem;
-  transition:color .2s;
-}
-.card-link:hover{color:var(--accent);}
-.card-link::after{content:'→';transition:transform .2s;}
-.card-link:hover::after{transform:translateX(4px);}
-
-/* VIDEO CARD */
-.card.has-video .card-video{
-  margin:-2.5rem -2.5rem 2rem;
-  position:relative;
-}
-.card.has-video .card-video video,
-.card.has-video .card-video iframe{
-  width:100%;height:180px;object-fit:cover;display:block;
-}
-.card.has-video .video-add-btn{
-  width:100%;height:180px;
-  background:#0f0f0f;
-  border:1px dashed #1e1e1e;
-  display:flex;align-items:center;justify-content:center;
-  flex-direction:column;gap:.5rem;
-  color:var(--muted);font-size:.75rem;letter-spacing:.06em;
-  cursor:pointer;
+.stat-label {
+  font-size: .65rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-top: .3rem;
 }
 
-/* ─── FIGMA CARD ─── */
-.card.figma .card-icon{color:#f24e1e;}
-
-/* ─── ADD VIDEO BANNER ─── */
-.video-banner{
-  max-width:1400px;margin:0 auto;
-  padding:0 3rem 4rem;
+.scroll-hint {
+  position: absolute; bottom: 3rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: .6rem;
+  font-size: .62rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted);
+  animation: bob 2s ease infinite;
 }
-.video-banner-inner{
-  border:1px dashed #222;
-  padding:3rem;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:2rem;
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(var(--muted), transparent); }
+
+/* ── TICKER ── */
+.ticker-wrap {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden; position: relative; z-index: 1;
+  background: var(--surface);
 }
-.video-banner-text h3{
-  font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;margin-bottom:.5rem;
+.ticker-inner {
+  display: flex; gap: 0;
+  animation: tick 28s linear infinite;
+  width: max-content;
 }
-.video-banner-text p{font-size:.8rem;color:var(--muted);line-height:1.7;}
-.video-banner-icon{font-size:3rem;opacity:.3;}
-
-/* ─── FOOTER ─── */
-footer{
-  border-top:1px solid var(--border);
-  padding:2rem 3rem;
-  max-width:1400px;margin:0 auto;
-  display:flex;justify-content:space-between;align-items:center;
+.ticker-item {
+  display: flex; align-items: center;
+  padding: .9rem 2.5rem;
+  font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted);
+  border-right: 1px solid var(--border);
+  white-space: nowrap; gap: .8rem;
 }
-footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
+.ticker-item .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+@keyframes tick { from { transform: translateX(0) } to { transform: translateX(-50%) } }
 
-/* ===============================
-   IMPROVED GLASS SIDEBAR
-================================ */
-
-.mob{
-  position:fixed;
-  top:0;
-  left:0;
-  height:100%;
-  width:80%;
-  max-width:320px;
-
-  background:linear-gradient(
-    180deg,
-    rgba(20,20,20,.95),
-    rgba(10,10,10,.92)
-  );
-
-  backdrop-filter:blur(30px);
-  border-right:1px solid rgba(255,255,255,.08);
-
-  z-index:400;
-
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  gap:2.4rem;
-  padding-left:2.2rem;
-
-  transform:translateX(-100%);
-  transition:transform .55s cubic-bezier(.16,1,.3,1);
+/* ── FEATURED ── */
+.featured-section {
+  position: relative; z-index: 1;
+  padding: 6rem 3rem;
+  max-width: 1440px; margin: 0 auto;
 }
-
-.mob.open{
-  transform:translateX(0);
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 2.5rem;
 }
+.section-tag {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--muted);
+}
+.section-tag::before {
+  content: attr(data-num);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem; color: var(--accent); letter-spacing: .05em;
+}
+.section-line { flex: 1; height: 1px; background: var(--border); margin-left: 1.5rem; }
 
-/* Dim background overlay */
-.menu-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.45);
-  backdrop-filter:blur(4px);
-  opacity:0;
-  visibility:hidden;
-  transition:opacity .3s ease;
-  z-index:350;
+/* FEATURED CARD */
+.feat-card {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  transition: border-color .4s;
+  position: relative;
+}
+.feat-card:hover { border-color: rgba(184,255,87,.2); }
+
+.feat-badge {
+  position: absolute; top: 2rem; right: 2rem;
+  font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+  background: var(--accent); color: #000;
+  padding: .3rem .8rem; font-weight: 700;
+  font-family: 'DM Mono', monospace;
+  z-index: 2;
 }
 
-.menu-overlay.active{
-  opacity:1;
-  visibility:visible;
+.feat-info { padding: 4rem; display: flex; flex-direction: column; }
+.feat-num {
+  font-size: .65rem; letter-spacing: .16em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 2rem;
+}
+.feat-info h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 5vw, 5.5rem);
+  line-height: .92; letter-spacing: .02em;
+  margin-bottom: 1.5rem;
+}
+.feat-info p { font-size: .82rem; color: var(--muted); line-height: 1.9; margin-bottom: 2rem; flex: 1; }
+.feat-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+.feat-tag {
+  font-size: .63rem; letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid var(--muted2); padding: .28rem .65rem; color: #3a3a45;
+  transition: border-color .2s, color .2s;
+}
+.feat-card:hover .feat-tag { border-color: rgba(184,255,87,.2); color: rgba(184,255,87,.6); }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: .7rem;
+  font-family: 'DM Mono', monospace;
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  color: #000; background: var(--accent);
+  padding: .9rem 2rem;
+  text-decoration: none;
+  transition: background .2s, transform .2s;
+  align-self: flex-start;
+}
+.btn-primary:hover { background: #d4ff6e; transform: translateY(-1px); }
+
+.feat-visual {
+  background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 380px;
+  position: relative; overflow: hidden;
+}
+.feat-visual::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 60% 40%, rgba(184,255,87,.07) 0%, transparent 65%);
+}
+.video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; }
+.video-wrapper iframe, .video-wrapper video {
+  position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+}
+.video-placeholder {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1.2rem; background: var(--surface);
+}
+.play-btn {
+  width: 64px; height: 64px; border-radius: 50%;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: var(--muted);
+  transition: border-color .3s, color .3s;
+}
+.feat-card:hover .play-btn { border-color: var(--accent); color: var(--accent); }
+.video-placeholder span { font-size: .7rem; letter-spacing: .1em; color: var(--muted); }
+
+/* ── PROJECTS GRID ── */
+.grid-section {
+  position: relative; z-index: 1;
+  padding: 0 3rem 8rem;
+  max-width: 1440px; margin: 0 auto;
 }
 
-/* Links */
-.mob a{
-  font-family:'Syne',sans-serif;
-  font-size:2rem;
-  font-weight:700;
-  color:var(--text);
-  text-decoration:none;
-  letter-spacing:-.01em;
-  transition:all .25s ease;
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }
 
-.mob a:hover{
-  color:var(--accent);
-  transform:translateX(6px);
+.p-card {
+  padding: 2.8rem;
+  border: 1px solid var(--border);
+  margin: -1px 0 0 -1px;
+  position: relative;
+  display: flex; flex-direction: column;
+  transition: background .3s;
+  overflow: hidden;
+}
+.p-card:hover { background: rgba(255,255,255,.015); }
+
+/* Accent line on hover */
+.p-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  transform: scaleX(0); transform-origin: center;
+  transition: transform .5s ease;
+}
+.p-card:hover::before { transform: scaleX(1); }
+
+/* Glow spot */
+.p-card::after {
+  content: '';
+  position: absolute;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(184,255,87,.06) 0%, transparent 70%);
+  top: -60px; right: -60px;
+  opacity: 0; transition: opacity .4s;
+  pointer-events: none;
+}
+.p-card:hover::after { opacity: 1; }
+
+.p-num {
+  font-size: .62rem; letter-spacing: .18em; color: var(--accent);
+  text-transform: uppercase; margin-bottom: 2rem;
+  font-family: 'DM Mono', monospace;
+}
+.p-icon {
+  font-size: 2rem; margin-bottom: 1.5rem;
+  display: block; line-height: 1;
+}
+.p-title {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 900; font-size: 1.18rem;
+  letter-spacing: -.02em; margin-bottom: .8rem;
+}
+.p-desc { font-size: .77rem; color: var(--muted); line-height: 1.85; flex: 1; margin-bottom: 1.8rem; }
+.p-tags { display: flex; flex-wrap: wrap; gap: .35rem; margin-bottom: 2rem; }
+.p-tag {
+  font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid var(--muted2); padding: .2rem .55rem; color: #333340;
+  transition: border-color .2s, color .2s;
+}
+.p-card:hover .p-tag { border-color: rgba(184,255,87,.15); color: rgba(184,255,87,.5); }
+
+.p-link {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none;
+  transition: color .2s;
+  margin-top: auto;
+}
+.p-link .arrow { display: inline-block; transition: transform .25s ease; }
+.p-link:hover { color: var(--accent); }
+.p-link:hover .arrow { transform: translateX(5px); }
+
+/* CTA Card */
+.p-card.cta-card {
+  border-style: dashed;
+  border-color: var(--muted2);
+  justify-content: center; align-items: center; text-align: center;
+  background: transparent !important;
+  gap: 1rem;
+}
+.cta-card::before, .cta-card::after { display: none; }
+.cta-plus { font-size: 2.5rem; color: var(--muted2); line-height: 1; }
+.cta-text { font-size: .72rem; color: var(--muted); letter-spacing: .06em; line-height: 1.7; }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 2rem 3rem;
+  max-width: 1440px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+}
+footer span { font-size: .68rem; color: var(--muted); letter-spacing: .08em; }
+
+/* ── ANIMATIONS ── */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
 }
 
-/* ===============================
-   GLASS NAVBAR EFFECT
-================================ */
-
-.main-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:500;
-
-  height:65px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 2rem;
-
-  /* Glass effect */
-  background:rgba(15, 15, 15, 0.55);
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-
-  border-bottom:1px solid rgba(255,255,255,0.08);
+/* ── INTERSECTION REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .7s ease, transform .7s ease;
 }
+.reveal.visible { opacity: 1; transform: translateY(0); }
 
-.main-nav{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:500;
-
-  height:65px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-
-  padding:0 2rem;
-
-  background:linear-gradient(
-    to bottom,
-    rgba(20,20,20,0.7),
-    rgba(10,10,10,0.4)
-  );
-
-  backdrop-filter:blur(25px) saturate(140%);
-  -webkit-backdrop-filter:blur(25px) saturate(140%);
-
-  border-bottom:1px solid rgba(255,255,255,0.07);
-
-  box-shadow:0 4px 30px rgba(0,0,0,0.3);
+/* ── RESPONSIVE ── */
+@media (max-width: 1000px) {
+  .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  .feat-card { grid-template-columns: 1fr; }
+  .hero-stats { gap: 2rem; }
 }
-
-/* ─── ANIMATIONS ─── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.hero-label{animation:fadeUp .6s .1s ease both;}
-.hero h1{animation:fadeUp .6s .2s ease both;}
-.hero-sub{animation:fadeUp .6s .3s ease both;}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr 1fr;}
-  .featured-card{grid-template-columns:1fr;}
-  nav{padding:1rem 1.5rem;}
-  .hero,.featured,.projects-section,.video-banner{padding-left:1.5rem;padding-right:1.5rem;}
-  .hero{padding-top:10rem;}
-}
-@media(max-width:600px){
-  .grid{grid-template-columns:1fr;}
-  .nav-links{display:none;}
-  .hero h1{font-size:3.5rem;}
-  .ham{
-  display:flex;
-  flex-direction:column;
-  gap:5px;
-  cursor:pointer;
-}
-
-.ham span{
-  width:24px;
-  height:2px;
-  background:#fff;
-}
+@media (max-width: 700px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .ham { display: flex; }
+  nav { padding: 0 1.5rem; }
+  .hero { padding: 0 1.5rem 4rem; }
+  .hero-title { font-size: clamp(4rem, 22vw, 8rem); }
+  .hero-meta { flex-direction: column; gap: 2rem; align-items: flex-start; }
+  .hero-stats { gap: 2rem; }
+  .stat { text-align: left; }
+  .featured-section, .grid-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+  footer { padding: 1.5rem; }
 }
 </style>
 </head>
 <body>
 
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- BG blobs -->
+<div class="bg-blob blob-1"></div>
+<div class="bg-blob blob-2"></div>
+<div class="bg-blob blob-3"></div>
+
 <!-- NAV -->
-<nav class="main-nav">
-  <div class="ham" id="ham">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <a href="index.html" class="logo-text">V<span>.</span></a>
-
+<nav>
+  <a href="index.html" class="nav-logo">V<span>.</span></a>
   <ul class="nav-links">
-    <li><a href="index.html" >Home</a></li>
+    <li><a href="index.html">Home</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="project.html" class="active">Projects</a></li>
-    <li><a href="contact.html" >Contact</a></li>
+    <li><a href="contact.html">Contact</a></li>
   </ul>
+  <div class="ham" id="ham">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <div class="mob" id="mob">
@@ -483,66 +495,87 @@ footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
   <a href="contact.html">Contact</a>
 </div>
 
-<div class="menu-overlay" id="menuOverlay"></div>
-
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-label">Selected Work</div>
-  <h1>MY<br><em>PROJECTS</em></h1>
-  <p class="hero-sub">9 projects spanning full-stack development, UI/UX, branding & interactive experiences.</p>
-  <div class="hero-count">09</div>
+  <div class="hero-eyebrow">Selected Work</div>
+  <h1 class="hero-title">
+    <span class="outline">MY</span><br>
+    <span class="green">PROJ</span><span class="filled">ECTS</span>
+  </h1>
+  <div class="hero-meta">
+    <p class="hero-desc">9 projects spanning full-stack development, UI/UX, branding & interactive experiences.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">09</div>
+        <div class="stat-label">Projects</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Tech Stacks</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Coffee</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
 </section>
 
 <!-- TICKER -->
-<div class="ticker">
+<div class="ticker-wrap">
   <div class="ticker-inner">
-    <span class="ticker-item"><span>★</span> Portfolio Website</span>
-    <span class="ticker-item"><span>★</span> Freelance Platform</span>
-    <span class="ticker-item"><span>★</span> Live Crypto Tracker</span>
-    <span class="ticker-item"><span>★</span> Movie Booking App</span>
-    <span class="ticker-item"><span>★</span> TypeScript Dashboard</span>
-    <span class="ticker-item"><span>★</span> Food Delivery Site</span>
-    <span class="ticker-item"><span>★</span> Task Manager</span>
-    <span class="ticker-item"><span>★</span> Figma Prototype</span>
-    <span class="ticker-item"><span>★</span> Framer Portfolio</span>
-    <!-- repeat -->
-    <span class="ticker-item"><span>★</span> Portfolio Website</span>
-    <span class="ticker-item"><span>★</span> Freelance Platform</span>
-    <span class="ticker-item"><span>★</span> Live Crypto Tracker</span>
-    <span class="ticker-item"><span>★</span> Movie Booking App</span>
-    <span class="ticker-item"><span>★</span> TypeScript Dashboard</span>
-    <span class="ticker-item"><span>★</span> Food Delivery Site</span>
-    <span class="ticker-item"><span>★</span> Task Manager</span>
-    <span class="ticker-item"><span>★</span> Figma Prototype</span>
-    <span class="ticker-item"><span>★</span> Framer Portfolio</span>
+    <span class="ticker-item"><span class="dot"></span>Portfolio Website</span>
+    <span class="ticker-item"><span class="dot"></span>Freelance Platform</span>
+    <span class="ticker-item"><span class="dot"></span>Live Crypto Tracker</span>
+    <span class="ticker-item"><span class="dot"></span>Movie Booking App</span>
+    <span class="ticker-item"><span class="dot"></span>TypeScript Dashboard</span>
+    <span class="ticker-item"><span class="dot"></span>Food Delivery Site</span>
+    <span class="ticker-item"><span class="dot"></span>Task Manager</span>
+    <span class="ticker-item"><span class="dot"></span>Figma Prototype</span>
+    <span class="ticker-item"><span class="dot"></span>Framer Portfolio</span>
+    <!-- duplicate -->
+    <span class="ticker-item"><span class="dot"></span>Portfolio Website</span>
+    <span class="ticker-item"><span class="dot"></span>Freelance Platform</span>
+    <span class="ticker-item"><span class="dot"></span>Live Crypto Tracker</span>
+    <span class="ticker-item"><span class="dot"></span>Movie Booking App</span>
+    <span class="ticker-item"><span class="dot"></span>TypeScript Dashboard</span>
+    <span class="ticker-item"><span class="dot"></span>Food Delivery Site</span>
+    <span class="ticker-item"><span class="dot"></span>Task Manager</span>
+    <span class="ticker-item"><span class="dot"></span>Figma Prototype</span>
+    <span class="ticker-item"><span class="dot"></span>Framer Portfolio</span>
   </div>
 </div>
 
 <!-- FEATURED -->
-<section class="featured">
-  <div class="section-label">01 — Featured Project</div>
+<section class="featured-section reveal">
+  <div class="section-header">
+    <div class="section-tag" data-num="01">— Featured Project</div>
+    <div class="section-line"></div>
+  </div>
 
-  <div class="featured-card">
-    <div class="featured-info">
-      <p class="featured-num">PROJECT.01 / HTML · CSS</p>
+  <div class="feat-card">
+    <span class="feat-badge">Featured</span>
+    <div class="feat-info">
+      <p class="feat-num">Project.01 &nbsp;/&nbsp; HTML · CSS</p>
       <h2>Portfolio<br>Website</h2>
       <p>A hand-crafted personal portfolio built with pure HTML & CSS. Clean layout, smooth interactions, and a design that represents Vivek's brand as a developer.</p>
-      <div class="tags">
-        <span class="tag">HTML5</span>
-        <span class="tag">CSS3</span>
-        <span class="tag">Responsive</span>
+      <div class="feat-tags">
+        <span class="feat-tag">HTML5</span>
+        <span class="feat-tag">CSS3</span>
+        <span class="feat-tag">Responsive</span>
       </div>
-      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-        <a href="https://vivek0052.in/" target="_blank" class="btn">Live Site →</a>
-      </div>
+      <a href="https://vivek0052.in/" target="_blank" class="btn-primary">Live Site <span>→</span></a>
     </div>
-    <div class="featured-visual">
-      <!-- Swap this div for a video when ready -->
+    <div class="feat-visual">
       <div class="video-wrapper">
         <div class="video-placeholder">
-          <div class="play-icon">▶</div>
+          <div class="play-btn">▶</div>
           <span>Project Video Coming Soon</span>
-          <span style="font-size:.65rem;color:#333">Replace with &lt;iframe&gt; or &lt;video&gt; tag</span>
         </div>
       </div>
     </div>
@@ -550,171 +583,166 @@ footer span{font-size:.72rem;color:var(--muted);letter-spacing:.06em;}
 </section>
 
 <!-- PROJECTS GRID -->
-<section class="projects-section">
-  <div class="section-label">02 — All Projects</div>
+<section class="grid-section">
+  <div class="section-header reveal">
+    <div class="section-tag" data-num="02">— All Projects</div>
+    <div class="section-line"></div>
+  </div>
 
-  <div class="grid">
+  <div class="projects-grid">
 
-    <!-- P2 -->
-    <div class="card">
-      <div class="card-num">[02]</div>
-      <div class="card-icon">💼</div>
-      <h3 class="card-title">Freelancing Portfolio</h3>
-      <p class="card-desc">Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.</p>
-      <div class="card-tags">
-        <span class="card-tag">Fullstack</span>
-        <span class="card-tag">React</span>
-        <span class="card-tag">Vercel</span>
+    <div class="p-card reveal">
+      <div class="p-num">[02]</div>
+      <span class="p-icon">💼</span>
+      <h3 class="p-title">Freelancing Portfolio</h3>
+      <p class="p-desc">Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.</p>
+      <div class="p-tags">
+        <span class="p-tag">Fullstack</span>
+        <span class="p-tag">React</span>
+        <span class="p-tag">Vercel</span>
       </div>
-      <!-- VIDEO SLOT: uncomment and replace src when ready
-      <div style="margin:-2.5rem -2.5rem 1.5rem;"><video src="your-video.mp4" autoplay muted loop playsinline style="width:100%;height:160px;object-fit:cover;display:block;"></video></div>
-      -->
-      <a href="https://freelance-portfolio-client-delta.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://freelance-portfolio-client-delta.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P3 -->
-    <div class="card">
-      <div class="card-num">[03]</div>
-      <div class="card-icon">📈</div>
-      <h3 class="card-title">Live Crypto Tracker</h3>
-      <p class="card-desc">Real-time cryptocurrency price tracking site with live updates, charts, and clean data presentation for crypto enthusiasts.</p>
-      <div class="card-tags">
-        <span class="card-tag">API</span>
-        <span class="card-tag">Real-time</span>
-        <span class="card-tag">Charts</span>
+    <div class="p-card reveal" style="transition-delay:.08s">
+      <div class="p-num">[03]</div>
+      <span class="p-icon">📈</span>
+      <h3 class="p-title">Live Crypto Tracker</h3>
+      <p class="p-desc">Real-time cryptocurrency price tracking site with live updates, charts, and clean data presentation for crypto enthusiasts.</p>
+      <div class="p-tags">
+        <span class="p-tag">API</span>
+        <span class="p-tag">Real-time</span>
+        <span class="p-tag">Charts</span>
       </div>
-      <a href="https://live-crypto-update.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://live-crypto-update.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P4 -->
-    <div class="card">
-      <div class="card-num">[04]</div>
-      <div class="card-icon">🎬</div>
-      <h3 class="card-title">Movie Booking App</h3>
-      <p class="card-desc">Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.</p>
-      <div class="card-tags">
-        <span class="card-tag">JavaScript</span>
-        <span class="card-tag">UI/UX</span>
-        <span class="card-tag">Booking</span>
+    <div class="p-card reveal" style="transition-delay:.16s">
+      <div class="p-num">[04]</div>
+      <span class="p-icon">🎬</span>
+      <h3 class="p-title">Movie Booking App</h3>
+      <p class="p-desc">Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.</p>
+      <div class="p-tags">
+        <span class="p-tag">JavaScript</span>
+        <span class="p-tag">UI/UX</span>
+        <span class="p-tag">Booking</span>
       </div>
-      <a href="https://ticket-booking-green.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://ticket-booking-green.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P5 -->
-    <div class="card">
-      <div class="card-num">[05]</div>
-      <div class="card-icon">⚡</div>
-      <h3 class="card-title">Real-Time Dashboard</h3>
-      <p class="card-desc">Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.</p>
-      <div class="card-tags">
-        <span class="card-tag">TypeScript</span>
-        <span class="card-tag">Dashboard</span>
-        <span class="card-tag">Data Viz</span>
+    <div class="p-card reveal" style="transition-delay:.04s">
+      <div class="p-num">[05]</div>
+      <span class="p-icon">⚡</span>
+      <h3 class="p-title">Real-Time Dashboard</h3>
+      <p class="p-desc">Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.</p>
+      <div class="p-tags">
+        <span class="p-tag">TypeScript</span>
+        <span class="p-tag">Dashboard</span>
+        <span class="p-tag">Data Viz</span>
       </div>
-      <a href="https://real-time-dashboard-three.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://real-time-dashboard-three.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P6 -->
-    <div class="card">
-      <div class="card-num">[06]</div>
-      <div class="card-icon">🍔</div>
-      <h3 class="card-title">Food Delivery Site</h3>
-      <p class="card-desc">Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.</p>
-      <div class="card-tags">
-        <span class="card-tag">Next.js</span>
-        <span class="card-tag">TypeScript</span>
-        <span class="card-tag">E-commerce</span>
+    <div class="p-card reveal" style="transition-delay:.12s">
+      <div class="p-num">[06]</div>
+      <span class="p-icon">🍔</span>
+      <h3 class="p-title">Food Delivery Site</h3>
+      <p class="p-desc">Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.</p>
+      <div class="p-tags">
+        <span class="p-tag">Next.js</span>
+        <span class="p-tag">TypeScript</span>
+        <span class="p-tag">E-commerce</span>
       </div>
-      <a href="https://fast-food-website-two.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://fast-food-website-two.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P7 -->
-    <div class="card">
-      <div class="card-num">[07]</div>
-      <div class="card-icon">✅</div>
-      <h3 class="card-title">Live Task Manager</h3>
-      <p class="card-desc">A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.</p>
-      <div class="card-tags">
-        <span class="card-tag">JavaScript</span>
-        <span class="card-tag">Productivity</span>
-        <span class="card-tag">Live App</span>
+    <div class="p-card reveal" style="transition-delay:.2s">
+      <div class="p-num">[07]</div>
+      <span class="p-icon">✅</span>
+      <h3 class="p-title">Live Task Manager</h3>
+      <p class="p-desc">A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.</p>
+      <div class="p-tags">
+        <span class="p-tag">JavaScript</span>
+        <span class="p-tag">Productivity</span>
+        <span class="p-tag">Live App</span>
       </div>
-      <a href="https://taskmaster-liart.vercel.app/" target="_blank" class="card-link">View Live</a>
+      <a href="https://taskmaster-liart.vercel.app/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- P8 FIGMA -->
-    <div class="card figma">
-      <div class="card-num">[08]</div>
-      <div class="card-icon">🎨</div>
-      <h3 class="card-title">Figma Prototype</h3>
-      <p class="card-desc">Cake & Pastry — a high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.</p>
-      <div class="card-tags">
-        <span class="card-tag">Figma</span>
-        <span class="card-tag">UI Design</span>
-        <span class="card-tag">Prototype</span>
+    <div class="p-card reveal" style="transition-delay:.08s">
+      <div class="p-num">[08]</div>
+      <span class="p-icon">🎨</span>
+      <h3 class="p-title">Figma Prototype</h3>
+      <p class="p-desc">Cake & Pastry — a high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.</p>
+      <div class="p-tags">
+        <span class="p-tag">Figma</span>
+        <span class="p-tag">UI Design</span>
+        <span class="p-tag">Prototype</span>
       </div>
-      <a href="https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/Cake-and-pastry--VH-Design-?node-id=472-15094&starting-point-node-id=472%3A15094" target="_blank" class="card-link">View Prototype</a>
+      <a href="https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/Cake-and-pastry--VH-Design-?node-id=472-15094&starting-point-node-id=472%3A15094" target="_blank" class="p-link">View Prototype <span class="arrow">→</span></a>
     </div>
 
-    <!-- P9 FRAMER -->
-    <div class="card">
-      <div class="card-num">[09]</div>
-      <div class="card-icon">🖥️</div>
-      <h3 class="card-title">Framer Portfolio</h3>
-      <p class="card-desc">A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.</p>
-      <div class="card-tags">
-        <span class="card-tag">Framer</span>
-        <span class="card-tag">Motion</span>
-        <span class="card-tag">Portfolio</span>
+    <div class="p-card reveal" style="transition-delay:.16s">
+      <div class="p-num">[09]</div>
+      <span class="p-icon">🖥️</span>
+      <h3 class="p-title">Framer Portfolio</h3>
+      <p class="p-desc">A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.</p>
+      <div class="p-tags">
+        <span class="p-tag">Framer</span>
+        <span class="p-tag">Motion</span>
+        <span class="p-tag">Portfolio</span>
       </div>
-      <a href="https://vkdportfolio.framer.website/" target="_blank" class="card-link">View Live</a>
+      <a href="https://vkdportfolio.framer.website/" target="_blank" class="p-link">View Live <span class="arrow">→</span></a>
     </div>
 
-    <!-- EMPTY / CTA CARD -->
-    <div class="card" style="border:1px dashed #1a1a1a;background:transparent;justify-content:center;align-items:center;text-align:center;gap:1rem;">
-      <div style="font-size:2.5rem;opacity:.2;">+</div>
-      <p style="font-size:.75rem;color:var(--muted);letter-spacing:.06em;">More projects<br>coming soon</p>
+    <div class="p-card cta-card reveal" style="transition-delay:.24s">
+      <div class="cta-plus">+</div>
+      <p class="cta-text">More projects<br>coming soon</p>
     </div>
 
   </div>
 </section>
 
-<!-- VIDEO INSTRUCTIONS BANNER -->
-<section class="video-banner">
-  <div class="video-banner-inner">
-    <div class="video-banner-text">
-      <h3>Adding Project Videos</h3>
-      <p>To add a demo video, replace the placeholder inside each card with:<br>
-      <code style="color:var(--accent);font-size:.75rem;">&lt;video src="demo.mp4" autoplay muted loop playsinline&gt;&lt;/video&gt;</code><br>
-      or embed a YouTube/Vimeo iframe. Each card has a commented-out VIDEO SLOT ready to use.</p>
-    </div>
-    <div class="video-banner-icon">🎥</div>
-  </div>
-</section>
-
-<!-- FOOTER -->
 <footer>
   <span>© 2025 Vivek — All Projects</span>
-  <span></span>
+  <span style="color: var(--accent);">V.</span>
 </footer>
 
 <script>
-  // Mobile menu toggle
-  const ham = document.getElementById('ham');
+// ── Cursor ──
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * .14;
+  ry += (my - ry) * .14;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
+}
+animCursor();
+
+// ── Mobile nav ──
+const ham = document.getElementById('ham');
 const mob = document.getElementById('mob');
-const menuOverlay = document.getElementById('menuOverlay');
-
 ham.addEventListener('click', () => {
+  ham.classList.toggle('open');
   mob.classList.toggle('open');
-  menuOverlay.classList.toggle('active');
-  document.body.classList.toggle('menu-open');
 });
-
-menuOverlay.addEventListener('click', () => {
+mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  ham.classList.remove('open');
   mob.classList.remove('open');
-  menuOverlay.classList.remove('active');
-  document.body.classList.remove('menu-open');
-});
+}));
+
+// ── Scroll reveal ──
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+}, { threshold: .08 });
+reveals.forEach(r => io.observe(r));
 </script>
 </body>
 </html>
