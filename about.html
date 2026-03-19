@@ -6,503 +6,371 @@
 <title>About — Vivek</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@400;500;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
-
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
-:root {
-  --bg: #060608;
-  --surface: #0d0d10;
-  --border: rgba(255,255,255,.06);
-  --accent: #b8ff57;
-  --accent-dim: rgba(184,255,87,.1);
-  --text: #f2f2f0;
-  --muted: #4a4a52;
-  --muted2: #2a2a32;
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#04040a;--surface:#0a0a12;
+  --border:rgba(255,255,255,.05);
+  --accent:#b8ff57;--accent2:#5c8aff;--accent3:#ff5ca8;
+  --text:#f0f0ee;--muted:#484852;--muted2:#1e1e28;
 }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'DM Mono', monospace;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-  cursor: none;
-}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Mono',monospace;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
 
 /* ── CURSOR ── */
-.cursor {
-  position: fixed; width: 25px; height: 25px;
-  background: var(--accent); border-radius: 50%;
-  pointer-events: none; z-index: 9999;
-  transform: translate(-50%,-50%);
-  mix-blend-mode: difference;
-  transition: width .2s, height .2s;
-}
-.cursor-ring {
-  position: fixed; width: 36px; height: 36px;
-  border: 1px solid rgba(184,255,87,.35); border-radius: 50%;
-  pointer-events: none; z-index: 9998;
-  transform: translate(-50%,-50%);
-  transition: width .3s, height .3s, border-color .3s;
-}
-body:has(a:hover) .cursor, body:has(.skill-card:hover) .cursor { width: 18px; height: 18px; }
-body:has(a:hover) .cursor-ring, body:has(.skill-card:hover) .cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
+.cursor{position:fixed;width:18px;height:18px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .15s,height .15s;}
+.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(184,255,87,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;}
+.cursor.big{width:12px;height:12px;}
+.cursor-ring.big{width:54px;height:54px;border-color:var(--accent);}
 
 /* ── GRAIN ── */
-body::after {
-  content: ''; position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-  pointer-events: none; z-index: 9997;
-}
-
-/* ── BLOBS ── */
-.bg-blob { position: fixed; border-radius: 50%; filter: blur(130px); pointer-events: none; z-index: 0; }
-.blob-1 { width: 700px; height: 700px; background: rgba(184,255,87,.03); top: -250px; right: -150px; }
-.blob-2 { width: 500px; height: 500px; background: rgba(255,92,92,.02); bottom: 10%; left: -150px; }
-.blob-3 { width: 350px; height: 350px; background: rgba(92,130,255,.025); top: 50%; right: 15%; }
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;}
 
 /* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 3rem; height: 68px;
-  background: rgba(6,6,8,.7);
-  backdrop-filter: blur(24px) saturate(150%);
-  border-bottom: 1px solid var(--border);
-}
-.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: .08em; color: var(--text); text-decoration: none; }
-.nav-logo span { color: var(--accent); }
-.nav-links { display: flex; gap: 2.5rem; list-style: none; }
-.nav-links a {
-  color: var(--muted); text-decoration: none;
-  font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
-  transition: color .2s; position: relative;
-}
-.nav-links a::after {
-  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
-  height: 1px; background: var(--accent);
-  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
-}
-.nav-links a:hover, .nav-links a.active { color: var(--text); }
-.nav-links a:hover::after, .nav-links a.active::after { transform: scaleX(1); }
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;background:rgba(4,4,10,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;color:var(--text);text-decoration:none;}
+.nav-logo span{color:var(--accent);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;transition:color .2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
+.nav-links a:hover,.nav-links a.active{color:var(--text);}
+.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
+.ham{display:none;flex-direction:column;gap:5px;cursor:none;}
+.ham span{width:24px;height:1.5px;background:var(--text);transition:all .3s;display:block;}
+.ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+.ham.open span:nth-child(2){opacity:0;}
+.ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
+.mob{position:fixed;inset:0;z-index:450;background:rgba(4,4,10,.97);backdrop-filter:blur(40px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;transform:translateY(-100%);transition:transform .6s cubic-bezier(.16,1,.3,1);}
+.mob.open{transform:translateY(0);}
+.mob a{font-family:'Bebas Neue',sans-serif;font-size:4rem;letter-spacing:.06em;color:var(--text);text-decoration:none;transition:color .2s;}
+.mob a:hover{color:var(--accent);}
 
-/* ── MOBILE NAV ── */
-.ham { display: none; flex-direction: column; gap: 5px; cursor: none; }
-.ham span { width: 24px; height: 1.5px; background: var(--text); transition: all .3s ease; display: block; }
-.ham.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-.ham.open span:nth-child(2) { opacity: 0; }
-.ham.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-.mob {
-  position: fixed; inset: 0; z-index: 450;
-  background: rgba(6,6,8,.97); backdrop-filter: blur(40px);
-  display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem;
-  transform: translateY(-100%); transition: transform .6s cubic-bezier(.16,1,.3,1);
-}
-.mob.open { transform: translateY(0); }
-.mob a { font-family: 'Bebas Neue', sans-serif; font-size: 4rem; letter-spacing: .06em; color: var(--text); text-decoration: none; transition: color .2s; }
-.mob a:hover { color: var(--accent); }
-
-/* ══════════════════════════════
-   HERO — TWO COLUMN SPLIT
-══════════════════════════════ */
-.hero {
-  min-height: 100vh;
-  display: grid; grid-template-columns: 1fr 1fr;
-  position: relative; z-index: 1;
-  border-bottom: 1px solid var(--border);
+/* ══════════════════════════════════
+   SECTION 1: HERO — STATIC WITH PHOTO
+══════════════════════════════════ */
+#hero{
+  position:relative;width:100%;height:100vh;overflow:hidden;
+  display:flex;align-items:flex-end;
+  background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(92,138,255,.08) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 50% at 20% 80%, rgba(184,255,87,.06) 0%, transparent 60%),
+              var(--bg);
 }
 
-/* Left panel */
-.hero-left {
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 9rem 3rem 4rem;
-  border-right: 1px solid var(--border);
-  position: relative; overflow: hidden;
+/* Scan line effect on hero */
+#hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.006) 3px,rgba(255,255,255,.006) 4px);pointer-events:none;z-index:3;}
+
+/* Subtle grid */
+#hero::after{content:'none';}
+.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:1;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);}
+
+.hero-content{
+  position:relative;
+  width:100%;
+  padding:0 3rem 5rem;
+  pointer-events:none;
+  z-index:2;
 }
-.hero-left::before {
-  content: 'VIVEK';
-  position: absolute; bottom: -2rem; left: -1rem;
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 18vw; line-height: 1;
-  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.03);
-  pointer-events: none; white-space: nowrap;
-  letter-spacing: -.02em;
+.hero-content-inner{
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:3rem;
 }
 
-.hero-eyebrow {
-  display: flex; align-items: center; gap: .8rem;
-  font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 2rem;
-  opacity: 0; animation: rise .7s .3s forwards;
-}
-.hero-eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+.hero-left-text{opacity:0;animation:rise .9s .4s forwards;}
+.hero-eyebrow{display:flex;align-items:center;gap:.8rem;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
+.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
+.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,13vw,14rem);line-height:.86;letter-spacing:-.01em;}
+.hero-name .dim{color:transparent;-webkit-text-stroke:1px rgba(240,240,238,.15);}
+.hero-name .bright{color:var(--text);}
+.hero-name .green{color:var(--accent);}
 
-.hero-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(4.5rem, 10vw, 10rem);
-  line-height: .88; letter-spacing: .01em;
-  opacity: 0; animation: rise .8s .4s forwards;
+/* ── PHOTO CIRCLE ── */
+.hero-photo-wrap{
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:1.2rem;
+  opacity:0;
+  animation:rise .9s .7s forwards;
+  pointer-events:all;
 }
-.hero-name .dim { color: transparent; -webkit-text-stroke: 1px rgba(242,242,240,.25); }
-.hero-name .bright { color: var(--text); }
-.hero-name .green { color: var(--accent); }
+.hero-photo-ring{
+  position:relative;
+  width:220px;height:220px;
+  border-radius:50%;
+  padding:3px;
+  background:conic-gradient(var(--accent) 0deg 200deg, rgba(184,255,87,.1) 200deg 360deg);
+  animation:spinRing 8s linear infinite;
+}
+@keyframes spinRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.hero-photo-ring-inner{
+  width:100%;height:100%;
+  border-radius:50%;
+  overflow:hidden;
+  background:var(--surface);
+  border:3px solid var(--bg);
+  /* Counter-rotate the content so the image stays still */
+  animation:spinRingReverse 8s linear infinite;
+}
+@keyframes spinRingReverse{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
 
-.hero-role {
-  margin-top: 2.5rem;
-  font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--muted);
-  opacity: 0; animation: rise .7s .6s forwards;
-  display: flex; align-items: center; gap: 1rem;
-}
-.hero-role::before { content: ''; width: 1px; height: 30px; background: var(--border); }
-
-/* Right panel */
-.hero-right {
-  display: flex; flex-direction: column; justify-content: flex-end;
-  padding: 9rem 3rem 4rem;
-  opacity: 0; animation: rise .7s .5s forwards;
-}
-
-.hero-bio {
-  font-size: .88rem; color: var(--muted); line-height: 2;
-  margin-bottom: 3rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid var(--border);
-}
-.hero-bio strong { color: var(--text); font-weight: 400; }
-
-/* STATS GRID */
-.stats-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-}
-.stat-box { background: var(--bg); padding: 1.8rem; transition: background .3s; }
-.stat-box:hover { background: var(--surface); }
-.stat-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3rem; line-height: 1;
-  color: var(--accent); margin-bottom: .4rem;
-}
-.stat-label { font-size: .62rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-
-/* Scroll hint */
-.scroll-hint {
-  position: absolute; bottom: 3rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: .6rem;
-  font-size: .6rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
-  animation: bob 2.2s ease infinite; z-index: 2;
-}
-.scroll-line { width: 1px; height: 36px; background: linear-gradient(var(--muted), transparent); }
-
-/* ══════════════════════════════
-   SECTION HELPERS
-══════════════════════════════ */
-.section-wrap {
-  position: relative; z-index: 1;
-  max-width: 1440px; margin: 0 auto;
-  padding: 6rem 3rem;
-}
-.section-tag {
-  display: flex; align-items: center; gap: 1rem;
-  font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--muted); margin-bottom: 3rem;
-}
-.section-tag .num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem; color: var(--accent); letter-spacing: .05em;
-}
-.section-tag .line { flex: 1; height: 1px; background: var(--border); }
-
-/* ══════════════════════════════
-   WHO I AM — MANIFESTO BLOCK
-══════════════════════════════ */
-.manifesto {
-  display: grid; grid-template-columns: 280px 1fr;
-  gap: 6rem; align-items: start;
-}
-.manifesto-sticky {
-  position: sticky; top: 6rem;
-}
-.manifesto-heading {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 5.5rem; line-height: .88;
-  letter-spacing: .02em;
-}
-.manifesto-heading .ghost {
-  display: block; color: transparent;
-  -webkit-text-stroke: 1px rgba(255,255,255,.08);
-  font-size: 7rem;
-}
-.manifesto-heading .solid { color: var(--text); }
-.manifesto-heading .green { color: var(--accent); }
-
-.manifesto-sub {
-  margin-top: 2rem;
-  font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--muted); line-height: 2;
-  border-top: 1px solid var(--border); padding-top: 1.5rem;
+.hero-photo-ring-inner img{
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  border-radius:50%;
 }
 
-/* Right: paragraphs */
-.manifesto-paras { display: flex; flex-direction: column; }
-.para-block {
-  padding: 2.5rem 0;
-  border-bottom: 1px solid var(--border);
-  position: relative;
+/* Placeholder when no image */
+.hero-photo-placeholder{
+  width:100%;height:100%;
+  border-radius:50%;
+  background:var(--surface);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:.5rem;
+  border-radius:50%;
 }
-.para-block:first-child { padding-top: 0; }
-.para-block:last-child { border-bottom: none; }
+.hero-photo-placeholder .ph-icon{font-size:3rem;opacity:.3;}
+.hero-photo-placeholder .ph-label{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
-.para-label {
-  font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--accent); margin-bottom: 1.2rem; display: block;
-}
-.para-block p {
-  font-size: .87rem; color: var(--muted); line-height: 2;
-}
-.para-block p strong { color: var(--text); font-weight: 400; }
+.hero-photo-meta{text-align:center;}
+.hero-role{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
+.hero-tag-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;}
+.hero-tag{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--muted2);padding:.25rem .7rem;color:var(--muted);}
 
-.quote-block {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-weight: 900; font-size: clamp(1.3rem, 2.5vw, 2rem);
-  line-height: 1.45; letter-spacing: -.02em;
-  color: var(--text);
-  padding: 2.5rem 0 2.5rem 2rem;
-  border-left: 2px solid var(--accent);
-  border-bottom: 1px solid var(--border);
-}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);animation:bob 2.2s ease infinite;z-index:3;}
+.scroll-line{width:1px;height:36px;background:linear-gradient(var(--muted),transparent);}
 
-/* ══════════════════════════════
-   SKILLS — 3 CARDS
-══════════════════════════════ */
-.skills-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-}
-.skill-card {
-  background: var(--bg); padding: 3rem 2.5rem;
-  position: relative; overflow: hidden;
-  transition: background .3s;
-  display: flex; flex-direction: column;
-}
-.skill-card:hover { background: rgba(255,255,255,.015); }
-.skill-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  transform: scaleX(0); transform-origin: center;
-  transition: transform .5s ease;
-}
-.skill-card:hover::before { transform: scaleX(1); }
-.skill-card::after {
-  content: ''; position: absolute; top: -60px; right: -60px;
-  width: 200px; height: 200px;
-  background: radial-gradient(circle, rgba(184,255,87,.07) 0%, transparent 70%);
-  opacity: 0; transition: opacity .4s; pointer-events: none;
-}
-.skill-card:hover::after { opacity: 1; }
+/* ══════════════════════════════════
+   SECTION WRAPPER
+══════════════════════════════════ */
+.s-wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:7rem 3rem;}
+.s-tag{display:flex;align-items:center;gap:1rem;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:4rem;}
+.s-tag .n{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:.05em;}
+.s-tag .ln{flex:1;height:1px;background:var(--border);}
 
-.skill-num {
-  font-size: .6rem; letter-spacing: .2em; color: var(--accent);
-  text-transform: uppercase; margin-bottom: 2rem;
-}
-.skill-icon {
-  width: 52px; height: 52px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; margin-bottom: 2rem;
-  transition: border-color .3s;
-}
-.skill-card:hover .skill-icon { border-color: rgba(184,255,87,.3); }
-.skill-card h3 {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-weight: 900; font-size: 1.2rem;
-  letter-spacing: -.02em; margin-bottom: .8rem;
-}
-.skill-card p { font-size: .78rem; color: var(--muted); line-height: 1.85; flex: 1; margin-bottom: 2rem; }
-.skill-tags { display: flex; flex-wrap: wrap; gap: .4rem; }
-.skill-tag {
-  font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
-  border: 1px solid var(--muted2); padding: .22rem .55rem; color: #333340;
-  transition: border-color .2s, color .2s;
-}
-.skill-card:hover .skill-tag { border-color: rgba(184,255,87,.15); color: rgba(184,255,87,.5); }
+/* ══════════════════════════════════
+   SECTION 2: WHO I AM
+══════════════════════════════════ */
+#section-who{background:var(--bg);border-top:1px solid var(--border);overflow:hidden;position:relative;}
 
-/* ══════════════════════════════
-   TOOLS — MARQUEE ROW
-══════════════════════════════ */
-.tools-section {
-  position: relative; z-index: 1;
-  overflow: hidden;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+.who-3d-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(6rem,18vw,20rem);
+  line-height:.85; letter-spacing:-.02em;
+  color:transparent; -webkit-text-stroke:1px rgba(185, 255, 87, 0.172);
+  position:absolute; top:4rem; left:-2rem;
+  pointer-events:none; white-space:nowrap;
+  animation:slideTitle 18s linear infinite;
+  z-index:0;
 }
-.tools-label {
-  max-width: 1440px; margin: 0 auto;
-  padding: 3rem 3rem 0;
-}
-.tools-track {
-  display: flex; gap: 0;
-  animation: toolsTick 30s linear infinite;
-  width: max-content;
-  padding: 1.5rem 0;
-}
-.tools-track:hover { animation-play-state: paused; }
-.tool-pill {
-  display: flex; align-items: center; gap: .7rem;
-  padding: 1rem 2rem;
-  border-right: 1px solid var(--border);
-  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--muted); white-space: nowrap;
-  transition: color .2s, background .2s;
-  cursor: none;
-}
-.tool-pill:hover { color: var(--text); background: var(--surface); }
-.tool-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
-@keyframes toolsTick { from { transform: translateX(0) } to { transform: translateX(-50%) } }
+@keyframes slideTitle{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-/* ══════════════════════════════
-   TIMELINE — VERTICAL
-══════════════════════════════ */
-.timeline { display: flex; flex-direction: column; }
-.t-item {
-  display: grid; grid-template-columns: 120px 40px 1fr;
-  gap: 0; align-items: start;
-  padding: 3rem 0;
-  border-bottom: 1px solid var(--border);
-  position: relative;
+.who-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0; position:relative; z-index:1;
+  border:1px solid var(--border);
 }
-.t-item:last-child { border-bottom: none; }
+.who-left{
+  padding:4rem; border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.who-right{padding:4rem;}
 
-.t-year {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem; color: var(--accent);
-  letter-spacing: .08em; padding-top: .15rem;
+.big-quote{
+  font-family:'Cabinet Grotesk',sans-serif;
+  font-weight:900;font-size:clamp(1.6rem,3vw,2.6rem);
+  line-height:1.3;letter-spacing:-.03em;color:var(--text);
+  margin-bottom:3rem; position:relative;
 }
+.big-quote::before{content:'"';position:absolute;top:-1.5rem;left:-.5rem;font-family:'Bebas Neue',sans-serif;font-size:8rem;color:rgba(184,255,87,.08);line-height:1;}
 
-.t-line {
-  display: flex; flex-direction: column; align-items: center;
-  padding-top: .35rem;
-}
-.t-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: var(--accent); flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(184,255,87,.1);
-  transition: box-shadow .3s;
-}
-.t-item:hover .t-dot { box-shadow: 0 0 0 6px rgba(184,255,87,.15); }
-.t-connector {
-  width: 1px; flex: 1; background: var(--border);
-  margin-top: .5rem; min-height: 40px;
-}
-.t-item:last-child .t-connector { display: none; }
+.who-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
+.who-stat{background:var(--bg);padding:1.6rem;transition:background .3s;}
+.who-stat:hover{background:var(--surface);}
+.who-stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1;color:var(--accent);}
+.who-stat-l{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;}
 
-.t-content { padding-left: 1.5rem; }
-.t-title {
-  font-family: 'Cabinet Grotesk', sans-serif;
-  font-weight: 900; font-size: 1.15rem;
-  letter-spacing: -.02em; margin-bottom: .8rem;
-  transition: color .2s;
-}
-.t-item:hover .t-title { color: var(--accent); }
-.t-desc { font-size: .78rem; color: var(--muted); line-height: 1.9; }
+.para-list{display:flex;flex-direction:column;gap:0;}
+.para-item{padding:2.2rem 0;border-bottom:1px solid var(--border);}
+.para-item:first-child{padding-top:0;}
+.para-item:last-child{border-bottom:none;padding-bottom:0;}
+.para-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;display:block;}
+.para-item p{font-size:.82rem;color:#a3a3b8;line-height:2;}
+.para-item p strong{color:var(--text);font-weight:500;}
 
-/* ══════════════════════════════
-   CTA BAND
-══════════════════════════════ */
-.cta-band {
-  position: relative; z-index: 1;
-  max-width: 1440px; margin: 0 auto;
-  padding: 0 3rem 8rem;
-}
-.cta-inner {
-  border: 1px solid var(--border);
-  overflow: hidden; position: relative;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 3rem; padding: 5rem;
-  transition: border-color .4s;
-}
-.cta-inner:hover { border-color: rgba(184,255,87,.15); }
-.cta-inner::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 80% 50%, rgba(184,255,87,.05) 0%, transparent 65%);
-  pointer-events: none;
-}
-.cta-inner::after {
-  content: '↗';
-  position: absolute; right: 2rem; bottom: 1.5rem;
-  font-family: 'Bebas Neue', sans-serif; font-size: 7rem;
-  color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,.04);
-  line-height: 1; pointer-events: none;
-  transition: -webkit-text-stroke-color .4s;
-}
-.cta-inner:hover::after { -webkit-text-stroke-color: rgba(184,255,87,.08); }
+/* ══════════════════════════════════
+   SECTION 3: SKILLS
+══════════════════════════════════ */
+#section-skills{border-top:1px solid var(--border);background:var(--surface);overflow:hidden;position:relative;}
 
-.cta-text h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3rem, 6vw, 6rem);
-  line-height: .9; letter-spacing: .02em; margin-bottom: 1.2rem;
+.skills-3grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.sk-card{
+  background:var(--surface);padding:3rem 2.5rem;position:relative;overflow:hidden;
+  transition:background .3s,transform .4s;transform-style:preserve-3d;
+  cursor:none;
 }
-.cta-text h2 .green { color: var(--accent); }
-.cta-text p { font-size: .82rem; color: var(--muted); line-height: 1.9; max-width: 360px; }
-
-.btn-primary {
-  display: inline-flex; align-items: center; gap: .8rem;
-  font-family: 'DM Mono', monospace;
-  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
-  color: #000; background: var(--accent);
-  padding: 1rem 2.2rem; text-decoration: none;
-  transition: background .2s, transform .2s;
-  white-space: nowrap; flex-shrink: 0;
+.sk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:scaleX(0);transform-origin:center;transition:transform .5s;}
+.sk-card:hover::before{transform:scaleX(1);}
+.sk-card::after{content:'';position:absolute;top:-80px;right:-80px;width:250px;height:250px;background:radial-gradient(circle,rgba(184,255,87,.07),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;}
+.sk-card:hover::after{opacity:1;}
+.sk-card:hover{background:rgba(255,255,255,.02);}
+.sk-n{font-size:.58rem;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:1.8rem;}
+.sk-icon{
+  width:56px;height:56px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  padding:10px;
+  margin-bottom:1.8rem;transition:border-color .3s,transform .4s;
 }
-.btn-primary:hover { background: #d4ff6e; transform: translateY(-2px); }
+.sk-icon svg{width:100%;height:100%;display:block;}
+.sk-card:hover .sk-icon{border-color:rgba(184,255,87,.3);transform:rotate(10deg) scale(1.1);}
+.sk-card h3{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:-.02em;margin-bottom:.7rem;}
+.sk-card p{font-size:.77rem;color:var(--muted);line-height:1.85;margin-bottom:1.8rem;flex:1;}
 
-/* ── FOOTER ── */
-footer {
-  position: relative; z-index: 1;
-  border-top: 1px solid var(--border);
-  padding: 2rem 3rem;
-  max-width: 1440px; margin: 0 auto;
-  display: flex; justify-content: space-between; align-items: center;
+.sk-bar-wrap{display:flex;flex-direction:column;gap:.6rem;}
+.sk-bar-row{display:flex;align-items:center;gap:.8rem;}
+.sk-bar-label{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:70px;flex-shrink:0;}
+.sk-bar-track{flex:1;height:2px;background:var(--muted2);border-radius:2px;overflow:hidden;}
+.sk-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),rgba(184,255,87,.5));border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+.sk-bar-pct{font-size:.55rem;color:var(--accent);width:28px;text-align:right;flex-shrink:0;}
+
+/* ══════════════════════════════════
+   SECTION 4: TOOLS MARQUEE
+══════════════════════════════════ */
+#section-tools{border-top:1px solid var(--border);overflow:hidden;position:relative;background:var(--bg);}
+.tools-label-row{max-width:1440px;margin:0 auto;padding:3rem 3rem 0;}
+.tools-track{display:flex;animation:toolsTick 36s linear infinite;width:max-content;padding:1.5rem 0;}
+.tools-track:hover{animation-play-state:paused;}
+.tool-pill{display:flex;align-items:center;gap:.9rem;padding:1.1rem 2rem;border-right:1px solid var(--border);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);white-space:nowrap;transition:color .2s,background .2s;cursor:none;}
+.tool-pill:hover{color:var(--accent);background:var(--surface);}
+.tool-logo{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.tool-logo svg,.tool-logo img{width:100%;height:100%;object-fit:contain;}
+@keyframes toolsTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ══════════════════════════════════
+   SECTION 5: TIMELINE
+══════════════════════════════════ */
+#section-timeline{border-top:1px solid var(--border);background:var(--surface);overflow:hidden;position:relative;}
+
+.timeline{display:flex;flex-direction:column;}
+.t-item{
+  display:grid;grid-template-columns:100px 1px 1fr;
+  gap:0;align-items:start;padding:3.5rem 0;
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+  position:relative;
 }
-footer span { font-size: .68rem; color: var(--muted); letter-spacing: .08em; }
+.t-item:last-child{border-bottom:none;}
+.t-item:hover{background:rgba(255,255,255,.01);}
+.t-year{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:.06em;padding-top:.1rem;}
+.t-line{display:flex;flex-direction:column;align-items:center;}
+.t-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 0 3px rgba(184,255,87,.12),0 0 16px rgba(184,255,87,.3);transition:box-shadow .3s;}
+.t-item:hover .t-dot{box-shadow:0 0 0 6px rgba(184,255,87,.15),0 0 28px rgba(184,255,87,.5);}
+.t-connector{width:1px;flex:1;background:linear-gradient(var(--border),transparent);min-height:40px;}
+.t-item:last-child .t-connector{display:none;}
+.t-content{padding-left:2.5rem;}
+.t-badge{display:inline-block;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;background:rgba(184,255,87,.1);color:var(--accent);padding:.22rem .7rem;border-radius:2px;margin-bottom:1rem;}
+.t-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:-.02em;margin-bottom:.7rem;transition:color .3s;}
+.t-item:hover .t-title{color:var(--accent);}
+.t-desc{font-size:.77rem;color:var(--muted);line-height:1.9;}
 
-/* ── ANIMATIONS ── */
-@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
-
-.reveal { opacity: 0; transform: translateY(30px); transition: opacity .75s ease, transform .75s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 1100px) {
-  .manifesto { grid-template-columns: 200px 1fr; gap: 4rem; }
+/* ══════════════════════════════════
+   SECTION 6: CTA
+══════════════════════════════════ */
+#section-cta{position:relative;border-top:1px solid var(--border);overflow:hidden;background:var(--bg);}
+.cta-wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 3rem 8rem;}
+.cta-inner{
+  border:1px solid var(--border);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:3rem;padding:5rem;
+  transition:border-color .4s;
 }
-@media (max-width: 900px) {
-  .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-left { padding: 9rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid var(--border); }
-  .hero-left::before { font-size: 30vw; }
-  .hero-right { padding: 3rem 1.5rem; }
-  .manifesto { grid-template-columns: 1fr; gap: 3rem; }
-  .manifesto-sticky { position: static; }
-  .skills-grid { grid-template-columns: 1fr 1fr; }
-  .section-wrap, .cta-band { padding-left: 1.5rem; padding-right: 1.5rem; }
-  .cta-inner { padding: 3rem 2rem; flex-direction: column; align-items: flex-start; }
-  nav { padding: 0 1.5rem; }
+.cta-inner:hover{border-color:rgba(184,255,87,.15);}
+.cta-bg-text{position:absolute;right:-1rem;bottom:-2rem;font-family:'Bebas Neue',sans-serif;font-size:14rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.03);pointer-events:none;line-height:1;}
+.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.02em;margin-bottom:1.2rem;}
+.cta-h .g{color:var(--accent);}
+.cta-sub{font-size:.82rem;color:var(--muted);line-height:1.9;max-width:380px;}
+.btn-cta{display:inline-flex;align-items:center;gap:.8rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--accent);padding:1rem 2.5rem;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;flex-shrink:0;}
+.btn-cta:hover{background:#d4ff6e;transform:translateY(-2px);}
+
+/* ── RESUME BUTTON ── */
+.resume-btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--accent);border:1px solid rgba(184,255,87,.35);
+  padding:.65rem 1.4rem;text-decoration:none;
+  position:relative;overflow:hidden;
+  transition:color .25s,border-color .25s,transform .2s;
+  cursor:none;pointer-events:all;
+  margin-top:1rem;
 }
-@media (max-width: 600px) {
-  .nav-links { display: none; }
-  .ham { display: flex; }
-  .hero-name { font-size: clamp(3.5rem, 20vw, 6rem); }
-  .skills-grid { grid-template-columns: 1fr; }
-  .stats-grid { grid-template-columns: 1fr 1fr; }
-  .t-item { grid-template-columns: 80px 30px 1fr; }
-  .cta-inner::after { display: none; }
-  footer { flex-direction: column; gap: .5rem; text-align: center; }
+.resume-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s cubic-bezier(.16,1,.3,1);z-index:0;
+}
+.resume-btn:hover::before{transform:scaleX(1);}
+.resume-btn:hover{color:#000;border-color:var(--accent);}
+.resume-btn span,.resume-btn svg{position:relative;z-index:1;}
+.resume-btn svg{transition:transform .25s;}
+.resume-btn:hover svg{transform:translateY(2px);}
+
+/* Floating sticky resume button */
+.resume-float{
+  position:fixed;right:2rem;bottom:2.5rem;z-index:400;
+  display:flex;align-items:center;gap:.6rem;
+  font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#000;background:var(--accent);
+  padding:.75rem 1.5rem;text-decoration:none;
+  box-shadow:0 0 0 0 rgba(184,255,87,.4);
+  animation:pulseShadow 2.5s ease infinite;
+  transition:background .2s,transform .2s;
+  cursor:none;
+}
+.resume-float:hover{background:#d4ff6e;transform:translateY(-3px);}
+.resume-float svg{flex-shrink:0;}
+@keyframes pulseShadow{
+  0%,100%{box-shadow:0 0 0 0 rgba(184,255,87,.4);}
+  50%{box-shadow:0 0 0 10px rgba(184,255,87,0);}
+}
+@media(max-width:600px){.resume-float{right:1rem;bottom:1.5rem;padding:.65rem 1.1rem;}.resume-float .rf-label{display:none;}}
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem 3rem;max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
+footer span{font-size:.68rem;color:var(--muted);letter-spacing:.08em;}
+
+/* ANIMATIONS */
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+#section-softskills{border-top:1px solid var(--border);overflow:hidden;position:relative;background:var(--bg);}
+.soft-track{animation-direction:reverse;animation-duration:32s;}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .who-grid{grid-template-columns:1fr;}
+  .who-left{border-right:none;border-bottom:1px solid var(--border);}
+}
+@media(max-width:800px){
+  .skills-3grid{grid-template-columns:1fr;}
+  .ss-grid{grid-template-columns:1fr;}
+  .cta-inner{flex-direction:column;align-items:flex-start;padding:3rem 2rem;}
+  .hero-content{padding:0 1.5rem 4rem;}
+  .s-wrap{padding:5rem 1.5rem;}
+  .cta-wrap{padding:0 1.5rem 5rem;}
+  .nav-links{display:none;}
+  .ham{display:flex;}
+  nav{padding:0 1.5rem;}
+  .hero-photo-ring{width:160px;height:160px;}
+}
+@media(max-width:600px){
+  .hero-content-inner{flex-direction:column;align-items:flex-start;gap:2rem;}
+  .hero-photo-wrap{align-items:flex-start;}
+  .hero-tag-row{justify-content:flex-start;}
 }
 </style>
 </head>
@@ -511,11 +379,12 @@ footer span { font-size: .68rem; color: var(--muted); letter-spacing: .08em; }
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<div class="bg-blob blob-1"></div>
-<div class="bg-blob blob-2"></div>
-<div class="bg-blob blob-3"></div>
+<!-- ── FLOATING RESUME BUTTON ── -->
+<a href="resume.pdf" download="Vivek_Dandotiya_Resume.pdf" class="resume-float" title="Download Resume">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  <span class="rf-label">Resume</span>
+</a>
 
-<!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">V<span>.</span></a>
   <ul class="nav-links">
@@ -526,272 +395,414 @@ footer span { font-size: .68rem; color: var(--muted); letter-spacing: .08em; }
   </ul>
   <div class="ham" id="ham"><span></span><span></span><span></span></div>
 </nav>
-
 <div class="mob" id="mob">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="project.html">Projects</a>
-  <a href="contact.html">Contact</a>
+  <a href="index.html">Home</a><a href="about.html">About</a>
+  <a href="project.html">Projects</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="hero-eyebrow">About Me</div>
-    <h1 class="hero-name">
-      <span class="dim">VIV</span><span class="bright">EK</span><br>
-      <span class="green">DAN</span><span class="dim">DOTIYA</span>
-    </h1>
-    <div class="hero-role">
-      <span>Creative Developer &amp; Designer</span>
+<!-- ════════════════════════════
+  HERO — STATIC WITH PHOTO
+════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-content">
+    <div class="hero-content-inner">
+
+      <!-- LEFT: Name -->
+      <div class="hero-left-text">
+        <div class="hero-eyebrow">About Me</div>
+        <h1 class="hero-name">
+          <span class="dim">VIV</span><span class="bright">EK</span><br>
+          <span class="green">DAN</span><span class="dim">DOTIYA</span>
+        </h1>
+      </div>
+
+      <!-- RIGHT: Photo Circle + Meta -->
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-ring">
+          <div class="hero-photo-ring-inner">
+            <!--
+              ┌─────────────────────────────────────────────┐
+              │  Replace the placeholder below with:         │
+              │  <img src="your-photo.jpg" alt="Vivek" />   │
+              └─────────────────────────────────────────────┘
+            -->
+            <div class="hero-photo-placeholder">
+              <span class="ph-icon">🧑‍💻</span>
+              <span class="ph-label">Your Photo</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-photo-meta">
+          <div class="hero-role">Creative Developer &amp; Designer</div>
+          <div class="hero-tag-row">
+            <span class="hero-tag">React</span>
+            <span class="hero-tag">Next.js</span>
+            <span class="hero-tag">UI/UX</span>
+            <span class="hero-tag">TypeScript</span>
+          </div>
+          <a href="resume.pdf" download="Vivek_Dandotiya_Resume.pdf" class="resume-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Download Resume</span>
+          </a>
+        </div>
+      </div>
+
     </div>
   </div>
-  <div class="hero-right">
-    <p class="hero-bio">
-      Creative web designer & developer focused on crafting <strong>clean, user-friendly, and visually refined</strong> digital products. I blend strong UI aesthetics with solid technical foundations — building things that feel as good as they look.
-    </p>
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-num">09+</div>
-        <div class="stat-label">Projects Done</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">2+</div>
-        <div class="stat-label">Years Exp.</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">5+</div>
-        <div class="stat-label">Tech Stacks</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num">∞</div>
-        <div class="stat-label">Curiosity</div>
-      </div>
-    </div>
-  </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Scroll</span>
-  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
-<!-- WHO I AM -->
-<section class="section-wrap">
-  <div class="section-tag reveal">
-    <span class="num">01</span>
-    <span>— Who I Am</span>
-    <span class="line"></span>
-  </div>
-  <div class="manifesto reveal">
-    <div class="manifesto-sticky">
-      <div class="manifesto-heading">
-        <span class="ghost">WHO</span>
-        <span class="solid">I</span>
-        <span class="green">AM</span>
-      </div>
-      <p class="manifesto-sub">
-        Designer.<br>Developer.<br>Problem Solver.<br>Pixel Perfectionist.
-      </p>
+<!-- ════════════════════════════
+  WHO I AM
+════════════════════════════ -->
+<section id="section-who">
+  <div class="who-3d-title" aria-hidden="true">WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp;</div>
+  <div class="s-wrap" style="padding-top:6rem;">
+    <div class="s-tag reveal">
+      <span class="n">01</span><span>— Who I Am</span><span class="ln"></span>
     </div>
-    <div class="manifesto-paras">
-      <div class="quote-block">
-        "My goal is simple — create digital work that feels premium, intuitive, and meaningful."
+    <div class="who-grid reveal">
+      <div class="who-left">
+        <div>
+          <p class="big-quote">My goal is simple — create digital work that feels premium, intuitive, and meaningful.</p>
+        </div>
+        <div class="who-stats">
+          <div class="who-stat"><div class="who-stat-n">09+</div><div class="who-stat-l">Projects</div></div>
+          <div class="who-stat"><div class="who-stat-n">2+</div><div class="who-stat-l">Years Exp.</div></div>
+          <div class="who-stat"><div class="who-stat-n">5+</div><div class="who-stat-l">Tech Stacks</div></div>
+          <div class="who-stat"><div class="who-stat-n">∞</div><div class="who-stat-l">Curiosity</div></div>
+        </div>
       </div>
-      <div class="para-block">
-        <span class="para-label">Origin</span>
-        <p>I'm a <strong>creative web designer and developer</strong> who started this journey out of pure curiosity and turned it into a craft. Every project I take on is an opportunity to push the boundaries of what's possible on the web.</p>
-      </div>
-      <div class="para-block">
-        <span class="para-label">Philosophy</span>
-        <p>I believe great design is <strong>invisible</strong>. When everything works perfectly, users don't notice the design — they just enjoy the experience. That philosophy drives every decision I make, from typography choices to interaction patterns.</p>
-      </div>
-      <div class="para-block">
-        <span class="para-label">Drive</span>
-        <p>Beyond the screen, I'm constantly exploring new technologies, studying great design, and building things just to see if I can. <strong>The web is endlessly interesting to me</strong> — and that excitement shows up in my work.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section class="section-wrap" style="padding-top: 0;">
-  <div class="section-tag reveal">
-    <span class="num">02</span>
-    <span>— Core Skills</span>
-    <span class="line"></span>
-  </div>
-  <div class="skills-grid reveal">
-    <div class="skill-card">
-      <div class="skill-num">[01]</div>
-      <div class="skill-icon">💻</div>
-      <h3>Web Development</h3>
-      <p>Building fast, responsive, and scalable websites using modern web standards and best practices.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">HTML5</span>
-        <span class="skill-tag">CSS3</span>
-        <span class="skill-tag">JavaScript</span>
-        <span class="skill-tag">React</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-num">[02]</div>
-      <div class="skill-icon">🎨</div>
-      <h3>UI / UX Design</h3>
-      <p>Designing intuitive interfaces focused on usability, visual hierarchy, and delightful interactions.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Figma</span>
-        <span class="skill-tag">Wireframes</span>
-        <span class="skill-tag">Prototypes</span>
-      </div>
-    </div>
-    <div class="skill-card">
-      <div class="skill-num">[03]</div>
-      <div class="skill-icon">⚡</div>
-      <h3>Performance</h3>
-      <p>Optimizing for speed, SEO, and smooth interactions. Real-world performance for real users.</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SEO</span>
-        <span class="skill-tag">Speed</span>
-        <span class="skill-tag">Next.js</span>
+      <div class="who-right">
+        <div class="para-list">
+          <div class="para-item">
+            <span class="para-label">Origin</span>
+            <p>I'm a <strong>creative web designer and developer</strong> who started this journey out of pure curiosity and turned it into a craft. Every project is an opportunity to push the boundaries of what's possible on the web.</p>
+          </div>
+          <div class="para-item">
+            <span class="para-label">Philosophy</span>
+            <p>I believe great design is <strong>invisible</strong>. When everything works perfectly, users don't notice the design — they just enjoy the experience. That philosophy drives every decision I make, from typography to interaction patterns.</p>
+          </div>
+          <div class="para-item">
+            <span class="para-label">Drive</span>
+            <p>Beyond the screen, I'm constantly exploring new technologies, studying great design, and building things just to see if I can. <strong>The web is endlessly interesting to me</strong> — and that excitement shows up in my work.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TOOLS MARQUEE -->
-<section class="tools-section">
-  <div class="tools-label reveal">
-    <div class="section-tag" style="margin-bottom: 0;">
-      <span class="num">03</span>
-      <span>— Tools & Technologies</span>
-      <span class="line"></span>
+<!-- ════════════════════════════
+  SKILLS
+════════════════════════════ -->
+<section id="section-skills">
+  <div class="s-wrap skills-content">
+    <div class="s-tag reveal">
+      <span class="n">02</span><span>— Core Skills</span><span class="ln"></span>
+    </div>
+    <div class="skills-3grid reveal">
+      <div class="sk-card">
+        <div class="sk-n">[01]</div>
+        <div class="sk-icon">
+          <!-- HTML5 logo -->
+          <svg viewBox="0 0 32 32" width="30" height="30"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6l-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg>
+        </div>
+        <h3>Web Development</h3>
+        <p>Building fast, responsive, and scalable websites using modern web standards and best practices.</p>
+        <div class="sk-bar-wrap">
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/></svg>HTML/CSS
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="95"></div></div><span class="sk-bar-pct">95%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg>JS
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="85"></div></div><span class="sk-bar-pct">85%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 12.8a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zm0-1.5c-5 0-9.3 1.1-9.3 3.7s4.3 3.7 9.3 3.7 9.3-1.1 9.3-3.7-4.3-3.7-9.3-3.7zm-4.7 5.5C9.1 20.5 8 23 8.8 24.4c.8 1.4 3.4 1.4 6.4.3M12 8.8c-1.3-.7-2.5-.8-3.2.4-.8 1.4.3 3.8 2.4 6m10.5 6.4c2.2 2.7 3.3 5.3 2.5 6.7-.8 1.4-3.4 1.4-6.4.3M20 8.8c1.3-.7 2.5-.8 3.2.4.8 1.4-.3 3.8-2.4 6"/></svg>React
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="80"></div></div><span class="sk-bar-pct">80%</span>
+          </div>
+        </div>
+      </div>
+      <div class="sk-card">
+        <div class="sk-n">[02]</div>
+        <div class="sk-icon">
+          <!-- Figma logo -->
+          <svg viewBox="0 0 32 32" width="30" height="30"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg>
+        </div>
+        <h3>UI / UX Design</h3>
+        <p>Designing intuitive interfaces focused on usability, visual hierarchy, and delightful interactions.</p>
+        <div class="sk-bar-wrap">
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><rect x="8" y="2" width="7" height="8" rx="3.5" fill="#F24E1E"/><rect x="15" y="2" width="7" height="8" rx="3.5" fill="#FF7262"/><rect x="8" y="10" width="7" height="8" rx="3.5" fill="#A259FF"/><rect x="8" y="18" width="7" height="8" rx="3.5" fill="#0ACF83"/><circle cx="18.5" cy="14" r="3.5" fill="#1ABCFE"/></svg>Figma
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="88"></div></div><span class="sk-bar-pct">88%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0055FF"/><path fill="#fff" d="M16 8l8 4.5v7L16 24l-8-4.5v-7zm0 2.3L10 14v4.5l6 3.2 6-3.2V14z"/></svg>Proto
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="82"></div></div><span class="sk-bar-pct">82%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg>Framer
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="75"></div></div><span class="sk-bar-pct">75%</span>
+          </div>
+        </div>
+      </div>
+      <div class="sk-card">
+        <div class="sk-n">[03]</div>
+        <div class="sk-icon">
+          <!-- Next.js logo -->
+          <svg viewBox="0 0 32 32" width="30" height="30"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg>
+        </div>
+        <h3>Performance</h3>
+        <p>Optimizing for speed, SEO, and smooth interactions. Real-world performance for real users.</p>
+        <div class="sk-bar-wrap">
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11 10h2v8l5.5-8H21v11h-2v-8l-5.5 8H11z"/></svg>Next.js
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="78"></div></div><span class="sk-bar-pct">78%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg>TS
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="72"></div></div><span class="sk-bar-pct">72%</span>
+          </div>
+          <div class="sk-bar-row">
+            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
+              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg>Node
+            </span>
+            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="65"></div></div><span class="sk-bar-pct">65%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+  TOOLS MARQUEE
+════════════════════════════ -->
+<section id="section-tools">
+  <div class="tools-label-row reveal">
+    <div class="s-tag" style="margin-bottom:0;">
+      <span class="n">03</span><span>— Tools &amp; Technologies</span><span class="ln"></span>
     </div>
   </div>
   <div class="tools-track">
-    <div class="tool-pill"><span class="tool-dot"></span>HTML5</div>
-    <div class="tool-pill"><span class="tool-dot"></span>CSS3</div>
-    <div class="tool-pill"><span class="tool-dot"></span>JavaScript</div>
-    <div class="tool-pill"><span class="tool-dot"></span>TypeScript</div>
-    <div class="tool-pill"><span class="tool-dot"></span>React</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Next.js</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Figma</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Framer</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Git</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Vercel</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Tailwind CSS</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Node.js</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Render</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Netlify</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Canva</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Always Learning</div>
-    <!-- duplicate for seamless loop -->
-    <div class="tool-pill"><span class="tool-dot"></span>HTML5</div>
-    <div class="tool-pill"><span class="tool-dot"></span>CSS3</div>
-    <div class="tool-pill"><span class="tool-dot"></span>JavaScript</div>
-    <div class="tool-pill"><span class="tool-dot"></span>TypeScript</div>
-    <div class="tool-pill"><span class="tool-dot"></span>React</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Next.js</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Figma</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Framer</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Git</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Vercel</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Tailwind CSS</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Node.js</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Render</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Netlify</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Canva</div>
-    <div class="tool-pill"><span class="tool-dot"></span>Always Learning</div>
+    <!-- Set 1 -->
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg></div>HTML5</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#1572B6" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#33A9DC" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#fff" d="M16 13.5H12l-.3-3h4.3V7.3H8.4l.8 9.2H16zm0 7.2-.1.1-3.7-.9-.2-2.5H9.6l.5 5.2 5.9 1.6z"/><path fill="#ebebeb" d="M16 13.5v3H20l-.4 4.1-3.6.9v3.2l5.9-1.6.7-7.6H16zM16 7.3v3.2h7.4l-.3-3.2z"/></svg></div>CSS3</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg></div>JavaScript</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg></div>TypeScript</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 13.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0-1.2c-4.8 0-9 1-9 3.7s4.2 3.7 9 3.7 9-1 9-3.7-4.2-3.7-9-3.7zM11.8 19c-2 2.6-3 5-2.3 6.3.7 1.3 3.2 1.3 6 .3M11.5 9c-1.2-.6-2.4-.7-3 .4-.7 1.3.3 3.6 2.3 5.7m10.2 6c2 2.6 3 5 2.3 6.3-.7 1.3-3.2 1.3-6 .3M20.5 9c1.2-.6 2.4-.7 3 .4.7 1.3-.3 3.6-2.3 5.7"/></svg></div>React</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg></div>Next.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg></div>Figma</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg></div>Framer</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F05032" d="M28.5 13.5l-10-10a2 2 0 0 0-2.8 0l-2 2 2.5 2.5a2.4 2.4 0 0 1 3 3l2.4 2.4a2.4 2.4 0 1 1-1.4 1.4l-2.2-2.2v5.8a2.4 2.4 0 1 1-2 0V12a2.4 2.4 0 0 1-1.3-3.1L12.7 6.4l-9.2 9.2a2 2 0 0 0 0 2.8l10 10a2 2 0 0 0 2.8 0l12.2-12.2a2 2 0 0 0 0-2.7z"/></svg></div>Git</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#24292e"/><path fill="#fff" d="M16 4C9.4 4 4 9.4 4 16c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C24.6 25.8 28 21.3 28 16c0-6.6-5.4-12-12-12z"/></svg></div>GitHub</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#000" d="M16 2L2 28h4l2.5-5h15L26 28h4zm0 6l5.5 11h-11z"/></svg></div>Vercel</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#06B6D4" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm6.5 8.5h-3.2c-.4-1.4-1-2.6-1.8-3.4 2.4.6 4.4 2 5 3.4zm-6.5-3.6c1.1.7 2 2 2.6 3.6h-5.2c.6-1.6 1.5-2.9 2.6-3.6zM5.8 18c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2h3.7c-.1.7-.1 1.3-.1 2s0 1.3.1 2zm.7 2h3.2c.4 1.4 1 2.6 1.8 3.4-2.4-.6-4.4-2-5-3.4zm3.2-8H6.5c.6-1.4 2.6-2.8 5-3.4-.8.8-1.4 2-1.8 3.4zm6.3 11.6c-1.1-.7-2-2-2.6-3.6h5.2c-.6 1.6-1.5 2.9-2.6 3.6zM19.9 18h-7.8c-.1-.6-.1-1.3-.1-2s0-1.3.1-2h7.8c.1.7.1 1.3.1 2s0 1.3-.1 2zm.3 5.4c.8-.8 1.4-2 1.8-3.4h3.2c-.6 1.4-2.6 2.8-5 3.4zm2.3-5.4c.1-.7.1-1.3.1-2s0-1.3-.1-2h3.7c.2.6.3 1.3.3 2s-.1 1.4-.3 2z"/></svg></div>Tailwind</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg></div>Node.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M8 10h3l5 8 5-8h3L16 23z" opacity=".8"/></svg></div>Three.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#CC342D"/><path fill="#fff" d="M16 7l-1.8 5.4H8.5l4.6 3.3-1.8 5.4 4.7-3.4 4.7 3.4-1.8-5.4 4.6-3.3h-5.7z"/></svg></div>VS Code</div>
+    <!-- Set 2 (duplicate for seamless loop) -->
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg></div>HTML5</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#1572B6" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#33A9DC" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#fff" d="M16 13.5H12l-.3-3h4.3V7.3H8.4l.8 9.2H16zm0 7.2-.1.1-3.7-.9-.2-2.5H9.6l.5 5.2 5.9 1.6z"/><path fill="#ebebeb" d="M16 13.5v3H20l-.4 4.1-3.6.9v3.2l5.9-1.6.7-7.6H16zM16 7.3v3.2h7.4l-.3-3.2z"/></svg></div>CSS3</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg></div>JavaScript</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg></div>TypeScript</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 13.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0-1.2c-4.8 0-9 1-9 3.7s4.2 3.7 9 3.7 9-1 9-3.7-4.2-3.7-9-3.7zM11.8 19c-2 2.6-3 5-2.3 6.3.7 1.3 3.2 1.3 6 .3M11.5 9c-1.2-.6-2.4-.7-3 .4-.7 1.3.3 3.6 2.3 5.7m10.2 6c2 2.6 3 5 2.3 6.3-.7 1.3-3.2 1.3-6 .3M20.5 9c1.2-.6 2.4-.7 3 .4.7 1.3-.3 3.6-2.3 5.7"/></svg></div>React</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg></div>Next.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg></div>Figma</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg></div>Framer</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F05032" d="M28.5 13.5l-10-10a2 2 0 0 0-2.8 0l-2 2 2.5 2.5a2.4 2.4 0 0 1 3 3l2.4 2.4a2.4 2.4 0 1 1-1.4 1.4l-2.2-2.2v5.8a2.4 2.4 0 1 1-2 0V12a2.4 2.4 0 0 1-1.3-3.1L12.7 6.4l-9.2 9.2a2 2 0 0 0 0 2.8l10 10a2 2 0 0 0 2.8 0l12.2-12.2a2 2 0 0 0 0-2.7z"/></svg></div>Git</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#24292e"/><path fill="#fff" d="M16 4C9.4 4 4 9.4 4 16c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C24.6 25.8 28 21.3 28 16c0-6.6-5.4-12-12-12z"/></svg></div>GitHub</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#000" d="M16 2L2 28h4l2.5-5h15L26 28h4zm0 6l5.5 11h-11z"/></svg></div>Vercel</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#06B6D4" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm6.5 8.5h-3.2c-.4-1.4-1-2.6-1.8-3.4 2.4.6 4.4 2 5 3.4zm-6.5-3.6c1.1.7 2 2 2.6 3.6h-5.2c.6-1.6 1.5-2.9 2.6-3.6zM5.8 18c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2h3.7c-.1.7-.1 1.3-.1 2s0 1.3.1 2zm.7 2h3.2c.4 1.4 1 2.6 1.8 3.4-2.4-.6-4.4-2-5-3.4zm3.2-8H6.5c.6-1.4 2.6-2.8 5-3.4-.8.8-1.4 2-1.8 3.4zm6.3 11.6c-1.1-.7-2-2-2.6-3.6h5.2c-.6 1.6-1.5 2.9-2.6 3.6zM19.9 18h-7.8c-.1-.6-.1-1.3-.1-2s0-1.3.1-2h7.8c.1.7.1 1.3.1 2s0 1.3-.1 2zm.3 5.4c.8-.8 1.4-2 1.8-3.4h3.2c-.6 1.4-2.6 2.8-5 3.4zm2.3-5.4c.1-.7.1-1.3.1-2s0-1.3-.1-2h3.7c.2.6.3 1.3.3 2s-.1 1.4-.3 2z"/></svg></div>Tailwind</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg></div>Node.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M8 10h3l5 8 5-8h3L16 23z" opacity=".8"/></svg></div>Three.js</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#CC342D"/><path fill="#fff" d="M16 7l-1.8 5.4H8.5l4.6 3.3-1.8 5.4 4.7-3.4 4.7 3.4-1.8-5.4 4.6-3.3h-5.7z"/></svg></div>VS Code</div>
   </div>
 </section>
 
-<!-- TIMELINE -->
-<section class="section-wrap">
-  <div class="section-tag reveal">
-    <span class="num">04</span>
-    <span>— Journey</span>
-    <span class="line"></span>
+<!-- ════════════════════════════
+  SOFT SKILLS MARQUEE
+════════════════════════════ -->
+<section id="section-softskills">
+  <div class="tools-label-row reveal">
+    <div class="s-tag" style="margin-bottom:0;">
+      <span class="n">04</span><span>— Soft Skills</span><span class="ln"></span>
+    </div>
   </div>
-  <div class="timeline reveal">
-    <div class="t-item">
-      <div class="t-year">2023</div>
-      <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-      <div class="t-content">
-        <h4 class="t-title">Started Web Development</h4>
-        <p class="t-desc">Began with HTML & CSS, fell in love with the ability to create things in the browser. Built my first portfolio and never looked back.</p>
-      </div>
+  <div class="tools-track soft-track">
+    <!-- Set 1 -->
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#7C3AED"/><path fill="#fff" d="M16 8a5 5 0 0 1 3.5 8.5L22 20h-3l-2-3h-2v3h-3V8zm-3 3v3h3a1.5 1.5 0 0 0 0-3z"/></svg></div>Problem Solving</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0EA5E9"/><path fill="#fff" d="M8 10h16v2H8zm0 4h10v2H8zm0 4h14v2H8zM22 22l4 4v-4z"/></svg></div>Communication</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F59E0B"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="2"/><line x1="16" y1="9" x2="16" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="21" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Time Management</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#10B981"/><circle cx="12" cy="13" r="3.5" fill="#fff"/><circle cx="20" cy="13" r="3.5" fill="#fff"/><path fill="#fff" d="M6 24c0-3.3 2.7-5 6-5h8c3.3 0 6 1.7 6 5H6z" opacity=".9"/></svg></div>Team Collaboration</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F43F5E"/><path fill="#fff" d="M8 22l4-9 4 6 2-4 4 7H8z"/></svg></div>Adaptability</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#8B5CF6"/><circle cx="16" cy="13" r="4" fill="#fff"/><path fill="#fff" d="M10 22a6 6 0 0 1 12 0H10z"/><circle cx="23" cy="9" r="3" fill="#fbbf24"/></svg></div>Attention to Detail</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#06B6D4"/><path fill="#fff" d="M10 17l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/></svg></div>Critical Thinking</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EC4899"/><path fill="#fff" d="M16 8c-2 0-4 1-5 3a5 5 0 0 0 1 5.5L16 24l4-7.5A5 5 0 0 0 21 11c-1-2-3-3-5-3z"/></svg></div>Client Empathy</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#3B82F6"/><path fill="#fff" d="M16 8l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/></svg></div>Self-Learning</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F97316"/><path fill="#fff" d="M16 7l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4zm-5 12h10v2H11zm2 3h6v2h-6z"/></svg></div>Creative Thinking</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#14B8A6"/><path fill="#fff" d="M10 24V14l6-6 6 6v10h-4v-5h-4v5z"/></svg></div>Ownership</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EF4444"/><rect x="9" y="12" width="14" height="10" rx="1" fill="#fff"/><path fill="#fff" d="M12 12v-2a4 4 0 0 1 8 0v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="17" r="2" fill="#EF4444"/></svg></div>Deadline Driven</div>
+    <!-- Set 2 duplicate for seamless loop -->
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#7C3AED"/><path fill="#fff" d="M16 8a5 5 0 0 1 3.5 8.5L22 20h-3l-2-3h-2v3h-3V8zm-3 3v3h3a1.5 1.5 0 0 0 0-3z"/></svg></div>Problem Solving</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0EA5E9"/><path fill="#fff" d="M8 10h16v2H8zm0 4h10v2H8zm0 4h14v2H8zM22 22l4 4v-4z"/></svg></div>Communication</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F59E0B"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="2"/><line x1="16" y1="9" x2="16" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="21" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Time Management</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#10B981"/><circle cx="12" cy="13" r="3.5" fill="#fff"/><circle cx="20" cy="13" r="3.5" fill="#fff"/><path fill="#fff" d="M6 24c0-3.3 2.7-5 6-5h8c3.3 0 6 1.7 6 5H6z" opacity=".9"/></svg></div>Team Collaboration</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F43F5E"/><path fill="#fff" d="M8 22l4-9 4 6 2-4 4 7H8z"/></svg></div>Adaptability</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#8B5CF6"/><circle cx="16" cy="13" r="4" fill="#fff"/><path fill="#fff" d="M10 22a6 6 0 0 1 12 0H10z"/><circle cx="23" cy="9" r="3" fill="#fbbf24"/></svg></div>Attention to Detail</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#06B6D4"/><path fill="#fff" d="M10 17l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/></svg></div>Critical Thinking</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EC4899"/><path fill="#fff" d="M16 8c-2 0-4 1-5 3a5 5 0 0 0 1 5.5L16 24l4-7.5A5 5 0 0 0 21 11c-1-2-3-3-5-3z"/></svg></div>Client Empathy</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#3B82F6"/><path fill="#fff" d="M16 8l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/></svg></div>Self-Learning</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F97316"/><path fill="#fff" d="M16 7l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4zm-5 12h10v2H11zm2 3h6v2h-6z"/></svg></div>Creative Thinking</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#14B8A6"/><path fill="#fff" d="M10 24V14l6-6 6 6v10h-4v-5h-4v5z"/></svg></div>Ownership</div>
+    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EF4444"/><rect x="9" y="12" width="14" height="10" rx="1" fill="#fff"/><path fill="#fff" d="M12 12v-2a4 4 0 0 1 8 0v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="17" r="2" fill="#EF4444"/></svg></div>Deadline Driven</div>
+  </div>
+</section>
+
+
+
+<!-- ════════════════════════════
+  TIMELINE
+════════════════════════════ -->
+<section id="section-timeline">
+  <div class="s-wrap">
+    <div class="s-tag reveal">
+      <span class="n">05</span><span>— Journey</span><span class="ln"></span>
     </div>
-    <div class="t-item">
-      <div class="t-year">2024</div>
-      <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-      <div class="t-content">
-        <h4 class="t-title">Levelled Up — React & TypeScript</h4>
-        <p class="t-desc">Dived deep into React, TypeScript, and Next.js. Started building real-world apps — dashboards, booking systems, food delivery platforms.</p>
+    <div class="timeline reveal">
+      <div class="t-item">
+        <div class="t-year">2023</div>
+        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
+        <div class="t-content">
+          <div class="t-badge">Beginning</div>
+          <h4 class="t-title">Started Web Development</h4>
+          <p class="t-desc">Began with HTML & CSS, fell in love with the ability to create things in the browser. Built my first portfolio and never looked back.</p>
+        </div>
       </div>
-    </div>
-    <div class="t-item">
-      <div class="t-year">2024</div>
-      <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-      <div class="t-content">
-        <h4 class="t-title">Explored UI/UX & Figma</h4>
-        <p class="t-desc">Started treating design as seriously as code. Built Figma prototypes, studied design systems, and developed an eye for visual refinement.</p>
+      <div class="t-item">
+        <div class="t-year">2024</div>
+        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
+        <div class="t-content">
+          <div class="t-badge">Level Up</div>
+          <h4 class="t-title">React &amp; TypeScript Era</h4>
+          <p class="t-desc">Dived deep into React, TypeScript, and Next.js. Built real-world apps — dashboards, booking systems, food delivery platforms.</p>
+        </div>
       </div>
-    </div>
-    <div class="t-item">
-      <div class="t-year">2025</div>
-      <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-      <div class="t-content">
-        <h4 class="t-title">Freelancing & Open to Opportunities</h4>
-        <p class="t-desc">Currently taking on freelance projects and actively looking for exciting roles where I can build meaningful digital products at scale.</p>
+      <div class="t-item">
+        <div class="t-year">2024</div>
+        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
+        <div class="t-content">
+          <div class="t-badge">Design</div>
+          <h4 class="t-title">Discovered UI/UX &amp; Figma</h4>
+          <p class="t-desc">Started treating design as seriously as code. Built Figma prototypes, studied design systems, and developed an eye for visual refinement.</p>
+        </div>
+      </div>
+      <div class="t-item">
+        <div class="t-year">2025</div>
+        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
+        <div class="t-content">
+          <div class="t-badge">Now</div>
+          <h4 class="t-title">Freelancing &amp; Open to Opportunities</h4>
+          <p class="t-desc">Taking on freelance projects and actively looking for exciting roles where I can build meaningful digital products at scale.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-band">
-  <div class="cta-inner reveal">
-    <div class="cta-text">
-      <h2>Let's Build<br>Something<br><span class="green">Great.</span></h2>
-      <p>Ready to bring your project to life? I'm open to freelance work, collaborations, and full-time opportunities.</p>
+<!-- ════════════════════════════
+  CTA
+════════════════════════════ -->
+<section id="section-cta">
+  <div class="cta-wrap" style="padding-top:7rem;">
+    <div class="s-tag reveal">
+      <span class="n">06</span><span>— Let's Connect</span><span class="ln"></span>
     </div>
-    <a href="contact.html" class="btn-primary">Get In Touch →</a>
+    <div class="cta-inner reveal">
+      <div class="cta-bg-text">↗</div>
+      <div>
+        <h2 class="cta-h">Let's Build<br>Something<br><span class="g">Great.</span></h2>
+        <p class="cta-sub">Ready to bring your project to life? I'm open to freelance work, collaborations, and full-time opportunities.</p>
+      </div>
+      <a href="contact.html" class="btn-cta">Get In Touch →</a>
+    </div>
   </div>
-</div>
+</section>
 
 <footer>
   <span>© 2025 Vivek Dandotiya</span>
-  <span style="color: var(--accent);">V.</span>
+  <span style="color:var(--accent)">V.</span>
 </footer>
 
 <script>
-// Cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-(function animCursor() {
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  rx += (mx - rx) * .14; ry += (my - ry) * .14;
-  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-  requestAnimationFrame(animCursor);
-})();
+// ──────────────────────────────────────────────────────
+// CURSOR
+// ──────────────────────────────────────────────────────
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function lp(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lp);})();
+document.querySelectorAll('a,button,.sk-card,.resume-btn,.resume-float').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});
+});
 
-// Mobile nav
-const ham = document.getElementById('ham');
-const mob = document.getElementById('mob');
-ham.addEventListener('click', () => { ham.classList.toggle('open'); mob.classList.toggle('open'); });
-mob.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { ham.classList.remove('open'); mob.classList.remove('open'); }));
+// MOBILE NAV
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
 
-// Scroll reveal
-const io = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('visible'), i * 60);
-      io.unobserve(e.target);
+// ──────────────────────────────────────────────────────
+// SCROLL REVEAL + SKILL BARS
+// ──────────────────────────────────────────────────────
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
+  });
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+
+const barObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.sk-bar-fill').forEach((bar,i)=>{
+        setTimeout(()=>bar.style.width=bar.dataset.w+'%',i*120+200);
+      });
+      barObs.unobserve(e.target);
     }
   });
-}, { threshold: .08 });
-document.querySelectorAll('.reveal').forEach(r => io.observe(r));
+},{threshold:.2});
+document.querySelectorAll('.skills-3grid').forEach(g=>barObs.observe(g));
+
+// 3D tilt on skill cards
+document.querySelectorAll('.sk-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`perspective(600px) rotateY(${x*12}deg) rotateX(${-y*10}deg) translateZ(8px)`;
+  });
+  card.addEventListener('mouseleave',()=>card.style.transform='perspective(600px) rotateY(0) rotateX(0) translateZ(0)');
+});
 </script>
 </body>
 </html>
