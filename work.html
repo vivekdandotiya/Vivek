@@ -373,12 +373,7 @@ footer span{font-size:.7rem;color:var(--text3);}
       <div class="vs-screen">
         <div class="vs-bezel">
           <div class="vs-notch"></div>
-          <!-- ADD VIDEO: replace placeholder with <video src="demo1.mp4" autoplay muted loop playsinline></video> -->
-          <div class="vs-placeholder">
-            <div class="vs-play-ring"><span>▶</span></div>
-            <p class="vs-ph-label">Your Video Here</p>
-            <p class="vs-ph-hint">Add&nbsp;<code>demo1.mp4</code>&nbsp;or YouTube iframe</p>
-          </div>
+          <video src="v1.mp4" autoplay muted loop playsinline></video>
           <div class="vs-scanlines"></div>
         </div>
         <!-- Reflection strip -->
@@ -407,12 +402,7 @@ footer span{font-size:.7rem;color:var(--text3);}
       <div class="vs-screen">
         <div class="vs-bezel">
           <div class="vs-notch"></div>
-          <!-- ADD VIDEO: replace placeholder with <video src="demo2.mp4" autoplay muted loop playsinline></video> -->
-          <div class="vs-placeholder">
-            <div class="vs-play-ring"><span>▶</span></div>
-            <p class="vs-ph-label">Your Video Here</p>
-            <p class="vs-ph-hint">Add&nbsp;<code>demo2.mp4</code>&nbsp;or YouTube iframe</p>
-          </div>
+          <video src="v2.mp4" autoplay muted loop playsinline></video>
           <div class="vs-scanlines"></div>
         </div>
         <div class="vs-reflection"></div>
@@ -459,15 +449,15 @@ footer span{font-size:.7rem;color:var(--text3);}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 const projects=[
-  {num:'01',icon:'🌐',name:'Portfolio Website',    desc:"A hand-crafted personal portfolio built with pure HTML & CSS. Clean layout, smooth interactions, and a design representing Vivek's brand.",tags:['HTML5','CSS3','Responsive'],      link:'https://vivek0052.in/',                                      gh:'https://github.com/vivek0052'},
-  {num:'02',icon:'💼',name:'Freelancing Portfolio',desc:'Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.',            tags:['Fullstack','React','Vercel'],       link:'https://freelance-portfolio-client-delta.vercel.app/',       gh:'https://github.com/vivek0052'},
-  {num:'03',icon:'📈',name:'Live Crypto Tracker',  desc:'Real-time cryptocurrency price tracking with live updates, charts, and clean data presentation for crypto enthusiasts.',                  tags:['API','Real-time','Charts'],         link:'https://live-crypto-update.vercel.app/',                     gh:'https://github.com/vivek0052'},
-  {num:'04',icon:'🎬',name:'Movie Booking App',    desc:'Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.',                 tags:['JavaScript','UI/UX','Booking'],     link:'https://ticket-booking-green.vercel.app/',                   gh:'https://github.com/vivek0052'},
-  {num:'05',icon:'⚡',name:'Real-Time Dashboard',  desc:'Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.',              tags:['TypeScript','Dashboard','DataViz'], link:'https://real-time-dashboard-three.vercel.app/',              gh:'https://github.com/vivek0052'},
-  {num:'06',icon:'🍔',name:'Food Delivery Site',   desc:'Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.',           tags:['Next.js','TypeScript','E-commerce'],link:'https://fast-food-website-two.vercel.app/',                  gh:'https://github.com/vivek0052'},
-  {num:'07',icon:'✅',name:'Live Task Manager',    desc:'A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.',                 tags:['JavaScript','Productivity','Live'], link:'https://taskmaster-liart.vercel.app/',                       gh:'https://github.com/vivek0052'},
-  {num:'08',icon:'🎨',name:'Figma Prototype',      desc:'Cake & Pastry — high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.',                 tags:['Figma','UI Design','Prototype'],    link:'https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/',        gh:'https://github.com/vivek0052'},
-  {num:'09',icon:'🖥️',name:'Framer Portfolio',     desc:'A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.',        tags:['Framer','Motion','Portfolio'],      link:'https://vkdportfolio.framer.website/',                       gh:'https://github.com/vivek0052'},
+  {num:'01',icon:'🌐',name:'Portfolio Website',    desc:"A hand-crafted personal portfolio built with pure HTML & CSS. Clean layout, smooth interactions, and a design representing Vivek's brand.",tags:['HTML5','CSS3','Responsive'],      link:'https://vivek0052.in/',                                      gh:'https://github.com/vivek0052', img:'images/proj1.png'},
+  {num:'02',icon:'💼',name:'Freelancing Portfolio',desc:'Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.',            tags:['Fullstack','React','Vercel'],       link:'https://freelance-portfolio-client-delta.vercel.app/',       gh:'https://github.com/vivek0052', img:'images/proj2.png'},
+  {num:'03',icon:'📈',name:'Live Crypto Tracker',  desc:'Real-time cryptocurrency price tracking with live updates, charts, and clean data presentation for crypto enthusiasts.',                  tags:['API','Real-time','Charts'],         link:'https://live-crypto-update.vercel.app/',                     gh:'https://github.com/vivek0052', img:'images/proj3.png'},
+  {num:'04',icon:'🎬',name:'Movie Booking App',    desc:'Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.',                 tags:['JavaScript','UI/UX','Booking'],     link:'https://ticket-booking-green.vercel.app/',                   gh:'https://github.com/vivek0052', img:'images/proj4.png'},
+  {num:'05',icon:'⚡',name:'Real-Time Dashboard',  desc:'Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.',              tags:['TypeScript','Dashboard','DataViz'], link:'https://real-time-dashboard-three.vercel.app/',              gh:'https://github.com/vivek0052', img:'images/proj5.png'},
+  {num:'06',icon:'🍔',name:'Food Delivery Site',   desc:'Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.',           tags:['Next.js','TypeScript','E-commerce'],link:'https://fast-food-website-two.vercel.app/',                  gh:'https://github.com/vivek0052', img:'images/proj6.png'},
+  {num:'07',icon:'✅',name:'Live Task Manager',    desc:'A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.',                 tags:['JavaScript','Productivity','Live'], link:'https://taskmaster-liart.vercel.app/',                       gh:'https://github.com/vivek0052', img:'images/proj7.png'},
+  {num:'08',icon:'🎨',name:'Figma Prototype',      desc:'Cake & Pastry — high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.',                 tags:['Figma','UI Design','Prototype'],    link:'https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/',        gh:'https://github.com/vivek0052', img:'images/proj8.png'},
+  {num:'09',icon:'🖥️',name:'Framer Portfolio',     desc:'A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.',        tags:['Framer','Motion','Portfolio'],      link:'https://vkdportfolio.framer.website/',                       gh:'https://github.com/vivek0052', img:'images/proj9.png'},
 ];
 const N = projects.length;
 const mod = (n,m) => ((n%m)+m)%m;
@@ -503,8 +493,9 @@ let center=0,fanReady=false,modalOpen=false,modalIdx=0;
 const cardEls=projects.map((p,i)=>{
   const el=document.createElement('div'); el.className='proj-card';
   el.innerHTML=`
-    <div class="card-glow"></div><div class="teal-ring"></div>
-    <div class="card-header">
+    <img src="${p.img}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.45;mix-blend-mode:luminosity;z-index:0;">
+    <div class="card-glow" style="z-index:1;"></div><div class="teal-ring" style="z-index:1;"></div>
+    <div class="card-header" style="z-index:2;">
       <div class="card-num">[${p.num}]</div>
       <div class="card-logo"><div class="card-logo-c"></div><div class="card-logo-c"></div></div>
     </div>
