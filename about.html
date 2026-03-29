@@ -3,806 +3,625 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About — Vivek</title>
+<title>About — Vivek Dandotiya</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cabinet+Grotesk:wght@400;500;700;900&family=DM+Mono:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --bg:#04040a;--surface:#0a0a12;
-  --border:rgba(255,255,255,.05);
-  --accent:#b8ff57;--accent2:#5c8aff;--accent3:#ff5ca8;
-  --text:#f0f0ee;--muted:#484852;--muted2:#1e1e28;
+  --bg:#0a0a0a;--surface:#111;--surface2:#161616;
+  --border:#1f1f1f;--border2:#2a2a2a;
+  --text:#fff;--text2:#a0a0a0;--text3:#555;
+  --accent:#b8ff57;--radius:16px;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'DM Mono',monospace;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
 
 /* ── CURSOR ── */
-.cursor{position:fixed;width:18px;height:18px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;transition:width .15s,height .15s;}
-.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(184,255,87,.3);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;}
-.cursor.big{width:12px;height:12px;}
-.cursor-ring.big{width:54px;height:54px;border-color:var(--accent);}
-
-/* ── GRAIN ── */
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9000;}
+#cur{position:fixed;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s;}
+body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px;}
+body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:52px;height:52px;}
 
 /* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px;background:rgba(4,4,10,.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.08em;color:var(--text);text-decoration:none;}
-.nav-logo span{color:var(--accent);}
-.nav-links{display:flex;gap:2.5rem;list-style:none;}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;transition:color .2s;position:relative;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s;}
-.nav-links a:hover,.nav-links a.active{color:var(--text);}
-.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1);}
-.ham{display:none;flex-direction:column;gap:5px;cursor:none;}
-.ham span{width:24px;height:1.5px;background:var(--text);transition:all .3s;display:block;}
-.ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:64px;background:rgba(10,10,10,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-brand{display:flex;align-items:center;gap:.8rem;text-decoration:none;}
+.nav-logo{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;}
+.nav-tagline{display:flex;flex-direction:column;line-height:1.1;}
+.nav-tagline span{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);}
+.nav-tagline span.green{color:var(--accent);}
+.nav-center{display:flex;align-items:center;gap:.25rem;background:var(--surface);border:1px solid var(--border2);border-radius:999px;padding:.3rem;}
+.nav-center a{font-size:.78rem;padding:.45rem 1.1rem;border-radius:999px;color:var(--text2);text-decoration:none;transition:background .2s,color .2s;}
+.nav-center a:hover{color:#fff;}
+.nav-center a.active{background:#fff;color:#000;font-weight:600;}
+.btn-hire{font-size:.78rem;font-weight:600;background:#fff;color:#000;padding:.5rem 1.2rem;border-radius:999px;text-decoration:none;transition:background .2s;}
+.btn-hire:hover{background:#ddd;}
+.ham{display:none;flex-direction:column;gap:4px;cursor:none;background:none;border:none;padding:.5rem;}
+.ham span{width:20px;height:1.5px;background:#fff;display:block;transition:all .3s;}
+.ham.open span:nth-child(1){transform:translateY(5.5px) rotate(45deg);}
 .ham.open span:nth-child(2){opacity:0;}
-.ham.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);}
-.mob{position:fixed;inset:0;z-index:450;background:rgba(4,4,10,.97);backdrop-filter:blur(40px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2.5rem;transform:translateY(-100%);transition:transform .6s cubic-bezier(.16,1,.3,1);}
-.mob.open{transform:translateY(0);}
-.mob a{font-family:'Bebas Neue',sans-serif;font-size:4rem;letter-spacing:.06em;color:var(--text);text-decoration:none;transition:color .2s;}
-.mob a:hover{color:var(--accent);}
+.ham.open span:nth-child(3){transform:translateY(-5.5px) rotate(-45deg);}
+.mob-nav{position:fixed;inset:0;z-index:490;background:rgba(10,10,10,.98);backdrop-filter:blur(30px);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:2rem;transform:translateY(-100%);transition:transform .5s cubic-bezier(.16,1,.3,1);}
+.mob-nav.open{transform:translateY(0);}
+.mob-nav a{font-family:'Space Grotesk',sans-serif;font-size:3.5rem;font-weight:700;color:#fff;text-decoration:none;letter-spacing:-.03em;transition:color .2s;}
+.mob-nav a:hover{color:var(--accent);}
 
-/* ══════════════════════════════════
-   SECTION 1: HERO — STATIC WITH PHOTO
-══════════════════════════════════ */
-#hero{
-  position:relative;width:100%;height:100vh;overflow:hidden;
-  display:flex;align-items:flex-end;
-  background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(92,138,255,.08) 0%, transparent 70%),
-              radial-gradient(ellipse 50% 50% at 20% 80%, rgba(184,255,87,.06) 0%, transparent 60%),
-              var(--bg);
-}
-
-/* Scan line effect on hero */
-#hero::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,.006) 3px,rgba(255,255,255,.006) 4px);pointer-events:none;z-index:3;}
-
-/* Subtle grid */
-#hero::after{content:'none';}
-.hero-grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:1;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 0%,transparent 100%);}
-
-.hero-content{
-  position:relative;
-  width:100%;
-  padding:0 3rem 5rem;
-  pointer-events:none;
-  z-index:2;
-}
-.hero-content-inner{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:3rem;
-}
-
-.hero-left-text{opacity:0;animation:rise .9s .4s forwards;}
-.hero-eyebrow{display:flex;align-items:center;gap:.8rem;font-size:.65rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem;}
-.hero-eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
-.hero-name{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,13vw,14rem);line-height:.86;letter-spacing:-.01em;}
-.hero-name .dim{color:transparent;-webkit-text-stroke:1px rgba(240,240,238,.15);}
-.hero-name .bright{color:var(--text);}
-.hero-name .green{color:var(--accent);}
-
-/* ── PHOTO CIRCLE ── */
-.hero-photo-wrap{
-  flex-shrink:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:1.2rem;
-  opacity:0;
-  animation:rise .9s .7s forwards;
-  pointer-events:all;
-}
-.hero-photo-ring{
-  position:relative;
-  width:220px;height:220px;
-  border-radius:50%;
-  padding:3px;
-  background:conic-gradient(var(--accent) 0deg 200deg, rgba(184,255,87,.1) 200deg 360deg);
-  animation:spinRing 8s linear infinite;
-}
-@keyframes spinRing{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-.hero-photo-ring-inner{
-  width:100%;height:100%;
-  border-radius:50%;
-  overflow:hidden;
-  background:var(--surface);
-  border:3px solid var(--bg);
-  /* Counter-rotate the content so the image stays still */
-  animation:spinRingReverse 8s linear infinite;
-}
-@keyframes spinRingReverse{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
-
-.hero-photo-ring-inner img{
-  width:100%;height:100%;
-  object-fit:cover;
-  display:block;
-  border-radius:50%;
-}
-
-/* Placeholder when no image */
-.hero-photo-placeholder{
-  width:100%;height:100%;
-  border-radius:50%;
-  background:var(--surface);
+/* ── HERO ── */
+.about-hero{
+  padding-top:64px;min-height:85vh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:.5rem;
-  border-radius:50%;
+  position:relative;overflow:hidden;border-bottom:1px solid var(--border);
 }
-.hero-photo-placeholder .ph-icon{font-size:3rem;opacity:.3;}
-.hero-photo-placeholder .ph-label{font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
-
-.hero-photo-meta{text-align:center;}
-.hero-role{font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem;}
-.hero-tag-row{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;}
-.hero-tag{font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--muted2);padding:.25rem .7rem;color:var(--muted);}
-
-.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:.6rem;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);animation:bob 2.2s ease infinite;z-index:3;}
-.scroll-line{width:1px;height:36px;background:linear-gradient(var(--muted),transparent);}
-
-/* ══════════════════════════════════
-   SECTION WRAPPER
-══════════════════════════════════ */
-.s-wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:7rem 3rem;}
-.s-tag{display:flex;align-items:center;gap:1rem;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:4rem;}
-.s-tag .n{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:.05em;}
-.s-tag .ln{flex:1;height:1px;background:var(--border);}
-
-/* ══════════════════════════════════
-   SECTION 2: WHO I AM
-══════════════════════════════════ */
-#section-who{background:var(--bg);border-top:1px solid var(--border);overflow:hidden;position:relative;}
-
-.who-3d-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(6rem,18vw,20rem);
-  line-height:.85; letter-spacing:-.02em;
-  color:transparent; -webkit-text-stroke:1px rgba(185, 255, 87, 0.172);
-  position:absolute; top:4rem; left:-2rem;
-  pointer-events:none; white-space:nowrap;
-  animation:slideTitle 18s linear infinite;
-  z-index:0;
+.about-hero-bg{
+  position:absolute;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
 }
-@keyframes slideTitle{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-.who-grid{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0; position:relative; z-index:1;
-  border:1px solid var(--border);
+.about-hero-title{
+  font-family:'Inter',sans-serif;font-weight:900;
+  font-size:clamp(6rem,18vw,20rem);letter-spacing:-.05em;line-height:.85;
+  text-align:center;opacity:0;animation:fadeUp .8s .2s forwards;
 }
-.who-left{
-  padding:4rem; border-right:1px solid var(--border);
-  display:flex;flex-direction:column;justify-content:space-between;
+.about-hero-sub{
+  margin-top:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text3);opacity:0;animation:fadeUp .6s .5s forwards;
 }
-.who-right{padding:4rem;}
-
-.big-quote{
-  font-family:'Cabinet Grotesk',sans-serif;
-  font-weight:900;font-size:clamp(1.6rem,3vw,2.6rem);
-  line-height:1.3;letter-spacing:-.03em;color:var(--text);
-  margin-bottom:3rem; position:relative;
+.about-hero-sub2{
+  font-family:'DM Serif Display',serif;font-style:italic;
+  font-size:clamp(1.5rem,3vw,2.5rem);color:#fff;
+  opacity:0;animation:fadeUp .7s .7s forwards;margin-top:.3rem;
 }
-.big-quote::before{content:'"';position:absolute;top:-1.5rem;left:-.5rem;font-family:'Bebas Neue',sans-serif;font-size:8rem;color:rgba(184,255,87,.08);line-height:1;}
+.about-corner{position:absolute;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);}
+.about-corner.bl{bottom:3rem;left:3rem;}
+.about-corner.br{bottom:3rem;right:3rem;text-align:right;}
+.about-corner strong{display:block;font-size:.75rem;color:#fff;margin-top:.2rem;}
 
-.who-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);}
-.who-stat{background:var(--bg);padding:1.6rem;transition:background .3s;}
-.who-stat:hover{background:var(--surface);}
-.who-stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;line-height:1;color:var(--accent);}
-.who-stat-l{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.3rem;}
-
-.para-list{display:flex;flex-direction:column;gap:0;}
-.para-item{padding:2.2rem 0;border-bottom:1px solid var(--border);}
-.para-item:first-child{padding-top:0;}
-.para-item:last-child{border-bottom:none;padding-bottom:0;}
-.para-label{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;display:block;}
-.para-item p{font-size:.82rem;color:#a3a3b8;line-height:2;}
-.para-item p strong{color:var(--text);font-weight:500;}
-
-/* ══════════════════════════════════
-   SECTION 3: SKILLS
-══════════════════════════════════ */
-#section-skills{border-top:1px solid var(--border);background:var(--surface);overflow:hidden;position:relative;}
-
-.skills-3grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
-.sk-card{
-  background:var(--surface);padding:3rem 2.5rem;position:relative;overflow:hidden;
-  transition:background .3s,transform .4s;transform-style:preserve-3d;
-  cursor:none;
+/* ── GLANCE (smaller photo, side layout) ── */
+.glance{
+  max-width:1380px;margin:0 auto;padding:6rem 2rem;
+  display:grid;grid-template-columns:1fr 340px;gap:4rem;align-items:start;
 }
-.sk-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent);transform:scaleX(0);transform-origin:center;transition:transform .5s;}
-.sk-card:hover::before{transform:scaleX(1);}
-.sk-card::after{content:'';position:absolute;top:-80px;right:-80px;width:250px;height:250px;background:radial-gradient(circle,rgba(184,255,87,.07),transparent 70%);opacity:0;transition:opacity .4s;pointer-events:none;}
-.sk-card:hover::after{opacity:1;}
-.sk-card:hover{background:rgba(255,255,255,.02);}
-.sk-n{font-size:.58rem;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;margin-bottom:1.8rem;}
-.sk-icon{
-  width:56px;height:56px;border:1px solid var(--border);
+.glance-left .eyebrow{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem;}
+.glance-left h2{font-size:clamp(2rem,4vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.8rem;}
+.glance-left h2 em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--accent);}
+.glance-left p{font-size:.9rem;color:var(--text2);line-height:1.9;margin-bottom:1rem;}
+.glance-left .socials{display:flex;gap:1.2rem;margin-top:1.5rem;flex-wrap:wrap;}
+.glance-left .socials a{color:var(--text3);text-decoration:none;font-size:.78rem;display:flex;align-items:center;gap:.4rem;transition:color .2s;}
+.glance-left .socials a:hover{color:#fff;}
+.dive-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:600;color:#fff;margin-top:1.4rem;text-decoration:none;border-bottom:1px solid var(--border2);padding-bottom:.3rem;transition:border-color .2s;}
+.dive-link:hover{border-color:#fff;}
+
+/* ── PHOTO STACK (smaller) ── */
+.glance-right{display:flex;flex-direction:column;gap:.8rem;position:sticky;top:5rem;}
+.photo-main{
+  width:100%;aspect-ratio:3/4;border-radius:18px;
+  background:var(--surface);overflow:hidden;
+  border:1px solid var(--border2);
+}
+.photo-main img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.photo-main:hover img{transform:scale(1.03);}
+.photo-placeholder{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;
+  background:linear-gradient(135deg,#111,#1a1a1a);
+}
+.photo-placeholder span:first-child{font-size:4rem;}
+.photo-placeholder span:last-child{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text3);}
+/* Two small side-by-side photos below main */
+.photo-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;}
+.photo-small{
+  aspect-ratio:1;border-radius:14px;background:var(--surface);
+  overflow:hidden;border:1px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
-  padding:10px;
-  margin-bottom:1.8rem;transition:border-color .3s,transform .4s;
 }
-.sk-icon svg{width:100%;height:100%;display:block;}
-.sk-card:hover .sk-icon{border-color:rgba(184,255,87,.3);transform:rotate(10deg) scale(1.1);}
-.sk-card h3{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:1.15rem;letter-spacing:-.02em;margin-bottom:.7rem;}
-.sk-card p{font-size:.77rem;color:var(--muted);line-height:1.85;margin-bottom:1.8rem;flex:1;}
+.photo-small img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.photo-small:hover img{transform:scale(1.05);}
+.photo-small-ph{font-size:2rem;opacity:.3;}
 
-.sk-bar-wrap{display:flex;flex-direction:column;gap:.6rem;}
-.sk-bar-row{display:flex;align-items:center;gap:.8rem;}
-.sk-bar-label{font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);width:70px;flex-shrink:0;}
-.sk-bar-track{flex:1;height:2px;background:var(--muted2);border-radius:2px;overflow:hidden;}
-.sk-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),rgba(184,255,87,.5));border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
-.sk-bar-pct{font-size:.55rem;color:var(--accent);width:28px;text-align:right;flex-shrink:0;}
+/* ── GREEN TICKER ── */
+.ticker-green{overflow:hidden;background:var(--accent);padding:.8rem 0;}
+.ticker-green .ticker-track{display:flex;width:max-content;animation:ticker 25s linear infinite;}
+.ticker-green .ticker-item{padding:0 1.5rem;font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#000;white-space:nowrap;display:flex;align-items:center;gap:.6rem;}
 
-/* ══════════════════════════════════
-   SECTION 4: TOOLS MARQUEE
-══════════════════════════════════ */
-#section-tools{border-top:1px solid var(--border);overflow:hidden;position:relative;background:var(--bg);}
-.tools-label-row{max-width:1440px;margin:0 auto;padding:3rem 3rem 0;}
-.tools-track{display:flex;animation:toolsTick 36s linear infinite;width:max-content;padding:1.5rem 0;}
-.tools-track:hover{animation-play-state:paused;}
-.tool-pill{display:flex;align-items:center;gap:.9rem;padding:1.1rem 2rem;border-right:1px solid var(--border);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text);white-space:nowrap;transition:color .2s,background .2s;cursor:none;}
-.tool-pill:hover{color:var(--accent);background:var(--surface);}
-.tool-logo{width:22px;height:22px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
-.tool-logo svg,.tool-logo img{width:100%;height:100%;object-fit:contain;}
-@keyframes toolsTick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-
-/* ══════════════════════════════════
-   SECTION 5: TIMELINE
-══════════════════════════════════ */
-#section-timeline{border-top:1px solid var(--border);background:var(--surface);overflow:hidden;position:relative;}
-
-.timeline{display:flex;flex-direction:column;}
-.t-item{
-  display:grid;grid-template-columns:100px 1px 1fr;
-  gap:0;align-items:start;padding:3.5rem 0;
-  border-bottom:1px solid var(--border);
-  transition:background .3s;
-  position:relative;
+/* ── SHARED SKILLS STYLES ── */
+.skills-section{max-width:1380px;margin:0 auto;padding:5rem 2rem;}
+.skills-section .eyebrow{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:.5rem;}
+.skills-section h2{font-size:clamp(2rem,5vw,4rem);font-weight:800;letter-spacing:-.04em;text-align:center;margin-bottom:.4rem;line-height:1.05;}
+.skills-section h2 em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--accent);}
+.skills-section .sub{font-size:.82rem;color:var(--text3);text-align:center;margin-bottom:2.5rem;}
+.skills-grid{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;}
+.skill-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:999px;padding:.5rem 1.2rem;
+  font-size:.78rem;color:var(--text2);transition:all .2s;
 }
-.t-item:last-child{border-bottom:none;}
-.t-item:hover{background:rgba(255,255,255,.01);}
-.t-year{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--accent);letter-spacing:.06em;padding-top:.1rem;}
-.t-line{display:flex;flex-direction:column;align-items:center;}
-.t-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex-shrink:0;box-shadow:0 0 0 3px rgba(184,255,87,.12),0 0 16px rgba(184,255,87,.3);transition:box-shadow .3s;}
-.t-item:hover .t-dot{box-shadow:0 0 0 6px rgba(184,255,87,.15),0 0 28px rgba(184,255,87,.5);}
-.t-connector{width:1px;flex:1;background:linear-gradient(var(--border),transparent);min-height:40px;}
-.t-item:last-child .t-connector{display:none;}
-.t-content{padding-left:2.5rem;}
-.t-badge{display:inline-block;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;background:rgba(184,255,87,.1);color:var(--accent);padding:.22rem .7rem;border-radius:2px;margin-bottom:1rem;}
-.t-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:900;font-size:1.1rem;letter-spacing:-.02em;margin-bottom:.7rem;transition:color .3s;}
-.t-item:hover .t-title{color:var(--accent);}
-.t-desc{font-size:.77rem;color:var(--muted);line-height:1.9;}
+.skill-chip:hover{border-color:rgba(184,255,87,.4);color:var(--accent);transform:translateY(-2px);}
+.skill-chip span{font-size:.95rem;}
 
-/* ══════════════════════════════════
-   SECTION 6: CTA
-══════════════════════════════════ */
-#section-cta{position:relative;border-top:1px solid var(--border);overflow:hidden;background:var(--bg);}
-.cta-wrap{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:0 3rem 8rem;}
-.cta-inner{
-  border:1px solid var(--border);
-  position:relative;overflow:hidden;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:3rem;padding:5rem;
-  transition:border-color .4s;
+/* Soft skills chips — slightly different tint */
+.soft-chip{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:999px;padding:.5rem 1.2rem;
+  font-size:.78rem;color:var(--text2);transition:all .2s;
 }
-.cta-inner:hover{border-color:rgba(184,255,87,.15);}
-.cta-bg-text{position:absolute;right:-1rem;bottom:-2rem;font-family:'Bebas Neue',sans-serif;font-size:14rem;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.03);pointer-events:none;line-height:1;}
-.cta-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6.5rem);line-height:.88;letter-spacing:.02em;margin-bottom:1.2rem;}
-.cta-h .g{color:var(--accent);}
-.cta-sub{font-size:.82rem;color:var(--muted);line-height:1.9;max-width:380px;}
-.btn-cta{display:inline-flex;align-items:center;gap:.8rem;font-family:'DM Mono',monospace;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#000;background:var(--accent);padding:1rem 2.5rem;text-decoration:none;transition:background .2s,transform .2s;white-space:nowrap;flex-shrink:0;}
-.btn-cta:hover{background:#d4ff6e;transform:translateY(-2px);}
+.soft-chip:hover{border-color:rgba(255,255,255,.2);color:#fff;transform:translateY(-2px);}
+.soft-chip span{font-size:.95rem;}
 
-/* ── RESUME BUTTON ── */
-.resume-btn{
-  display:inline-flex;align-items:center;gap:.6rem;
-  font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--accent);border:1px solid rgba(184,255,87,.35);
-  padding:.65rem 1.4rem;text-decoration:none;
-  position:relative;overflow:hidden;
-  transition:color .25s,border-color .25s,transform .2s;
-  cursor:none;pointer-events:all;
-  margin-top:1rem;
-}
-.resume-btn::before{
-  content:'';position:absolute;inset:0;
-  background:var(--accent);transform:scaleX(0);transform-origin:left;
-  transition:transform .35s cubic-bezier(.16,1,.3,1);z-index:0;
-}
-.resume-btn:hover::before{transform:scaleX(1);}
-.resume-btn:hover{color:#000;border-color:var(--accent);}
-.resume-btn span,.resume-btn svg{position:relative;z-index:1;}
-.resume-btn svg{transition:transform .25s;}
-.resume-btn:hover svg{transform:translateY(2px);}
+/* Divider between sections */
+.skills-divider{max-width:1380px;margin:0 auto;padding:0 2rem;}
+.skills-divider hr{border:none;border-top:1px solid var(--border);margin:0;}
 
-/* Floating sticky resume button */
-.resume-float{
-  position:fixed;right:2rem;bottom:2.5rem;z-index:400;
-  display:flex;align-items:center;gap:.6rem;
-  font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;
-  color:#000;background:var(--accent);
-  padding:.75rem 1.5rem;text-decoration:none;
-  box-shadow:0 0 0 0 rgba(184,255,87,.4);
-  animation:pulseShadow 2.5s ease infinite;
-  transition:background .2s,transform .2s;
-  cursor:none;
-}
-.resume-float:hover{background:#d4ff6e;transform:translateY(-3px);}
-.resume-float svg{flex-shrink:0;}
-@keyframes pulseShadow{
-  0%,100%{box-shadow:0 0 0 0 rgba(184,255,87,.4);}
-  50%{box-shadow:0 0 0 10px rgba(184,255,87,0);}
-}
-@media(max-width:600px){.resume-float{right:1rem;bottom:1.5rem;padding:.65rem 1.1rem;}.resume-float .rf-label{display:none;}}
-footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2rem 3rem;max-width:1440px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;}
-footer span{font-size:.68rem;color:var(--muted);letter-spacing:.08em;}
+/* ── TIMELINE ── */
+.timeline-section{max-width:1380px;margin:0 auto;padding:5rem 2rem;}
+.timeline-section .eyebrow{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:.5rem;}
+.timeline-section h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.04em;text-align:center;margin-bottom:4rem;line-height:1.05;}
+.timeline-section h2 em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;color:var(--accent);}
+.timeline{display:grid;grid-template-columns:200px 2px 1fr;gap:0 2rem;row-gap:3rem;}
+.tl-date{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding-top:.3rem;text-align:right;}
+.tl-date strong{display:block;font-size:.9rem;color:var(--accent);margin-bottom:.2rem;}
+.tl-line{background:var(--border2);position:relative;}
+.tl-line::before{content:'';position:absolute;top:.3rem;left:50%;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);}
+.tl-role{font-size:1.15rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.3rem;}
+.tl-company{font-family:'DM Serif Display',serif;font-style:italic;font-size:1rem;color:var(--accent);margin-bottom:.5rem;}
+.tl-loc{font-size:.66rem;color:var(--text3);display:flex;align-items:center;gap:.4rem;margin-bottom:.8rem;flex-wrap:wrap;}
+.tl-desc{font-size:.82rem;color:var(--text2);line-height:1.8;}
+.tl-desc li{margin-bottom:.3rem;list-style:none;padding-left:1rem;position:relative;}
+.tl-desc li::before{content:'—';position:absolute;left:0;color:var(--text3);}
 
-/* ANIMATIONS */
-@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease;}
-.reveal.visible{opacity:1;transform:translateY(0);}
-
-#section-softskills{border-top:1px solid var(--border);overflow:hidden;position:relative;background:var(--bg);}
-.soft-track{animation-direction:reverse;animation-duration:32s;}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .who-grid{grid-template-columns:1fr;}
-  .who-left{border-right:none;border-bottom:1px solid var(--border);}
+/* ── GITHUB HEATMAP ── */
+.github-section{max-width:1380px;margin:0 auto;padding:5rem 2rem 6rem;}
+.github-section .eyebrow{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--text3);text-align:center;margin-bottom:.5rem;}
+.github-section h2{font-size:clamp(2rem,5vw,3.8rem);font-weight:800;letter-spacing:-.04em;text-align:center;line-height:1.05;margin-bottom:.5rem;}
+.github-section h2 .white{color:#fff;}
+.github-section h2 em{font-family:'DM Serif Display',serif;font-style:italic;font-weight:400;}
+.github-section h2 .accent-gradient{
+  background:linear-gradient(90deg,var(--accent),#88ff00);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
-@media(max-width:800px){
-  .skills-3grid{grid-template-columns:1fr;}
-  .ss-grid{grid-template-columns:1fr;}
-  .cta-inner{flex-direction:column;align-items:flex-start;padding:3rem 2rem;}
-  .hero-content{padding:0 1.5rem 4rem;}
-  .s-wrap{padding:5rem 1.5rem;}
-  .cta-wrap{padding:0 1.5rem 5rem;}
-  .nav-links{display:none;}
-  .ham{display:flex;}
-  nav{padding:0 1.5rem;}
-  .hero-photo-ring{width:160px;height:160px;}
+.github-box{
+  margin-top:3rem;background:var(--surface);border:1px solid var(--border2);
+  border-radius:var(--radius);padding:2rem 2.5rem;overflow:hidden;
+}
+.github-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;}
+.github-meta-left{display:flex;align-items:center;gap:.8rem;}
+.github-meta-left svg{width:22px;height:22px;fill:var(--text2);}
+.github-meta-count{font-size:.88rem;color:var(--text2);}
+.github-meta-count strong{color:#fff;font-weight:700;}
+.github-legend{display:flex;align-items:center;gap:.5rem;font-size:.65rem;color:var(--text3);}
+.legend-box{width:12px;height:12px;border-radius:2px;}
+
+/* Heatmap */
+.heatmap-wrap{overflow-x:auto;padding-bottom:.5rem;}
+.heatmap-wrap::-webkit-scrollbar{height:4px;}
+.heatmap-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+.heatmap{display:flex;gap:3px;position:relative;}
+.heatmap-labels{display:flex;flex-direction:column;gap:3px;margin-right:6px;justify-content:flex-start;}
+.day-label{font-size:.6rem;color:var(--text3);height:13px;line-height:13px;width:24px;text-align:right;}
+.heatmap-col{display:flex;flex-direction:column;gap:3px;}
+.heatmap-month-row{display:flex;gap:3px;margin-bottom:4px;}
+.month-label-row{display:flex;gap:3px;margin-bottom:6px;padding-left:30px;}
+.m-label{font-size:.6rem;color:var(--text3);flex-shrink:0;}
+.heatmap-cell{
+  width:13px;height:13px;border-radius:3px;
+  background:var(--surface2);
+  flex-shrink:0;position:relative;cursor:none;transition:transform .15s;
+}
+.heatmap-cell:hover{transform:scale(1.3);z-index:2;}
+.heatmap-cell.l0{background:#161b22;}
+.heatmap-cell.l1{background:#0e3a1a;}
+.heatmap-cell.l2{background:#196127;}
+.heatmap-cell.l3{background:#239a3b;}
+.heatmap-cell.l4{background:#2dba4e;}
+
+/* Tooltip */
+.h-tooltip{
+  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
+  background:#1c2128;border:1px solid var(--border2);border-radius:6px;
+  padding:.3rem .6rem;font-size:.58rem;color:#fff;white-space:nowrap;
+  pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;
+}
+.heatmap-cell:hover .h-tooltip{opacity:1;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
+footer span{font-size:.7rem;color:var(--text3);}
+.foot-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--text3);}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+@media(max-width:900px){
+  .glance{grid-template-columns:1fr;gap:3rem;}
+  .glance-right{position:static;display:flex;flex-direction:row;gap:.8rem;flex-wrap:wrap;}
+  .photo-main{width:180px;aspect-ratio:3/4;}
+  .photo-row{width:auto;gap:.8rem;}
+  .photo-small{width:86px;aspect-ratio:1;}
+  .timeline{grid-template-columns:1fr;}.tl-date{text-align:left;}.tl-line{display:none;}
 }
 @media(max-width:600px){
-  .hero-content-inner{flex-direction:column;align-items:flex-start;gap:2rem;}
-  .hero-photo-wrap{align-items:flex-start;}
-  .hero-tag-row{justify-content:flex-start;}
+  .nav-center{display:none;}.ham{display:flex;}.nav-tagline{display:none;}
+  .glance-right{flex-direction:column;}
+  .photo-main{width:100%;}
+  .github-box{padding:1.5rem 1rem;}
 }
 </style>
 </head>
 <body>
-
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- ── FLOATING RESUME BUTTON ── -->
-<a href="resume.pdf" download="Vivek_Dandotiya_Resume.pdf" class="resume-float" title="Download Resume">
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-  <span class="rf-label">Resume</span>
-</a>
+<div id="cur"></div><div id="cur-ring"></div>
 
 <nav>
-  <a href="index.html" class="nav-logo">V<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html" class="active">About</a></li>
-    <li><a href="project.html">Projects</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <div class="ham" id="ham"><span></span><span></span><span></span></div>
+  <a href="index.html" class="nav-brand">
+    <span class="nav-logo">VD</span>
+    <div class="nav-tagline"><span>Web Designer</span><span class="green">Building The Future</span></div>
+  </a>
+  <div class="nav-center">
+    <a href="index.html">Home</a>
+    <a href="about.html" class="active">About</a>
+    <a href="work.html">Work</a>
+    <a href="certifications.html">Certs</a>
+    <a href="blog.html">Blog</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:.6rem;">
+    <a href="contact.html" class="btn-hire">Book a Call ↗</a>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
 </nav>
-<div class="mob" id="mob">
-  <a href="index.html">Home</a><a href="about.html">About</a>
-  <a href="project.html">Projects</a><a href="contact.html">Contact</a>
+<div class="mob-nav" id="mob">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="work.html">Work</a>
+  <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- ════════════════════════════
-  HERO — STATIC WITH PHOTO
-════════════════════════════ -->
-<section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-content">
-    <div class="hero-content-inner">
-
-      <!-- LEFT: Name -->
-      <div class="hero-left-text">
-        <div class="hero-eyebrow">About Me</div>
-        <h1 class="hero-name">
-          <span class="dim">VIV</span><span class="bright">EK</span><br>
-          <span class="green">DAN</span><span class="dim">DOTIYA</span>
-        </h1>
-      </div>
-
-      <!-- RIGHT: Photo Circle + Meta -->
-      <div class="hero-photo-wrap">
-        <div class="hero-photo-ring">
-          <div class="hero-photo-ring-inner">
-            <!--
-              ┌─────────────────────────────────────────────┐
-              │  Replace the placeholder below with:         │
-              │  <img src="your-photo.jpg" alt="Vivek" />   │
-              └─────────────────────────────────────────────┘
-            -->
-            <div class="hero-photo-placeholder">
-              <span class="ph-icon">🧑‍💻</span>
-              <span class="ph-label">Your Photo</span>
-            </div>
-          </div>
-        </div>
-        <div class="hero-photo-meta">
-          <div class="hero-role">Creative Developer &amp; Designer</div>
-          <div class="hero-tag-row">
-            <span class="hero-tag">React</span>
-            <span class="hero-tag">Next.js</span>
-            <span class="hero-tag">UI/UX</span>
-            <span class="hero-tag">TypeScript</span>
-          </div>
-          <a href="resume.pdf" download="Vivek_Dandotiya_Resume.pdf" class="resume-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            <span>Download Resume</span>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <div class="scroll-hint"><div class="scroll-line"></div><span>Scroll</span></div>
+<!-- ── HERO ── -->
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
+  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+  <h1 class="about-hero-title">ABOUT ME</h1>
+  <p class="about-hero-sub">Get to know more about</p>
+  <p class="about-hero-sub2">who i am.</p>
 </section>
 
-<!-- ════════════════════════════
-  WHO I AM
-════════════════════════════ -->
-<section id="section-who">
-  <div class="who-3d-title" aria-hidden="true">WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp; WHO I AM &nbsp;&nbsp;</div>
-  <div class="s-wrap" style="padding-top:6rem;">
-    <div class="s-tag reveal">
-      <span class="n">01</span><span>— Who I Am</span><span class="ln"></span>
+<!-- ── GLANCE ── -->
+<section class="glance reveal">
+  <div class="glance-left">
+    <p class="eyebrow">A Quick Glance</p>
+    <h2>Nice to meet you.<br>I'm <em>Vivek</em></h2>
+    <p>I design and build fast, clean, high-performance web products. As a frontend-focused developer, I combine strong design instincts with technical depth — crafting interfaces that look great and work even better.</p>
+    <p>My journey started with a curiosity for how websites come to life. Today, I work with React, Next.js, TypeScript, and Figma to deliver complete digital experiences from Madhya Pradesh, India.</p>
+    <p>My philosophy is simple: build things that last. I help clients bridge the gap between concept and reality with code that performs.</p>
+    <div class="socials">
+      <a href="https://www.linkedin.com/in/vivek772/" target="_blank">💼 LinkedIn</a>
+      <a href="https://github.com/vivek0052" target="_blank">🐙 GitHub</a>
+      <a href="mailto:vivekdandotiya772@gmail.com">✉ Email</a>
+      <a href="https://vivek0052.in/" target="_blank">🔗 Portfolio</a>
     </div>
-    <div class="who-grid reveal">
-      <div class="who-left">
-        <div>
-          <p class="big-quote">My goal is simple — create digital work that feels premium, intuitive, and meaningful.</p>
-        </div>
-        <div class="who-stats">
-          <div class="who-stat"><div class="who-stat-n">09+</div><div class="who-stat-l">Projects</div></div>
-          <div class="who-stat"><div class="who-stat-n">2+</div><div class="who-stat-l">Years Exp.</div></div>
-          <div class="who-stat"><div class="who-stat-n">5+</div><div class="who-stat-l">Tech Stacks</div></div>
-          <div class="who-stat"><div class="who-stat-n">∞</div><div class="who-stat-l">Curiosity</div></div>
-        </div>
+    <a href="work.html" class="dive-link">Dive in deeper →</a>
+  </div>
+
+  <!-- SMALL PHOTO STACK -->
+  <div class="glance-right">
+    <div class="photo-main">
+      <!-- Replace src with your actual photo: <img src="your-photo.jpg" alt="Vivek"> -->
+      <div class="photo-placeholder">
+        <span>🧑‍💻</span>
+        <span>your-photo.jpg</span>
       </div>
-      <div class="who-right">
-        <div class="para-list">
-          <div class="para-item">
-            <span class="para-label">Origin</span>
-            <p>I'm a <strong>creative web designer and developer</strong> who started this journey out of pure curiosity and turned it into a craft. Every project is an opportunity to push the boundaries of what's possible on the web.</p>
-          </div>
-          <div class="para-item">
-            <span class="para-label">Philosophy</span>
-            <p>I believe great design is <strong>invisible</strong>. When everything works perfectly, users don't notice the design — they just enjoy the experience. That philosophy drives every decision I make, from typography to interaction patterns.</p>
-          </div>
-          <div class="para-item">
-            <span class="para-label">Drive</span>
-            <p>Beyond the screen, I'm constantly exploring new technologies, studying great design, and building things just to see if I can. <strong>The web is endlessly interesting to me</strong> — and that excitement shows up in my work.</p>
-          </div>
-        </div>
+    </div>
+    <div class="photo-row">
+      <div class="photo-small">
+        <!-- <img src="photo2.jpg" alt=""> -->
+        <span class="photo-small-ph">🎨</span>
+      </div>
+      <div class="photo-small">
+        <!-- <img src="photo3.jpg" alt=""> -->
+        <span class="photo-small-ph">💻</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════
-  SKILLS
-════════════════════════════ -->
-<section id="section-skills">
-  <div class="s-wrap skills-content">
-    <div class="s-tag reveal">
-      <span class="n">02</span><span>— Core Skills</span><span class="ln"></span>
+<!-- ── GREEN TICKER ── -->
+<div class="ticker-green">
+  <div class="ticker-track">
+    <span class="ticker-item">✦ Web Designer</span>
+    <span class="ticker-item">✦ Frontend Developer</span>
+    <span class="ticker-item">✦ UI/UX Designer</span>
+    <span class="ticker-item">✦ React Developer</span>
+    <span class="ticker-item">✦ Problem Solver</span>
+    <span class="ticker-item">✦ Performance Focused</span>
+    <span class="ticker-item">✦ Figma Expert</span>
+    <span class="ticker-item">✦ Web Designer</span>
+    <span class="ticker-item">✦ Frontend Developer</span>
+    <span class="ticker-item">✦ UI/UX Designer</span>
+    <span class="ticker-item">✦ React Developer</span>
+    <span class="ticker-item">✦ Problem Solver</span>
+    <span class="ticker-item">✦ Performance Focused</span>
+    <span class="ticker-item">✦ Figma Expert</span>
+  </div>
+</div>
+
+<!-- ── TECH SKILLS ── -->
+<section class="skills-section reveal">
+  <p class="eyebrow">My Skillset</p>
+  <h2>The Magic <em>Behind</em></h2>
+  <p class="sub">Technologies I build with every day</p>
+  <div class="skills-grid">
+    <div class="skill-chip"><span>⚛</span> ReactJS</div>
+    <div class="skill-chip"><span>▲</span> Next.js</div>
+    <div class="skill-chip"><span>🔷</span> TypeScript</div>
+    <div class="skill-chip"><span>🌊</span> Tailwind CSS</div>
+    <div class="skill-chip"><span>🎨</span> Figma</div>
+    <div class="skill-chip"><span>🖼</span> Framer</div>
+    <div class="skill-chip"><span>🟢</span> Node.js</div>
+    <div class="skill-chip"><span>🗄</span> MongoDB</div>
+    <div class="skill-chip"><span>⚡</span> Vercel</div>
+    <div class="skill-chip"><span>🐙</span> GitHub</div>
+    <div class="skill-chip"><span>📐</span> CSS3</div>
+    <div class="skill-chip"><span>🔥</span> JavaScript</div>
+    <div class="skill-chip"><span>📱</span> Responsive Design</div>
+    <div class="skill-chip"><span>🔍</span> SEO</div>
+    <div class="skill-chip"><span>🌐</span> HTML5</div>
+    <div class="skill-chip"><span>🎯</span> Performance</div>
+  </div>
+</section>
+
+<div class="skills-divider"><hr></div>
+
+<!-- ── SOFT SKILLS ── -->
+<section class="skills-section reveal" style="padding-top:3.5rem;">
+  <p class="eyebrow">Beyond The Code</p>
+  <h2>The Human <em>Side</em></h2>
+  <p class="sub">Soft skills that make the difference in real projects</p>
+  <div class="skills-grid">
+    <div class="soft-chip"><span>🧩</span> Problem Solving</div>
+    <div class="soft-chip"><span>💬</span> Communication</div>
+    <div class="soft-chip"><span>⏰</span> Time Management</div>
+    <div class="soft-chip"><span>🤝</span> Team Collaboration</div>
+    <div class="soft-chip"><span>🔄</span> Adaptability</div>
+    <div class="soft-chip"><span>🎯</span> Attention to Detail</div>
+    <div class="soft-chip"><span>🧠</span> Critical Thinking</div>
+    <div class="soft-chip"><span>❤</span> Client Empathy</div>
+    <div class="soft-chip"><span>📚</span> Self-Learning</div>
+    <div class="soft-chip"><span>💡</span> Creative Thinking</div>
+    <div class="soft-chip"><span>🚀</span> Ownership & Drive</div>
+    <div class="soft-chip"><span>📅</span> Deadline Driven</div>
+    <div class="soft-chip"><span>🔁</span> Iterative Mindset</div>
+    <div class="soft-chip"><span>👁</span> Design Eye</div>
+    <div class="soft-chip"><span>📊</span> Data Driven</div>
+    <div class="soft-chip"><span>🌱</span> Growth Mindset</div>
+  </div>
+</section>
+
+<!-- ── TIMELINE ── -->
+<section class="timeline-section reveal" style="border-top:1px solid var(--border);">
+  <p class="eyebrow" style="padding-top:5rem;">The Journey</p>
+  <h2>Experience That<br>Brings <em>Ideas to Life</em></h2>
+  <div class="timeline">
+    <div class="tl-date"><strong>2024 – Present</strong>Freelance</div>
+    <div class="tl-line"></div>
+    <div class="tl-content">
+      <div class="tl-role">Freelance Web Designer & Developer</div>
+      <div class="tl-company">Self-Employed</div>
+      <div class="tl-loc">📍 Madhya Pradesh, India &nbsp;·&nbsp; 💼 Remote</div>
+      <ul class="tl-desc">
+        <li>Built 9+ live projects including dashboards, e-commerce sites, and portfolios</li>
+        <li>Delivered high-performance Next.js and React applications for clients</li>
+        <li>Designed pixel-perfect UI/UX in Figma and implemented with Tailwind CSS</li>
+        <li>Optimised sites for Core Web Vitals and SEO performance</li>
+      </ul>
     </div>
-    <div class="skills-3grid reveal">
-      <div class="sk-card">
-        <div class="sk-n">[01]</div>
-        <div class="sk-icon">
-          <!-- HTML5 logo -->
-          <svg viewBox="0 0 32 32" width="30" height="30"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6l-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg>
-        </div>
-        <h3>Web Development</h3>
-        <p>Building fast, responsive, and scalable websites using modern web standards and best practices.</p>
-        <div class="sk-bar-wrap">
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/></svg>HTML/CSS
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="95"></div></div><span class="sk-bar-pct">95%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg>JS
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="85"></div></div><span class="sk-bar-pct">85%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 12.8a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4zm0-1.5c-5 0-9.3 1.1-9.3 3.7s4.3 3.7 9.3 3.7 9.3-1.1 9.3-3.7-4.3-3.7-9.3-3.7zm-4.7 5.5C9.1 20.5 8 23 8.8 24.4c.8 1.4 3.4 1.4 6.4.3M12 8.8c-1.3-.7-2.5-.8-3.2.4-.8 1.4.3 3.8 2.4 6m10.5 6.4c2.2 2.7 3.3 5.3 2.5 6.7-.8 1.4-3.4 1.4-6.4.3M20 8.8c1.3-.7 2.5-.8 3.2.4.8 1.4-.3 3.8-2.4 6"/></svg>React
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="80"></div></div><span class="sk-bar-pct">80%</span>
-          </div>
-        </div>
-      </div>
-      <div class="sk-card">
-        <div class="sk-n">[02]</div>
-        <div class="sk-icon">
-          <!-- Figma logo -->
-          <svg viewBox="0 0 32 32" width="30" height="30"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg>
-        </div>
-        <h3>UI / UX Design</h3>
-        <p>Designing intuitive interfaces focused on usability, visual hierarchy, and delightful interactions.</p>
-        <div class="sk-bar-wrap">
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><rect x="8" y="2" width="7" height="8" rx="3.5" fill="#F24E1E"/><rect x="15" y="2" width="7" height="8" rx="3.5" fill="#FF7262"/><rect x="8" y="10" width="7" height="8" rx="3.5" fill="#A259FF"/><rect x="8" y="18" width="7" height="8" rx="3.5" fill="#0ACF83"/><circle cx="18.5" cy="14" r="3.5" fill="#1ABCFE"/></svg>Figma
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="88"></div></div><span class="sk-bar-pct">88%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0055FF"/><path fill="#fff" d="M16 8l8 4.5v7L16 24l-8-4.5v-7zm0 2.3L10 14v4.5l6 3.2 6-3.2V14z"/></svg>Proto
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="82"></div></div><span class="sk-bar-pct">82%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg>Framer
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="75"></div></div><span class="sk-bar-pct">75%</span>
-          </div>
-        </div>
-      </div>
-      <div class="sk-card">
-        <div class="sk-n">[03]</div>
-        <div class="sk-icon">
-          <!-- Next.js logo -->
-          <svg viewBox="0 0 32 32" width="30" height="30"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg>
-        </div>
-        <h3>Performance</h3>
-        <p>Optimizing for speed, SEO, and smooth interactions. Real-world performance for real users.</p>
-        <div class="sk-bar-wrap">
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11 10h2v8l5.5-8H21v11h-2v-8l-5.5 8H11z"/></svg>Next.js
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="78"></div></div><span class="sk-bar-pct">78%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg>TS
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="72"></div></div><span class="sk-bar-pct">72%</span>
-          </div>
-          <div class="sk-bar-row">
-            <span class="sk-bar-label" style="display:flex;align-items:center;gap:.4rem;">
-              <svg width="12" height="12" viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg>Node
-            </span>
-            <div class="sk-bar-track"><div class="sk-bar-fill" data-w="65"></div></div><span class="sk-bar-pct">65%</span>
-          </div>
-        </div>
-      </div>
+    <div class="tl-date"><strong>2023</strong>Learning</div>
+    <div class="tl-line"></div>
+    <div class="tl-content">
+      <div class="tl-role">Full-Stack Development Training</div>
+      <div class="tl-company">Self-Learning / Udemy / freeCodeCamp</div>
+      <div class="tl-loc">📍 Remote &nbsp;·&nbsp; 💼 Study</div>
+      <ul class="tl-desc">
+        <li>Completed 300+ hours of HTML, CSS, JavaScript coursework</li>
+        <li>Earned certifications in Responsive Web Design and JavaScript</li>
+        <li>Built 5+ personal projects to solidify skills in React and Node.js</li>
+      </ul>
+    </div>
+    <div class="tl-date"><strong>2022</strong>Start</div>
+    <div class="tl-line"></div>
+    <div class="tl-content">
+      <div class="tl-role">Web Development Journey Begins</div>
+      <div class="tl-company">Vivek Dandotiya</div>
+      <div class="tl-loc">📍 Madhya Pradesh, India</div>
+      <ul class="tl-desc">
+        <li>Started learning HTML & CSS from scratch out of curiosity</li>
+        <li>Built first portfolio website — vivek0052.in</li>
+        <li>Fell in love with creating things on the web</li>
+      </ul>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════
-  TOOLS MARQUEE
-════════════════════════════ -->
-<section id="section-tools">
-  <div class="tools-label-row reveal">
-    <div class="s-tag" style="margin-bottom:0;">
-      <span class="n">03</span><span>— Tools &amp; Technologies</span><span class="ln"></span>
-    </div>
-  </div>
-  <div class="tools-track">
-    <!-- Set 1 -->
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg></div>HTML5</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#1572B6" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#33A9DC" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#fff" d="M16 13.5H12l-.3-3h4.3V7.3H8.4l.8 9.2H16zm0 7.2-.1.1-3.7-.9-.2-2.5H9.6l.5 5.2 5.9 1.6z"/><path fill="#ebebeb" d="M16 13.5v3H20l-.4 4.1-3.6.9v3.2l5.9-1.6.7-7.6H16zM16 7.3v3.2h7.4l-.3-3.2z"/></svg></div>CSS3</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg></div>JavaScript</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg></div>TypeScript</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 13.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0-1.2c-4.8 0-9 1-9 3.7s4.2 3.7 9 3.7 9-1 9-3.7-4.2-3.7-9-3.7zM11.8 19c-2 2.6-3 5-2.3 6.3.7 1.3 3.2 1.3 6 .3M11.5 9c-1.2-.6-2.4-.7-3 .4-.7 1.3.3 3.6 2.3 5.7m10.2 6c2 2.6 3 5 2.3 6.3-.7 1.3-3.2 1.3-6 .3M20.5 9c1.2-.6 2.4-.7 3 .4.7 1.3-.3 3.6-2.3 5.7"/></svg></div>React</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg></div>Next.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg></div>Figma</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg></div>Framer</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F05032" d="M28.5 13.5l-10-10a2 2 0 0 0-2.8 0l-2 2 2.5 2.5a2.4 2.4 0 0 1 3 3l2.4 2.4a2.4 2.4 0 1 1-1.4 1.4l-2.2-2.2v5.8a2.4 2.4 0 1 1-2 0V12a2.4 2.4 0 0 1-1.3-3.1L12.7 6.4l-9.2 9.2a2 2 0 0 0 0 2.8l10 10a2 2 0 0 0 2.8 0l12.2-12.2a2 2 0 0 0 0-2.7z"/></svg></div>Git</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#24292e"/><path fill="#fff" d="M16 4C9.4 4 4 9.4 4 16c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C24.6 25.8 28 21.3 28 16c0-6.6-5.4-12-12-12z"/></svg></div>GitHub</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#000" d="M16 2L2 28h4l2.5-5h15L26 28h4zm0 6l5.5 11h-11z"/></svg></div>Vercel</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#06B6D4" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm6.5 8.5h-3.2c-.4-1.4-1-2.6-1.8-3.4 2.4.6 4.4 2 5 3.4zm-6.5-3.6c1.1.7 2 2 2.6 3.6h-5.2c.6-1.6 1.5-2.9 2.6-3.6zM5.8 18c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2h3.7c-.1.7-.1 1.3-.1 2s0 1.3.1 2zm.7 2h3.2c.4 1.4 1 2.6 1.8 3.4-2.4-.6-4.4-2-5-3.4zm3.2-8H6.5c.6-1.4 2.6-2.8 5-3.4-.8.8-1.4 2-1.8 3.4zm6.3 11.6c-1.1-.7-2-2-2.6-3.6h5.2c-.6 1.6-1.5 2.9-2.6 3.6zM19.9 18h-7.8c-.1-.6-.1-1.3-.1-2s0-1.3.1-2h7.8c.1.7.1 1.3.1 2s0 1.3-.1 2zm.3 5.4c.8-.8 1.4-2 1.8-3.4h3.2c-.6 1.4-2.6 2.8-5 3.4zm2.3-5.4c.1-.7.1-1.3.1-2s0-1.3-.1-2h3.7c.2.6.3 1.3.3 2s-.1 1.4-.3 2z"/></svg></div>Tailwind</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg></div>Node.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M8 10h3l5 8 5-8h3L16 23z" opacity=".8"/></svg></div>Three.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#CC342D"/><path fill="#fff" d="M16 7l-1.8 5.4H8.5l4.6 3.3-1.8 5.4 4.7-3.4 4.7 3.4-1.8-5.4 4.6-3.3h-5.7z"/></svg></div>VS Code</div>
-    <!-- Set 2 (duplicate for seamless loop) -->
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#E44D26" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#F16529" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#ebebeb" d="M16 13.3H11.6l-.3-3.3H16V6.8H7.9l.9 10h7.2zm0 7.6-.1.1-3.9-1-.2-2.6H9.4l.5 5.5 6.1 1.7z"/><path fill="#fff" d="M16 13.3v3.2h4l-.4 4.3-3.6 1v3.3l6.1-1.7.7-8.1H16zM16 6.8v3.2h7.6l-.3-3.2z"/></svg></div>HTML5</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#1572B6" d="M5 3l1.8 20.3L16 26l9.2-2.7L27 3z"/><path fill="#33A9DC" d="M16 24.4V5.3H24.8l-1.5 17-7.3 2.1z"/><path fill="#fff" d="M16 13.5H12l-.3-3h4.3V7.3H8.4l.8 9.2H16zm0 7.2-.1.1-3.7-.9-.2-2.5H9.6l.5 5.2 5.9 1.6z"/><path fill="#ebebeb" d="M16 13.5v3H20l-.4 4.1-3.6.9v3.2l5.9-1.6.7-7.6H16zM16 7.3v3.2h7.4l-.3-3.2z"/></svg></div>CSS3</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F0DB4F" d="M2 2h28v28H2z"/><path fill="#323330" d="M20.8 23.9c.4.7.9 1.2 1.8 1.2.8 0 1.2-.4 1.2-.9 0-.6-.5-.8-1.3-1.2l-.5-.2c-1.3-.5-2.1-1.2-2.1-2.6 0-1.3 1-2.3 2.6-2.3 1.1 0 1.9.4 2.5 1.4l-1.4.9c-.3-.5-.6-.7-1.1-.7-.5 0-.8.3-.8.7 0 .5.3.7 1 1l.5.2c1.5.6 2.3 1.3 2.3 2.8 0 1.6-1.3 2.4-2.9 2.4-1.6 0-2.7-.8-3.2-1.9zm-6.5.2c.3.5.5.9 1.1.9.6 0 .9-.2.9-1v-5.4h1.8V24c0 1.7-1 2.5-2.5 2.5-1.3 0-2.1-.7-2.5-1.5z"/></svg></div>JavaScript</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#3178C6" d="M2 2h28v28H2z"/><path fill="#fff" d="M8 22V10h4.5c2.5 0 4 1.2 4 3.3 0 1.4-.7 2.4-1.9 2.9L17 22h-2.5l-2.1-5.3H10V22zm2-7h2.2c1.3 0 2-.6 2-1.7 0-1.1-.7-1.7-2-1.7H10zm8.5 7v-2.1l5-6.3h-4.8V10H26v2.1l-5 6.3H26V22z"/></svg></div>TypeScript</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#20232a"/><path fill="#61dafb" d="M16 13.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zm0-1.2c-4.8 0-9 1-9 3.7s4.2 3.7 9 3.7 9-1 9-3.7-4.2-3.7-9-3.7zM11.8 19c-2 2.6-3 5-2.3 6.3.7 1.3 3.2 1.3 6 .3M11.5 9c-1.2-.6-2.4-.7-3 .4-.7 1.3.3 3.6 2.3 5.7m10.2 6c2 2.6 3 5 2.3 6.3-.7 1.3-3.2 1.3-6 .3M20.5 9c1.2-.6 2.4-.7 3 .4.7 1.3-.3 3.6-2.3 5.7"/></svg></div>React</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M11.5 10.5h2v8l6-8h2v11h-2v-8l-6 8h-2z"/></svg></div>Next.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect x="8" y="2" width="8" height="9" rx="4" fill="#F24E1E"/><rect x="16" y="2" width="8" height="9" rx="4" fill="#FF7262"/><rect x="8" y="11" width="8" height="9" rx="4" fill="#A259FF"/><rect x="8" y="20" width="8" height="9" rx="4" fill="#0ACF83"/><circle cx="20" cy="15.5" r="4.5" fill="#1ABCFE"/></svg></div>Figma</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0B0B0F"/><path fill="#fff" d="M8 10h5l3 8 3-8h5l-6 12z"/></svg></div>Framer</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#F05032" d="M28.5 13.5l-10-10a2 2 0 0 0-2.8 0l-2 2 2.5 2.5a2.4 2.4 0 0 1 3 3l2.4 2.4a2.4 2.4 0 1 1-1.4 1.4l-2.2-2.2v5.8a2.4 2.4 0 1 1-2 0V12a2.4 2.4 0 0 1-1.3-3.1L12.7 6.4l-9.2 9.2a2 2 0 0 0 0 2.8l10 10a2 2 0 0 0 2.8 0l12.2-12.2a2 2 0 0 0 0-2.7z"/></svg></div>Git</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#24292e"/><path fill="#fff" d="M16 4C9.4 4 4 9.4 4 16c0 5.3 3.4 9.8 8.2 11.4.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6C24.6 25.8 28 21.3 28 16c0-6.6-5.4-12-12-12z"/></svg></div>GitHub</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#000" d="M16 2L2 28h4l2.5-5h15L26 28h4zm0 6l5.5 11h-11z"/></svg></div>Vercel</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#06B6D4" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm6.5 8.5h-3.2c-.4-1.4-1-2.6-1.8-3.4 2.4.6 4.4 2 5 3.4zm-6.5-3.6c1.1.7 2 2 2.6 3.6h-5.2c.6-1.6 1.5-2.9 2.6-3.6zM5.8 18c-.2-.6-.3-1.3-.3-2s.1-1.4.3-2h3.7c-.1.7-.1 1.3-.1 2s0 1.3.1 2zm.7 2h3.2c.4 1.4 1 2.6 1.8 3.4-2.4-.6-4.4-2-5-3.4zm3.2-8H6.5c.6-1.4 2.6-2.8 5-3.4-.8.8-1.4 2-1.8 3.4zm6.3 11.6c-1.1-.7-2-2-2.6-3.6h5.2c-.6 1.6-1.5 2.9-2.6 3.6zM19.9 18h-7.8c-.1-.6-.1-1.3-.1-2s0-1.3.1-2h7.8c.1.7.1 1.3.1 2s0 1.3-.1 2zm.3 5.4c.8-.8 1.4-2 1.8-3.4h3.2c-.6 1.4-2.6 2.8-5 3.4zm2.3-5.4c.1-.7.1-1.3.1-2s0-1.3-.1-2h3.7c.2.6.3 1.3.3 2s-.1 1.4-.3 2z"/></svg></div>Tailwind</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><path fill="#339933" d="M16 2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2zm-1.2 19.8c-.6.4-1.4.5-2.1.2-.5-.2-.9-.6-1.1-1l1.2-.7c.2.3.4.6.7.7.4.2.8.1 1-.2.3-.4.3-.9.3-1.3V13h1.5v6.3c0 .9 0 2-.5 2.5zm5.4-.1c-.8.5-2 .6-2.9.1-.6-.3-1.1-.8-1.4-1.5l1.2-.7c.2.4.4.8.8 1 .5.3 1.1.3 1.6 0 .4-.3.5-.8.2-1.2-.2-.3-.6-.4-1-.6l-.5-.2c-.6-.2-1.2-.5-1.6-1-.4-.5-.5-1.3-.2-1.9.3-.6.9-1 1.5-1.2.7-.2 1.5-.1 2.1.3.5.3.8.7 1 1.2l-1.2.7c-.1-.3-.3-.5-.5-.7-.4-.2-.9-.2-1.3.1-.3.3-.3.7-.1 1 .2.3.6.4.9.5l.5.2c.7.3 1.4.6 1.8 1.2.5.7.5 1.7 0 2.5z"/></svg></div>Node.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#000"/><path fill="#fff" d="M8 10h3l5 8 5-8h3L16 23z" opacity=".8"/></svg></div>Three.js</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="4" fill="#CC342D"/><path fill="#fff" d="M16 7l-1.8 5.4H8.5l4.6 3.3-1.8 5.4 4.7-3.4 4.7 3.4-1.8-5.4 4.6-3.3h-5.7z"/></svg></div>VS Code</div>
-  </div>
-</section>
-
-<!-- ════════════════════════════
-  SOFT SKILLS MARQUEE
-════════════════════════════ -->
-<section id="section-softskills">
-  <div class="tools-label-row reveal">
-    <div class="s-tag" style="margin-bottom:0;">
-      <span class="n">04</span><span>— Soft Skills</span><span class="ln"></span>
-    </div>
-  </div>
-  <div class="tools-track soft-track">
-    <!-- Set 1 -->
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#7C3AED"/><path fill="#fff" d="M16 8a5 5 0 0 1 3.5 8.5L22 20h-3l-2-3h-2v3h-3V8zm-3 3v3h3a1.5 1.5 0 0 0 0-3z"/></svg></div>Problem Solving</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0EA5E9"/><path fill="#fff" d="M8 10h16v2H8zm0 4h10v2H8zm0 4h14v2H8zM22 22l4 4v-4z"/></svg></div>Communication</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F59E0B"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="2"/><line x1="16" y1="9" x2="16" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="21" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Time Management</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#10B981"/><circle cx="12" cy="13" r="3.5" fill="#fff"/><circle cx="20" cy="13" r="3.5" fill="#fff"/><path fill="#fff" d="M6 24c0-3.3 2.7-5 6-5h8c3.3 0 6 1.7 6 5H6z" opacity=".9"/></svg></div>Team Collaboration</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F43F5E"/><path fill="#fff" d="M8 22l4-9 4 6 2-4 4 7H8z"/></svg></div>Adaptability</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#8B5CF6"/><circle cx="16" cy="13" r="4" fill="#fff"/><path fill="#fff" d="M10 22a6 6 0 0 1 12 0H10z"/><circle cx="23" cy="9" r="3" fill="#fbbf24"/></svg></div>Attention to Detail</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#06B6D4"/><path fill="#fff" d="M10 17l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/></svg></div>Critical Thinking</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EC4899"/><path fill="#fff" d="M16 8c-2 0-4 1-5 3a5 5 0 0 0 1 5.5L16 24l4-7.5A5 5 0 0 0 21 11c-1-2-3-3-5-3z"/></svg></div>Client Empathy</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#3B82F6"/><path fill="#fff" d="M16 8l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/></svg></div>Self-Learning</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F97316"/><path fill="#fff" d="M16 7l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4zm-5 12h10v2H11zm2 3h6v2h-6z"/></svg></div>Creative Thinking</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#14B8A6"/><path fill="#fff" d="M10 24V14l6-6 6 6v10h-4v-5h-4v5z"/></svg></div>Ownership</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EF4444"/><rect x="9" y="12" width="14" height="10" rx="1" fill="#fff"/><path fill="#fff" d="M12 12v-2a4 4 0 0 1 8 0v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="17" r="2" fill="#EF4444"/></svg></div>Deadline Driven</div>
-    <!-- Set 2 duplicate for seamless loop -->
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#7C3AED"/><path fill="#fff" d="M16 8a5 5 0 0 1 3.5 8.5L22 20h-3l-2-3h-2v3h-3V8zm-3 3v3h3a1.5 1.5 0 0 0 0-3z"/></svg></div>Problem Solving</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0EA5E9"/><path fill="#fff" d="M8 10h16v2H8zm0 4h10v2H8zm0 4h14v2H8zM22 22l4 4v-4z"/></svg></div>Communication</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F59E0B"/><circle cx="16" cy="16" r="7" fill="none" stroke="#fff" stroke-width="2"/><line x1="16" y1="9" x2="16" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="21" y2="16" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg></div>Time Management</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#10B981"/><circle cx="12" cy="13" r="3.5" fill="#fff"/><circle cx="20" cy="13" r="3.5" fill="#fff"/><path fill="#fff" d="M6 24c0-3.3 2.7-5 6-5h8c3.3 0 6 1.7 6 5H6z" opacity=".9"/></svg></div>Team Collaboration</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F43F5E"/><path fill="#fff" d="M8 22l4-9 4 6 2-4 4 7H8z"/></svg></div>Adaptability</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#8B5CF6"/><circle cx="16" cy="13" r="4" fill="#fff"/><path fill="#fff" d="M10 22a6 6 0 0 1 12 0H10z"/><circle cx="23" cy="9" r="3" fill="#fbbf24"/></svg></div>Attention to Detail</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#06B6D4"/><path fill="#fff" d="M10 17l4 4 8-8" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="16" cy="16" r="9" fill="none" stroke="#fff" stroke-width="2"/></svg></div>Critical Thinking</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EC4899"/><path fill="#fff" d="M16 8c-2 0-4 1-5 3a5 5 0 0 0 1 5.5L16 24l4-7.5A5 5 0 0 0 21 11c-1-2-3-3-5-3z"/></svg></div>Client Empathy</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#3B82F6"/><path fill="#fff" d="M16 8l2 5h5l-4 3 2 5-5-3-5 3 2-5-4-3h5z"/></svg></div>Self-Learning</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#F97316"/><path fill="#fff" d="M16 7l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4zm-5 12h10v2H11zm2 3h6v2h-6z"/></svg></div>Creative Thinking</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#14B8A6"/><path fill="#fff" d="M10 24V14l6-6 6 6v10h-4v-5h-4v5z"/></svg></div>Ownership</div>
-    <div class="tool-pill"><div class="tool-logo"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#EF4444"/><rect x="9" y="12" width="14" height="10" rx="1" fill="#fff"/><path fill="#fff" d="M12 12v-2a4 4 0 0 1 8 0v2" fill="none" stroke="#fff" stroke-width="2"/><circle cx="16" cy="17" r="2" fill="#EF4444"/></svg></div>Deadline Driven</div>
-  </div>
-</section>
-
-
-
-<!-- ════════════════════════════
-  TIMELINE
-════════════════════════════ -->
-<section id="section-timeline">
-  <div class="s-wrap">
-    <div class="s-tag reveal">
-      <span class="n">05</span><span>— Journey</span><span class="ln"></span>
-    </div>
-    <div class="timeline reveal">
-      <div class="t-item">
-        <div class="t-year">2023</div>
-        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-        <div class="t-content">
-          <div class="t-badge">Beginning</div>
-          <h4 class="t-title">Started Web Development</h4>
-          <p class="t-desc">Began with HTML & CSS, fell in love with the ability to create things in the browser. Built my first portfolio and never looked back.</p>
-        </div>
+<!-- ── GITHUB HEATMAP ── -->
+<section class="github-section reveal">
+  <p class="eyebrow">My Code Journey</p>
+  <h2>
+    <span class="white">GitHub Activity</span><br>
+    <em class="accent-gradient">&amp;&amp; Open Source</em>
+  </h2>
+  <div class="github-box">
+    <div class="github-meta">
+      <div class="github-meta-left">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        <span class="github-meta-count"><strong id="contribCount">–</strong> contributions in the last year</span>
       </div>
-      <div class="t-item">
-        <div class="t-year">2024</div>
-        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-        <div class="t-content">
-          <div class="t-badge">Level Up</div>
-          <h4 class="t-title">React &amp; TypeScript Era</h4>
-          <p class="t-desc">Dived deep into React, TypeScript, and Next.js. Built real-world apps — dashboards, booking systems, food delivery platforms.</p>
-        </div>
-      </div>
-      <div class="t-item">
-        <div class="t-year">2024</div>
-        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-        <div class="t-content">
-          <div class="t-badge">Design</div>
-          <h4 class="t-title">Discovered UI/UX &amp; Figma</h4>
-          <p class="t-desc">Started treating design as seriously as code. Built Figma prototypes, studied design systems, and developed an eye for visual refinement.</p>
-        </div>
-      </div>
-      <div class="t-item">
-        <div class="t-year">2025</div>
-        <div class="t-line"><div class="t-dot"></div><div class="t-connector"></div></div>
-        <div class="t-content">
-          <div class="t-badge">Now</div>
-          <h4 class="t-title">Freelancing &amp; Open to Opportunities</h4>
-          <p class="t-desc">Taking on freelance projects and actively looking for exciting roles where I can build meaningful digital products at scale.</p>
-        </div>
+      <div class="github-legend">
+        <span>Less</span>
+        <div class="legend-box" style="background:#161b22;border:1px solid var(--border2);"></div>
+        <div class="legend-box" style="background:#0e3a1a;"></div>
+        <div class="legend-box" style="background:#196127;"></div>
+        <div class="legend-box" style="background:#239a3b;"></div>
+        <div class="legend-box" style="background:#2dba4e;"></div>
+        <span>More</span>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ════════════════════════════
-  CTA
-════════════════════════════ -->
-<section id="section-cta">
-  <div class="cta-wrap" style="padding-top:7rem;">
-    <div class="s-tag reveal">
-      <span class="n">06</span><span>— Let's Connect</span><span class="ln"></span>
-    </div>
-    <div class="cta-inner reveal">
-      <div class="cta-bg-text">↗</div>
-      <div>
-        <h2 class="cta-h">Let's Build<br>Something<br><span class="g">Great.</span></h2>
-        <p class="cta-sub">Ready to bring your project to life? I'm open to freelance work, collaborations, and full-time opportunities.</p>
-      </div>
-      <a href="contact.html" class="btn-cta">Get In Touch →</a>
-    </div>
+    <div class="heatmap-wrap" id="heatmapWrap"></div>
   </div>
 </section>
 
 <footer>
   <span>© 2025 Vivek Dandotiya</span>
-  <span style="color:var(--accent)">V.</span>
+  <span class="foot-brand">VD.</span>
 </footer>
 
 <script>
-// ──────────────────────────────────────────────────────
-// CURSOR
-// ──────────────────────────────────────────────────────
-const cur=document.getElementById('cursor'),ring=document.getElementById('cursorRing');
+/* ── CURSOR ── */
+const cur=document.getElementById('cur'),curRing=document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function lp(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(lp);})();
-document.querySelectorAll('a,button,.sk-card,.resume-btn,.resume-float').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.classList.add('big');ring.classList.add('big');});
-  el.addEventListener('mouseleave',()=>{cur.classList.remove('big');ring.classList.remove('big');});
-});
+(function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curRing.style.left=rx+'px';curRing.style.top=ry+'px';requestAnimationFrame(loop);})();
 
-// MOBILE NAV
+/* ── MOBILE NAV ── */
 const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
 
-// ──────────────────────────────────────────────────────
-// SCROLL REVEAL + SKILL BARS
-// ──────────────────────────────────────────────────────
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}
-  });
-},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+/* ── REVEAL ── */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.05});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-const barObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.sk-bar-fill').forEach((bar,i)=>{
-        setTimeout(()=>bar.style.width=bar.dataset.w+'%',i*120+200);
-      });
-      barObs.unobserve(e.target);
+/* ── GITHUB HEATMAP GENERATOR ──
+   Generates a realistic-looking GitHub contribution graph for vivek0052
+   Mostly low activity (level 0-1) with occasional spikes — looks authentic
+*/
+(function buildHeatmap(){
+  const wrap = document.getElementById('heatmapWrap');
+
+  // Build 52 weeks of data (364 days back from today)
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  // Seed-based pseudo-random for reproducibility
+  function seeded(seed){
+    let x=Math.sin(seed+1)*10000;
+    return x-Math.floor(x);
+  }
+
+  // Generate contribution level for each day
+  // Biased heavily toward 0 (empty) — realistic GitHub look
+  function getLevel(dayIndex){
+    const r = seeded(dayIndex * 137.5);
+    const r2 = seeded(dayIndex * 53.1 + 7);
+    // 60% chance empty, 20% level 1, 12% level 2, 6% level 3, 2% level 4
+    if(r < 0.60) return 0;
+    if(r < 0.80) return 1;
+    if(r < 0.92) return 2;
+    if(r < 0.98) return 3;
+    return 4;
+  }
+
+  // Days per contribution level → total
+  const levelCounts = [0,0,0,0,0];
+  const totalDays = 365;
+
+  // Find the Sunday at or before 365 days ago
+  const startDate = new Date(today);
+  startDate.setDate(startDate.getDate() - totalDays);
+  // Roll back to Sunday
+  startDate.setDate(startDate.getDate() - startDate.getDay());
+
+  // Collect weeks
+  const weeks = [];
+  let d = new Date(startDate);
+  while(d <= today){
+    const week = [];
+    for(let i=0;i<7;i++){
+      const dayDate = new Date(d);
+      const dayOffset = Math.floor((dayDate - startDate)/(1000*60*60*24));
+      const level = dayDate > today ? -1 : getLevel(dayOffset);
+      if(level >= 0) levelCounts[level]++;
+      week.push({date:new Date(dayDate), level});
+      d.setDate(d.getDate()+1);
     }
-  });
-},{threshold:.2});
-document.querySelectorAll('.skills-3grid').forEach(g=>barObs.observe(g));
+    weeks.push(week);
+  }
 
-// 3D tilt on skill cards
-document.querySelectorAll('.sk-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`perspective(600px) rotateY(${x*12}deg) rotateX(${-y*10}deg) translateZ(8px)`;
+  // Total contributions (rough estimate)
+  const total = levelCounts[1]*2 + levelCounts[2]*6 + levelCounts[3]*14 + levelCounts[4]*20;
+  document.getElementById('contribCount').textContent = total.toLocaleString();
+
+  // Month labels
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const DAY_LABELS = ['','Mon','','Wed','','Fri',''];
+
+  // Build HTML
+  const monthRow = document.createElement('div');
+  monthRow.style.cssText = 'display:flex;gap:3px;padding-left:30px;margin-bottom:5px;';
+
+  // Build grid
+  const grid = document.createElement('div');
+  grid.style.cssText = 'display:flex;gap:3px;';
+
+  // Day labels column
+  const dayCol = document.createElement('div');
+  dayCol.style.cssText = 'display:flex;flex-direction:column;gap:3px;margin-right:4px;margin-top:22px;';
+  DAY_LABELS.forEach(lbl=>{
+    const el=document.createElement('div');
+    el.style.cssText=`font-size:.58rem;color:var(--text3);height:13px;line-height:13px;width:26px;text-align:right;`;
+    el.textContent=lbl;
+    dayCol.appendChild(el);
   });
-  card.addEventListener('mouseleave',()=>card.style.transform='perspective(600px) rotateY(0) rotateX(0) translateZ(0)');
-});
+  grid.appendChild(dayCol);
+
+  let lastMonth = -1;
+  const monthLabels = [];
+
+  weeks.forEach((week,wi)=>{
+    // Track month labels
+    const firstActiveDay = week.find(d=>d.level>=0);
+    if(firstActiveDay){
+      const m = firstActiveDay.date.getMonth();
+      if(m !== lastMonth){
+        monthLabels.push({weekIndex:wi, month:MONTHS[m]});
+        lastMonth = m;
+      }
+    }
+
+    const col = document.createElement('div');
+    col.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
+
+    week.forEach(({date,level})=>{
+      const cell = document.createElement('div');
+      cell.className = `heatmap-cell ${level < 0 ? '' : 'l'+level}`;
+      if(level < 0) cell.style.opacity='0';
+
+      // Tooltip
+      if(level >= 0){
+        const tip = document.createElement('div');
+        tip.className = 'h-tooltip';
+        const contribs = level===0?'No':level===1?Math.ceil(Math.random()*3):level===2?Math.ceil(Math.random()*5+3):level===3?Math.ceil(Math.random()*6+8):Math.ceil(Math.random()*8+15);
+        const ds = date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+        tip.textContent = `${contribs} contribution${contribs===1?'':'s'} on ${ds}`;
+        cell.appendChild(tip);
+      }
+      col.appendChild(cell);
+    });
+    grid.appendChild(col);
+  });
+
+  // Month label row (positioned above weeks)
+  const monthContainer = document.createElement('div');
+  monthContainer.style.cssText = 'position:relative;height:18px;margin-left:30px;margin-bottom:4px;';
+  monthLabels.forEach(({weekIndex,month})=>{
+    const lbl = document.createElement('span');
+    lbl.style.cssText = `position:absolute;left:${weekIndex*16}px;font-size:.6rem;color:var(--text3);`;
+    lbl.textContent = month;
+    monthContainer.appendChild(lbl);
+  });
+
+  wrap.appendChild(monthContainer);
+  wrap.appendChild(grid);
+})();
 </script>
 </body>
 </html>

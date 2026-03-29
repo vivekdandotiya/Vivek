@@ -536,3 +536,102 @@ document.addEventListener('keydown',e=>{
 </script>
 </body>
 </html>
+
+
+
+
+<section id="section-fan">
+  <div class="fan-header">
+    <p class="fan-eyebrow">— All Projects</p>
+    <h2 class="fan-title">CLICK A <span>CARD</span></h2>
+  </div>
+  <div class="fan-controls">
+    <button class="nav-btn" id="btnPrev">←</button>
+    <div class="counter-block">
+      <div class="fan-counter"><span class="cur" id="cCurrent">01</span>&nbsp;/&nbsp;<span id="cTotal">09</span></div>
+      <div class="fan-dots" id="fanDots"></div>
+    </div>
+    <button class="nav-btn" id="btnNext">→</button>
+  </div>
+  <div id="fan-stage"></div>
+  <p class="fan-hint">↑ Click card to explore · ← → navigate · card buttons go direct</p>
+</section>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const projects=[
+  {num:'01',icon:'🌐',name:'Portfolio Website',    desc:"A hand-crafted personal portfolio built with pure HTML & CSS. Clean layout, smooth interactions, and a design representing Vivek's brand.",tags:['HTML5','CSS3','Responsive'],      link:'https://vivek0052.in/',                                      gh:'https://github.com/vivek0052'},
+  {num:'02',icon:'💼',name:'Freelancing Portfolio',desc:'Full-stack tech portfolio for freelance clients. Showcases services, past work, and CTAs built with modern frontend tooling.',            tags:['Fullstack','React','Vercel'],       link:'https://freelance-portfolio-client-delta.vercel.app/',       gh:'https://github.com/vivek0052'},
+  {num:'03',icon:'📈',name:'Live Crypto Tracker',  desc:'Real-time cryptocurrency price tracking with live updates, charts, and clean data presentation for crypto enthusiasts.',                  tags:['API','Real-time','Charts'],         link:'https://live-crypto-update.vercel.app/',                     gh:'https://github.com/vivek0052'},
+  {num:'04',icon:'🎬',name:'Movie Booking App',    desc:'Ticket booking platform for movies. Browse shows, select seats, and complete bookings with a smooth, intuitive UI flow.',                 tags:['JavaScript','UI/UX','Booking'],     link:'https://ticket-booking-green.vercel.app/',                   gh:'https://github.com/vivek0052'},
+  {num:'05',icon:'⚡',name:'Real-Time Dashboard',  desc:'Analytics dashboard built with TypeScript. Live data widgets, clean layout and performance-focused component architecture.',              tags:['TypeScript','Dashboard','DataViz'], link:'https://real-time-dashboard-three.vercel.app/',              gh:'https://github.com/vivek0052'},
+  {num:'06',icon:'🍔',name:'Food Delivery Site',   desc:'Fast food ordering website built with Next.js and TypeScript. Browse menu, add to cart, and order with a polished experience.',           tags:['Next.js','TypeScript','E-commerce'],link:'https://fast-food-website-two.vercel.app/',                  gh:'https://github.com/vivek0052'},
+  {num:'07',icon:'✅',name:'Live Task Manager',    desc:'A working reminder and task management app. Create, track, and manage tasks with live updates and clean productivity UI.',                 tags:['JavaScript','Productivity','Live'], link:'https://taskmaster-liart.vercel.app/',                       gh:'https://github.com/vivek0052'},
+  {num:'08',icon:'🎨',name:'Figma Prototype',      desc:'Cake & Pastry — high-fidelity Figma UI prototype. Interactive flows, refined design system, and pixel-perfect screens.',                 tags:['Figma','UI Design','Prototype'],    link:'https://www.figma.com/proto/CchptbZVg3D7iTaxUZXcbl/',        gh:'https://github.com/vivek0052'},
+  {num:'09',icon:'🖥️',name:'Framer Portfolio',     desc:'A sleek portfolio built entirely in Framer. Smooth animations, interactive sections and a no-code approach to beautiful design.',        tags:['Framer','Motion','Portfolio'],      link:'https://vkdportfolio.framer.website/',                       gh:'https://github.com/vivek0052'},
+];
+const N=projects.length,mod=(n,m)=>((n%m)+m)%m;
+
+
+#section-fan { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 1; padding: 4rem 0 5rem; overflow: hidden; }
+.fan-header { text-align: center; margin-bottom: 1.5rem; }
+.fan-eyebrow { font-size: .65rem; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: .8rem; }
+.fan-title { font-family: 'Bebas Neue',sans-serif; font-size: clamp(2.8rem,6vw,5.5rem); color: var(--text); letter-spacing: .03em; }
+.fan-title span { color: var(--accent); }
+.fan-controls { display: flex; align-items: center; gap: 2.5rem; margin-bottom: 3rem; position: relative; z-index: 10; }
+.nav-btn { width: 54px; height: 54px; border-radius: 50%; background: rgba(255,255,255,.03); border: 1px solid var(--muted2); color: var(--muted); font-size: 1.1rem; cursor: none; display: flex; align-items: center; justify-content: center; transition: background .25s, border-color .25s, color .25s, transform .18s; }
+.nav-btn:hover { background: rgba(184,255,87,.1); border-color: var(--accent); color: var(--accent); transform: scale(1.1); }
+.nav-btn:active { transform: scale(.93); }
+.counter-block { text-align: center; }
+.fan-counter { font-family: 'Bebas Neue',sans-serif; font-size: 1.6rem; letter-spacing: .1em; color: var(--text); }
+.fan-counter .cur { color: var(--accent); }
+.fan-dots { display: flex; gap: .45rem; margin-top: .6rem; justify-content: center; flex-wrap: wrap; max-width: 200px; }
+.fan-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted2); transition: background .3s, transform .3s; cursor: none; }
+.fan-dot.active { background: var(--accent); transform: scale(1.5); }
+#fan-stage { position: relative; width: 100%; height: 460px; overflow: visible; }
+
+.proj-card { position: absolute; width: 200px; height: 322px; border-radius: 20px; background: linear-gradient(145deg,#1c1c22,#0e0e14); border: 1px solid rgba(255,255,255,.07); cursor: none; transform-origin: center bottom; left: 50%; top: 50%; margin-left: -100px; margin-top: -232px; will-change: transform,opacity; overflow: hidden; }
+.proj-card .teal-ring { position: absolute; inset: 0; border-radius: 20px; box-shadow: inset 0 0 0 1.5px rgba(92,255,200,.0); transition: box-shadow .3s; pointer-events: none; }
+.proj-card.active-hover .teal-ring { box-shadow: inset 0 0 0 1.5px rgba(92,255,200,.28); }
+.proj-card .card-glow { position: absolute; inset: 0; border-radius: 20px; background: radial-gradient(circle at 50% 30%,rgba(184,255,87,.09),transparent 65%); opacity: 0; transition: opacity .3s; }
+.proj-card.active-hover .card-glow { opacity: 1; }
+.card-header { position: absolute; top: 0; left: 0; right: 0; padding: 16px 16px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+.card-logo { display: flex; }
+.card-logo-c { width: 18px; height: 18px; border-radius: 50%; background: rgba(255,255,255,.82); }
+.card-logo-c:nth-child(2) { background: rgba(255,255,255,.6); margin-left: -6px; }
+.card-num { font-size: .5rem; letter-spacing: .18em; color: rgba(255,255,255,.22); text-transform: uppercase; }
+.card-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-70%); font-size: 2.6rem; opacity: .14; pointer-events: none; }
+.card-bottom { position: absolute; bottom: 0; left: 0; right: 0; padding: 0 12px 12px; }
+.card-name { font-size: .57rem; letter-spacing: .09em; color: rgba(255,255,255,.78); font-family: 'DM Mono',monospace; line-height: 1.5; margin-bottom: 9px; }
+.card-links { display: flex; gap: 5px; }
+.card-btn { flex: 1; padding: 5px 2px; font-size: .5rem; letter-spacing: .07em; text-transform: uppercase; text-decoration: none; text-align: center; border-radius: 7px; font-family: 'DM Mono',monospace; transition: background .2s,color .2s,transform .15s; display: flex; align-items: center; justify-content: center; gap: 3px; line-height: 1; }
+.card-btn-live { background: var(--accent); color: #000; font-weight: 700; }
+.card-btn-live:hover { background: #d4ff6e; transform: translateY(-1px); }
+.card-btn-gh { background: rgba(255,255,255,.07); color: rgba(255,255,255,.65); border: 1px solid rgba(255,255,255,.1); }
+.card-btn-gh:hover { background: rgba(255,255,255,.14); color: #fff; transform: translateY(-1px); }
+.card-shimmer { position: absolute; inset: 0; background: linear-gradient(105deg,transparent 35%,rgba(255,255,255,.025) 50%,transparent 65%); pointer-events: none; }
+.fan-hint { font-size: .63rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-top: 2rem; text-align: center; animation: pulse 2.5s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+#modal-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(4,4,6,.9); backdrop-filter: blur(28px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .35s; }
+#modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-card { background: linear-gradient(145deg,#141418,#0c0c10); border: 1px solid rgba(184,255,87,.15); border-radius: 22px; width: 90%; max-width: 680px; padding: 3rem; position: relative; transform: translateY(50px) scale(.96); transition: transform .5s cubic-bezier(.16,1,.3,1),opacity .5s; opacity: 0; }
+#modal-overlay.open .modal-card { transform: translateY(0) scale(1); opacity: 1; }
+.modal-close { position: absolute; top: 1.5rem; right: 1.5rem; width: 38px; height: 38px; border-radius: 50%; background: var(--muted2); border: none; color: var(--text); font-size: .9rem; cursor: none; display: flex; align-items: center; justify-content: center; transition: background .2s,transform .2s; }
+.modal-close:hover { background: rgba(184,255,87,.15); transform: rotate(90deg); }
+.modal-num { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+.modal-icon { font-size: 2.8rem; display: block; margin-bottom: 1rem; }
+.modal-title { font-family: 'Bebas Neue',sans-serif; font-size: clamp(2.5rem,6vw,4.5rem); line-height: .9; margin-bottom: 1.2rem; letter-spacing: .02em; }
+.modal-desc { font-size: .8rem; color: var(--muted); line-height: 1.9; margin-bottom: 2rem; }
+.modal-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 2.5rem; }
+.modal-tag { font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; border: 1px solid rgba(184,255,87,.2); padding: .25rem .7rem; color: rgba(184,255,87,.65); }
+.modal-actions { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; }
+.modal-link { display: inline-flex; align-items: center; gap: .6rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: #000; background: var(--accent); padding: .85rem 1.8rem; text-decoration: none; transition: background .2s,transform .2s; border-radius: 2px; }
+.modal-link:hover { background: #d4ff6e; transform: translateY(-1px); }
+.modal-gh-link { display: inline-flex; align-items: center; gap: .6rem; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--text); background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); padding: .85rem 1.8rem; text-decoration: none; transition: background .2s,transform .2s; border-radius: 2px; }
+.modal-gh-link:hover { background: rgba(255,255,255,.12); transform: translateY(-1px); }
+.modal-nav-row { display: flex; align-items: center; gap: .6rem; margin-left: auto; }
+.modal-nav-lbl { font-size: .58rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.modal-nav-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--muted2); border: 1px solid var(--muted2); color: var(--text); font-size: 1rem; cursor: none; display: flex; align-items: center; justify-content: center; transition: background .2s,border-color .2s,color .2s,transform .15s; }
+.modal-nav-btn:hover { background: rgba(184,255,87,.12); border-color: rgba(184,255,87,.3); color: var(--accent); transform: scale(1.08); }
