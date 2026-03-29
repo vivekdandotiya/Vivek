@@ -318,7 +318,7 @@ footer span{font-size:.7rem;color:var(--text3);}
   <div class="bento-card center-card card-intro reveal">
     <div>
       <h3 class="c-name">Vivek <em>Dandotiya</em></h3>
-      <div class="c-loc">📍 Chambal, MP &nbsp;·&nbsp; <span id="clock">--:-- --</span></div>
+      <div class="c-loc">📍 Morena, MP &nbsp;·&nbsp; <span id="clock">--:-- --</span></div>
       <!-- 3D GLOBE -->
       <div class="globe-wrap" id="globeWrap" title="Click to view local map">
         <div id="globeViz"></div>
@@ -481,7 +481,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   if(!globeViz) return;
   
   const width = 220, height = 220;
-  const MADHYA_PRADESH = { lat: 26.5000, lng: 78.0000 };
+  const MADHYA_PRADESH = { lat: 26.4947, lng: 77.9944 };
   
   // Initialize Globe
   const world = Globe()
@@ -501,11 +501,12 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   ])
   .htmlElement(d => {
     const el = document.createElement('div');
-    el.style.width = '8px';
-    el.style.height = '8px';
+    el.style.width = '14px';
+    el.style.height = '14px';
     el.style.background = 'var(--red)';
+    el.style.border = '2.5px solid #fff';
     el.style.borderRadius = '50%';
-    el.style.boxShadow = '0 0 10px var(--red)';
+    el.style.boxShadow = '0 0 16px rgba(255, 50, 50, 0.8), inset 0 0 4px rgba(0,0,0,0.5)';
     el.style.cursor = 'pointer';
     return el;
   });
@@ -524,7 +525,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   const btnBackGlobe = document.getElementById('btnBackGlobe');
   
   // Google Maps Embed URL for Madhya Pradesh Location (satellite view)
-  const mapUrl = 'https://maps.google.com/maps?q=Chambal,%20Madhya%20Pradesh&t=k&z=10&ie=UTF8&iwloc=&output=embed';
+  const mapUrl = 'https://maps.google.com/maps?q=Morena,%20Madhya%20Pradesh&t=k&z=10&ie=UTF8&iwloc=&output=embed';
   
   let isZooming = false;
   globeWrap.addEventListener('click', () => {
