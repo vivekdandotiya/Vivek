@@ -213,7 +213,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .github-box{
-  margin-top:3rem;background:#050510;border:1px solid var(--border2);
+  margin-top:3rem;background:#000;border:1px solid var(--border2);
   border-radius:var(--radius);padding:0;overflow:hidden;
   position:relative;height:520px;
 }
@@ -233,7 +233,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .widget-radar{top:2rem;right:2rem;width:260px;height:260px;}
 .widget-lang{
   bottom:2rem;left:2rem;display:flex;align-items:center;gap:1.5rem;
-  background:rgba(10,10,20,0.4);backdrop-filter:blur(10px);
+  background:rgba(20,20,20,0.4);backdrop-filter:blur(10px);
   padding:1rem;border-radius:12px;
 }
 .lang-chart-wrap{width:140px;height:140px;}
@@ -725,7 +725,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   const light = new THREE.DirectionalLight(0xffffff, 0.8);
   light.position.set(10, 30, 20); scene.add(light);
 
-  const COLORS = { BASE: 0x161b22, L1: 0x0e4421, L2: 0x006d32, L3: 0x26a641, L4: 0x39d353 };
+  const COLORS = { BASE: 0x161616, L1: 0x0e4421, L2: 0x006d32, L3: 0x26a641, L4: 0x39d353 };
   const rows = 7, cols = 52, spacing = 1.02;
   const group = new THREE.Group();
   function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
