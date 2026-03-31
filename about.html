@@ -66,12 +66,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #fff; /* Fallback for browsers without clip support */
 }
 [data-theme='light'] .about-hero-title { 
   background: linear-gradient(180deg, #000 0%, #444 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #000; /* Fallback */
 }
 .about-hero-sub{
   margin-top:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
@@ -352,6 +354,15 @@ body.theme-transition, body.theme-transition * {
 [data-theme='light'] .cert-title { color: #0f172a; font-weight: 700;}
 [data-theme='light'] .form-group input, [data-theme='light'] .form-group textarea { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #000; }
 [data-theme='light'] .form-group input:focus, [data-theme='light'] .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22,163,74,0.1); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
 
 </style>
 </head>
