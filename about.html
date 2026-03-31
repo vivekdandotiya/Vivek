@@ -181,24 +181,42 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .github-box{
-  margin-top:3rem;background:var(--surface);border:1px solid var(--border2);
-  border-radius:var(--radius);padding:3rem 2.5rem;overflow:hidden;
+  margin-top:3rem;background:#050510;border:1px solid var(--border2);
+  border-radius:var(--radius);padding:0;overflow:hidden;
+  position:relative;height:520px;
 }
-.github-dashboard{
-  display:grid;grid-template-columns:250px 1fr 280px;gap:3rem;align-items:center;
+.github-dashboard-stage{
+  position:relative;width:100%;height:100%;
 }
-.dash-left{display:flex;flex-direction:column;align-items:center;gap:2rem;}
-.dash-center{position:relative;display:flex;flex-direction:column;align-items:center;}
-.dash-right{display:flex;flex-direction:column;align-items:center;}
-#three-container{width:115%;height:450px;cursor:grab;margin-left:-7.5%;}
-#three-container:active{cursor:grabbing;}
-.dash-stats{
-  display:flex;gap:3rem;margin-top:1.5rem;padding-top:2rem;
-  border-top:1px solid var(--border2);width:100%;justify-content:center;
+#three-container{
+  position:absolute;inset:0;width:100%;height:100%;z-index:1;
 }
-.dash-stat-item{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text2);}
-.dash-stat-item strong{color:#fff;font-size:1.1rem;font-weight:700;}
-.dash-stat-item.accent strong{color:var(--accent);}
+
+/* WIDGETS OVERLAY */
+.dash-widget{
+  position:absolute;z-index:10;pointer-events:none;
+}
+.dash-widget canvas{pointer-events:auto;}
+
+.widget-radar{top:2rem;right:2rem;width:260px;height:260px;}
+.widget-lang{
+  bottom:2rem;left:2rem;display:flex;align-items:center;gap:1.5rem;
+  background:rgba(10,10,20,0.4);backdrop-filter:blur(10px);
+  padding:1rem;border-radius:12px;
+}
+.lang-chart-wrap{width:140px;height:140px;}
+
+.lang-legend{display:flex;flex-direction:column;gap:.4rem;}
+.legend-item{display:flex;align-items:center;gap:.6rem;font-size:11px;color:#a0a0a0;pointer-events:auto;cursor:pointer;}
+.legend-dot{width:10px;height:10px;border-radius:2px;}
+
+.dash-footer{
+  position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
+  display:flex;gap:3rem;z-index:10;align-items:center;
+}
+.dash-stat-item{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:#888;}
+.dash-stat-item strong{color:#fff;font-size:1.15rem;font-weight:800;letter-spacing:-0.01em;}
+.dash-stat-item.accent strong{color:#b8ff57;}
 
 /* Chart Legend Customization */
 .chart-legend{margin-top:1rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
@@ -504,34 +522,33 @@ body.theme-transition, body.theme-transition * {
     <em class="accent-gradient">&amp;&amp; Open Source</em>
   </h2>
   <div class="github-box">
-    <div class="github-dashboard">
-      <!-- LANGUAGES -->
-      <div class="dash-left">
-        <div style="width:180px;height:180px;"><canvas id="langChart"></canvas></div>
-        <div class="chart-legend" id="langLegend"></div>
+    <div class="github-dashboard-stage">
+      <div id="three-container"></div>
+      
+      <!-- RADAR AT TOP RIGHT -->
+      <div class="dash-widget widget-radar">
+        <canvas id="activityChart"></canvas>
       </div>
       
-      <!-- 3D GRAPH -->
-      <div class="dash-center">
-        <div id="three-container"></div>
-        <div class="dash-stats">
-          <div class="dash-stat-item accent">
-            <strong id="contribCount">582</strong> <span>contributions</span>
-          </div>
-          <div class="dash-stat-item">
-            <svg style="width:16px;height:16px;fill:var(--text3);" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
-            <strong>135</strong>
-          </div>
-          <div class="dash-stat-item">
-            <svg style="width:16px;height:16px;fill:var(--text3);" viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878A2.25 2.25 0 0 0 8.75 3h-1.5A2.25 2.25 0 0 0 5 5.372ZM11.75 8.25a.75.75 0 0 1 .75.75v.878A3.75 3.75 0 0 1 8.75 13.628v.622a.75.75 0 0 1-1.5 0v-.622a3.75 3.75 0 0 1-3-3.75V9a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.878A2.25 2.25 0 0 0 8.75 12h1.5a2.25 2.25 0 0 0 2.25-2.25V9a.75.75 0 0 1 .75-.75h1.5Z"></path></svg>
-            <strong>14</strong>
-          </div>
+      <!-- LANG AT BOTTOM LEFT -->
+      <div class="dash-widget widget-lang">
+        <div class="lang-chart-wrap">
+          <canvas id="langChart"></canvas>
         </div>
+        <div class="lang-legend" id="langLegend"></div>
       </div>
-
-      <!-- ACTIVITY RADAR -->
-      <div class="dash-right">
-        <div style="width:260px;height:260px;"><canvas id="activityChart"></canvas></div>
+      
+      <div class="dash-footer">
+        <div class="dash-stat-item accent">
+          <strong id="contribCount">532</strong> <span>contributions</span>
+        </div>
+        <div class="dash-stat-item">
+          <span style="font-size:1.2rem;">☆</span> <strong style="margin-left:4px;">135</strong>
+        </div>
+        <div class="dash-stat-item">
+          <svg style="width:18px;height:18px;fill:#888;" viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878A2.25 2.25 0 0 0 8.75 3h-1.5A2.25 2.25 0 0 0 5 5.372ZM11.75 8.25a.75.75 0 0 1 .75.75v.878A3.75 3.75 0 0 1 8.75 13.628v.622a.75.75 0 0 1-1.5 0v-.622a3.75 3.75 0 0 1-3-3.75V9a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.878A2.25 2.25 0 0 0 8.75 12h1.5a2.25 2.25 0 0 0 2.25-2.25V9a.75.75 0 0 1 .75-.75h1.5Z"></path></svg>
+          <strong style="margin-left:4px;">14</strong>
+        </div>
       </div>
     </div>
   </div>
@@ -555,68 +572,74 @@ ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.tog
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
 
 /* ── REVEAL ── */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.05});
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+}),{threshold:.05});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 
-<!-- Scripts for Charts & 3D -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
 <script>
-/* ── GITHUB DASHBOARD LOGIC ── */
+/* ── GITHUB PRECISE DASHBOARD LOGIC ── */
 (function initDashboard(){
-  // ── 1. Set Simulated Stats ──
-  const totalContribs = Math.floor(Math.random() * 101) + 500; // 500-600
   const contribEl = document.getElementById('contribCount');
-  if(contribEl) contribEl.textContent = totalContribs.toLocaleString();
+  if(contribEl) contribEl.textContent = "532"; 
 
-  // ── 2. Charts ──
   const langElement = document.getElementById('langChart');
   const activityElement = document.getElementById('activityChart');
   if(!langElement || !activityElement) return;
 
   const langCtx = langElement.getContext('2d');
   const activityCtx = activityElement.getContext('2d');
-  
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-  const textColor = isLight ? '#475569' : '#a0a0a0';
-  const gridColor = isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
+  const gridColor = 'rgba(255,255,255,0.08)';
 
-  // Language Doughnut
   const langData = {
-    labels: ['TypeScript', 'JavaScript', 'Python', 'CSS', 'HTML', 'Other'],
-    datasets: [{
-      data: [45, 25, 15, 8, 5, 2],
-      backgroundColor: ['#3178c6', '#f7df1e', '#3776ab', '#264de4', '#e34c26', '#555'],
-      borderWidth: 0,
-      hoverOffset: 10
-    }]
+    labels: ['C', 'TypeScript', 'Kotlin', 'Shell', 'Perl', 'Other'],
+    data: [45, 25, 12, 10, 5, 3],
+    colors: ['#555', '#3178c6', '#a97bff', '#89e051', '#0298c3', '#222']
   };
   
   new Chart(langCtx, {
     type: 'doughnut',
-    data: langData,
+    data: {
+      labels: langData.labels,
+      datasets: [{
+        data: langData.data,
+        backgroundColor: langData.colors,
+        borderWidth: 0,
+        hoverOffset: 12
+      }]
+    },
     options: {
-      cutout: '70%',
-      plugins: { legend: { display: false }, tooltip: { enabled: true } },
-      animation: { animateScale: true },
-      maintainAspectRatio: false
+      cutout: '68%',
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } }
     }
   });
 
-  // Activity Radar
+  const legendWrap = document.getElementById('langLegend');
+  if(legendWrap) {
+    legendWrap.innerHTML = '';
+    langData.labels.forEach((lbl, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<div class="legend-dot" style="background:${langData.colors[i]}"></div> <span>${lbl}</span>`;
+      legendWrap.appendChild(item);
+    });
+  }
+
   new Chart(activityCtx, {
     type: 'radar',
     data: {
       labels: ['Commit', 'Issue', 'PullReq', 'Review', 'Repo'],
       datasets: [{
-        label: 'Activity',
-        data: [95, 40, 60, 20, 35],
-        backgroundColor: 'rgba(184, 255, 87, 0.2)',
+        data: [10000, 450, 1500, 100, 1500],
+        backgroundColor: 'rgba(184, 255, 87, 0.35)',
         borderColor: '#b8ff57',
         borderWidth: 2,
-        pointBackgroundColor: '#b8ff57'
+        pointRadius: 0
       }]
     },
     options: {
@@ -625,8 +648,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
         r: {
           grid: { color: gridColor },
           angleLines: { color: gridColor },
-          pointLabels: { color: textColor, font: { size: 10 } },
-          ticks: { display: false, maxTicksLimit: 5 },
+          pointLabels: { color: '#fff', font: { size: 10, weight: '700' } },
+          ticks: { display: false, count: 5 },
           suggestedMin: 0
         }
       },
@@ -634,104 +657,54 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     }
   });
 
-  // Custom Legend logic
-  const legendWrap = document.getElementById('langLegend');
-  if(legendWrap) {
-    legendWrap.innerHTML = '';
-    langData.labels.forEach((lbl, i) => {
-      const item = document.createElement('div');
-      item.className = 'legend-item';
-      item.innerHTML = `<div class="legend-dot" style="background:${langData.datasets[0].backgroundColor[i]}"></div> <span>${lbl}</span>`;
-      legendWrap.appendChild(item);
-    });
-  }
-
-  // ── 3. Three.js Isometric Graph ──
   const container = document.getElementById('three-container');
   if(!container) return;
-
-  const width = container.clientWidth;
-  const height = container.clientHeight;
-  
+  const width = container.clientWidth, height = container.clientHeight;
   const scene = new THREE.Scene();
-
-  // Orthographic camera for EXACT isometric view
-  const aspect = width / height;
-  const d = 26; // Adjusted zoom to see full strip
-  const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
-  
-  // Classic isometric camera positioning
-  camera.position.set(30, 30, 30);
-  camera.lookAt(0, 0, 0);
+  const aspect = width / height, d = 28;
+  const camera = new THREE.OrthographicCamera(-d*aspect, d*aspect, d, -d, 1, 1000);
+  camera.position.set(30, 30, 30); camera.lookAt(0, 0, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  // Lights for shading that makes cubes look 3D
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
-  dirLight.position.set(10, 25, 5); 
-  scene.add(dirLight);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+  const light = new THREE.DirectionalLight(0xffffff, 0.8);
+  light.position.set(10, 30, 20); scene.add(light);
 
-  // Colors match reference image
-  const COLORS = {
-    EMPTY: 0x161b22, // Base gray grid
-    L1: 0x0e3a1a,
-    L2: 0x196127,
-    L3: 0x239a3b,
-    L4: 0x2dba4e
-  };
-
-  const rows = 7;
-  const cols = 50; 
-  const spacing = 1.05; 
-  const mainGroup = new THREE.Group();
-  
-  function pseudoRandom(s) {
-    let r = Math.sin(s) * 10000;
-    return r - Math.floor(r);
-  }
+  const COLORS = { BASE: 0x161b22, L1: 0x0e4421, L2: 0x006d32, L3: 0x26a641, L4: 0x39d353 };
+  const rows = 7, cols = 52, spacing = 1.02;
+  const group = new THREE.Group();
+  function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
-      const r = pseudoRandom(i * 11 + j * 17);
-      let level = 0;
-      if (r > 0.94) level = 4;
-      else if (r > 0.88) level = 3;
-      else if (r > 0.75) level = 2;
-      else if (r > 0.55) level = 1;
-      
-      const heightVal = level === 0 ? 0.15 : level * 1.5;
-      const color = level === 0 ? COLORS.EMPTY : COLORS[`L${level}`];
-      
-      const geometry = new THREE.BoxGeometry(0.95, 1, 0.95);
-      const material = new THREE.MeshLambertMaterial({ color: color });
-      const bar = new THREE.Mesh(geometry, material);
-      
-      bar.position.set(
-        i * spacing - (rows * spacing) / 2,
-        0,
-        j * spacing - (cols * spacing) / 2
-      );
-      
-      bar.scale.y = 0.01; 
-      bar.targetHeight = heightVal;
-      mainGroup.add(bar);
+      const r = pRand(i * 12 + j * 19);
+      let lvl = 0, hVal = 0.15;
+      if (r > 0.985) { lvl = 4; hVal = 5; } 
+      else if (r > 0.96) { lvl = 3; hVal = 3.5; }
+      else if (r > 0.91) { lvl = 2; hVal = 2; }
+      else if (r > 0.8) { lvl = 1; hVal = 0.8; }
+      const geo = new THREE.BoxGeometry(0.92, 1, 0.92);
+      const mat = new THREE.MeshStandardMaterial({ 
+        color: lvl === 0 ? COLORS.BASE : COLORS[`L${lvl}`],
+        roughness: 0.7, metalness: 0.2
+      });
+      const bar = new THREE.Mesh(geo, mat);
+      bar.position.set(i * spacing - (rows*spacing)/2, 0, j * spacing - (cols*spacing)/2);
+      bar.scale.y = 0.1; bar.targetH = hVal;
+      group.add(bar);
     }
   }
+  group.rotation.y = -Math.PI / 12; scene.add(group);
 
-  // Slightly rotate whole grid to be horizontal diagonal like the image
-  mainGroup.rotation.y = -Math.PI / 10;
-  scene.add(mainGroup);
-
-  // Animation Loop
   function animate() {
     requestAnimationFrame(animate);
-    mainGroup.children.forEach(bar => {
-      if (bar.scale.y < bar.targetHeight) {
-        bar.scale.y += (bar.targetHeight - bar.scale.y) * 0.1;
+    group.children.forEach(bar => {
+      if (bar.scale.y < bar.targetH) {
+        bar.scale.y += (bar.targetH - bar.scale.y) * 0.1;
         bar.position.y = bar.scale.y / 2;
       }
     });
@@ -740,49 +713,39 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   animate();
 
   window.addEventListener('resize', () => {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
+    const w = container.clientWidth, h = container.clientHeight;
     if(!w || !h) return;
     renderer.setSize(w, h);
-    const newAspect = w / h;
-    camera.left = -d * newAspect;
-    camera.right = d * newAspect;
+    camera.left = -d * (w/h); camera.right = d * (w/h);
     camera.updateProjectionMatrix();
   });
 })();
 
-/* ── THEME LOGIC ── */
 (function themeSelector(){
   const btn = document.getElementById('themeToggle');
   if(!btn) return;
-  const sun = btn.querySelector('.sun-icon');
-  const moon = btn.querySelector('.moon-icon');
-  
-  function applyTheme(th) {
-    document.documentElement.setAttribute('data-theme', th);
-    if(th === 'light') {
-      sun.style.display = 'inline';
-      moon.style.display = 'none';
-    } else {
-      sun.style.display = 'none';
-      moon.style.display = 'inline';
-    }
-  }
-
-  let currentTheme = localStorage.getItem('theme') || 'dark';
-  applyTheme(currentTheme);
-  
   btn.addEventListener('click', () => {
-    document.body.classList.add('theme-transition');
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    localStorage.setItem('theme', currentTheme);
-    applyTheme(currentTheme);
-    setTimeout(() => {
-        document.body.classList.remove('theme-transition');
-        location.reload(); // Refresh to update Three.js and Chart.js colors
-    }, 500);
+    setTimeout(() => location.reload(), 550);
   });
 })();
+</script>
+</body>
+</html>
+dateProjectionMatrix();
+  });
+})();
+
+/* ── THEME TOGGLE SYNC ── */
+(function themeSelector(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    setTimeout(() => location.reload(), 550);
+  });
+})();
+</script>
+</body>
+</html>
 </script>
 </body>
 </html>
