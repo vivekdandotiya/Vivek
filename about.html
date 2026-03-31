@@ -59,7 +59,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 }
 .about-hero-title{
   font-family:'Inter',sans-serif;font-weight:900;
-  font-size:clamp(5rem,15vw,16rem);letter-spacing:-.08em;line-height:.8;
+  font-size:clamp(5rem,18vw,20rem);letter-spacing:-.08em;line-height:.8;
   text-align:center;opacity:0;animation:fadeUp .8s .2s forwards;
   position:relative;z-index:2;
   background: linear-gradient(180deg, #fff 0%, #aaa 100%);
@@ -215,7 +215,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .github-box{
   margin-top:3rem;background:#000;border:1px solid var(--border2);
   border-radius:var(--radius);padding:0;overflow:hidden;
-  position:relative;height:520px;
+  position:relative;height:620px;
 }
 .github-dashboard-stage{
   position:relative;width:100%;height:100%;
@@ -712,7 +712,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   if(!container) return;
   const width = container.clientWidth, height = container.clientHeight;
   const scene = new THREE.Scene();
-  const aspect = width / height, d = 28;
+  const aspect = width / height, d = 26; // More zoomed-in look
   const camera = new THREE.OrthographicCamera(-d*aspect, d*aspect, d, -d, 1, 1000);
   camera.position.set(30, 30, 30); camera.lookAt(0, 0, 0);
 
