@@ -182,73 +182,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 }
 .github-box{
   margin-top:3rem;background:var(--surface);border:1px solid var(--border2);
-  border-radius:var(--radius);padding:2rem 2.5rem;overflow:hidden;
+  border-radius:var(--radius);padding:3rem 2.5rem;overflow:hidden;
 }
-.github-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;}
-.github-meta-left{display:flex;align-items:center;gap:.8rem;}
-.github-meta-left svg{width:22px;height:22px;fill:var(--text2);}
-.github-meta-count{font-size:.88rem;color:var(--text2);}
-.github-meta-count strong{color:#fff;font-weight:700;}
-.github-legend{display:flex;align-items:center;gap:.5rem;font-size:.65rem;color:var(--text3);}
-.legend-box{width:12px;height:12px;border-radius:2px;}
-
-/* Heatmap */
-.heatmap-wrap{overflow-x:auto;padding-bottom:.5rem;}
-.heatmap-wrap::-webkit-scrollbar{height:4px;}
-.heatmap-wrap::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
-.heatmap{display:flex;gap:3px;position:relative;}
-.heatmap-labels{display:flex;flex-direction:column;gap:3px;margin-right:6px;justify-content:flex-start;}
-.day-label{font-size:.6rem;color:var(--text3);height:13px;line-height:13px;width:24px;text-align:right;}
-.heatmap-col{display:flex;flex-direction:column;gap:3px;}
-.heatmap-month-row{display:flex;gap:3px;margin-bottom:4px;}
-.month-label-row{display:flex;gap:3px;margin-bottom:6px;padding-left:30px;}
-.m-label{font-size:.6rem;color:var(--text3);flex-shrink:0;}
-.heatmap-cell{
-  width:13px;height:13px;border-radius:3px;
-  background:var(--surface2);
-  flex-shrink:0;position:relative;cursor:none;transition:transform .15s;
+.github-dashboard{
+  display:grid;grid-template-columns:250px 1fr 280px;gap:3rem;align-items:center;
 }
-.heatmap-cell:hover{transform:scale(1.3);z-index:2;}
-.heatmap-cell.l0{background:#161b22;}
-.heatmap-cell.l1{background:#0e3a1a;}
-.heatmap-cell.l2{background:#196127;}
-.heatmap-cell.l3{background:#239a3b;}
-.heatmap-cell.l4{background:#2dba4e;}
-
-/* Tooltip */
-.h-tooltip{
-  position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);
-  background:#1c2128;border:1px solid var(--border2);border-radius:6px;
-  padding:.3rem .6rem;font-size:.58rem;color:#fff;white-space:nowrap;
-  pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;
+.dash-left{display:flex;flex-direction:column;align-items:center;gap:2rem;}
+.dash-center{position:relative;display:flex;flex-direction:column;align-items:center;}
+.dash-right{display:flex;flex-direction:column;align-items:center;}
+#three-container{width:115%;height:450px;cursor:grab;margin-left:-7.5%;}
+#three-container:active{cursor:grabbing;}
+.dash-stats{
+  display:flex;gap:3rem;margin-top:1.5rem;padding-top:2rem;
+  border-top:1px solid var(--border2);width:100%;justify-content:center;
 }
-.heatmap-cell:hover .h-tooltip{opacity:1;}
+.dash-stat-item{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:var(--text2);}
+.dash-stat-item strong{color:#fff;font-size:1.1rem;font-weight:700;}
+.dash-stat-item.accent strong{color:var(--accent);}
 
-/* ── FOOTER ── */
-footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
-footer span{font-size:.7rem;color:var(--text3);}
-.foot-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.9rem;color:var(--text3);}
+/* Chart Legend Customization */
+.chart-legend{margin-top:1rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:.7rem;color:var(--text3);}
+.legend-dot{width:8px;height:8px;border-radius:2px;}
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;}
-.reveal.in{opacity:1;transform:translateY(0);}
-
-@media(max-width:900px){
-  .glance{grid-template-columns:1fr;gap:3rem;}
-  .glance-right{position:static;display:flex;flex-direction:row;gap:.8rem;flex-wrap:wrap;}
-  .photo-main{width:180px;aspect-ratio:3/4;}
-  .photo-row{width:auto;gap:.8rem;}
-  .photo-small{width:86px;aspect-ratio:1;}
-  .timeline{grid-template-columns:1fr;}.tl-date{text-align:left;}.tl-line{display:none;}
+@media(max-width:1100px){
+  .github-dashboard{grid-template-columns:1fr;gap:3rem;}
+  .dash-left,.dash-right{order:2;}
+  .dash-center{order:1;}
 }
 @media(max-width:600px){
-  .nav-center{display:none;}.ham{display:flex;}.nav-tagline{display:none;}
-  .glance-right{flex-direction:column;}
-  .photo-main{width:100%;}
   .github-box{padding:1.5rem 1rem;}
+  .dash-stats{flex-direction:column;align-items:center;gap:1rem;}
 }
+
 
 
 /* LIGHT MODE THEME - POLISHED */
@@ -538,22 +504,36 @@ body.theme-transition, body.theme-transition * {
     <em class="accent-gradient">&amp;&amp; Open Source</em>
   </h2>
   <div class="github-box">
-    <div class="github-meta">
-      <div class="github-meta-left">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-        <span class="github-meta-count"><strong id="contribCount">–</strong> contributions in the last year</span>
+    <div class="github-dashboard">
+      <!-- LANGUAGES -->
+      <div class="dash-left">
+        <div style="width:180px;height:180px;"><canvas id="langChart"></canvas></div>
+        <div class="chart-legend" id="langLegend"></div>
       </div>
-      <div class="github-legend">
-        <span>Less</span>
-        <div class="legend-box" style="background:#161b22;border:1px solid var(--border2);"></div>
-        <div class="legend-box" style="background:#0e3a1a;"></div>
-        <div class="legend-box" style="background:#196127;"></div>
-        <div class="legend-box" style="background:#239a3b;"></div>
-        <div class="legend-box" style="background:#2dba4e;"></div>
-        <span>More</span>
+      
+      <!-- 3D GRAPH -->
+      <div class="dash-center">
+        <div id="three-container"></div>
+        <div class="dash-stats">
+          <div class="dash-stat-item accent">
+            <strong id="contribCount">582</strong> <span>contributions</span>
+          </div>
+          <div class="dash-stat-item">
+            <svg style="width:16px;height:16px;fill:var(--text3);" viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+            <strong>135</strong>
+          </div>
+          <div class="dash-stat-item">
+            <svg style="width:16px;height:16px;fill:var(--text3);" viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878A2.25 2.25 0 0 0 8.75 3h-1.5A2.25 2.25 0 0 0 5 5.372ZM11.75 8.25a.75.75 0 0 1 .75.75v.878A3.75 3.75 0 0 1 8.75 13.628v.622a.75.75 0 0 1-1.5 0v-.622a3.75 3.75 0 0 1-3-3.75V9a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.878A2.25 2.25 0 0 0 8.75 12h1.5a2.25 2.25 0 0 0 2.25-2.25V9a.75.75 0 0 1 .75-.75h1.5Z"></path></svg>
+            <strong>14</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTIVITY RADAR -->
+      <div class="dash-right">
+        <div style="width:260px;height:260px;"><canvas id="activityChart"></canvas></div>
       </div>
     </div>
-    <div class="heatmap-wrap" id="heatmapWrap"></div>
   </div>
 </section>
 
@@ -577,144 +557,202 @@ mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classLi
 /* ── REVEAL ── */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.05});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-/* ── GITHUB HEATMAP GENERATOR ──
-   Generates a realistic-looking GitHub contribution graph for vivek0052
-   Mostly low activity (level 0-1) with occasional spikes — looks authentic
-*/
-(function buildHeatmap(){
-  const wrap = document.getElementById('heatmapWrap');
-
-  // Build 52 weeks of data (364 days back from today)
-  const today = new Date();
-  today.setHours(0,0,0,0);
-
-  // Seed-based pseudo-random for reproducibility
-  function seeded(seed){
-    let x=Math.sin(seed+1)*10000;
-    return x-Math.floor(x);
-  }
-
-  // Generate contribution level for each day
-  // Biased heavily toward 0 (empty) — realistic GitHub look
-  function getLevel(dayIndex){
-    const r = seeded(dayIndex * 137.5);
-    const r2 = seeded(dayIndex * 53.1 + 7);
-    // 60% chance empty, 20% level 1, 12% level 2, 6% level 3, 2% level 4
-    if(r < 0.60) return 0;
-    if(r < 0.80) return 1;
-    if(r < 0.92) return 2;
-    if(r < 0.98) return 3;
-    return 4;
-  }
-
-  // Days per contribution level → total
-  const levelCounts = [0,0,0,0,0];
-  const totalDays = 365;
-
-  // Find the Sunday at or before 365 days ago
-  const startDate = new Date(today);
-  startDate.setDate(startDate.getDate() - totalDays);
-  // Roll back to Sunday
-  startDate.setDate(startDate.getDate() - startDate.getDay());
-
-  // Collect weeks
-  const weeks = [];
-  let d = new Date(startDate);
-  while(d <= today){
-    const week = [];
-    for(let i=0;i<7;i++){
-      const dayDate = new Date(d);
-      const dayOffset = Math.floor((dayDate - startDate)/(1000*60*60*24));
-      const level = dayDate > today ? -1 : getLevel(dayOffset);
-      if(level >= 0) levelCounts[level]++;
-      week.push({date:new Date(dayDate), level});
-      d.setDate(d.getDate()+1);
-    }
-    weeks.push(week);
-  }
-
-  // Total contributions (rough estimate)
-  const total = levelCounts[1]*2 + levelCounts[2]*6 + levelCounts[3]*14 + levelCounts[4]*20;
-  document.getElementById('contribCount').textContent = total.toLocaleString();
-
-  // Month labels
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const DAY_LABELS = ['','Mon','','Wed','','Fri',''];
-
-  // Build HTML
-  const monthRow = document.createElement('div');
-  monthRow.style.cssText = 'display:flex;gap:3px;padding-left:30px;margin-bottom:5px;';
-
-  // Build grid
-  const grid = document.createElement('div');
-  grid.style.cssText = 'display:flex;gap:3px;';
-
-  // Day labels column
-  const dayCol = document.createElement('div');
-  dayCol.style.cssText = 'display:flex;flex-direction:column;gap:3px;margin-right:4px;margin-top:22px;';
-  DAY_LABELS.forEach(lbl=>{
-    const el=document.createElement('div');
-    el.style.cssText=`font-size:.58rem;color:var(--text3);height:13px;line-height:13px;width:26px;text-align:right;`;
-    el.textContent=lbl;
-    dayCol.appendChild(el);
-  });
-  grid.appendChild(dayCol);
-
-  let lastMonth = -1;
-  const monthLabels = [];
-
-  weeks.forEach((week,wi)=>{
-    // Track month labels
-    const firstActiveDay = week.find(d=>d.level>=0);
-    if(firstActiveDay){
-      const m = firstActiveDay.date.getMonth();
-      if(m !== lastMonth){
-        monthLabels.push({weekIndex:wi, month:MONTHS[m]});
-        lastMonth = m;
-      }
-    }
-
-    const col = document.createElement('div');
-    col.style.cssText = 'display:flex;flex-direction:column;gap:3px;';
-
-    week.forEach(({date,level})=>{
-      const cell = document.createElement('div');
-      cell.className = `heatmap-cell ${level < 0 ? '' : 'l'+level}`;
-      if(level < 0) cell.style.opacity='0';
-
-      // Tooltip
-      if(level >= 0){
-        const tip = document.createElement('div');
-        tip.className = 'h-tooltip';
-        const contribs = level===0?'No':level===1?Math.ceil(Math.random()*3):level===2?Math.ceil(Math.random()*5+3):level===3?Math.ceil(Math.random()*6+8):Math.ceil(Math.random()*8+15);
-        const ds = date.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-        tip.textContent = `${contribs} contribution${contribs===1?'':'s'} on ${ds}`;
-        cell.appendChild(tip);
-      }
-      col.appendChild(cell);
-    });
-    grid.appendChild(col);
-  });
-
-  // Month label row (positioned above weeks)
-  const monthContainer = document.createElement('div');
-  monthContainer.style.cssText = 'position:relative;height:18px;margin-left:30px;margin-bottom:4px;';
-  monthLabels.forEach(({weekIndex,month})=>{
-    const lbl = document.createElement('span');
-    lbl.style.cssText = `position:absolute;left:${weekIndex*16}px;font-size:.6rem;color:var(--text3);`;
-    lbl.textContent = month;
-    monthContainer.appendChild(lbl);
-  });
-
-  wrap.appendChild(monthContainer);
-  wrap.appendChild(grid);
-})();
 </script>
 
-<!-- THEME LOGIC -->
+<!-- Scripts for Charts & 3D -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
 <script>
-(function(){
+/* ── GITHUB DASHBOARD LOGIC ── */
+(function initDashboard(){
+  // ── 1. Set Simulated Stats ──
+  const totalContribs = Math.floor(Math.random() * 101) + 500; // 500-600
+  const contribEl = document.getElementById('contribCount');
+  if(contribEl) contribEl.textContent = totalContribs.toLocaleString();
+
+  // ── 2. Charts ──
+  const langElement = document.getElementById('langChart');
+  const activityElement = document.getElementById('activityChart');
+  if(!langElement || !activityElement) return;
+
+  const langCtx = langElement.getContext('2d');
+  const activityCtx = activityElement.getContext('2d');
+  
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const textColor = isLight ? '#475569' : '#a0a0a0';
+  const gridColor = isLight ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)';
+
+  // Language Doughnut
+  const langData = {
+    labels: ['TypeScript', 'JavaScript', 'Python', 'CSS', 'HTML', 'Other'],
+    datasets: [{
+      data: [45, 25, 15, 8, 5, 2],
+      backgroundColor: ['#3178c6', '#f7df1e', '#3776ab', '#264de4', '#e34c26', '#555'],
+      borderWidth: 0,
+      hoverOffset: 10
+    }]
+  };
+  
+  new Chart(langCtx, {
+    type: 'doughnut',
+    data: langData,
+    options: {
+      cutout: '70%',
+      plugins: { legend: { display: false }, tooltip: { enabled: true } },
+      animation: { animateScale: true },
+      maintainAspectRatio: false
+    }
+  });
+
+  // Activity Radar
+  new Chart(activityCtx, {
+    type: 'radar',
+    data: {
+      labels: ['Commit', 'Issue', 'PullReq', 'Review', 'Repo'],
+      datasets: [{
+        label: 'Activity',
+        data: [95, 40, 60, 20, 35],
+        backgroundColor: 'rgba(184, 255, 87, 0.2)',
+        borderColor: '#b8ff57',
+        borderWidth: 2,
+        pointBackgroundColor: '#b8ff57'
+      }]
+    },
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        r: {
+          grid: { color: gridColor },
+          angleLines: { color: gridColor },
+          pointLabels: { color: textColor, font: { size: 10 } },
+          ticks: { display: false, maxTicksLimit: 5 },
+          suggestedMin: 0
+        }
+      },
+      plugins: { legend: { display: false } }
+    }
+  });
+
+  // Custom Legend logic
+  const legendWrap = document.getElementById('langLegend');
+  if(legendWrap) {
+    legendWrap.innerHTML = '';
+    langData.labels.forEach((lbl, i) => {
+      const item = document.createElement('div');
+      item.className = 'legend-item';
+      item.innerHTML = `<div class="legend-dot" style="background:${langData.datasets[0].backgroundColor[i]}"></div> <span>${lbl}</span>`;
+      legendWrap.appendChild(item);
+    });
+  }
+
+  // ── 3. Three.js Isometric Graph ──
+  const container = document.getElementById('three-container');
+  if(!container) return;
+
+  const width = container.clientWidth;
+  const height = container.clientHeight;
+  
+  const scene = new THREE.Scene();
+
+  // Orthographic camera for EXACT isometric view
+  const aspect = width / height;
+  const d = 26; // Adjusted zoom to see full strip
+  const camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
+  
+  // Classic isometric camera positioning
+  camera.position.set(30, 30, 30);
+  camera.lookAt(0, 0, 0);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setSize(width, height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.appendChild(renderer.domElement);
+
+  // Lights for shading that makes cubes look 3D
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 0.7);
+  dirLight.position.set(10, 25, 5); 
+  scene.add(dirLight);
+
+  // Colors match reference image
+  const COLORS = {
+    EMPTY: 0x161b22, // Base gray grid
+    L1: 0x0e3a1a,
+    L2: 0x196127,
+    L3: 0x239a3b,
+    L4: 0x2dba4e
+  };
+
+  const rows = 7;
+  const cols = 50; 
+  const spacing = 1.05; 
+  const mainGroup = new THREE.Group();
+  
+  function pseudoRandom(s) {
+    let r = Math.sin(s) * 10000;
+    return r - Math.floor(r);
+  }
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      const r = pseudoRandom(i * 11 + j * 17);
+      let level = 0;
+      if (r > 0.94) level = 4;
+      else if (r > 0.88) level = 3;
+      else if (r > 0.75) level = 2;
+      else if (r > 0.55) level = 1;
+      
+      const heightVal = level === 0 ? 0.15 : level * 1.5;
+      const color = level === 0 ? COLORS.EMPTY : COLORS[`L${level}`];
+      
+      const geometry = new THREE.BoxGeometry(0.95, 1, 0.95);
+      const material = new THREE.MeshLambertMaterial({ color: color });
+      const bar = new THREE.Mesh(geometry, material);
+      
+      bar.position.set(
+        i * spacing - (rows * spacing) / 2,
+        0,
+        j * spacing - (cols * spacing) / 2
+      );
+      
+      bar.scale.y = 0.01; 
+      bar.targetHeight = heightVal;
+      mainGroup.add(bar);
+    }
+  }
+
+  // Slightly rotate whole grid to be horizontal diagonal like the image
+  mainGroup.rotation.y = -Math.PI / 10;
+  scene.add(mainGroup);
+
+  // Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    mainGroup.children.forEach(bar => {
+      if (bar.scale.y < bar.targetHeight) {
+        bar.scale.y += (bar.targetHeight - bar.scale.y) * 0.1;
+        bar.position.y = bar.scale.y / 2;
+      }
+    });
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    if(!w || !h) return;
+    renderer.setSize(w, h);
+    const newAspect = w / h;
+    camera.left = -d * newAspect;
+    camera.right = d * newAspect;
+    camera.updateProjectionMatrix();
+  });
+})();
+
+/* ── THEME LOGIC ── */
+(function themeSelector(){
   const btn = document.getElementById('themeToggle');
   if(!btn) return;
   const sun = btn.querySelector('.sun-icon');
@@ -725,17 +763,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     if(th === 'light') {
       sun.style.display = 'inline';
       moon.style.display = 'none';
-      if(window.world) {
-        window.world.globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg');
-        window.world.atmosphereColor('lightskyblue');
-      }
     } else {
       sun.style.display = 'none';
       moon.style.display = 'inline';
-      if(window.world) {
-        window.world.globeImageUrl('earth-night.jpg');
-        window.world.atmosphereColor('rgba(50, 100, 255, 0.5)');
-      }
     }
   }
 
@@ -747,10 +777,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
     localStorage.setItem('theme', currentTheme);
     applyTheme(currentTheme);
-    setTimeout(() => document.body.classList.remove('theme-transition'), 500);
+    setTimeout(() => {
+        document.body.classList.remove('theme-transition');
+        location.reload(); // Refresh to update Three.js and Chart.js colors
+    }, 500);
   });
 })();
 </script>
-
 </body>
-</html>
+</html>
