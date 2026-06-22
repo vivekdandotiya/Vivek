@@ -13,6 +13,7 @@ It includes:
 - A Home page with an introduction and hero section
 - A About page describing who I am and my skills
 - A Projects page showcasing featured work
+- A Certifications page showcasing verified credentials with an interactive split-panel lightbox viewer
 - A Contact page with contact details and a message form
 
 The design focuses on clean layout, dark UI, and modern visuals.
@@ -22,9 +23,9 @@ The design focuses on clean layout, dark UI, and modern visuals.
  🛠 Tech Stack
 
 - HTML5
-- CSS3
-- No frameworks
-- No JavaScript (pure CSS-based UI)
+- CSS3 / Glassmorphism
+- JavaScript (for interactive filters, 3D tilt card hover, search, and immersive lightbox)
+- Python / Pillow (for custom certificate asset generation)
 
 ---
 
@@ -42,7 +43,7 @@ The design focuses on clean layout, dark UI, and modern visuals.
  Contact Page
 ![Contact](./screenshots/contact.png)
 
-
+---
 
 🌐 Live Website
 
@@ -53,9 +54,11 @@ https://vivekdandotiya.github.io/Vivek/
  🎯 Features Implemented
 
 - Responsive navigation bar
-- Dark-themed modern UI
-- Glassmorphism-style navbar
-- CSS hover effects
+- Dark/Light themed modern glassmorphic UI
+- Interactive Bento Grid layout for certifications
+- 3D Card Hover Tilt and reflection effects
+- Advanced search and category filtering for credentials
+- Immersive split-view Lightbox with zoom controls and metadata panel
 - Structured multi-page layout
 
 ---
@@ -66,7 +69,9 @@ Through this project, I learned:
 
 - How to structure a multi-page website
 - Proper use of CSS layouts and positioning
-- Creating modern UI using pure CSS
+- Creating modern glassmorphic UI elements
+- Implementing interactive JavaScript filters, search engines, and modal controllers
+- Dynamically generating image assets with Python's PIL library
 - Managing a project with Git and GitHub
 - Hosting a website using GitHub Pages
 
