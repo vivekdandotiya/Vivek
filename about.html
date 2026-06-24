@@ -226,6 +226,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 #three-container{
   position:absolute;inset:0;width:100%;height:100%;z-index:1;
 }
+body:has(#three-container:hover) #cur-ring {
+  border-style: dashed;
+  border-color: var(--accent);
+  width: 48px;
+  height: 48px;
+}
 
 /* WIDGETS OVERLAY */
 .dash-widget{
@@ -760,45 +766,181 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
-  scene.add(new THREE.AmbientLight(0xffffff, 0.4));
-  const light = new THREE.DirectionalLight(0xffffff, 0.8);
-  light.position.set(10, 30, 20); scene.add(light);
+  // Advanced dual-source neon lighting
+  scene.add(new THREE.AmbientLight(0xffffff, 0.45));
+  
+  const keyLight = new THREE.DirectionalLight(0xffffff, 0.95);
+  keyLight.position.set(30, 50, 20);
+  scene.add(keyLight);
 
-  const COLORS = { BASE: 0x161616, L1: 0x0e4421, L2: 0x006d32, L3: 0x26a641, L4: 0x39d353 };
-  const rows = 7, cols = 52, spacing = 1.02;
+  const fillLight = new THREE.DirectionalLight(0xb8ff57, 0.4); // Subtle neon green fill
+  fillLight.position.set(-30, 20, -20);
+  scene.add(fillLight);
+
   const group = new THREE.Group();
   function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
+
+  const rows = 7, cols = 52, spacing = 1.02;
+  const floorsGroups = [];
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
       const r = pRand(i * 12 + j * 19);
-      let lvl = 0, hVal = 0.15;
-      if (r > 0.985) { lvl = 4; hVal = 5.2; } 
-      else if (r > 0.96) { lvl = 3; hVal = 3.5; }
-      else if (r > 0.91) { lvl = 2; hVal = 2.0; }
-      else if (r > 0.8) { lvl = 1; hVal = 0.8; }
-      const geo = new THREE.BoxGeometry(0.92, 1, 0.92);
-      const mat = new THREE.MeshStandardMaterial({ 
-        color: lvl === 0 ? COLORS.BASE : COLORS[`L${lvl}`],
-        roughness: 0.7, metalness: 0.2
+      let lvl = 0;
+      if (r > 0.985) { lvl = 4; } 
+      else if (r > 0.96) { lvl = 3; }
+      else if (r > 0.91) { lvl = 2; }
+      else if (r > 0.8) { lvl = 1; }
+
+      const colGroup = new THREE.Group();
+      colGroup.position.set(
+        i * spacing - (rows * spacing) / 2,
+        0,
+        j * spacing - (cols * spacing) / 2
+      );
+
+      // Base plate for grid layout (dark grey base)
+      const baseGeo = new THREE.BoxGeometry(0.85, 0.1, 0.85);
+      const baseMat = new THREE.MeshStandardMaterial({ 
+        color: 0x181818, 
+        roughness: 0.8, 
+        metalness: 0.1 
       });
-      const bar = new THREE.Mesh(geo, mat);
-      bar.position.set(i * spacing - (rows*spacing)/2, 0, j * spacing - (cols*spacing)/2);
-      bar.scale.y = 0.1; bar.targetH = hVal;
-      group.add(bar);
+      const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+      baseMesh.position.y = 0.05; // half height
+      colGroup.add(baseMesh);
+
+      if (lvl > 0) {
+        // Modular floor architecture based on contribution heights
+        const numFloors = lvl === 1 ? 1 : (lvl === 2 ? 3 : (lvl === 3 ? 5 : 8));
+        const floorHeight = 0.35;
+        const floorGap = 0.05;
+        const floorGeo = new THREE.BoxGeometry(0.82, floorHeight, 0.82);
+
+        // Color coding matching website theme (L4 uses website's neon green accent #b8ff57)
+        const colHex = [0x181818, 0x062812, 0x0a5c24, 0x22943c, 0xb8ff57][lvl];
+
+        const floorsGroup = new THREE.Group();
+        floorsGroup.position.y = 0.1; // grows from top of base plate
+
+        for (let k = 0; k < numFloors; k++) {
+          let floorColor = colHex;
+          let emissiveInt = 0.1;
+
+          // Sky-high building beacon at the top floor of L4 columns
+          if (lvl === 4 && k === numFloors - 1) {
+            floorColor = 0xffffff; // Beacon white
+            emissiveInt = 1.0;
+          } else if (lvl === 4) {
+            emissiveInt = 0.5; // Glowing accent green
+          } else if (lvl === 3) {
+            emissiveInt = 0.25;
+          }
+
+          const floorMat = new THREE.MeshStandardMaterial({
+            color: floorColor,
+            roughness: 0.25,
+            metalness: 0.15,
+            emissive: floorColor,
+            emissiveIntensity: emissiveInt
+          });
+
+          const floorMesh = new THREE.Mesh(floorGeo, floorMat);
+          floorMesh.position.y = k * (floorHeight + floorGap) + floorHeight / 2;
+          floorsGroup.add(floorMesh);
+        }
+
+        floorsGroup.scale.y = 0.01;
+        floorsGroup.targetScaleY = 1.0;
+        colGroup.add(floorsGroup);
+        floorsGroups.push(floorsGroup);
+      }
+
+      group.add(colGroup);
     }
   }
-  group.rotation.y = -Math.PI / 12;
+
+  // Set rotation coordinates and damping variables
+  let isDragging = false;
+  let previousMousePosition = { x: 0, y: 0 };
+  let targetRotationY = -Math.PI / 12;
+  let targetRotationX = Math.PI / 8;
+  let currentRotationY = -Math.PI / 12;
+  let currentRotationX = Math.PI / 8;
+
+  group.rotation.x = currentRotationX;
+  group.rotation.y = currentRotationY;
   scene.add(group);
+
+  // Mouse Drag Interactions
+  container.addEventListener('mousedown', e => {
+    isDragging = true;
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  });
+
+  container.addEventListener('mousemove', e => {
+    if (isDragging) {
+      const deltaX = e.clientX - previousMousePosition.x;
+      const deltaY = e.clientY - previousMousePosition.y;
+      
+      targetRotationY += deltaX * 0.005;
+      targetRotationX += deltaY * 0.005;
+      targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
+    }
+    previousMousePosition = { x: e.clientX, y: e.clientY };
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  // Mobile Touch Controls
+  container.addEventListener('touchstart', e => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  }, { passive: true });
+
+  container.addEventListener('touchmove', e => {
+    if (isDragging && e.touches.length === 1) {
+      const deltaX = e.touches[0].clientX - previousMousePosition.x;
+      const deltaY = e.touches[0].clientY - previousMousePosition.y;
+      
+      targetRotationY += deltaX * 0.005;
+      targetRotationX += deltaY * 0.005;
+      targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
+      
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    isDragging = false;
+  });
 
   function animate() {
     requestAnimationFrame(animate);
-    group.children.forEach(bar => {
-      if (bar.scale.y < bar.targetH) {
-        bar.scale.y += (bar.targetH - bar.scale.y) * 0.1;
-        bar.position.y = bar.scale.y / 2;
+    
+    // Scale up modular contribution blocks
+    floorsGroups.forEach(fg => {
+      if (fg.scale.y < fg.targetScaleY) {
+        fg.scale.y += (fg.targetScaleY - fg.scale.y) * 0.08;
       }
     });
+
+    // Slow auto-spin on Y axis if not active dragging
+    if (!isDragging) {
+      targetRotationY += 0.001;
+    }
+
+    // Apply rotation damping
+    currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+    currentRotationX += (targetRotationX - currentRotationX) * 0.08;
+    
+    group.rotation.y = currentRotationY;
+    group.rotation.x = currentRotationX;
+
     renderer.render(scene, camera);
   }
   animate();
