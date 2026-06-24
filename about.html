@@ -222,10 +222,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   height:620px;
 }
 .github-dashboard-sidebar{
-  width:360px;border-right:1px solid var(--border2);
+  flex:1.4;min-width:620px;border-right:1px solid var(--border2);
   background:rgba(12,12,14,0.6);backdrop-filter:blur(20px);
   display:flex;flex-direction:column;justify-content:space-between;
-  padding:2rem 1.5rem;z-index:10;position:relative;
+  padding:2.5rem 2rem;z-index:10;position:relative;
 }
 .github-dashboard-main{
   flex:1;position:relative;height:100%;
@@ -240,22 +240,33 @@ body:has(#three-container:hover) #cur-ring {
   height: 48px;
 }
 
+.sidebar-widgets-row{
+  display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;gap:1.5rem;width:100%;margin-bottom:2rem;
+}
 .sidebar-widget{
-  width:100%;display:flex;align-items:center;justify-content:center;
+  flex:1;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;justify-content:space-between;align-items:center;height:290px;
 }
-.widget-radar{height:200px;width:100%;}
-.widget-lang{
-  display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  width:100%;
+.widget-header{
+  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text3);width:100%;text-align:left;margin-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.04);padding-bottom:0.5rem;
 }
-.lang-chart-wrap{width:110px;height:110px;flex-shrink:0;}
-.lang-legend{display:flex;flex-direction:column;gap:.3rem;flex:1;}
+.radar-chart-wrap{
+  width:100%;height:210px;position:relative;display:flex;align-items:center;justify-content:center;
+}
+.lang-chart-content{
+  display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:1rem;width:100%;height:210px;
+}
+.lang-chart-wrap{width:110px;height:110px;flex-shrink:0;position:relative;}
+.lang-legend{display:flex;flex-direction:column;gap:.35rem;flex:1;overflow-y:auto;max-height:190px;padding-right:0.2rem;}
 .legend-item{display:flex;align-items:center;gap:.5rem;font-size:11px;color:#a0a0a0;cursor:pointer;}
 .legend-dot{width:8px;height:8px;border-radius:2px;}
 
+.lang-legend::-webkit-scrollbar{width:3px;}
+.lang-legend::-webkit-scrollbar-track{background:transparent;}
+.lang-legend::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
+
 .sidebar-footer{
   display:flex;gap:1.5rem;align-items:center;justify-content:space-between;
-  width:100%;border-top:1px solid var(--border);padding-top:1.25rem;
+  width:100%;border-top:1px solid var(--border2);padding-top:1.25rem;margin-top:auto;
 }
 .dash-stat-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#888;}
 .dash-stat-item strong{color:#fff;font-size:1.05rem;font-weight:800;letter-spacing:-0.01em;}
@@ -263,8 +274,8 @@ body:has(#three-container:hover) #cur-ring {
 
 @media(max-width:900px){
   .github-box{flex-direction:column;height:auto;}
-  .github-dashboard-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border2);height:auto;gap:2rem;}
-  .github-dashboard-main{height:400px;}
+  .github-dashboard-sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--border2);height:auto;gap:2rem;padding:2rem 1.5rem;}
+  .github-dashboard-main{height:450px;}
 }
 
 /* Chart Legend Customization */
@@ -278,7 +289,11 @@ body:has(#three-container:hover) #cur-ring {
   .dash-center{order:1;}
 }
 @media(max-width:600px){
-  .github-box{padding:1.5rem 1rem;}
+  .github-box{padding:0;}
+  .sidebar-widgets-row{flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;}
+  .sidebar-widget{height:250px;}
+  .radar-chart-wrap{height:170px;}
+  .lang-chart-content{height:170px;}
   .dash-stats{flex-direction:column;align-items:center;gap:1rem;}
 }
 
@@ -628,17 +643,25 @@ body.theme-transition, body.theme-transition * {
   <div class="github-box">
     <!-- LEFT SIDEBAR: WIDGETS -->
     <div class="github-dashboard-sidebar">
-      <!-- RADAR CHART -->
-      <div class="sidebar-widget widget-radar">
-        <canvas id="activityChart"></canvas>
-      </div>
-      
-      <!-- LANG CHART -->
-      <div class="sidebar-widget widget-lang">
-        <div class="lang-chart-wrap">
-          <canvas id="langChart"></canvas>
+      <div class="sidebar-widgets-row">
+        <!-- RADAR CHART -->
+        <div class="sidebar-widget">
+          <div class="widget-header">Activity Profile</div>
+          <div class="radar-chart-wrap">
+            <canvas id="activityChart"></canvas>
+          </div>
         </div>
-        <div class="lang-legend" id="langLegend"></div>
+        
+        <!-- LANG CHART -->
+        <div class="sidebar-widget">
+          <div class="widget-header">Top Languages</div>
+          <div class="lang-chart-content">
+            <div class="lang-chart-wrap">
+              <canvas id="langChart"></canvas>
+            </div>
+            <div class="lang-legend" id="langLegend"></div>
+          </div>
+        </div>
       </div>
       
       <!-- STATS FOOTER -->
