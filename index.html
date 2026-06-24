@@ -708,7 +708,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
 })();
 </script>
 
-<!-- HERO NAME STRUCTURAL ASSEMBLY DROP-IN ANIMATION -->
+<!-- HERO NAME STRUCTURAL ASSEMBLY JELLY DROP-IN ANIMATION -->
 <script>
 (function() {
   const hero = document.getElementById('hero');
@@ -723,21 +723,22 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   let sparks = [];
   let activeIndex = 0; // index of the letter currently assembling
   let activePart = 0;  // 0 = first half, 1 = second half
-  let gravity = 0.5;
-  let restitution = 0.35;
+  let gravity = 0.35;  // smooth, steady drop speed
+  let springK = 0.18;  // jelly jiggle stiffness
+  let dampening = 0.78; // jelly jiggle dampening
   let isDone = false;
 
   const spansQuery = heroName.querySelectorAll('span');
   if (spansQuery.length === 0) return;
 
-  // Initialize letters with two half-parts starting offscreen
+  // Initialize letters with two half-parts starting offscreen with jelly properties
   letters = Array.from(spansQuery).map(span => ({
     char: span.textContent,
     element: span,
     rect: { left: 0, top: 0, width: 0, height: 0 },
     parts: [
-      { y: -150, vy: 0, status: 'waiting' },
-      { y: -150, vy: 0, status: 'waiting' }
+      { y: -150, vy: 0, status: 'waiting', scaleX: 1.0, scaleY: 1.0, scaleVY: 0 },
+      { y: -150, vy: 0, status: 'waiting', scaleX: 1.0, scaleY: 1.0, scaleVY: 0 }
     ]
   }));
 
@@ -767,6 +768,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   function drawLetterPart(letterObj, partIdx, currentY, themeColor) {
     const r = letterObj.rect;
     if (r.width === 0 || r.height === 0) return;
+    const part = letterObj.parts[partIdx];
 
     offscreen.width = r.width;
     offscreen.height = r.height;
@@ -801,19 +803,27 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
     offCtx.fill();
 
     offCtx.globalCompositeOperation = 'source-over';
-    ctx.drawImage(offscreen, r.left, currentY);
+
+    // Scale organically relative to the bottom center of the letter part (squash & stretch origin)
+    ctx.save();
+    const originX = r.left + r.width / 2;
+    const originY = currentY + r.height;
+    ctx.translate(originX, originY);
+    ctx.scale(part.scaleX, part.scaleY);
+    ctx.drawImage(offscreen, -r.width / 2, -r.height);
+    ctx.restore();
   }
 
   function spawnSparks(x, y, themeColor) {
-    const count = Math.floor(Math.random() * 8) + 8;
+    const count = Math.floor(Math.random() * 8) + 6;
     for (let i = 0; i < count; i++) {
       sparks.push({
         x: x,
         y: y,
-        vx: (Math.random() - 0.5) * 5,
-        vy: -Math.random() * 4 - 2,
-        gravity: 0.18,
-        size: Math.random() * 2 + 1.2,
+        vx: (Math.random() - 0.5) * 4,
+        vy: -Math.random() * 3 - 2,
+        gravity: 0.15,
+        size: Math.random() * 1.5 + 1.2,
         alpha: 1.0,
         fade: Math.random() * 0.04 + 0.03,
         color: themeColor
@@ -837,34 +847,55 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
         part.status = 'falling';
       }
 
-      if (part.status === 'falling' || part.status === 'bouncing') {
+      if (part.status === 'falling') {
         part.vy += gravity;
         part.y += part.vy;
+
+        // Stretch vertically as velocity increases (falling stretch)
+        part.scaleY = 1.0 + Math.min(0.35, part.vy * 0.025);
+        part.scaleX = 1.0 - Math.min(0.22, part.vy * 0.015);
 
         // Collision with resting ground (span top position)
         if (part.y >= letter.rect.top) {
           part.y = letter.rect.top;
-          part.vy = -part.vy * restitution;
-          part.status = 'bouncing';
+          part.vy = 0;
 
-          // Spawn sparks on impact
-          spawnSparks(letter.rect.left + (activePart === 0 ? letter.rect.width * 0.25 : letter.rect.width * 0.75), letter.rect.top + letter.rect.height * 0.8, themeColor);
+          // Trigger elastic squash
+          part.scaleY = 0.5;   // Squashed down
+          part.scaleX = 1.5;   // Stretched out wide
+          part.scaleVY = 0.14;  // Spring bounce velocity
+          part.status = 'jiggling';
 
-          // Settle condition
-          if (Math.abs(part.vy) < 0.8) {
-            part.status = 'settled';
-            part.vy = 0;
-            part.y = letter.rect.top;
+          // Spawn impact sparks
+          spawnSparks(letter.rect.left + (activePart === 0 ? letter.rect.width * 0.25 : letter.rect.width * 0.75), letter.rect.top + letter.rect.height, themeColor);
+        }
+      }
 
-            // Move to next part or next letter
-            activePart++;
-            if (activePart >= 2) {
-              activePart = 0;
-              activeIndex++;
-              if (activeIndex >= letters.length) {
-                isDone = true;
-                finishAnimation();
-              }
+      if (part.status === 'jiggling') {
+        part.y = letter.rect.top;
+
+        // Spring wobble physics towards natural scale 1.0
+        const force = (1.0 - part.scaleY) * springK;
+        part.scaleVY += force;
+        part.scaleVY *= dampening;
+        part.scaleY += part.scaleVY;
+        part.scaleX = 1.0 / part.scaleY; // area conservation
+
+        // Settle condition
+        if (Math.abs(part.scaleY - 1.0) < 0.008 && Math.abs(part.scaleVY) < 0.003) {
+          part.status = 'settled';
+          part.scaleY = 1.0;
+          part.scaleX = 1.0;
+          part.scaleVY = 0;
+
+          // Move to next part or next letter
+          activePart++;
+          if (activePart >= 2) {
+            activePart = 0;
+            activeIndex++;
+            if (activeIndex >= letters.length) {
+              isDone = true;
+              finishAnimation();
             }
           }
         }
