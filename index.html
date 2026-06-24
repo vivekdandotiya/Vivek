@@ -708,7 +708,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
 })();
 </script>
 
-<!-- HERO NAME LIQUID FILL & PARTICLES ANIMATION -->
+<!-- HERO NAME STRUCTURAL ASSEMBLY DROP-IN ANIMATION -->
 <script>
 (function() {
   const hero = document.getElementById('hero');
@@ -720,22 +720,25 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   let width = 0;
   let height = 0;
   let letters = [];
-  let particles = [];
-  let splashes = [];
-  let wavePhase = 0;
-  let activeIndex = 0;
-  let frameCount = 0;
+  let sparks = [];
+  let activeIndex = 0; // index of the letter currently assembling
+  let activePart = 0;  // 0 = first half, 1 = second half
+  let gravity = 0.5;
+  let restitution = 0.35;
   let isDone = false;
 
   const spansQuery = heroName.querySelectorAll('span');
   if (spansQuery.length === 0) return;
 
-  letters = Array.from(spansQuery).map((span, idx) => ({
+  // Initialize letters with two half-parts starting offscreen
+  letters = Array.from(spansQuery).map(span => ({
     char: span.textContent,
     element: span,
-    fillLevel: 0,
-    waveOffset: idx * 2.3,
-    rect: { left: 0, top: 0, width: 0, height: 0 }
+    rect: { left: 0, top: 0, width: 0, height: 0 },
+    parts: [
+      { y: -150, vy: 0, status: 'waiting' },
+      { y: -150, vy: 0, status: 'waiting' }
+    ]
   }));
 
   function resize() {
@@ -761,7 +764,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   const offscreen = document.createElement('canvas');
   const offCtx = offscreen.getContext('2d');
 
-  function drawLetter(letterObj, themeColor) {
+  function drawLetterPart(letterObj, partIdx, currentY, themeColor) {
     const r = letterObj.rect;
     if (r.width === 0 || r.height === 0) return;
 
@@ -778,59 +781,44 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
     offCtx.fillText(letterObj.char, r.width / 2, r.height / 2);
 
     offCtx.globalCompositeOperation = 'source-in';
-
-    // Secondary Wave (Translucent back wave)
-    offCtx.fillStyle = themeColor === '#ffffff' || themeColor === 'rgb(255, 255, 255)' 
-      ? 'rgba(255, 255, 255, 0.25)' 
-      : 'rgba(15, 23, 42, 0.25)';
-    offCtx.beginPath();
-    let fillH = r.height * letterObj.fillLevel;
-    let baseY = r.height - fillH;
-    
-    offCtx.moveTo(0, r.height);
-    for (let x = 0; x <= r.width; x++) {
-      const y = baseY + 6 * Math.sin(0.06 * x + wavePhase * 0.8 + letterObj.waveOffset);
-      offCtx.lineTo(x, y);
-    }
-    offCtx.lineTo(r.width, r.height);
-    offCtx.closePath();
-    offCtx.fill();
-
-    // Main Wave
     offCtx.fillStyle = themeColor;
     offCtx.beginPath();
-    offCtx.moveTo(0, r.height);
-    for (let x = 0; x <= r.width; x++) {
-      const y = baseY + 4 * Math.sin(0.08 * x + wavePhase + letterObj.waveOffset);
-      offCtx.lineTo(x, y);
+
+    // Define vertical/horizontal clipping mask for the two halves
+    if (partIdx === 0) {
+      if (letterObj.char === 'I') {
+        offCtx.rect(0, 0, r.width, r.height / 2); // Top half for I
+      } else {
+        offCtx.rect(0, 0, r.width * 0.48, r.height); // Left half for V, E, K
+      }
+    } else {
+      if (letterObj.char === 'I') {
+        offCtx.rect(0, r.height / 2, r.width, r.height / 2); // Bottom half for I
+      } else {
+        offCtx.rect(r.width * 0.48, 0, r.width * 0.52, r.height); // Right half for V, E, K
+      }
     }
-    offCtx.lineTo(r.width, r.height);
-    offCtx.closePath();
     offCtx.fill();
 
     offCtx.globalCompositeOperation = 'source-over';
-    ctx.drawImage(offscreen, r.left, r.top);
+    ctx.drawImage(offscreen, r.left, currentY);
   }
 
-  function spawnParticle() {
-    if (activeIndex >= letters.length) return;
-    const activeLetter = letters[activeIndex];
-    const r = activeLetter.rect;
-    if (r.width === 0) return;
-
-    const x = r.left + Math.random() * r.width;
-    particles.push({
-      x: x,
-      y: -20,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: 1.2,
-      gravity: 0.14,
-      size: Math.random() * 4 + 14, // font size of the particle
-      angle: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.08,
-      char: activeLetter.char,
-      targetIdx: activeIndex
-    });
+  function spawnSparks(x, y, themeColor) {
+    const count = Math.floor(Math.random() * 8) + 8;
+    for (let i = 0; i < count; i++) {
+      sparks.push({
+        x: x,
+        y: y,
+        vx: (Math.random() - 0.5) * 5,
+        vy: -Math.random() * 4 - 2,
+        gravity: 0.18,
+        size: Math.random() * 2 + 1.2,
+        alpha: 1.0,
+        fade: Math.random() * 0.04 + 0.03,
+        color: themeColor
+      });
+    }
   }
 
   function animate() {
@@ -839,106 +827,78 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
     ctx.clearRect(0, 0, width, height);
 
     const themeColor = getComputedStyle(document.body).getPropertyValue('--text').trim();
-    wavePhase += 0.055;
-    frameCount++;
 
+    // 1. Process active falling letter and parts
     if (activeIndex < letters.length) {
-      const activeLetter = letters[activeIndex];
-      
-      let spawnRate = 12;
-      if (activeLetter.fillLevel > 0.3) spawnRate = 6;
-      if (activeLetter.fillLevel > 0.6) spawnRate = 3;
-      if (activeLetter.fillLevel > 0.8) spawnRate = 1;
+      const letter = letters[activeIndex];
+      const part = letter.parts[activePart];
 
-      if (frameCount % spawnRate === 0) {
-        spawnParticle();
-        if (spawnRate === 1) spawnParticle();
+      if (part.status === 'waiting') {
+        part.status = 'falling';
       }
-    }
 
-    letters.forEach(letter => {
-      drawLetter(letter, themeColor);
-    });
+      if (part.status === 'falling' || part.status === 'bouncing') {
+        part.vy += gravity;
+        part.y += part.vy;
 
-    // Update & Draw Particles (falling letters)
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.vy += p.gravity;
-      p.x += p.vx + Math.sin(frameCount * 0.05 + p.size) * 0.08;
-      p.y += p.vy;
-      p.angle += p.spin;
+        // Collision with resting ground (span top position)
+        if (part.y >= letter.rect.top) {
+          part.y = letter.rect.top;
+          part.vy = -part.vy * restitution;
+          part.status = 'bouncing';
 
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.font = `900 ${p.size}px Inter`;
-      ctx.fillStyle = themeColor;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(p.char, 0, 0);
-      ctx.restore();
+          // Spawn sparks on impact
+          spawnSparks(letter.rect.left + (activePart === 0 ? letter.rect.width * 0.25 : letter.rect.width * 0.75), letter.rect.top + letter.rect.height * 0.8, themeColor);
 
-      const targetLetter = letters[p.targetIdx];
-      const r = targetLetter.rect;
-      const waterSurfaceY = r.top + r.height * (1 - targetLetter.fillLevel);
+          // Settle condition
+          if (Math.abs(part.vy) < 0.8) {
+            part.status = 'settled';
+            part.vy = 0;
+            part.y = letter.rect.top;
 
-      if (p.y >= waterSurfaceY && p.x >= r.left && p.x <= r.left + r.width) {
-        particles.splice(i, 1);
-        targetLetter.fillLevel = Math.min(1.0, targetLetter.fillLevel + 0.013);
-        
-        // Spawn splash particles (smaller letters popping out)
-        const numSplash = Math.floor(Math.random() * 3) + 3;
-        for (let s = 0; s < numSplash; s++) {
-          splashes.push({
-            x: p.x,
-            y: waterSurfaceY,
-            vx: (Math.random() - 0.5) * 3.5,
-            vy: -Math.random() * 3 - 1.5,
-            gravity: 0.16,
-            size: p.size * 0.5,
-            angle: Math.random() * Math.PI * 2,
-            spin: (Math.random() - 0.5) * 0.15,
-            char: p.char,
-            alpha: 1.0
-          });
-        }
-
-        if (targetLetter.fillLevel >= 1.0) {
-          activeIndex++;
-          frameCount = 0;
-          if (activeIndex >= letters.length) {
-            isDone = true;
-            finishAnimation();
+            // Move to next part or next letter
+            activePart++;
+            if (activePart >= 2) {
+              activePart = 0;
+              activeIndex++;
+              if (activeIndex >= letters.length) {
+                isDone = true;
+                finishAnimation();
+              }
+            }
           }
         }
-      } else if (p.y > height + 50) {
-        particles.splice(i, 1);
       }
     }
 
-    // Update & Draw Splash Particles (popping letters)
-    for (let i = splashes.length - 1; i >= 0; i--) {
-      const s = splashes[i];
+    // 2. Draw all active and settled parts
+    letters.forEach(letter => {
+      letter.parts.forEach((part, partIdx) => {
+        if (part.status !== 'waiting') {
+          drawLetterPart(letter, partIdx, part.y, themeColor);
+        }
+      });
+    });
+
+    // 3. Update & Draw Sparks
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i];
       s.vy += s.gravity;
       s.x += s.vx;
       s.y += s.vy;
-      s.angle += s.spin;
-      s.alpha -= 0.045;
+      s.alpha -= s.fade;
 
       if (s.alpha <= 0) {
-        splashes.splice(i, 1);
+        sparks.splice(i, 1);
         continue;
       }
 
       ctx.save();
       ctx.globalAlpha = s.alpha;
-      ctx.translate(s.x, s.y);
-      ctx.rotate(s.angle);
-      ctx.font = `900 ${s.size}px Inter`;
-      ctx.fillStyle = themeColor;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(s.char, 0, 0);
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+      ctx.fillStyle = s.color;
+      ctx.fill();
       ctx.restore();
     }
 
