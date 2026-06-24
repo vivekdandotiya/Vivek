@@ -218,10 +218,17 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .github-box{
   margin-top:3rem;background:#000;border:1px solid var(--border2);
   border-radius:var(--radius);padding:0;overflow:hidden;
-  position:relative;height:620px;
+  display:flex;flex-direction:row;align-items:stretch;justify-content:stretch;
+  height:620px;
 }
-.github-dashboard-stage{
-  position:relative;width:100%;height:100%;
+.github-dashboard-sidebar{
+  width:360px;border-right:1px solid var(--border2);
+  background:rgba(12,12,14,0.6);backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;justify-content:space-between;
+  padding:2rem 1.5rem;z-index:10;position:relative;
+}
+.github-dashboard-main{
+  flex:1;position:relative;height:100%;
 }
 #three-container{
   position:absolute;inset:0;width:100%;height:100%;z-index:1;
@@ -233,31 +240,32 @@ body:has(#three-container:hover) #cur-ring {
   height: 48px;
 }
 
-/* WIDGETS OVERLAY */
-.dash-widget{
-  position:absolute;z-index:10;pointer-events:none;
+.sidebar-widget{
+  width:100%;display:flex;align-items:center;justify-content:center;
 }
-.dash-widget canvas{pointer-events:auto;}
-
-.widget-radar{top:2rem;right:2rem;width:260px;height:260px;}
+.widget-radar{height:200px;width:100%;}
 .widget-lang{
-  bottom:2rem;left:2rem;display:flex;align-items:center;gap:1.5rem;
-  background:rgba(20,20,20,0.4);backdrop-filter:blur(10px);
-  padding:1rem;border-radius:12px;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  width:100%;
 }
-.lang-chart-wrap{width:140px;height:140px;}
+.lang-chart-wrap{width:110px;height:110px;flex-shrink:0;}
+.lang-legend{display:flex;flex-direction:column;gap:.3rem;flex:1;}
+.legend-item{display:flex;align-items:center;gap:.5rem;font-size:11px;color:#a0a0a0;cursor:pointer;}
+.legend-dot{width:8px;height:8px;border-radius:2px;}
 
-.lang-legend{display:flex;flex-direction:column;gap:.4rem;}
-.legend-item{display:flex;align-items:center;gap:.6rem;font-size:11px;color:#a0a0a0;pointer-events:auto;cursor:pointer;}
-.legend-dot{width:10px;height:10px;border-radius:2px;}
-
-.dash-footer{
-  position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);
-  display:flex;gap:3rem;z-index:10;align-items:center;
+.sidebar-footer{
+  display:flex;gap:1.5rem;align-items:center;justify-content:space-between;
+  width:100%;border-top:1px solid var(--border);padding-top:1.25rem;
 }
-.dash-stat-item{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:#888;}
-.dash-stat-item strong{color:#fff;font-size:1.15rem;font-weight:800;letter-spacing:-0.01em;}
+.dash-stat-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#888;}
+.dash-stat-item strong{color:#fff;font-size:1.05rem;font-weight:800;letter-spacing:-0.01em;}
 .dash-stat-item.accent strong{color:#b8ff57;}
+
+@media(max-width:900px){
+  .github-box{flex-direction:column;height:auto;}
+  .github-dashboard-sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border2);height:auto;gap:2rem;}
+  .github-dashboard-main{height:400px;}
+}
 
 /* Chart Legend Customization */
 .chart-legend{margin-top:1rem;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
@@ -618,23 +626,23 @@ body.theme-transition, body.theme-transition * {
     <em class="accent-gradient">&amp;&amp; Open Source</em>
   </h2>
   <div class="github-box">
-    <div class="github-dashboard-stage">
-      <div id="three-container"></div>
-      
-      <!-- RADAR AT TOP RIGHT -->
-      <div class="dash-widget widget-radar">
+    <!-- LEFT SIDEBAR: WIDGETS -->
+    <div class="github-dashboard-sidebar">
+      <!-- RADAR CHART -->
+      <div class="sidebar-widget widget-radar">
         <canvas id="activityChart"></canvas>
       </div>
       
-      <!-- LANG AT BOTTOM LEFT -->
-      <div class="dash-widget widget-lang">
+      <!-- LANG CHART -->
+      <div class="sidebar-widget widget-lang">
         <div class="lang-chart-wrap">
           <canvas id="langChart"></canvas>
         </div>
         <div class="lang-legend" id="langLegend"></div>
       </div>
       
-      <div class="dash-footer">
+      <!-- STATS FOOTER -->
+      <div class="sidebar-footer">
         <div class="dash-stat-item accent">
           <strong id="contribCount">532</strong> <span>contributions</span>
         </div>
@@ -646,6 +654,11 @@ body.theme-transition, body.theme-transition * {
           <strong style="margin-left:4px;">14</strong>
         </div>
       </div>
+    </div>
+    
+    <!-- RIGHT SIDEBAR: DESIGN -->
+    <div class="github-dashboard-main">
+      <div id="three-container"></div>
     </div>
   </div>
 </section>
