@@ -9,7 +9,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --grid-line: rgba(255, 255, 255, 0.045);
+  --grid-line: rgba(255, 255, 255, 0.095);
   --bg:#050505;--surface:rgba(18, 18, 18, 0.7);--surface2:rgba(30, 30, 30, 0.5);
   --border:rgba(255, 255, 255, 0.08);--border2:rgba(255, 255, 255, 0.15);
   --text:#ffffff;--text2:#a0aec0;--text3:#718096;
@@ -89,7 +89,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   position:absolute;
   font-family:'Inter',sans-serif;font-weight:900;
   font-size:clamp(12rem,30vw,36rem);
-  color:transparent;-webkit-text-stroke:1px rgba(184,255,87,.03);
+  color:transparent;-webkit-text-stroke:1.5px rgba(184, 255, 87, 0.15);
   letter-spacing:-.06em;pointer-events:none;user-select:none;
   top:45%;left:50%;transform:translate(-50%,-50%);
   white-space:nowrap;z-index:0;
@@ -546,7 +546,7 @@ footer span{font-size:.7rem;color:var(--text3);}
 
 /* LIGHT MODE THEME - POLISHED GLASSMORPHIC */
 [data-theme='light'] {
-  --grid-line: rgba(0, 0, 0, 0.035);
+  --grid-line: rgba(0, 0, 0, 0.07);
   --bg: #f8fafc; 
   --surface: rgba(255, 255, 255, 0.7);
   --surface2: rgba(241, 245, 249, 0.5);
@@ -571,7 +571,7 @@ footer span{font-size:.7rem;color:var(--text3);}
   background: radial-gradient(circle, rgba(0,124,195,0.03) 0%, transparent 80%);
 }
 [data-theme='light'] .hero-bg-word{
-  -webkit-text-stroke: 1px rgba(0,0,0,0.02);
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.15);
 }
 [data-theme='light'] nav{background:rgba(248, 250, 252, 0.8);}
 [data-theme='light'] .mob-nav{background:rgba(248, 250, 252, 0.98);}

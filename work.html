@@ -9,7 +9,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --grid-line: rgba(255, 255, 255, 0.045);--bg:#0a0a0a;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;--text:#fff;--text2:#a0a0a0;--text3:#555;--accent:#b8ff57;--radius:16px;}
+  --grid-line: rgba(255, 255, 255, 0.095);--bg:#0a0a0a;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;--text:#fff;--text2:#a0a0a0;--text3:#555;--accent:#b8ff57;--radius:16px;}
 html{scroll-behavior:smooth;}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
@@ -316,7 +316,7 @@ footer span{font-size:.7rem;color:var(--text3);}
 
 /* LIGHT MODE THEME - POLISHED */
 [data-theme='light'] {
-  --grid-line: rgba(0, 0, 0, 0.035);
+  --grid-line: rgba(0, 0, 0, 0.07);
   --bg: #fdfdfd; 
   --surface: #ffffff;
   --surface2: #f8fafc;
@@ -342,7 +342,7 @@ body.theme-transition, body.theme-transition * {
 
 /* Hero Section Refinements */
 [data-theme='light'] .hero-bg-text, [data-theme='light'] .hero-bg-word { 
-  -webkit-text-stroke: 1px rgba(0,0,0,0.07); 
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.18); 
   color: rgba(0,0,0,0.015); /* very faint fill instead of transparent */
 }
 [data-theme='light'] .hero-sub .line2 { color: #000; }
