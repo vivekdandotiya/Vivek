@@ -9,13 +9,16 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
+  --grid-line: rgba(255, 255, 255, 0.025);
   --bg:#0a0a0a;--surface:#111;--surface2:#161616;
   --border:#1f1f1f;--border2:#2a2a2a;
   --text:#fff;--text2:#a0a0a0;--text3:#555;
   --accent:#b8ff57;--radius:16px;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;}
 
 /* ── CURSOR ── */
 #cur{position:fixed;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
@@ -269,6 +272,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 /* LIGHT MODE THEME - POLISHED */
 [data-theme='light'] {
+  --grid-line: rgba(0, 0, 0, 0.025);
   --bg: #fdfdfd; 
   --surface: #ffffff;
   --surface2: #f8fafc;
@@ -364,9 +368,45 @@ body.theme-transition, body.theme-transition * {
   to { transform: translateX(-50%); }
 }
 
+
+/* BACKGROUND LAYOUT GRID LINES */
+.bg-grid-lines {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.bg-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--grid-line) 15%, 
+    var(--grid-line) 85%, 
+    transparent 100%
+  );
+}
+
 </style>
 </head>
 <body>
+<!-- BACKGROUND LAYOUT GRID LINES -->
+<div class="bg-grid-lines" aria-hidden="true">
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+</div>
+
 <div id="cur"></div><div id="cur-ring"></div>
 
 <nav>

@@ -9,6 +9,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
+  --grid-line: rgba(255, 255, 255, 0.025);
   --bg:#050505;--surface:rgba(18, 18, 18, 0.7);--surface2:rgba(30, 30, 30, 0.5);
   --border:rgba(255, 255, 255, 0.08);--border2:rgba(255, 255, 255, 0.15);
   --text:#ffffff;--text2:#a0aec0;--text3:#718096;
@@ -17,7 +18,9 @@
   --radius:20px;
 }
 html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;}
 
 /* GLOW ORBS */
 .glow-orb {
@@ -543,6 +546,7 @@ footer span{font-size:.7rem;color:var(--text3);}
 
 /* LIGHT MODE THEME - POLISHED GLASSMORPHIC */
 [data-theme='light'] {
+  --grid-line: rgba(0, 0, 0, 0.025);
   --bg: #f8fafc; 
   --surface: rgba(255, 255, 255, 0.7);
   --surface2: rgba(241, 245, 249, 0.5);
@@ -557,8 +561,8 @@ footer span{font-size:.7rem;color:var(--text3);}
 
 [data-theme='light'] body {
   background-color: var(--bg);
-  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 [data-theme='light'] .glow-orb{
   background: radial-gradient(circle, rgba(22,163,74,0.04) 0%, transparent 80%);
@@ -610,9 +614,45 @@ footer span{font-size:.7rem;color:var(--text3);}
 body.theme-transition, body.theme-transition * {
   transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
 }
+
+/* BACKGROUND LAYOUT GRID LINES */
+.bg-grid-lines {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.bg-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--grid-line) 15%, 
+    var(--grid-line) 85%, 
+    transparent 100%
+  );
+}
+
 </style>
 </head>
 <body>
+<!-- BACKGROUND LAYOUT GRID LINES -->
+<div class="bg-grid-lines" aria-hidden="true">
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+</div>
+
 <div id="cur"></div><div id="cur-ring"></div>
 
 <!-- GLOW ORBS -->

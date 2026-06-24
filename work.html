@@ -8,9 +8,12 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{--bg:#0a0a0a;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;--text:#fff;--text2:#a0a0a0;--text3:#555;--accent:#b8ff57;--radius:16px;}
+:root{
+  --grid-line: rgba(255, 255, 255, 0.025);--bg:#0a0a0a;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;--text:#fff;--text2:#a0a0a0;--text3:#555;--accent:#b8ff57;--radius:16px;}
 html{scroll-behavior:smooth;}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;}
 #cur{position:fixed;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
 #cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s;}
 body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px;}
@@ -313,6 +316,7 @@ footer span{font-size:.7rem;color:var(--text3);}
 
 /* LIGHT MODE THEME - POLISHED */
 [data-theme='light'] {
+  --grid-line: rgba(0, 0, 0, 0.025);
   --bg: #fdfdfd; 
   --surface: #ffffff;
   --surface2: #f8fafc;
@@ -399,9 +403,45 @@ body.theme-transition, body.theme-transition * {
 [data-theme='light'] .form-group input, [data-theme='light'] .form-group textarea { background: #ffffff; border-color: rgba(0,0,0,0.1); color: #000; }
 [data-theme='light'] .form-group input:focus, [data-theme='light'] .form-group textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(22,163,74,0.1); }
 
+
+/* BACKGROUND LAYOUT GRID LINES */
+.bg-grid-lines {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.bg-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--grid-line) 15%, 
+    var(--grid-line) 85%, 
+    transparent 100%
+  );
+}
+
 </style>
 </head>
 <body>
+<!-- BACKGROUND LAYOUT GRID LINES -->
+<div class="bg-grid-lines" aria-hidden="true">
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+</div>
+
 <div id="cur"></div><div id="cur-ring"></div>
 <nav>
   <a href="index.html" class="nav-brand">
