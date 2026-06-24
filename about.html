@@ -9,7 +9,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
-  --grid-line: rgba(255, 255, 255, 0.025);
+  --grid-line: rgba(255, 255, 255, 0.045);
   --bg:#0a0a0a;--surface:#111;--surface2:#161616;
   --border:#1f1f1f;--border2:#2a2a2a;
   --text:#fff;--text2:#a0a0a0;--text3:#555;
@@ -272,7 +272,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 /* LIGHT MODE THEME - POLISHED */
 [data-theme='light'] {
-  --grid-line: rgba(0, 0, 0, 0.025);
+  --grid-line: rgba(0, 0, 0, 0.035);
   --bg: #fdfdfd; 
   --surface: #ffffff;
   --surface2: #f8fafc;
@@ -287,9 +287,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 /* Base Body Styling */
 [data-theme='light'] body {
   background-color: var(--bg);
-  /* extremely subtle dot pattern */
-  background-image: radial-gradient(rgba(0,0,0,0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 60px 60px;
 }
 
 /* Theme transition */
