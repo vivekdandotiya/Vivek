@@ -225,7 +225,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   flex:1.4;min-width:620px;border-right:1px solid var(--border2);
   background:rgba(12,12,14,0.6);backdrop-filter:blur(20px);
   display:flex;flex-direction:column;justify-content:space-between;
-  padding:2.5rem 2rem;z-index:10;position:relative;
+  padding:2rem;z-index:10;position:relative;
 }
 .github-dashboard-main{
   flex:1;position:relative;height:100%;
@@ -240,37 +240,175 @@ body:has(#three-container:hover) #cur-ring {
   height: 48px;
 }
 
+.dashboard-sidebar-header {
+  margin-bottom: 1.25rem;
+  width: 100%;
+}
+.dashboard-sidebar-header h3 {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin: 0;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.dashboard-sidebar-header p {
+  font-size: 0.65rem;
+  color: var(--text3);
+  margin: 0.2rem 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .sidebar-widgets-row{
-  display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;gap:1.5rem;width:100%;margin-bottom:2rem;
+  display:flex;flex-direction:row;justify-content:space-between;align-items:stretch;gap:1.25rem;width:100%;margin-bottom:1.25rem;
 }
 .sidebar-widget{
-  flex:1;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;justify-content:space-between;align-items:center;height:290px;
+  flex:1;background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1rem;display:flex;flex-direction:column;justify-content:flex-start;align-items:center;height:250px;
 }
 .widget-header{
-  font-size:0.72rem;text-transform:uppercase;letter-spacing:0.15em;color:var(--text3);width:100%;text-align:left;margin-bottom:0.75rem;border-bottom:1px solid rgba(255,255,255,0.04);padding-bottom:0.5rem;
+  font-size:0.68rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text3);width:100%;text-align:left;margin-bottom:0.5rem;border-bottom:1px solid rgba(255,255,255,0.04);padding-bottom:0.4rem;
 }
 .radar-chart-wrap{
-  width:100%;height:210px;position:relative;display:flex;align-items:center;justify-content:center;
+  width:100%;height:180px;position:relative;display:flex;align-items:center;justify-content:center;
 }
 .lang-chart-content{
-  display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:1rem;width:100%;height:210px;
+  display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:0.75rem;width:100%;height:180px;
 }
-.lang-chart-wrap{width:110px;height:110px;flex-shrink:0;position:relative;}
-.lang-legend{display:flex;flex-direction:column;gap:.35rem;flex:1;overflow-y:auto;max-height:190px;padding-right:0.2rem;}
-.legend-item{display:flex;align-items:center;gap:.5rem;font-size:11px;color:#a0a0a0;cursor:pointer;}
-.legend-dot{width:8px;height:8px;border-radius:2px;}
+.lang-chart-wrap{width:95px;height:95px;flex-shrink:0;position:relative;}
+.lang-legend{display:flex;flex-direction:column;gap:0.5rem;flex:1;overflow-y:auto;max-height:180px;padding-right:0.2rem;}
+
+.lang-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  width: 100%;
+}
+.lang-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  color: #a0a0a0;
+}
+.lang-progress-name {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #fff;
+  font-weight: 600;
+}
+.lang-progress-bar-track {
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1.5px;
+  overflow: hidden;
+}
+.lang-progress-bar-fill {
+  height: 100%;
+  border-radius: 1.5px;
+}
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
 
 .lang-legend::-webkit-scrollbar{width:3px;}
 .lang-legend::-webkit-scrollbar-track{background:transparent;}
 .lang-legend::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px;}
 
-.sidebar-footer{
-  display:flex;gap:1.5rem;align-items:center;justify-content:space-between;
-  width:100%;border-top:1px solid var(--border2);padding-top:1.25rem;margin-top:auto;
+.stats-grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+  margin-bottom: 1.5rem;
 }
-.dash-stat-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:#888;}
-.dash-stat-item strong{color:#fff;font-size:1.05rem;font-weight:800;letter-spacing:-0.01em;}
-.dash-stat-item.accent strong{color:#b8ff57;}
+.stat-card {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25rem;
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+  cursor: default;
+}
+.stat-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(184, 255, 87, 0.2);
+  transform: translateY(-2px);
+}
+.stat-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.stat-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.stat-label {
+  font-size: 8px;
+  text-transform: uppercase;
+  color: var(--text3);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+}
+.stat-val {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.sidebar-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%;border-top:1px solid var(--border2);padding-top:1rem;margin-top:auto;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 10px;
+  color: #a0a0a0;
+}
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  background-color: #b8ff57;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 0 0 rgba(184, 255, 87, 0.7);
+  animation: pulse-glow 1.6s infinite;
+}
+@keyframes pulse-glow {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(184, 255, 87, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(184, 255, 87, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(184, 255, 87, 0);
+  }
+}
+.license-info {
+  font-size: 9px;
+  color: var(--text3);
+  font-family: monospace;
+}
 
 @media(max-width:900px){
   .github-box{flex-direction:column;height:auto;}
@@ -290,10 +428,11 @@ body:has(#three-container:hover) #cur-ring {
 }
 @media(max-width:600px){
   .github-box{padding:0;}
-  .sidebar-widgets-row{flex-direction:column;gap:1.25rem;margin-bottom:1.5rem;}
-  .sidebar-widget{height:250px;}
-  .radar-chart-wrap{height:170px;}
-  .lang-chart-content{height:170px;}
+  .sidebar-widgets-row{flex-direction:column;gap:1.25rem;margin-bottom:1.25rem;}
+  .sidebar-widget{height:240px;}
+  .radar-chart-wrap{height:160px;}
+  .lang-chart-content{height:160px;}
+  .stats-grid-container{grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;}
   .dash-stats{flex-direction:column;align-items:center;gap:1rem;}
 }
 
@@ -643,6 +782,12 @@ body.theme-transition, body.theme-transition * {
   <div class="github-box">
     <!-- LEFT SIDEBAR: WIDGETS -->
     <div class="github-dashboard-sidebar">
+      <!-- HEADER -->
+      <div class="dashboard-sidebar-header">
+        <h3>Developer Analytics</h3>
+        <p>Real-time Open Source Sync</p>
+      </div>
+
       <div class="sidebar-widgets-row">
         <!-- RADAR CHART -->
         <div class="sidebar-widget">
@@ -664,18 +809,45 @@ body.theme-transition, body.theme-transition * {
         </div>
       </div>
       
+      <!-- STATS GRID -->
+      <div class="stats-grid-container">
+        <div class="stat-card">
+          <div class="stat-icon" style="color: #b8ff57;">🔥</div>
+          <div class="stat-info">
+            <span class="stat-label">Commits</span>
+            <strong class="stat-val" id="contribCountVal">532</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: #facc15;">⭐</div>
+          <div class="stat-info">
+            <span class="stat-label">Stars</span>
+            <strong class="stat-val">135</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: #60a5fa;">PRs</div>
+          <div class="stat-info">
+            <span class="stat-label">PRs</span>
+            <strong class="stat-val">14</strong>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="color: #c084fc;">📦</div>
+          <div class="stat-info">
+            <span class="stat-label">Repos</span>
+            <strong class="stat-val">12</strong>
+          </div>
+        </div>
+      </div>
+      
       <!-- STATS FOOTER -->
       <div class="sidebar-footer">
-        <div class="dash-stat-item accent">
-          <strong id="contribCount">532</strong> <span>contributions</span>
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span>Live Sync Active</span>
         </div>
-        <div class="dash-stat-item">
-          <span style="font-size:1.2rem;">☆</span> <strong style="margin-left:4px;">135</strong>
-        </div>
-        <div class="dash-stat-item">
-          <svg style="width:18px;height:18px;fill:#888;" viewBox="0 0 16 16"><path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878A2.25 2.25 0 0 0 8.75 3h-1.5A2.25 2.25 0 0 0 5 5.372ZM11.75 8.25a.75.75 0 0 1 .75.75v.878A3.75 3.75 0 0 1 8.75 13.628v.622a.75.75 0 0 1-1.5 0v-.622a3.75 3.75 0 0 1-3-3.75V9a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v.878A2.25 2.25 0 0 0 8.75 12h1.5a2.25 2.25 0 0 0 2.25-2.25V9a.75.75 0 0 1 .75-.75h1.5Z"></path></svg>
-          <strong style="margin-left:4px;">14</strong>
-        </div>
+        <div class="license-info">VD // 2026</div>
       </div>
     </div>
     
@@ -718,6 +890,8 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 (function initDashboard(){
   const contribEl = document.getElementById('contribCount');
   if(contribEl) contribEl.textContent = "532"; 
+  const contribValEl = document.getElementById('contribCountVal');
+  if(contribValEl) contribValEl.textContent = "532";
 
   const langElement = document.getElementById('langChart');
   const activityElement = document.getElementById('activityChart');
@@ -725,12 +899,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
   const langCtx = langElement.getContext('2d');
   const activityCtx = activityElement.getContext('2d');
-  const gridColor = 'rgba(255,255,255,0.08)';
+  const gridColor = 'rgba(255,255,255,0.06)';
 
   const langData = {
     labels: ['C', 'TypeScript', 'Kotlin', 'Shell', 'Perl', 'Other'],
     data: [45, 25, 12, 10, 5, 3],
-    colors: ['#555', '#3178c6', '#a97bff', '#89e051', '#0298c3', '#222']
+    colors: ['#475569', '#3178c6', '#a97bff', '#89e051', '#0298c3', '#1e293b']
   };
   
   new Chart(langCtx, {
@@ -745,7 +919,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       }]
     },
     options: {
-      cutout: '68%',
+      cutout: '72%',
       maintainAspectRatio: false,
       plugins: { legend: { display: false } }
     }
@@ -755,9 +929,21 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   if(legendWrap) {
     legendWrap.innerHTML = '';
     langData.labels.forEach((lbl, i) => {
+      const pct = langData.data[i];
       const item = document.createElement('div');
-      item.className = 'legend-item';
-      item.innerHTML = `<div class="legend-dot" style="background:${langData.colors[i]}"></div> <span>${lbl}</span>`;
+      item.className = 'lang-progress-row';
+      item.innerHTML = `
+        <div class="lang-progress-meta">
+          <div class="lang-progress-name">
+            <span class="legend-dot" style="background:${langData.colors[i]}"></span>
+            <span>${lbl}</span>
+          </div>
+          <span style="color:#fff; font-weight:700;">${pct}%</span>
+        </div>
+        <div class="lang-progress-bar-track">
+          <div class="lang-progress-bar-fill" style="width:${pct}%; background:${langData.colors[i]}"></div>
+        </div>
+      `;
       legendWrap.appendChild(item);
     });
   }
@@ -765,13 +951,17 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   new Chart(activityCtx, {
     type: 'radar',
     data: {
-      labels: ['Commit', 'Issue', 'PullReq', 'Review', 'Repo'],
+      labels: ['Commits', 'Issues', 'PRs', 'Reviews', 'Repos'],
       datasets: [{
-        data: [10000, 450, 1500, 100, 1500],
-        backgroundColor: 'rgba(184, 255, 87, 0.35)',
+        data: [92, 70, 78, 65, 84],
+        backgroundColor: 'rgba(184, 255, 87, 0.18)',
         borderColor: '#b8ff57',
-        borderWidth: 2,
-        pointRadius: 0
+        borderWidth: 1.5,
+        pointBackgroundColor: '#b8ff57',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#b8ff57',
+        pointRadius: 3
       }]
     },
     options: {
@@ -780,7 +970,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
         r: {
           grid: { color: gridColor },
           angleLines: { color: gridColor },
-          pointLabels: { color: '#fff', font: { size: 10, weight: '700' } },
+          pointLabels: { color: '#888', font: { size: 9, weight: '700' } },
           ticks: { display: false, count: 5 },
           suggestedMin: 0
         }
@@ -793,9 +983,11 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   if(!container) return;
   const width = container.clientWidth, height = container.clientHeight;
   const scene = new THREE.Scene();
-  const aspect = width / height, d = 165 / 10; // Zoomed in to look much larger (d = 16.5)
-  const camera = new THREE.OrthographicCamera(-d*aspect, d*aspect, d, -d, 1, 1000);
-  camera.position.set(22, 22, 22); camera.lookAt(0, 0, 0);
+  
+  const aspect = width / height;
+  const camera = new THREE.PerspectiveCamera(40, aspect, 1, 1000);
+  camera.position.set(40, 26, 40);
+  camera.lookAt(0, 1.5, 0);
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
   renderer.setSize(width, height);
@@ -1036,7 +1228,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     const w = container.clientWidth, h = container.clientHeight;
     if(!w || !h) return;
     renderer.setSize(w, h);
-    camera.left = -d * (w/h); camera.right = d * (w/h);
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
   });
 })();
