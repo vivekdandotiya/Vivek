@@ -773,15 +773,101 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   keyLight.position.set(30, 50, 20);
   scene.add(keyLight);
 
-  const fillLight = new THREE.DirectionalLight(0xb8ff57, 0.4); // Subtle neon green fill
+  const fillLight = new THREE.DirectionalLight(0xb8ff57, 0.4); // Neon green fill
   fillLight.position.set(-30, 20, -20);
   scene.add(fillLight);
+
+  // Cyberspace floor grid
+  const gridHelper = new THREE.GridHelper(300, 60, 0xb8ff57, 0x444466);
+  gridHelper.position.y = -0.15;
+  gridHelper.material.opacity = 0.35;
+  gridHelper.material.transparent = true;
+  scene.add(gridHelper);
 
   const group = new THREE.Group();
   function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
 
   const rows = 7, cols = 52, spacing = 1.02;
-  const floorsGroups = [];
+  const baseWidth = rows * spacing + 0.8;
+  const baseDepth = cols * spacing + 1.2;
+
+  // 1. Lower Display Plate
+  const lowerGeo = new THREE.BoxGeometry(baseWidth + 0.8, 0.15, baseDepth + 0.8);
+  const lowerMat = new THREE.MeshStandardMaterial({
+    color: 0x0a0a0c,
+    roughness: 0.9,
+    metalness: 0.1
+  });
+  const lowerPlate = new THREE.Mesh(lowerGeo, lowerMat);
+  lowerPlate.position.y = -0.075;
+  group.add(lowerPlate);
+
+  // 2. Pedestal Base Pedestal Block
+  const pedestalGeo = new THREE.BoxGeometry(baseWidth, 0.5, baseDepth);
+  const pedestalMat = new THREE.MeshStandardMaterial({
+    color: 0x18181c,
+    roughness: 0.3,
+    metalness: 0.8
+  });
+  const pedestal = new THREE.Mesh(pedestalGeo, pedestalMat);
+  pedestal.position.y = 0.25;
+  group.add(pedestal);
+
+  // 3. Side Text Plates (engraved look)
+  // VIVEK Text Plate
+  const canvasV = document.createElement('canvas');
+  canvasV.width = 512; canvasV.height = 128;
+  const ctxV = canvasV.getContext('2d');
+  ctxV.fillStyle = '#18181c'; ctxV.fillRect(0, 0, 512, 128);
+  ctxV.fillStyle = '#b8ff57';
+  ctxV.font = 'bold 76px sans-serif';
+  ctxV.textAlign = 'center'; ctxV.textBaseline = 'middle';
+  ctxV.fillText('VIVEK', 256, 64);
+  const texV = new THREE.CanvasTexture(canvasV);
+
+  const plateVGeo = new THREE.BoxGeometry(0.02, 0.25, 1.0);
+  const plateVMat = new THREE.MeshStandardMaterial({
+    color: 0x18181c,
+    map: texV,
+    emissive: 0xb8ff57,
+    emissiveMap: texV,
+    emissiveIntensity: 0.6,
+    roughness: 0.3,
+    metalness: 0.8
+  });
+  const plateV = new THREE.Mesh(plateVGeo, plateVMat);
+  plateV.position.set(baseWidth / 2 + 0.01, 0.25, -20);
+  group.add(plateV);
+
+  // 2026 Text Plate
+  const canvasY = document.createElement('canvas');
+  canvasY.width = 512; canvasY.height = 128;
+  const ctxY = canvasY.getContext('2d');
+  ctxY.fillStyle = '#18181c'; ctxY.fillRect(0, 0, 512, 128);
+  ctxY.fillStyle = '#b8ff57';
+  ctxY.font = 'bold 76px sans-serif';
+  ctxY.textAlign = 'center'; ctxY.textBaseline = 'middle';
+  ctxY.fillText('2026', 256, 64);
+  const texY = new THREE.CanvasTexture(canvasY);
+
+  const plateYGeo = new THREE.BoxGeometry(0.02, 0.25, 1.0);
+  const plateYMat = new THREE.MeshStandardMaterial({
+    color: 0x18181c,
+    map: texY,
+    emissive: 0xb8ff57,
+    emissiveMap: texY,
+    emissiveIntensity: 0.6,
+    roughness: 0.3,
+    metalness: 0.8
+  });
+  const plateY = new THREE.Mesh(plateYGeo, plateYMat);
+  plateY.position.set(baseWidth / 2 + 0.01, 0.25, 20);
+  group.add(plateY);
+
+  // 4. Skyscrapers
+  const bars = [];
+  const barGeo = new THREE.BoxGeometry(0.8, 1, 0.8);
+  barGeo.translate(0, 0.5, 0); // Translate so origin is at bottom face
 
   for (let i = 0; i < rows; i++) {
     for (let j = 0; j < cols; j++) {
@@ -792,71 +878,36 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       else if (r > 0.91) { lvl = 2; }
       else if (r > 0.8) { lvl = 1; }
 
-      const colGroup = new THREE.Group();
-      colGroup.position.set(
+      // Define target height
+      let hVal = 0.02;
+      if (lvl === 1) hVal = 0.8;
+      else if (lvl === 2) hVal = 2.0;
+      else if (lvl === 3) hVal = 3.8;
+      else if (lvl === 4) hVal = 6.0;
+
+      // Synthwave Cyberpunk color scheme
+      const colHex = [0x1c1c22, 0x3a0ca3, 0xf72585, 0x00ffff, 0xb8ff57][lvl];
+
+      const mat = new THREE.MeshStandardMaterial({
+        color: colHex,
+        roughness: 0.15,
+        metalness: 0.1,
+        transparent: true,
+        opacity: lvl === 0 ? 0.25 : 0.9,
+        emissive: colHex,
+        emissiveIntensity: lvl === 0 ? 0 : (lvl === 4 ? 0.9 : 0.4)
+      });
+
+      const bar = new THREE.Mesh(barGeo, mat);
+      bar.position.set(
         i * spacing - (rows * spacing) / 2,
-        0,
+        0.5, // sits on top of the pedestal
         j * spacing - (cols * spacing) / 2
       );
-
-      // Base plate for grid layout (dark grey base)
-      const baseGeo = new THREE.BoxGeometry(0.85, 0.1, 0.85);
-      const baseMat = new THREE.MeshStandardMaterial({ 
-        color: 0x181818, 
-        roughness: 0.8, 
-        metalness: 0.1 
-      });
-      const baseMesh = new THREE.Mesh(baseGeo, baseMat);
-      baseMesh.position.y = 0.05; // half height
-      colGroup.add(baseMesh);
-
-      if (lvl > 0) {
-        // Modular floor architecture based on contribution heights
-        const numFloors = lvl === 1 ? 1 : (lvl === 2 ? 3 : (lvl === 3 ? 5 : 8));
-        const floorHeight = 0.35;
-        const floorGap = 0.05;
-        const floorGeo = new THREE.BoxGeometry(0.82, floorHeight, 0.82);
-
-        // Color coding matching website theme (L4 uses website's neon green accent #b8ff57)
-        const colHex = [0x181818, 0x062812, 0x0a5c24, 0x22943c, 0xb8ff57][lvl];
-
-        const floorsGroup = new THREE.Group();
-        floorsGroup.position.y = 0.1; // grows from top of base plate
-
-        for (let k = 0; k < numFloors; k++) {
-          let floorColor = colHex;
-          let emissiveInt = 0.1;
-
-          // Sky-high building beacon at the top floor of L4 columns
-          if (lvl === 4 && k === numFloors - 1) {
-            floorColor = 0xffffff; // Beacon white
-            emissiveInt = 1.0;
-          } else if (lvl === 4) {
-            emissiveInt = 0.5; // Glowing accent green
-          } else if (lvl === 3) {
-            emissiveInt = 0.25;
-          }
-
-          const floorMat = new THREE.MeshStandardMaterial({
-            color: floorColor,
-            roughness: 0.25,
-            metalness: 0.15,
-            emissive: floorColor,
-            emissiveIntensity: emissiveInt
-          });
-
-          const floorMesh = new THREE.Mesh(floorGeo, floorMat);
-          floorMesh.position.y = k * (floorHeight + floorGap) + floorHeight / 2;
-          floorsGroup.add(floorMesh);
-        }
-
-        floorsGroup.scale.y = 0.01;
-        floorsGroup.targetScaleY = 1.0;
-        colGroup.add(floorsGroup);
-        floorsGroups.push(floorsGroup);
-      }
-
-      group.add(colGroup);
+      bar.scale.y = 0.01;
+      bar.targetScaleY = hVal;
+      group.add(bar);
+      bars.push(bar);
     }
   }
 
@@ -922,10 +973,10 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   function animate() {
     requestAnimationFrame(animate);
     
-    // Scale up modular contribution blocks
-    floorsGroups.forEach(fg => {
-      if (fg.scale.y < fg.targetScaleY) {
-        fg.scale.y += (fg.targetScaleY - fg.scale.y) * 0.08;
+    // Scale up skyscrapers
+    bars.forEach(bar => {
+      if (bar.scale.y < bar.targetScaleY) {
+        bar.scale.y += (bar.targetScaleY - bar.scale.y) * 0.08;
       }
     });
 
