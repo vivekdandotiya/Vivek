@@ -189,6 +189,237 @@ body.theme-transition, body.theme-transition * {
   );
 }
 
+/* BLOG MODAL OVERLAY */
+#blog-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(4, 4, 6, 0.9);
+  backdrop-filter: blur(30px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#blog-modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.blog-modal-card {
+  background: linear-gradient(145deg, rgba(20, 20, 24, 0.95), rgba(12, 12, 16, 0.98));
+  border: 1px solid var(--border2);
+  border-radius: 24px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  position: relative;
+  transform: translateY(40px) scale(0.96);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+}
+#blog-modal-overlay.open .blog-modal-card {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+.blog-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s;
+  z-index: 100;
+}
+.blog-modal-close:hover {
+  background: rgba(184, 255, 87, 0.15);
+  border-color: rgba(184, 255, 87, 0.3);
+  color: var(--accent);
+  transform: rotate(90deg);
+}
+.blog-modal-content {
+  padding: 3rem 2.5rem 3.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+.blog-modal-content::-webkit-scrollbar {
+  width: 5px;
+}
+.blog-modal-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.blog-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+.blog-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.blog-modal-cat {
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: rgba(184, 255, 87, 0.1);
+  color: var(--accent);
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+}
+.blog-modal-date, .blog-modal-read {
+  font-size: 0.68rem;
+  color: var(--text3);
+}
+.blog-modal-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 2rem;
+}
+.blog-modal-hero {
+  width: 100%;
+  height: 240px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6.5rem;
+  margin-bottom: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.blog-modal-hero .bg-emoji {
+  position: absolute;
+  font-size: 14rem;
+  opacity: 0.04;
+  pointer-events: none;
+}
+.blog-modal-body {
+  font-size: 0.92rem;
+  color: var(--text2);
+  line-height: 1.9;
+}
+.blog-modal-body p {
+  margin-bottom: 1.5rem;
+}
+.blog-modal-body h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 2.25rem 0 1rem;
+  letter-spacing: -0.01em;
+}
+.blog-modal-body ul {
+  margin-bottom: 1.5rem;
+  padding-left: 1.25rem;
+}
+.blog-modal-body li {
+  margin-bottom: 0.5rem;
+  list-style-type: square;
+}
+.blog-modal-body li::marker {
+  color: var(--accent);
+}
+.blog-modal-body code {
+  font-family: monospace;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+.blog-modal-body pre {
+  background: rgba(10, 10, 12, 0.8);
+  border: 1px solid var(--border2);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+}
+.blog-modal-body pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #a0a0a0;
+  font-size: 0.82rem;
+}
+.blog-modal-body blockquote {
+  border-left: 3px solid var(--accent);
+  background: rgba(184, 255, 87, 0.03);
+  padding: 1rem 1.5rem;
+  border-radius: 0 12px 12px 0;
+  margin: 2rem 0;
+  font-style: italic;
+}
+.blog-modal-body blockquote p {
+  margin-bottom: 0;
+}
+
+[data-theme='light'] #blog-modal-overlay {
+  background: rgba(255, 255, 255, 0.85);
+}
+[data-theme='light'] .blog-modal-card {
+  background: linear-gradient(145deg, #ffffff, #f8fafc);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+}
+[data-theme='light'] .blog-modal-close {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #000;
+}
+[data-theme='light'] .blog-modal-close:hover {
+  background: rgba(22, 163, 74, 0.1);
+  border-color: rgba(22, 163, 74, 0.2);
+  color: var(--accent);
+}
+[data-theme='light'] .blog-modal-title {
+  color: #0f172a;
+}
+[data-theme='light'] .blog-modal-hero {
+  background: rgba(0, 0, 0, 0.02);
+  border-color: rgba(0, 0, 0, 0.05);
+}
+[data-theme='light'] .blog-modal-body h4 {
+  color: #0f172a;
+}
+[data-theme='light'] .blog-modal-body pre {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+[data-theme='light'] .blog-modal-body pre code {
+  color: #334155;
+}
+[data-theme='light'] .blog-modal-body blockquote {
+  background: rgba(22, 163, 74, 0.03);
+}
+[data-theme='light'] .blog-modal-content::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 </style>
 </head>
 <body>
@@ -296,6 +527,23 @@ body.theme-transition, body.theme-transition * {
   </div>
 </div>
 
+<!-- BLOG DETAIL MODAL -->
+<div id="blog-modal-overlay">
+  <div class="blog-modal-card">
+    <button class="blog-modal-close" id="blogModalClose">✕</button>
+    <div class="blog-modal-content">
+      <div class="blog-modal-header">
+        <span class="blog-modal-cat" id="mBlogCat">Category</span>
+        <span class="blog-modal-date" id="mBlogDate">Date</span>
+        <span class="blog-modal-read" id="mBlogRead">5 min read</span>
+      </div>
+      <h2 class="blog-modal-title" id="mBlogTitle">Blog Title</h2>
+      <div class="blog-modal-hero" id="mBlogHero">⚡</div>
+      <div class="blog-modal-body" id="mBlogBody"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <span>© 2025 Vivek Dandotiya</span>
   <span class="foot-brand">VD.</span>
@@ -310,7 +558,191 @@ ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.tog
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.06});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// BLOG DETAIL POPUP LOGIC
+const BLOG_POSTS = [
+  {
+    cat: 'Performance',
+    date: 'Mar 2025',
+    read: '5 min read',
+    title: 'How I Optimised My Portfolio to 100/100 Lighthouse Score',
+    emoji: '⚡',
+    body: `
+      <p>Having a fast portfolio is not just about showing off; it directly impacts user experience and retention. If your website takes more than 3 seconds to load, half of your visitors will bounce. In this article, I share my journey of optimizing this exact website to get a perfect Lighthouse score.</p>
+      
+      <h4>1. Optimizing Image Assets</h4>
+      <p>Images are usually the heaviest elements on any webpage. To resolve this, I converted all graphic assets to modern <code>WebP</code> formats, reducing file sizes by up to 70% without sacrificing visual quality. Additionally, I added <code>loading="lazy"</code> attributes to all off-screen images to prevent blockages during page loading.</p>
+      
+      <h4>2. Custom Web Font Delivery</h4>
+      <p>Standard font files are surprisingly heavy. I replaced standard Google Fonts embeds with local preloaded subsets, only downloading characters that are actively used. Using <code>font-display: swap</code> ensures that clean system fonts display instantly while the custom typeface finishes loading.</p>
+      
+      <blockquote>
+        "Speed is a feature. It is the foundation of user delight."
+      </blockquote>
+      
+      <h4>3. Minifying and Inlining CSS</h4>
+      <p>I structured the stylesheet to load critical CSS inline directly inside the HTML <code>&lt;head&gt;</code>, allowing the browser to paint the viewport immediately before fetching external stylesheets. The remaining styles are loaded asynchronously to eliminate render-blocking.</p>
+    `
+  },
+  {
+    cat: 'Design',
+    date: 'Feb 2025',
+    read: '4 min read',
+    title: 'Why Figma is Still the Best Tool for Frontend Developers',
+    emoji: '🎨',
+    body: `
+      <p>There has long been a gap between design and development, but modern frontend tooling has bridged it. Figma has emerged not just as a playground for designers, but as a crucial developer workspace. Here is why Figma is an indispensable asset in my daily engineering workflow.</p>
+      
+      <h4>1. Component-Based Planning</h4>
+      <p>React and Figma share the same component philosophy. In Figma, I construct reusable frames, layouts, and variants. By treating designs as component libraries, the transition to React code becomes direct, clean, and highly organized.</p>
+      
+      <h4>2. Developer Mode Insights</h4>
+      <p>Figma's Dev Mode allows direct inspection of spacing, CSS layout bounds, and typography sizes. It generates clean variables for colors and borders, which translates seamlessly into my Tailwind styling guidelines.</p>
+      
+      <h4>3. Designing Interactions First</h4>
+      <p>Before writing code, I prototype hover states, modal popups, and click triggers. Having a clear interactive preview guides implementation and eliminates guesswork, leading to pixel-perfect interfaces.</p>
+    `
+  },
+  {
+    cat: 'Next.js',
+    date: 'Jan 2025',
+    read: '7 min read',
+    title: 'Next.js App Router: What I Wish I Knew From Day One',
+    emoji: '▲',
+    body: `
+      <p>The Next.js App Router introduced a paradigm shift in react frameworks. It replaced pages with layouts and server components. While powerful, the learning curve had its share of stumbling blocks. Here are my main lessons learned.</p>
+      
+      <h4>1. Server vs. Client Components</h4>
+      <p>By default, all components are Server Components. This is great for SEO and bundle sizes, but means you cannot use React hooks (like <code>useState</code>) directly. The key is to keep interactivity isolated at the leaves of your component tree, marking only those components with the <code>"use client"</code> directive.</p>
+      
+      <h4>2. Nested Layouts Architecture</h4>
+      <p>Nested layouts make dashboard creation simple, but they also persist state across page transitions. I learned to structure layouts to isolate side navigation cleanly while letting page bodies render dynamic details independently.</p>
+      
+      <pre><code>// app/dashboard/layout.js
+export default function DashboardLayout({ children }) {
+  return (
+    &lt;div class="dashboard"&gt;
+      &lt;Sidebar /&gt;
+      &lt;main&gt;{children}&lt;/main&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+      
+      <h4>3. Route Handlers and Server Actions</h4>
+      <p>Server Actions allow direct form submissions to the server without configuring manual API endpoints. It simplifies form validation and data mutations, making database write operations smooth and readable.</p>
+    `
+  },
+  {
+    cat: 'UI/UX Design',
+    date: 'Apr 2025',
+    read: '6 min read',
+    title: 'Design Systems: Bridging the Gap Between Figma and React Components',
+    emoji: '📐',
+    body: `
+      <p>A design system is the single source of truth for an entire digital product. It defines colors, fonts, margins, and card templates. When constructed correctly, a design system ensures that every interface feels coherent and works flawlessly.</p>
+      
+      <h4>1. Establishing Design Tokens</h4>
+      <p>Design tokens are raw values—like HEX codes or pixel sizes—mapped to named abstractions (e.g. <code>color-accent</code>, <code>radius-md</code>). By sharing these tokens between Figma styles and CSS custom properties, designers and developers speak the exact same language.</p>
+      
+      <h4>2. Component Mapping</h4>
+      <p>Figma components and React components should map 1-to-1. For example, a Figma bento card with primary, secondary, and ghost variants corresponds directly to a React <code>Card</code> component with a <code>variant</code> prop.</p>
+      
+      <h4>3. Continuous Integration and Syncing</h4>
+      <p>Advanced teams use Figma APIs to compile design updates directly into styled JSON files. Running a build pipeline translates these tokens directly into Tailwind CSS configuration overrides, making brand updates instant and automated.</p>
+    `
+  },
+  {
+    cat: 'UI/UX Design',
+    date: 'May 2025',
+    read: '5 min read',
+    title: 'Cognitive Load: Designing High-Performance Data Dashboards',
+    emoji: '👁',
+    body: `
+      <p>A data dashboard's goal is to summarize information and assist decision-making. However, displaying too much data without visual hierarchy causes cognitive overload, confusing users and decreasing productivity. Here is how I design layouts that stay clean and readable.</p>
+      
+      <h4>1. Hierarchical Information Grouping</h4>
+      <p>Use card groupings and grids to categorize metrics. Primary key figures (like total sales or active users) should sit prominently at the top, while auxiliary breakdown charts reside lower in the hierarchy.</p>
+      
+      <blockquote>
+        "Good design makes a dashboard look simple. Great design makes dense data easy to read."
+      </blockquote>
+      
+      <h4>2. Visual Breathing Room (Whitespace)</h4>
+      <p>Whitespace is not empty space; it is a critical layout separator. Giving cards, charts, and legends at least 20px of gap space lets the user focus on individual widgets without feeling overwhelmed.</p>
+      
+      <h4>3. Color As Data, Not Decoration</h4>
+      <p>Avoid multicolored layouts. Use a neutral base palette (slate and charcoal) and reserve bright accents (like neon green) exclusively for statuses, key markers, and interaction callouts.</p>
+    `
+  },
+  {
+    cat: 'UI/UX Design',
+    date: 'Jun 2025',
+    read: '8 min read',
+    title: 'Micro-Animations: Making Interfaces Feel Alive Without Dropping Frames',
+    emoji: '✨',
+    body: `
+      <p>Micro-animations are tiny visual feedback loops—like a button swelling slightly on hover or a checkmark animating on success. They delight users and make interfaces feel responsive, but if poorly implemented, they degrade framerates and look laggy. Here's how to write clean, performance-optimized micro-interactions.</p>
+      
+      <h4>1. Use GPU-Accelerated CSS Properties</h4>
+      <p>Never animate layout-altering properties like <code>width</code>, <code>height</code>, or <code>top</code>. These trigger layout recalculations. Instead, animate only <code>transform</code> (scale, translation, rotation) and <code>opacity</code>. These run on the GPU, guaranteeing a smooth 60fps.</p>
+      
+      <pre><code>/* Optimized hover slide */
+.btn {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn:hover {
+  transform: translateY(-2px);
+}</code></pre>
+      
+      <h4>2. Natural Spring Physics</h4>
+      <p>Linear animations feel rigid and robotic. Instead, use custom cubic-bezier curves (like <code>cubic-bezier(.16, 1, .3, 1)</code>) or spring animations (dampened mass oscillation) to replicate real-world material bounce and squash.</p>
+      
+      <h4>3. Keeping it Subtle</h4>
+      <p>Micro-animations should be almost unnoticeable. They exist to assist interaction, not distract the viewer. Keep transitions short (between 150ms and 300ms) and use them selectively on buttons, links, and card highlights.</p>
+    `
+  }
+];
+
+const modalOverlay = document.getElementById('blog-modal-overlay');
+const modalClose = document.getElementById('blogModalClose');
+
+if(modalOverlay && modalClose) {
+  const cards = document.querySelectorAll('.blog-card');
+  cards.forEach((card, i) => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      const post = BLOG_POSTS[i];
+      if(!post) return;
+
+      document.getElementById('mBlogCat').textContent = post.cat;
+      document.getElementById('mBlogDate').textContent = post.date;
+      document.getElementById('mBlogRead').textContent = post.read;
+      document.getElementById('mBlogTitle').textContent = post.title;
+
+      const heroEl = document.getElementById('mBlogHero');
+      heroEl.innerHTML = `<div class="bg-emoji">${post.emoji}</div>${post.emoji}`;
+      document.getElementById('mBlogBody').innerHTML = post.body;
+
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', e => {
+    if(e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeModal();
+  });
+}
 </script>
+
 
 <!-- THEME LOGIC -->
 <script>
