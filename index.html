@@ -721,12 +721,12 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
   let height = 0;
   let letters = [];
   let sparks = [];
-  let gravity = 0.65;   // faster drop speed
-  let springK = 0.22;   // stiffer jelly jiggle
-  let dampening = 0.76;  // faster settling
+  let activeIndex = 0; // index of the letter currently assembling
+  let activePart = 0;  // 0 = first half, 1 = second half
+  let gravity = 0.35;  // smooth, steady drop speed
+  let springK = 0.18;  // jelly jiggle stiffness
+  let dampening = 0.78; // jelly jiggle dampening
   let isDone = false;
-  let frameCount = 0;
-  const staggerDelay = 6; // start a new part every 6 frames (very organic cascade)
 
   const spansQuery = heroName.querySelectorAll('span');
   if (spansQuery.length === 0) return;
@@ -838,74 +838,71 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
 
     const themeColor = getComputedStyle(document.body).getPropertyValue('--text').trim();
 
-    // 1. Trigger next part based on frame count
-    const totalParts = letters.length * 2;
-    const activePartIndex = Math.floor(frameCount / staggerDelay);
+    // 1. Process active falling letter and parts
+    if (activeIndex < letters.length) {
+      const letter = letters[activeIndex];
+      const part = letter.parts[activePart];
 
-    // 2. Update physics for all parts
-    let allSettled = true;
+      if (part.status === 'waiting') {
+        part.status = 'falling';
+      }
 
-    letters.forEach((letter, letterIdx) => {
-      letter.parts.forEach((part, partIdx) => {
-        const globalIdx = letterIdx * 2 + partIdx;
+      if (part.status === 'falling') {
+        part.vy += gravity;
+        part.y += part.vy;
 
-        // Trigger fall if it's time
-        if (globalIdx <= activePartIndex && part.status === 'waiting') {
-          part.status = 'falling';
-        }
+        // Stretch vertically as velocity increases (falling stretch)
+        part.scaleY = 1.0 + Math.min(0.35, part.vy * 0.025);
+        part.scaleX = 1.0 - Math.min(0.22, part.vy * 0.015);
 
-        if (part.status === 'falling') {
-          allSettled = false;
-          part.vy += gravity;
-          part.y += part.vy;
-
-          // Stretch vertically as velocity increases (falling stretch)
-          part.scaleY = 1.0 + Math.min(0.35, part.vy * 0.025);
-          part.scaleX = 1.0 - Math.min(0.22, part.vy * 0.015);
-
-          // Collision with resting ground (span top position)
-          if (part.y >= letter.rect.top) {
-            part.y = letter.rect.top;
-            part.vy = 0;
-
-            // Trigger elastic squash
-            part.scaleY = 0.5;   // Squashed down
-            part.scaleX = 1.5;   // Stretched out wide
-            part.scaleVY = 0.14;  // Spring bounce velocity
-            part.status = 'jiggling';
-
-            // Spawn impact sparks
-            spawnSparks(letter.rect.left + (partIdx === 0 ? letter.rect.width * 0.25 : letter.rect.width * 0.75), letter.rect.top + letter.rect.height, themeColor);
-          }
-        }
-
-        else if (part.status === 'jiggling') {
-          allSettled = false;
+        // Collision with resting ground (span top position)
+        if (part.y >= letter.rect.top) {
           part.y = letter.rect.top;
+          part.vy = 0;
 
-          // Spring wobble physics towards natural scale 1.0
-          const force = (1.0 - part.scaleY) * springK;
-          part.scaleVY += force;
-          part.scaleVY *= dampening;
-          part.scaleY += part.scaleVY;
-          part.scaleX = 1.0 / part.scaleY; // area conservation
+          // Trigger elastic squash
+          part.scaleY = 0.5;   // Squashed down
+          part.scaleX = 1.5;   // Stretched out wide
+          part.scaleVY = 0.14;  // Spring bounce velocity
+          part.status = 'jiggling';
 
-          // Settle condition
-          if (Math.abs(part.scaleY - 1.0) < 0.008 && Math.abs(part.scaleVY) < 0.003) {
-            part.status = 'settled';
-            part.scaleY = 1.0;
-            part.scaleX = 1.0;
-            part.scaleVY = 0;
+          // Spawn impact sparks
+          spawnSparks(letter.rect.left + (activePart === 0 ? letter.rect.width * 0.25 : letter.rect.width * 0.75), letter.rect.top + letter.rect.height, themeColor);
+        }
+      }
+
+      if (part.status === 'jiggling') {
+        part.y = letter.rect.top;
+
+        // Spring wobble physics towards natural scale 1.0
+        const force = (1.0 - part.scaleY) * springK;
+        part.scaleVY += force;
+        part.scaleVY *= dampening;
+        part.scaleY += part.scaleVY;
+        part.scaleX = 1.0 / part.scaleY; // area conservation
+
+        // Settle condition
+        if (Math.abs(part.scaleY - 1.0) < 0.008 && Math.abs(part.scaleVY) < 0.003) {
+          part.status = 'settled';
+          part.scaleY = 1.0;
+          part.scaleX = 1.0;
+          part.scaleVY = 0;
+
+          // Move to next part or next letter
+          activePart++;
+          if (activePart >= 2) {
+            activePart = 0;
+            activeIndex++;
+            if (activeIndex >= letters.length) {
+              isDone = true;
+              finishAnimation();
+            }
           }
         }
+      }
+    }
 
-        else if (part.status === 'waiting') {
-          allSettled = false;
-        }
-      });
-    });
-
-    // 3. Draw all active and settled parts
+    // 2. Draw all active and settled parts
     letters.forEach(letter => {
       letter.parts.forEach((part, partIdx) => {
         if (part.status !== 'waiting') {
@@ -914,7 +911,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
       });
     });
 
-    // 4. Update & Draw Sparks
+    // 3. Update & Draw Sparks
     for (let i = sparks.length - 1; i >= 0; i--) {
       const s = sparks[i];
       s.vy += s.gravity;
@@ -936,13 +933,7 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
       ctx.restore();
     }
 
-    if (allSettled && activePartIndex >= totalParts) {
-      isDone = true;
-      finishAnimation();
-    } else {
-      frameCount++;
-      requestAnimationFrame(animate);
-    }
+    requestAnimationFrame(animate);
   }
 
   function finishAnimation() {
