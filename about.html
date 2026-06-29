@@ -882,8 +882,8 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/three.min.js"></script>
 
 <script>
 /* ── GITHUB PRECISE DASHBOARD LOGIC ── */
@@ -907,23 +907,27 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     colors: ['#475569', '#3178c6', '#a97bff', '#89e051', '#0298c3', '#1e293b']
   };
   
-  new Chart(langCtx, {
-    type: 'doughnut',
-    data: {
-      labels: langData.labels,
-      datasets: [{
-        data: langData.data,
-        backgroundColor: langData.colors,
-        borderWidth: 0,
-        hoverOffset: 12
-      }]
-    },
-    options: {
-      cutout: '72%',
-      maintainAspectRatio: false,
-      plugins: { legend: { display: false } }
-    }
-  });
+  try {
+    new Chart(langCtx, {
+      type: 'doughnut',
+      data: {
+        labels: langData.labels,
+        datasets: [{
+          data: langData.data,
+          backgroundColor: langData.colors,
+          borderWidth: 0,
+          hoverOffset: 12
+        }]
+      },
+      options: {
+        cutout: '72%',
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } }
+      }
+    });
+  } catch(e) {
+    console.error("Error rendering lang chart:", e);
+  }
 
   const legendWrap = document.getElementById('langLegend');
   if(legendWrap) {
@@ -948,289 +952,297 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     });
   }
 
-  new Chart(activityCtx, {
-    type: 'radar',
-    data: {
-      labels: ['Commits', 'Issues', 'PRs', 'Reviews', 'Repos'],
-      datasets: [{
-        data: [92, 70, 78, 65, 84],
-        backgroundColor: 'rgba(184, 255, 87, 0.18)',
-        borderColor: '#b8ff57',
-        borderWidth: 1.5,
-        pointBackgroundColor: '#b8ff57',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: '#b8ff57',
-        pointRadius: 3
-      }]
-    },
-    options: {
-      maintainAspectRatio: false,
-      scales: {
-        r: {
-          grid: { color: gridColor },
-          angleLines: { color: gridColor },
-          pointLabels: { color: '#888', font: { size: 9, weight: '700' } },
-          ticks: { display: false, count: 5 },
-          suggestedMin: 0
-        }
+  try {
+    new Chart(activityCtx, {
+      type: 'radar',
+      data: {
+        labels: ['Commits', 'Issues', 'PRs', 'Reviews', 'Repos'],
+        datasets: [{
+          data: [92, 70, 78, 65, 84],
+          backgroundColor: 'rgba(184, 255, 87, 0.18)',
+          borderColor: '#b8ff57',
+          borderWidth: 1.5,
+          pointBackgroundColor: '#b8ff57',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: '#b8ff57',
+          pointRadius: 3
+        }]
       },
-      plugins: { legend: { display: false } }
-    }
-  });
-
-  const container = document.getElementById('three-container');
-  if(!container) return;
-  const width = container.clientWidth, height = container.clientHeight;
-  const scene = new THREE.Scene();
-  
-  const aspect = width / height;
-  const camera = new THREE.PerspectiveCamera(40, aspect, 1, 1000);
-  camera.position.set(40, 26, 40);
-  camera.lookAt(0, 1.5, 0);
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setSize(width, height);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-
-  // Soft professional studio lighting (prevents washing out colors)
-  scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-  
-  const keyLight = new THREE.DirectionalLight(0xdcfce7, 1.15); // Soft green-white light
-  keyLight.position.set(30, 60, 20);
-  scene.add(keyLight);
-
-  const fillLight = new THREE.DirectionalLight(0x06b6d4, 0.5); // Cool teal fill light
-  fillLight.position.set(-30, 20, -20);
-  scene.add(fillLight);
-
-  // Premium subtle slate floor grid
-  const gridHelper = new THREE.GridHelper(300, 80, 0xb8ff57, 0x1e293b);
-  gridHelper.position.y = -0.2;
-  gridHelper.material.opacity = 0.2;
-  gridHelper.material.transparent = true;
-  scene.add(gridHelper);
-
-  const group = new THREE.Group();
-  function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
-
-  const rows = 7, cols = 52, spacing = 1.05;
-  const baseWidth = rows * spacing + 0.8;
-  const baseDepth = cols * spacing + 1.2;
-
-  // 1. Lower Display Stand Base
-  const lowerGeo = new THREE.BoxGeometry(baseWidth + 0.8, 0.2, baseDepth + 0.8);
-  const lowerMat = new THREE.MeshStandardMaterial({
-    color: 0x0a0a0c,
-    roughness: 0.9,
-    metalness: 0.1
-  });
-  const lowerPlate = new THREE.Mesh(lowerGeo, lowerMat);
-  lowerPlate.position.y = -0.1;
-  group.add(lowerPlate);
-
-  // 2. Pedestal Block (Obsidian Display Stand)
-  const pedestalGeo = new THREE.BoxGeometry(baseWidth, 0.8, baseDepth);
-  const pedestalMat = new THREE.MeshStandardMaterial({
-    color: 0x141416,
-    roughness: 0.3,
-    metalness: 0.8
-  });
-  const pedestal = new THREE.Mesh(pedestalGeo, pedestalMat);
-  pedestal.position.y = 0.4;
-  group.add(pedestal);
-
-  // 3. Glowing Engraved Side Plates
-  // VIVEK Text Plate
-  const canvasV = document.createElement('canvas');
-  canvasV.width = 512; canvasV.height = 128;
-  const ctxV = canvasV.getContext('2d');
-  ctxV.fillStyle = '#141416'; ctxV.fillRect(0, 0, 512, 128);
-  ctxV.fillStyle = '#b8ff57';
-  ctxV.font = 'bold 76px sans-serif';
-  ctxV.textAlign = 'center'; ctxV.textBaseline = 'middle';
-  ctxV.fillText('VIVEK', 256, 64);
-  const texV = new THREE.CanvasTexture(canvasV);
-
-  const plateVGeo = new THREE.BoxGeometry(0.04, 0.35, 1.4);
-  const plateVMat = new THREE.MeshStandardMaterial({
-    color: 0x141416,
-    map: texV,
-    emissive: 0xb8ff57,
-    emissiveMap: texV,
-    emissiveIntensity: 0.7,
-    roughness: 0.3,
-    metalness: 0.8
-  });
-  const plateV = new THREE.Mesh(plateVGeo, plateVMat);
-  plateV.position.set(baseWidth / 2 + 0.02, 0.4, -18);
-  group.add(plateV);
-
-  // 2026 Text Plate
-  const canvasY = document.createElement('canvas');
-  canvasY.width = 512; canvasY.height = 128;
-  const ctxY = canvasY.getContext('2d');
-  ctxY.fillStyle = '#141416'; ctxY.fillRect(0, 0, 512, 128);
-  ctxY.fillStyle = '#b8ff57';
-  ctxY.font = 'bold 76px sans-serif';
-  ctxY.textAlign = 'center'; ctxY.textBaseline = 'middle';
-  ctxY.fillText('2026', 256, 64);
-  const texY = new THREE.CanvasTexture(canvasY);
-
-  const plateYGeo = new THREE.BoxGeometry(0.04, 0.35, 1.4);
-  const plateYMat = new THREE.MeshStandardMaterial({
-    color: 0x141416,
-    map: texY,
-    emissive: 0xb8ff57,
-    emissiveMap: texY,
-    emissiveIntensity: 0.7,
-    roughness: 0.3,
-    metalness: 0.8
-  });
-  const plateY = new THREE.Mesh(plateYGeo, plateYMat);
-  plateY.position.set(baseWidth / 2 + 0.02, 0.4, 18);
-  group.add(plateY);
-
-  // 4. Contribution Skyscrapers (Matte base + premium monochrome emerald glass gradient)
-  const bars = [];
-  const barGeo = new THREE.BoxGeometry(0.88, 1, 0.88); // Thicker columns for solid building look
-  barGeo.translate(0, 0.5, 0); // Origin at bottom face
-
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      const r = pRand(i * 12 + j * 19);
-      let lvl = 0;
-      if (r > 0.985) { lvl = 4; } 
-      else if (r > 0.96) { lvl = 3; }
-      else if (r > 0.91) { lvl = 2; }
-      else if (r > 0.8) { lvl = 1; }
-
-      // Define target height
-      let hVal = 0.02;
-      if (lvl === 1) hVal = 1.0;
-      else if (lvl === 2) hVal = 2.5;
-      else if (lvl === 3) hVal = 4.5;
-      else if (lvl === 4) hVal = 7.0; // Taller towers for dramatic skyline
-
-      // Premium Emerald-to-Mint glass color scheme (matches GitHub green theme beautifully)
-      const colHex = [0x1c1c22, 0x0f3b21, 0x1c6634, 0x2eb856, 0xb8ff57][lvl];
-
-      const mat = new THREE.MeshStandardMaterial({
-        color: colHex,
-        roughness: 0.1,
-        metalness: 0.2,
-        transparent: true,
-        opacity: lvl === 0 ? 0.3 : 0.9,
-        emissive: colHex,
-        emissiveIntensity: lvl === 0 ? 0.0 : (lvl === 4 ? 1.4 : 0.45)
-      });
-
-      const bar = new THREE.Mesh(barGeo, mat);
-      bar.position.set(
-        i * spacing - (rows * spacing) / 2,
-        0.8, // sits on top of the taller pedestal
-        j * spacing - (cols * spacing) / 2
-      );
-      bar.scale.y = 0.01;
-      bar.targetScaleY = hVal;
-      group.add(bar);
-      bars.push(bar);
-    }
-  }
-
-  // Set rotation coordinates and damping variables
-  let isDragging = false;
-  let previousMousePosition = { x: 0, y: 0 };
-  let targetRotationY = -Math.PI / 12;
-  let targetRotationX = Math.PI / 8;
-  let currentRotationY = -Math.PI / 12;
-  let currentRotationX = Math.PI / 8;
-
-  group.rotation.x = currentRotationX;
-  group.rotation.y = currentRotationY;
-  scene.add(group);
-
-  // Mouse Drag Interactions
-  container.addEventListener('mousedown', e => {
-    isDragging = true;
-    previousMousePosition = { x: e.clientX, y: e.clientY };
-  });
-
-  container.addEventListener('mousemove', e => {
-    if (isDragging) {
-      const deltaX = e.clientX - previousMousePosition.x;
-      const deltaY = e.clientY - previousMousePosition.y;
-      
-      targetRotationY += deltaX * 0.005;
-      targetRotationX += deltaY * 0.005;
-      targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
-    }
-    previousMousePosition = { x: e.clientX, y: e.clientY };
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  // Mobile Touch Controls
-  container.addEventListener('touchstart', e => {
-    if (e.touches.length === 1) {
-      isDragging = true;
-      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    }
-  }, { passive: true });
-
-  container.addEventListener('touchmove', e => {
-    if (isDragging && e.touches.length === 1) {
-      const deltaX = e.touches[0].clientX - previousMousePosition.x;
-      const deltaY = e.touches[0].clientY - previousMousePosition.y;
-      
-      targetRotationY += deltaX * 0.005;
-      targetRotationX += deltaY * 0.005;
-      targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
-      
-      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    }
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-
-  function animate() {
-    requestAnimationFrame(animate);
-    
-    // Scale up skyscrapers
-    bars.forEach(bar => {
-      if (bar.scale.y < bar.targetScaleY) {
-        bar.scale.y += (bar.targetScaleY - bar.scale.y) * 0.08;
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            grid: { color: gridColor },
+            angleLines: { color: gridColor },
+            pointLabels: { color: '#888', font: { size: 9, weight: '700' } },
+            ticks: { display: false, count: 5 },
+            suggestedMin: 0
+          }
+        },
+        plugins: { legend: { display: false } }
       }
     });
+  } catch(e) {
+    console.error("Error rendering activity chart:", e);
+  }
 
-    // Slow auto-spin on Y axis if not active dragging
-    if (!isDragging) {
-      targetRotationY += 0.001;
+  try {
+    const container = document.getElementById('three-container');
+    if(!container) return;
+    const width = container.clientWidth, height = container.clientHeight;
+    const scene = new THREE.Scene();
+    
+    const aspect = width / height;
+    const camera = new THREE.PerspectiveCamera(40, aspect, 1, 1000);
+    camera.position.set(40, 26, 40);
+    camera.lookAt(0, 1.5, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    // Soft professional studio lighting (prevents washing out colors)
+    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
+    
+    const keyLight = new THREE.DirectionalLight(0xdcfce7, 1.15); // Soft green-white light
+    keyLight.position.set(30, 60, 20);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0x06b6d4, 0.5); // Cool teal fill light
+    fillLight.position.set(-30, 20, -20);
+    scene.add(fillLight);
+
+    // Premium subtle slate floor grid
+    const gridHelper = new THREE.GridHelper(300, 80, 0xb8ff57, 0x1e293b);
+    gridHelper.position.y = -0.2;
+    gridHelper.material.opacity = 0.2;
+    gridHelper.material.transparent = true;
+    scene.add(gridHelper);
+
+    const group = new THREE.Group();
+    function pRand(s) { let r = Math.sin(s) * 10000; return r - Math.floor(r); }
+
+    const rows = 7, cols = 52, spacing = 1.05;
+    const baseWidth = rows * spacing + 0.8;
+    const baseDepth = cols * spacing + 1.2;
+
+    // 1. Lower Display Stand Base
+    const lowerGeo = new THREE.BoxGeometry(baseWidth + 0.8, 0.2, baseDepth + 0.8);
+    const lowerMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0a0c,
+      roughness: 0.9,
+      metalness: 0.1
+    });
+    const lowerPlate = new THREE.Mesh(lowerGeo, lowerMat);
+    lowerPlate.position.y = -0.1;
+    group.add(lowerPlate);
+
+    // 2. Pedestal Block (Obsidian Display Stand)
+    const pedestalGeo = new THREE.BoxGeometry(baseWidth, 0.8, baseDepth);
+    const pedestalMat = new THREE.MeshStandardMaterial({
+      color: 0x141416,
+      roughness: 0.3,
+      metalness: 0.8
+    });
+    const pedestal = new THREE.Mesh(pedestalGeo, pedestalMat);
+    pedestal.position.y = 0.4;
+    group.add(pedestal);
+
+    // 3. Glowing Engraved Side Plates
+    // VIVEK Text Plate
+    const canvasV = document.createElement('canvas');
+    canvasV.width = 512; canvasV.height = 128;
+    const ctxV = canvasV.getContext('2d');
+    ctxV.fillStyle = '#141416'; ctxV.fillRect(0, 0, 512, 128);
+    ctxV.fillStyle = '#b8ff57';
+    ctxV.font = 'bold 76px sans-serif';
+    ctxV.textAlign = 'center'; ctxV.textBaseline = 'middle';
+    ctxV.fillText('VIVEK', 256, 64);
+    const texV = new THREE.CanvasTexture(canvasV);
+
+    const plateVGeo = new THREE.BoxGeometry(0.04, 0.35, 1.4);
+    const plateVMat = new THREE.MeshStandardMaterial({
+      color: 0x141416,
+      map: texV,
+      emissive: 0xb8ff57,
+      emissiveMap: texV,
+      emissiveIntensity: 0.7,
+      roughness: 0.3,
+      metalness: 0.8
+    });
+    const plateV = new THREE.Mesh(plateVGeo, plateVMat);
+    plateV.position.set(baseWidth / 2 + 0.02, 0.4, -18);
+    group.add(plateV);
+
+    // 2026 Text Plate
+    const canvasY = document.createElement('canvas');
+    canvasY.width = 512; canvasY.height = 128;
+    const ctxY = canvasY.getContext('2d');
+    ctxY.fillStyle = '#141416'; ctxY.fillRect(0, 0, 512, 128);
+    ctxY.fillStyle = '#b8ff57';
+    ctxY.font = 'bold 76px sans-serif';
+    ctxY.textAlign = 'center'; ctxY.textBaseline = 'middle';
+    ctxY.fillText('2026', 256, 64);
+    const texY = new THREE.CanvasTexture(canvasY);
+
+    const plateYGeo = new THREE.BoxGeometry(0.04, 0.35, 1.4);
+    const plateYMat = new THREE.MeshStandardMaterial({
+      color: 0x141416,
+      map: texY,
+      emissive: 0xb8ff57,
+      emissiveMap: texY,
+      emissiveIntensity: 0.7,
+      roughness: 0.3,
+      metalness: 0.8
+    });
+    const plateY = new THREE.Mesh(plateYGeo, plateYMat);
+    plateY.position.set(baseWidth / 2 + 0.02, 0.4, 18);
+    group.add(plateY);
+
+    // 4. Contribution Skyscrapers (Matte base + premium monochrome emerald glass gradient)
+    const bars = [];
+    const barGeo = new THREE.BoxGeometry(0.88, 1, 0.88); // Thicker columns for solid building look
+    barGeo.translate(0, 0.5, 0); // Origin at bottom face
+
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        const r = pRand(i * 12 + j * 19);
+        let lvl = 0;
+        if (r > 0.985) { lvl = 4; } 
+        else if (r > 0.96) { lvl = 3; }
+        else if (r > 0.91) { lvl = 2; }
+        else if (r > 0.8) { lvl = 1; }
+
+        // Define target height
+        let hVal = 0.02;
+        if (lvl === 1) hVal = 1.0;
+        else if (lvl === 2) hVal = 2.5;
+        else if (lvl === 3) hVal = 4.5;
+        else if (lvl === 4) hVal = 7.0; // Taller towers for dramatic skyline
+
+        // Premium Emerald-to-Mint glass color scheme (matches GitHub green theme beautifully)
+        const colHex = [0x1c1c22, 0x0f3b21, 0x1c6634, 0x2eb856, 0xb8ff57][lvl];
+
+        const mat = new THREE.MeshStandardMaterial({
+          color: colHex,
+          roughness: 0.1,
+          metalness: 0.2,
+          transparent: true,
+          opacity: lvl === 0 ? 0.3 : 0.9,
+          emissive: colHex,
+          emissiveIntensity: lvl === 0 ? 0.0 : (lvl === 4 ? 1.4 : 0.45)
+        });
+
+        const bar = new THREE.Mesh(barGeo, mat);
+        bar.position.set(
+          i * spacing - (rows * spacing) / 2,
+          0.8, // sits on top of the taller pedestal
+          j * spacing - (cols * spacing) / 2
+        );
+        bar.scale.y = 0.01;
+        bar.targetScaleY = hVal;
+        group.add(bar);
+        bars.push(bar);
+      }
     }
 
-    // Apply rotation damping
-    currentRotationY += (targetRotationY - currentRotationY) * 0.08;
-    currentRotationX += (targetRotationX - currentRotationX) * 0.08;
-    
-    group.rotation.y = currentRotationY;
+    // Set rotation coordinates and damping variables
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let targetRotationY = -Math.PI / 12;
+    let targetRotationX = Math.PI / 8;
+    let currentRotationY = -Math.PI / 12;
+    let currentRotationX = Math.PI / 8;
+
     group.rotation.x = currentRotationX;
+    group.rotation.y = currentRotationY;
+    scene.add(group);
 
-    renderer.render(scene, camera);
+    // Mouse Drag Interactions
+    container.addEventListener('mousedown', e => {
+      isDragging = true;
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    container.addEventListener('mousemove', e => {
+      if (isDragging) {
+        const deltaX = e.clientX - previousMousePosition.x;
+        const deltaY = e.clientY - previousMousePosition.y;
+        
+        targetRotationY += deltaX * 0.005;
+        targetRotationX += deltaY * 0.005;
+        targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
+      }
+      previousMousePosition = { x: e.clientX, y: e.clientY };
+    });
+
+    window.addEventListener('mouseup', () => {
+      isDragging = false;
+    });
+
+    // Mobile Touch Controls
+    container.addEventListener('touchstart', e => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }, { passive: true });
+
+    container.addEventListener('touchmove', e => {
+      if (isDragging && e.touches.length === 1) {
+        const deltaX = e.touches[0].clientX - previousMousePosition.x;
+        const deltaY = e.touches[0].clientY - previousMousePosition.y;
+        
+        targetRotationY += deltaX * 0.005;
+        targetRotationX += deltaY * 0.005;
+        targetRotationX = Math.max(0.1, Math.min(Math.PI / 2.5, targetRotationX));
+        
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      isDragging = false;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      // Scale up skyscrapers
+      bars.forEach(bar => {
+        if (bar.scale.y < bar.targetScaleY) {
+          bar.scale.y += (bar.targetScaleY - bar.scale.y) * 0.08;
+        }
+      });
+
+      // Slow auto-spin on Y axis if not active dragging
+      if (!isDragging) {
+        targetRotationY += 0.001;
+      }
+
+      // Apply rotation damping
+      currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+      currentRotationX += (targetRotationX - currentRotationX) * 0.08;
+      
+      group.rotation.y = currentRotationY;
+      group.rotation.x = currentRotationX;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth, h = container.clientHeight;
+      if(!w || !h) return;
+      renderer.setSize(w, h);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    });
+  } catch(e) {
+    console.error("Error rendering 3D skyline:", e);
   }
-  animate();
-
-  window.addEventListener('resize', () => {
-    const w = container.clientWidth, h = container.clientHeight;
-    if(!w || !h) return;
-    renderer.setSize(w, h);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  });
 })();
 
 (function themeSelector(){

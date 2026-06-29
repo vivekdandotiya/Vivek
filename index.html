@@ -588,8 +588,8 @@ body.theme-transition, body.theme-transition * {
   <iframe id="mapIframe" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 </div>
 
-<script src="https://unpkg.com/three"></script>
-<script src="https://unpkg.com/globe.gl"></script>
+<script src="js/three-unpkg.js"></script>
+<script src="js/globe.gl.js"></script>
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Cursor
@@ -623,88 +623,91 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
 
 // ── 3D GLOBE & MAP TRANSITION ──
 (function(){
-  const globeViz = document.getElementById('globeViz');
-  const globeWrap = document.getElementById('globeWrap');
-  if(!globeViz) return;
-  
-  const width = 220, height = 220;
-  const MADHYA_PRADESH = { lat: 26.4947, lng: 77.9944 };
-  
-  // Initialize Globe
-  const world = Globe()
-    (globeViz)
-    .width(width)
-    .height(height)
-    .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
-    .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
-    .backgroundColor('rgba(0,0,0,0)') // Transparent to blend with box-shadow
-    .showAtmosphere(true)
-    .atmosphereColor('rgba(50, 100, 255, 0.5)')
-    .atmosphereAltitude(0.15);
+  try {
+    const globeViz = document.getElementById('globeViz');
+    const globeWrap = document.getElementById('globeWrap');
+    if(!globeViz) return;
     
-  // Add Madhya Pradesh Marker (Red Dot)
-  world.htmlElementsData([
-    { lat: MADHYA_PRADESH.lat, lng: MADHYA_PRADESH.lng, color: 'red' }
-  ])
-  .htmlElement(d => {
-    const el = document.createElement('div');
-    el.style.width = '14px';
-    el.style.height = '14px';
-    el.style.background = 'var(--red)';
-    el.style.border = '2.5px solid #fff';
-    el.style.borderRadius = '50%';
-    el.style.boxShadow = '0 0 16px rgba(255, 50, 50, 0.8), inset 0 0 4px rgba(0,0,0,0.5)';
-    el.style.cursor = 'pointer';
-    return el;
-  });
+    const width = 220, height = 220;
+    const MADHYA_PRADESH = { lat: 26.4947, lng: 77.9944 };
+    
+    // Initialize Globe
+    const world = Globe()
+      (globeViz)
+      .width(width)
+      .height(height)
+      .globeImageUrl('//unpkg.com/three-globe/example/img/earth-night.jpg')
+      .bumpImageUrl('//unpkg.com/three-globe/example/img/earth-topology.png')
+      .backgroundColor('rgba(0,0,0,0)') // Transparent to blend with box-shadow
+      .showAtmosphere(true)
+      .atmosphereColor('rgba(50, 100, 255, 0.5)')
+      .atmosphereAltitude(0.15);
+      
+    // Add Madhya Pradesh Marker (Red Dot)
+    world.htmlElementsData([
+      { lat: MADHYA_PRADESH.lat, lng: MADHYA_PRADESH.lng, color: 'red' }
+    ])
+    .htmlElement(d => {
+      const el = document.createElement('div');
+      el.style.width = '14px';
+      el.style.height = '14px';
+      el.style.background = 'var(--red)';
+      el.style.border = '2.5px solid #fff';
+      el.style.borderRadius = '50%';
+      el.style.boxShadow = '0 0 16px rgba(255, 50, 50, 0.8), inset 0 0 4px rgba(0,0,0,0.5)';
+      el.style.cursor = 'pointer';
+      return el;
+    });
 
-  // Setup initial camera
-  world.pointOfView({ lat: 20, lng: 80, altitude: 2.5 });
-  
-  // Auto-rotate Earth
-  window.world = world;
-  world.controls().autoRotate = true;
-  world.controls().autoRotateSpeed = 1.0;
-  world.controls().enableZoom = false; // Disable so it doesn't mess with page scroll
-  
-  // Click Handler for zooming and map transition
-  const mapOverlay = document.getElementById('mapOverlay');
-  const mapIframe = document.getElementById('mapIframe');
-  const btnBackGlobe = document.getElementById('btnBackGlobe');
-  
-  // Google Maps Embed URL for Madhya Pradesh Location (satellite view)
-  const mapUrl = 'https://maps.google.com/maps?q=Morena,%20Madhya%20Pradesh&t=k&z=10&ie=UTF8&iwloc=&output=embed';
-  
-  let isZooming = false;
-  globeWrap.addEventListener('click', () => {
-    if(isZooming) return;
-    isZooming = true;
+    // Setup initial camera
+    world.pointOfView({ lat: 20, lng: 80, altitude: 2.5 });
     
-    // Stop rotation when flying in
-    world.controls().autoRotate = false;
+    // Auto-rotate Earth
+    window.world = world;
+    world.controls().autoRotate = true;
+    world.controls().autoRotateSpeed = 1.0;
+    world.controls().enableZoom = false; // Disable so it doesn't mess with page scroll
     
-    // Fly in to extremely low orbit
-    world.pointOfView({ lat: MADHYA_PRADESH.lat, lng: MADHYA_PRADESH.lng, altitude: 0.01 }, 2800);
+    // Click Handler for zooming and map transition
+    const mapOverlay = document.getElementById('mapOverlay');
+    const mapIframe = document.getElementById('mapIframe');
+    const btnBackGlobe = document.getElementById('btnBackGlobe');
     
-    // After animation, fade in the map overlay
-    setTimeout(() => {
-      // Load iframe only when needed to save bandwidth
-      if(!mapIframe.src) mapIframe.src = mapUrl;
-      mapOverlay.classList.add('active');
-    }, 2650); // slightly before fly-in finishes for smooth crossfade
-  });
-  
-  // Back to Orbit Handler
-  btnBackGlobe.addEventListener('click', () => {
-    mapOverlay.classList.remove('active');
-    // Wait for fade out, then fly camera back
-    setTimeout(() => {
-      world.pointOfView({ lat: 20, lng: 80, altitude: 2.5 }, 2000);
-      world.controls().autoRotate = true;
-      isZooming = false;
-    }, 800);
-  });
-  
+    // Google Maps Embed URL for Madhya Pradesh Location (satellite view)
+    const mapUrl = 'https://maps.google.com/maps?q=Morena,%20Madhya%20Pradesh&t=k&z=10&ie=UTF8&iwloc=&output=embed';
+    
+    let isZooming = false;
+    globeWrap.addEventListener('click', () => {
+      if(isZooming) return;
+      isZooming = true;
+      
+      // Stop rotation when flying in
+      world.controls().autoRotate = false;
+      
+      // Fly in to extremely low orbit
+      world.pointOfView({ lat: MADHYA_PRADESH.lat, lng: MADHYA_PRADESH.lng, altitude: 0.01 }, 2800);
+      
+      // After animation, fade in the map overlay
+      setTimeout(() => {
+        // Load iframe only when needed to save bandwidth
+        if(!mapIframe.src) mapIframe.src = mapUrl;
+        mapOverlay.classList.add('active');
+      }, 2650); // slightly before fly-in finishes for smooth crossfade
+    });
+    
+    // Back to Orbit Handler
+    btnBackGlobe.addEventListener('click', () => {
+      mapOverlay.classList.remove('active');
+      // Wait for fade out, then fly camera back
+      setTimeout(() => {
+        world.pointOfView({ lat: 20, lng: 80, altitude: 2.5 }, 2000);
+        world.controls().autoRotate = true;
+        isZooming = false;
+      }, 800);
+    });
+  } catch(e) {
+    console.error("Error initializing 3D globe:", e);
+  }
 })();
 </script>
 
