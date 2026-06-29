@@ -60,9 +60,225 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .fan-dots { display: flex; gap: .45rem; margin-top: .6rem; justify-content: center; flex-wrap: wrap; max-width: 200px; }
 .fan-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--muted2); transition: background .3s, transform .3s; cursor: none; }
 .fan-dot.active { background: var(--accent); transform: scale(1.5); }
-#fan-stage { position: relative; width: 100%; height: 460px; overflow: visible; }
+.slider-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 820px;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+#fan-stage {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+}
+.proj-slide-rail {
+  display: flex;
+  height: 100%;
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.proj-slide-group {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+}
+.proj-card { position: relative; width: 200px; height: 322px; border-radius: 20px; background: linear-gradient(145deg,#1c1c22,#0e0e14); border: 1px solid rgba(255,255,255,.07); cursor: none; will-change: transform,opacity; overflow: hidden; }
 
-.proj-card { position: absolute; width: 200px; height: 322px; border-radius: 20px; background: linear-gradient(145deg,#1c1c22,#0e0e14); border: 1px solid rgba(255,255,255,.07); cursor: none; transform-origin: center bottom; left: 50%; top: 50%; margin-left: -100px; margin-top: -232px; will-change: transform,opacity; overflow: hidden; }
+/* Skeleton Hand Styling */
+.skeleton-hand-container {
+  position: absolute;
+  top: -65px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  width: 90px;
+  height: 120px;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s;
+}
+.skeleton-hand-container.rise {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.skeleton-hand-svg {
+  width: 100%;
+  height: 100%;
+}
+.skeleton-hand-svg .joint {
+  transition: transform 0.3s ease;
+}
+
+/* Beckoning animations for fingers */
+.skeleton-hand-container.beckon .index-base {
+  animation: index-curl-base 0.9s ease-in-out infinite;
+}
+.skeleton-hand-container.beckon .index-mid {
+  animation: index-curl-mid 0.9s ease-in-out infinite;
+}
+.skeleton-hand-container.beckon .index-tip {
+  animation: index-curl-tip 0.9s ease-in-out infinite;
+}
+
+.skeleton-hand-container.beckon .middle-base {
+  animation: middle-curl-base 0.9s ease-in-out infinite 0.08s;
+}
+.skeleton-hand-container.beckon .middle-mid {
+  animation: middle-curl-mid 0.9s ease-in-out infinite 0.08s;
+}
+.skeleton-hand-container.beckon .middle-tip {
+  animation: middle-curl-tip 0.9s ease-in-out infinite 0.08s;
+}
+
+.skeleton-hand-container.beckon .ring-base {
+  animation: ring-curl-base 0.9s ease-in-out infinite 0.16s;
+}
+.skeleton-hand-container.beckon .ring-mid {
+  animation: ring-curl-mid 0.9s ease-in-out infinite 0.16s;
+}
+.skeleton-hand-container.beckon .ring-tip {
+  animation: ring-curl-tip 0.9s ease-in-out infinite 0.16s;
+}
+
+.skeleton-hand-container.beckon .pinky-base {
+  animation: pinky-curl-base 0.9s ease-in-out infinite 0.24s;
+}
+.skeleton-hand-container.beckon .pinky-mid {
+  animation: pinky-curl-mid 0.9s ease-in-out infinite 0.24s;
+}
+.skeleton-hand-container.beckon .pinky-tip {
+  animation: pinky-curl-tip 0.9s ease-in-out infinite 0.24s;
+}
+
+/* Keyframes for Index */
+@keyframes index-curl-base {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-25deg); }
+}
+@keyframes index-curl-mid {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-45deg); }
+}
+@keyframes index-curl-tip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-55deg); }
+}
+
+/* Keyframes for Middle */
+@keyframes middle-curl-base {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-22deg); }
+}
+@keyframes middle-curl-mid {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-42deg); }
+}
+@keyframes middle-curl-tip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-52deg); }
+}
+
+/* Keyframes for Ring */
+@keyframes ring-curl-base {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-20deg); }
+}
+@keyframes ring-curl-mid {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-40deg); }
+}
+@keyframes ring-curl-tip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-50deg); }
+}
+
+/* Keyframes for Pinky */
+@keyframes pinky-curl-base {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-18deg); }
+}
+@keyframes pinky-curl-mid {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-38deg); }
+}
+@keyframes pinky-curl-tip {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-48deg); }
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+  .slider-wrap {
+    max-width: 500px;
+  }
+  .proj-slide-group {
+    gap: 20px;
+  }
+  .proj-slide-group .proj-card {
+    flex: 0 0 140px;
+    height: 225px;
+    border-radius: 12px;
+  }
+  .card-icon {
+    font-size: 1.8rem;
+  }
+  .card-name {
+    font-size: 0.48rem;
+    margin-bottom: 5px;
+  }
+  .card-btn {
+    font-size: 0.42rem;
+    padding: 3px 1px;
+    border-radius: 4px;
+  }
+  .skeleton-hand-container {
+    width: 60px;
+    height: 80px;
+    top: -45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider-wrap {
+    max-width: 320px;
+    transform: scale(0.95);
+  }
+  .proj-slide-group {
+    gap: 10px;
+  }
+  .proj-slide-group .proj-card {
+    flex: 0 0 95px;
+    height: 153px;
+    border-radius: 8px;
+  }
+  .card-icon {
+    font-size: 1.3rem;
+  }
+  .card-name {
+    font-size: 0.38rem;
+    margin-bottom: 3px;
+  }
+  .card-btn {
+    font-size: 0.35rem;
+    padding: 2px 0px;
+  }
+  .card-header {
+    padding: 8px 8px 0;
+  }
+  .card-bottom {
+    padding: 0 6px 6px;
+  }
+  .skeleton-hand-container {
+    width: 46px;
+    height: 62px;
+    top: -35px;
+  }
+}
 .proj-card .teal-ring { position: absolute; inset: 0; border-radius: 20px; box-shadow: inset 0 0 0 1.5px rgba(92,255,200,.0); transition: box-shadow .3s; pointer-events: none; }
 .proj-card.active-hover .teal-ring { box-shadow: inset 0 0 0 1.5px rgba(92,255,200,.28); }
 .proj-card .card-glow { position: absolute; inset: 0; border-radius: 20px; background: radial-gradient(circle at 50% 30%,rgba(184,255,87,.09),transparent 65%); opacity: 0; transition: opacity .3s; }
@@ -480,12 +696,93 @@ body.theme-transition, body.theme-transition * {
   <div class="fan-controls">
     <button class="nav-btn" id="btnPrev">←</button>
     <div class="counter-block">
-      <div class="fan-counter"><span class="cur" id="cCurrent">01</span>&nbsp;/&nbsp;<span id="cTotal">09</span></div>
+      <div class="fan-counter"><span class="cur" id="cCurrent">01</span>&nbsp;/&nbsp;<span id="cTotal">04</span></div>
       <div class="fan-dots" id="fanDots"></div>
     </div>
     <button class="nav-btn" id="btnNext">→</button>
   </div>
-  <div id="fan-stage"></div>
+  
+  <div class="slider-wrap">
+    <!-- SVG Skeleton Hand -->
+    <div class="skeleton-hand-container" id="skeletonHand">
+      <svg class="skeleton-hand-svg" viewBox="0 0 120 160" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g class="hand-group" fill="none" stroke="var(--accent)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#neon-glow)">
+          <!-- Wrist bones -->
+          <path d="M 50 145 C 50 135, 70 135, 70 145 M 54 135 C 54 128, 66 128, 66 135" />
+          <!-- Metacarpals -->
+          <path d="M 38 120 L 42 100" />
+          <path d="M 50 125 L 50 95" />
+          <path d="M 60 125 L 60 92" />
+          <path d="M 70 125 L 68 95" />
+          <path d="M 80 120 L 76 98" />
+          <!-- Connectives -->
+          <path d="M 38 120 Q 60 130 80 120" />
+          <path d="M 42 100 Q 60 95 76 98" />
+          <!-- Thumb -->
+          <g class="joint thumb-base" style="transform-origin: 38px 120px;">
+            <line x1="38" y1="120" x2="26" y2="108" />
+            <g class="joint thumb-tip" style="transform-origin: 26px 108px;">
+              <line x1="26" y1="108" x2="16" y2="100" />
+            </g>
+          </g>
+          <!-- Index -->
+          <g class="joint index-base" style="transform-origin: 50px 95px;">
+            <line x1="50" y1="95" x2="48" y2="70" />
+            <g class="joint index-mid" style="transform-origin: 48px 70px;">
+              <line x1="48" y1="70" x2="46" y2="52" />
+              <g class="joint index-tip" style="transform-origin: 46px 52px;">
+                <line x1="46" y1="52" x2="44" y2="38" />
+              </g>
+            </g>
+          </g>
+          <!-- Middle -->
+          <g class="joint middle-base" style="transform-origin: 60px 92px;">
+            <line x1="60" y1="92" x2="60" y2="64" />
+            <g class="joint middle-mid" style="transform-origin: 60px 64px;">
+              <line x1="60" y1="64" x2="60" y2="44" />
+              <g class="joint middle-tip" style="transform-origin: 60px 44px;">
+                <line x1="60" y1="44" x2="60" y2="28" />
+              </g>
+            </g>
+          </g>
+          <!-- Ring -->
+          <g class="joint ring-base" style="transform-origin: 68px 95px;">
+            <line x1="68" y1="95" x2="70" y2="72" />
+            <g class="joint ring-mid" style="transform-origin: 70px 72px;">
+              <line x1="70" y1="72" x2="72" y2="54" />
+              <g class="joint ring-tip" style="transform-origin: 72px 54px;">
+                <line x1="72" y1="54" x2="74" y2="40" />
+              </g>
+            </g>
+          </g>
+          <!-- Pinky -->
+          <g class="joint pinky-base" style="transform-origin: 76px 98px;">
+            <line x1="76" y1="98" x2="80" y2="78" />
+            <g class="joint pinky-mid" style="transform-origin: 80px 78px;">
+              <line x1="80" y1="78" x2="82" y2="62" />
+              <g class="joint pinky-tip" style="transform-origin: 82px 62px;">
+                <line x1="82" y1="62" x2="84" y2="48" />
+              </g>
+            </g>
+          </g>
+        </g>
+      </svg>
+    </div>
+    
+    <div id="fan-stage">
+      <div class="proj-slide-rail" id="slideRail"></div>
+    </div>
+  </div>
+  
   <p class="fan-hint">↑ Click card to explore · ← → navigate · card buttons go direct</p>
 </section>
 
@@ -616,17 +913,24 @@ document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('clic
 }));
 
 
-// ═══ FAN CARDS ═══════════════════════════════════════════════════
-const stage=document.getElementById('fan-stage');
-const dotsWrap=document.getElementById('fanDots');
-const cCurEl=document.getElementById('cCurrent');
-document.getElementById('cTotal').textContent=String(N).padStart(2,'0');
-const VISIBLE=5;
-let center=0,fanReady=false,modalOpen=false,modalIdx=0;
+// ═══ HORIZONTAL CAROUSEL & SKELETON HAND LOGIC ═══════════════════
+const rail = document.getElementById('slideRail');
+const dotsWrap = document.getElementById('fanDots');
+const cCurEl = document.getElementById('cCurrent');
+const skeletonHand = document.getElementById('skeletonHand');
 
-const cardEls=projects.map((p,i)=>{
-  const el=document.createElement('div'); el.className='proj-card';
-  el.innerHTML=`
+const SLIDES_COUNT = 4;
+document.getElementById('cTotal').textContent = String(SLIDES_COUNT).padStart(2, '0');
+
+// Create 12 card elements (including 2 duplicates for wrapping index 10 and 11)
+const totalCardCount = 12;
+const cardEls = [];
+
+for (let i = 0; i < totalCardCount; i++) {
+  const p = projects[i % N];
+  const el = document.createElement('div');
+  el.className = 'proj-card';
+  el.innerHTML = `
     <img src="${p.img}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.45;mix-blend-mode:luminosity;z-index:0;">
     <div class="card-glow" style="z-index:1;"></div><div class="teal-ring" style="z-index:1;"></div>
     <div class="card-header" style="z-index:2;">
@@ -634,7 +938,7 @@ const cardEls=projects.map((p,i)=>{
       <div class="card-logo"><div class="card-logo-c"></div><div class="card-logo-c"></div></div>
     </div>
     <div class="card-icon">${p.icon}</div>
-    <div class="card-bottom">
+    <div class="card-bottom" style="z-index:2;">
       <div class="card-name">${p.name}</div>
       <div class="card-links">
         <a href="${p.link}" target="_blank" class="card-btn card-btn-live">↗ Live</a>
@@ -642,53 +946,158 @@ const cardEls=projects.map((p,i)=>{
       </div>
     </div>
     <div class="card-shimmer"></div>`;
-  stage.appendChild(el);
-  el.addEventListener('mouseenter',()=>{ if(fanReady) el.classList.add('active-hover'); });
-  el.addEventListener('mouseleave',()=>el.classList.remove('active-hover'));
-  el.addEventListener('click',e=>{ if(e.target.classList.contains('card-btn')||e.target.closest('.card-btn')) return;  openModal(i); });
-  return el;
-});
-
-projects.forEach((_,i)=>{
-  const d=document.createElement('div'); d.className='fan-dot'+(i===0?' active':'');
-  d.addEventListener('click',()=>goTo(i)); dotsWrap.appendChild(d);
-});
-
-function layout(animate){
-  const SPREAD=13,R=560,half=Math.floor(VISIBLE/2);
-  projects.forEach((_,idx)=>{
-    const el=cardEls[idx]; let offset=idx-center;
-    if(offset>N/2) offset-=N; if(offset<-N/2) offset+=N;
-    const visible=Math.abs(offset)<=half;
-    if(!visible){ el.style.transition=animate?'transform .55s cubic-bezier(.16,1,.3,1),opacity .4s':'none'; el.style.opacity='0'; el.style.pointerEvents='none'; el.style.transform='translate(0,60px) scale(.85)'; el.style.zIndex='0'; return; }
-    const angle=offset*SPREAD, rad=angle*Math.PI/180;
-    const tx=Math.sin(rad)*R, ty=R-Math.cos(rad)*R;
-    const scale=offset===0?1:1-Math.abs(offset)*.035;
-    const opacity=1-Math.abs(offset)*.07;
-    const delay=Math.abs(offset)*.04;
-    const shadow=offset===0?'0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(184,255,87,.15)':'0 16px 50px rgba(0,0,0,.5),0 0 0 1px rgba(92,255,200,.06)';
-    el.style.transition=animate?`transform .65s cubic-bezier(.16,1,.3,1) ${delay}s,opacity .4s,box-shadow .3s`:'none';
-    el.style.transform=`translate(${tx}px,${-ty}px) rotate(${angle}deg) scale(${scale})`;
-    el.style.zIndex=String(10-Math.abs(offset));
-    el.style.opacity=String(opacity); el.style.boxShadow=shadow; el.style.pointerEvents='all';
+    
+  el.addEventListener('mouseenter', () => el.classList.add('active-hover'));
+  el.addEventListener('mouseleave', () => el.classList.remove('active-hover'));
+  el.addEventListener('click', e => {
+    if (e.target.classList.contains('card-btn') || e.target.closest('.card-btn')) return;
+    openModal(i % N);
   });
-  cCurEl.textContent=String(center+1).padStart(2,'0');
-  dotsWrap.querySelectorAll('.fan-dot').forEach((d,i)=>d.classList.toggle('active',i===center));
+  cardEls.push(el);
 }
-function goTo(idx,animate=true){ center=mod(idx,N); layout(animate); }
-document.getElementById('btnPrev').addEventListener('click',()=>goTo(center-1));
-document.getElementById('btnNext').addEventListener('click',()=>goTo(center+1));
-document.addEventListener('keydown',e=>{ if(modalOpen)return; if(e.key==='ArrowLeft')goTo(center-1); if(e.key==='ArrowRight')goTo(center+1); });
-let tx0=0;
-stage.addEventListener('touchstart',e=>tx0=e.touches[0].clientX,{passive:true});
-stage.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx0; if(Math.abs(dx)>40) dx<0?goTo(center+1):goTo(center-1); },{passive:true});
-layout(false); cardEls.forEach(el=>{el.style.opacity='0';el.style.pointerEvents='none';});
-new IntersectionObserver(entries=>{ if(entries[0].isIntersecting&&!fanReady){ fanReady=true; setTimeout(()=>layout(true),150); } },{threshold:.2}).observe(document.getElementById('section-fan'));
+
+// Build 4 slide groups and append cards
+for (let s = 0; s < SLIDES_COUNT; s++) {
+  const slideGroup = document.createElement('div');
+  slideGroup.className = 'proj-slide-group';
+  
+  slideGroup.appendChild(cardEls[s * 3]);
+  slideGroup.appendChild(cardEls[s * 3 + 1]);
+  slideGroup.appendChild(cardEls[s * 3 + 2]);
+  
+  rail.appendChild(slideGroup);
+}
+
+// Build 4 dots
+dotsWrap.innerHTML = '';
+for (let s = 0; s < SLIDES_COUNT; s++) {
+  const d = document.createElement('div');
+  d.className = 'fan-dot' + (s === 0 ? ' active' : '');
+  d.addEventListener('click', () => {
+    resetAutoCycle();
+    goToSlide(s);
+  });
+  dotsWrap.appendChild(d);
+}
+
+let currentSlide = 0;
+let cycleTimeout = null;
+let modalOpen = false;
+let modalIdx = 0;
+
+function goToSlide(s) {
+  currentSlide = mod(s, SLIDES_COUNT);
+  
+  // Slide the rail
+  rail.style.transform = `translateX(-${currentSlide * 100}%)`;
+  
+  // Update counter and dots
+  cCurEl.textContent = String(currentSlide + 1).padStart(2, '0');
+  dotsWrap.querySelectorAll('.fan-dot').forEach((d, idx) => {
+    d.classList.toggle('active', idx === currentSlide);
+  });
+  
+  // Reset hand states immediately
+  if (skeletonHand) {
+    skeletonHand.classList.remove('rise', 'beckon');
+  }
+  
+  if (modalOpen) return;
+  
+  // Start animation timeline
+  runAnimationTimeline();
+}
+
+function runAnimationTimeline() {
+  if (cycleTimeout) clearTimeout(cycleTimeout);
+  
+  // Timeline:
+  // 1. Wait 800ms after slide transition finishes
+  cycleTimeout = setTimeout(() => {
+    if (modalOpen) return;
+    skeletonHand.classList.add('rise');
+    
+    // 2. Wait 500ms for hand to rise, then start beckoning
+    cycleTimeout = setTimeout(() => {
+      if (modalOpen) return;
+      skeletonHand.classList.add('beckon');
+      
+      // 3. Let it beckon for 1600ms
+      cycleTimeout = setTimeout(() => {
+        if (modalOpen) return;
+        skeletonHand.classList.remove('beckon', 'rise');
+        
+        // 4. Wait 600ms for hand to slide down, then scroll
+        cycleTimeout = setTimeout(() => {
+          if (modalOpen) return;
+          goToSlide(currentSlide + 1);
+        }, 600);
+        
+      }, 1600);
+      
+    }, 500);
+    
+  }, 800);
+}
+
+function resetAutoCycle() {
+  if (cycleTimeout) clearTimeout(cycleTimeout);
+}
+
+// Nav controls
+document.getElementById('btnPrev').addEventListener('click', () => {
+  resetAutoCycle();
+  goToSlide(currentSlide - 1);
+});
+document.getElementById('btnNext').addEventListener('click', () => {
+  resetAutoCycle();
+  goToSlide(currentSlide + 1);
+});
+
+// Arrow Keys navigation
+document.addEventListener('keydown', e => {
+  if (modalOpen) return;
+  if (e.key === 'ArrowLeft') {
+    resetAutoCycle();
+    goToSlide(currentSlide - 1);
+  }
+  if (e.key === 'ArrowRight') {
+    resetAutoCycle();
+    goToSlide(currentSlide + 1);
+  }
+});
+
+// Touch Swipe Controls
+let tx0 = 0;
+rail.addEventListener('touchstart', e => {
+  tx0 = e.touches[0].clientX;
+}, { passive: true });
+
+rail.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx0;
+  if (Math.abs(dx) > 50) {
+    resetAutoCycle();
+    if (dx < 0) {
+      goToSlide(currentSlide + 1);
+    } else {
+      goToSlide(currentSlide - 1);
+    }
+  }
+}, { passive: true });
+
+// Start animation on viewport intersection
+let sliderStarted = false;
+new IntersectionObserver(entries => {
+  if (entries[0].isIntersecting && !sliderStarted) {
+    sliderStarted = true;
+    goToSlide(0);
+  }
+}, { threshold: 0.15 }).observe(document.getElementById('section-fan'));
 
 // ═══ MODAL ═══════════════════════════════════════════════════════
 const overlay=document.getElementById('modal-overlay');
 function openModal(idx){ modalIdx=mod(idx,N); fillModal(modalIdx); overlay.classList.add('open'); modalOpen=true; }
-function closeModal(){ overlay.classList.remove('open'); modalOpen=false; }
+function closeModal(){ overlay.classList.remove('open'); modalOpen=false; goToSlide(currentSlide); }
 function fillModal(idx){
   const p=projects[idx];
   document.getElementById('mNum').textContent=`Project.${p.num}`;
