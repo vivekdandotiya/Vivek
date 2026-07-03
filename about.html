@@ -179,77 +179,64 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 /* Background Ambient Glow */
 .orbit-glow-bg {
   position: absolute;
-  width: 320px;
-  height: 320px;
+  width: 450px;
+  height: 450px;
   border-radius: 50%;
-  background: var(--accent);
-  opacity: 0.12;
-  filter: blur(80px);
-  transition: background-color 0.8s ease;
+  background: radial-gradient(circle, rgba(var(--theme-color-rgb, 184, 255, 87), 0.15) 0%, transparent 70%);
+  transition: background 0.8s ease;
   pointer-events: none;
   z-index: 1;
 }
 
-/* Orbit Ring */
+/* Bottom Semicircle Orbit Ring */
 .orbit-ring-outer {
   position: relative;
-  width: 420px;
-  height: 420px;
+  width: 440px;
+  height: 440px;
   border-radius: 50%;
-  border: 1px dashed rgba(255, 255, 255, 0.08);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 2;
-  animation: orbitRotate 45s linear infinite;
 }
 
-.orbit-ring-outer:hover {
-  animation-play-state: paused;
-}
-
-/* Orbit Nodes */
+/* Orbit Nodes placed along the bottom semicircle arc */
 .orbit-node {
   position: absolute;
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: var(--surface);
-  border: 1px solid var(--border2);
+  border: 2px solid var(--border2);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: none;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: translate(-50%, -50%) rotate(0deg);
+  transform: translate(-50%, -50%);
   z-index: 3;
 }
 
 .orbit-node svg {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   fill: var(--text2);
   transition: all 0.3s ease;
 }
 
-/* Keep icons upright during orbit rotation */
 .orbit-node-inner {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
-  animation: keepUpright 45s linear infinite;
-}
-
-.orbit-ring-outer:hover .orbit-node-inner {
-  animation-play-state: paused;
 }
 
 .orbit-node:hover, .orbit-node.active {
   border-color: var(--theme-color, var(--accent));
-  background: rgba(var(--theme-color-rgb, 184, 255, 87), 0.08);
-  box-shadow: 0 0 20px rgba(var(--theme-color-rgb, 184, 255, 87), 0.2);
+  background: rgba(var(--theme-color-rgb, 184, 255, 87), 0.1);
+  box-shadow: 0 0 20px rgba(var(--theme-color-rgb, 184, 255, 87), 0.25);
   transform: translate(-50%, -50%) scale(1.15);
 }
 
@@ -257,82 +244,56 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   fill: var(--theme-color, var(--accent));
 }
 
-/* Center Active Skill Display */
+/* Center Display (glowing logo + text underneath) */
 .orbit-center-display {
   position: absolute;
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  background: var(--surface);
-  border: 1px solid var(--border2);
+  top: 15%; /* Sit slightly higher above the bottom arc */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
   text-align: center;
   z-index: 4;
-  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.02);
-  transition: border-color 0.6s ease, box-shadow 0.6s ease;
-}
-
-.orbit-center-display::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: 50%;
-  padding: 1px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
 }
 
 .orbit-center-logo {
-  width: 54px;
-  height: 54px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--theme-color, var(--accent));
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.8rem;
-  transition: transform 0.4s ease;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 40px rgba(var(--theme-color-rgb, 184, 255, 87), 0.25);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
 }
 
 .orbit-center-logo svg {
-  width: 100%;
-  height: 100%;
+  width: 55px;
+  height: 55px;
   fill: var(--theme-color, var(--accent));
-  filter: drop-shadow(0 0 8px rgba(var(--theme-color-rgb, 184, 255, 87), 0.3));
+  filter: drop-shadow(0 0 10px rgba(var(--theme-color-rgb, 184, 255, 87), 0.4));
   transition: fill 0.6s ease, filter 0.6s ease;
 }
 
 .orbit-center-name {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.8rem;
   color: var(--text);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
   transition: opacity 0.3s ease;
 }
 
 .orbit-center-desc {
-  font-size: 0.68rem;
+  font-size: 0.8rem;
   color: var(--text2);
-  line-height: 1.4;
-  max-width: 150px;
+  line-height: 1.6;
+  max-width: 280px;
   transition: opacity 0.3s ease;
-}
-
-/* Animations */
-@keyframes orbitRotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes keepUpright {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0deg); }
 }
 
 @media (max-width: 900px) {
@@ -361,28 +322,27 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
     height: 300px;
   }
   .orbit-node {
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
   .orbit-node svg {
-    width: 18px;
-    height: 18px;
-  }
-  .orbit-center-display {
-    width: 160px;
-    height: 160px;
-    padding: 1rem;
+    width: 20px;
+    height: 20px;
   }
   .orbit-center-logo {
-    width: 42px;
-    height: 42px;
+    width: 90px;
+    height: 90px;
+  }
+  .orbit-center-logo svg {
+    width: 45px;
+    height: 45px;
   }
   .orbit-center-name {
-    font-size: 1rem;
+    font-size: 1.5rem;
   }
   .orbit-center-desc {
-    font-size: 0.6rem;
-    max-width: 120px;
+    font-size: 0.72rem;
+    max-width: 220px;
   }
 }
 
@@ -1017,11 +977,16 @@ body.theme-transition, body.theme-transition * {
   if (!ring || !centerLogo) return;
 
   const total = skillsData.length;
-  const radius = window.innerWidth <= 480 ? 150 : 210; // match orbit outer border size / 2
+  const radius = window.innerWidth <= 480 ? 150 : 220; // match orbit outer border size / 2
 
-  // Generate nodes around orbit circle
+  // Generate nodes around a bottom semicircle arc (15 to 165 degrees)
   skillsData.forEach((skill, i) => {
-    const angle = (i * (360 / total)) * (Math.PI / 180);
+    // Distribute from 15 degrees to 165 degrees to form a beautiful smiley curve under the center logo
+    const startAngle = 15;
+    const endAngle = 165;
+    const angleInDegrees = startAngle + (i * ((endAngle - startAngle) / (total - 1)));
+    const angle = angleInDegrees * (Math.PI / 180);
+    
     const x = Math.cos(angle) * radius;
     const y = Math.sin(angle) * radius;
 
