@@ -348,10 +348,6 @@ const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
 
-/* ── Reveal on scroll ── */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
 /* ── Theme Toggle ── */
 (function(){
   const btn=document.getElementById('themeToggle');
@@ -366,7 +362,89 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   applyTheme(t);
   btn.addEventListener('click',()=>{t=t==='dark'?'light':'dark';localStorage.setItem('theme',t);applyTheme(t);});
 })();
+
+/* ── Case Study Index Cards ── */
+const caseStudies = [
+  {
+    id:'varta',
+    emoji:'💬',
+    tag:'Full Stack Development',
+    title:'Varta — Real-time Chat App',
+    sub:'Building a WhatsApp-like messaging platform with WebSockets, Firebase, and a glassmorphic dark UI from scratch.',
+    img:'images/varta.jpg',
+    role:'Full Stack Developer',
+    duration:'May – Jul 2024',
+    type:'Web Application',
+    anchor:'#cs-varta'
+  },
+  {
+    id:'dashboard',
+    emoji:'⚡',
+    tag:'Frontend Engineering',
+    title:'Real-Time Analytics Dashboard',
+    sub:'Designing and shipping a TypeScript-powered live metrics dashboard with Chart.js widgets and a modular data architecture.',
+    img:'images/proj5.png',
+    role:'Dashboard Engineer',
+    duration:'Aug – Sep 2024',
+    type:'Dashboard / DataViz',
+    anchor:'#cs-dashboard'
+  },
+  {
+    id:'cake',
+    emoji:'🎨',
+    tag:'UI / UX Design',
+    title:'Cake & Pastry — Figma Prototype',
+    sub:'End-to-end UX research, design system creation, and high-fidelity interactive prototype for a bakery e-commerce product.',
+    img:'images/proj8.png',
+    role:'UI/UX Designer',
+    duration:'May – Jun 2024',
+    type:'Product Design',
+    anchor:'#cs-cake'
+  }
+];
+
+const container = document.getElementById('csIndex');
+caseStudies.forEach((cs, i) => {
+  const card = document.createElement('a');
+  card.className = 'cs-index-card';
+  card.href = cs.anchor;
+  card.style.transitionDelay = `${i * 0.12}s`;
+  card.innerHTML = `
+    <div class="cs-card-thumb">
+      <img src="${cs.img}" alt="${cs.title}" onerror="this.style.display='none'">
+      <span style="position:absolute;font-size:3.5rem;opacity:${cs.img?'0':'1'}">${cs.emoji}</span>
+    </div>
+    <div class="cs-card-body">
+      <div class="cs-card-tag">${cs.tag}</div>
+      <div class="cs-card-title">${cs.title}</div>
+      <div class="cs-card-sub">${cs.sub}</div>
+    </div>
+    <div class="cs-card-meta">
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Role</span>
+        <span class="cs-meta-val">${cs.role}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Duration</span>
+        <span class="cs-meta-val">${cs.duration}</span>
+      </div>
+      <div class="cs-meta-item">
+        <span class="cs-meta-lbl">Type</span>
+        <span class="cs-meta-val">${cs.type}</span>
+      </div>
+      <div class="cs-card-arrow">↗</div>
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+/* Scroll reveal for cards */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
+}, {threshold: 0.1});
+document.querySelectorAll('.cs-index-card, .reveal').forEach(el => revealObs.observe(el));
 </script>
 
 </body>
 </html>
+
