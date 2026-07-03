@@ -945,18 +945,20 @@ body.theme-transition, body.theme-transition * {
     <div class="skills-orbit-right" id="skillsOrbitArea">
       <div class="orbit-glow-bg" id="orbitGlowBg"></div>
       
-      <!-- Outer Orbit Ring -->
+      <!-- Outer Orbit Ring (Arch Dome) -->
       <div class="orbit-ring-outer" id="orbitRingOuter">
         <!-- Nodes will be injected here dynamically by JS to handle precise angle offset placement -->
       </div>
 
-      <!-- Center Display -->
+      <!-- Center Display (Horizontal Layout) -->
       <div class="orbit-center-display">
         <div class="orbit-center-logo" id="centerLogo">
           <!-- Active Logo Injected Here -->
         </div>
-        <div class="orbit-center-name" id="centerName">Select a Skill</div>
-        <div class="orbit-center-desc" id="centerDesc">Hover or tap an icon to view my level and background.</div>
+        <div class="orbit-center-text">
+          <div class="orbit-center-name" id="centerName">Select a Skill</div>
+          <div class="orbit-center-desc" id="centerDesc">Hover or tap an icon to view my level and background.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -1041,13 +1043,13 @@ body.theme-transition, body.theme-transition * {
   if (!ring || !centerLogo) return;
 
   const total = skillsData.length;
-  const radius = window.innerWidth <= 480 ? 150 : 220; // match orbit outer border size / 2
+  const radius = window.innerWidth <= 480 ? 150 : 230; // radius of the dome arc
 
-  // Generate nodes around a bottom semicircle arc (15 to 165 degrees)
+  // Generate nodes around an upper semicircle arc (195 to 345 degrees)
   skillsData.forEach((skill, i) => {
-    // Distribute from 15 degrees to 165 degrees to form a beautiful smiley curve under the center logo
-    const startAngle = 15;
-    const endAngle = 165;
+    // Distribute from 195 degrees to 345 degrees to form a beautiful dome arch over the active display
+    const startAngle = 195;
+    const endAngle = 345;
     const angleInDegrees = startAngle + (i * ((endAngle - startAngle) / (total - 1)));
     const angle = angleInDegrees * (Math.PI / 180);
     
@@ -1093,7 +1095,7 @@ body.theme-transition, body.theme-transition * {
       // Set properties
       document.getElementById('skillsOrbitArea').style.setProperty('--theme-color', skill.color);
       document.getElementById('skillsOrbitArea').style.setProperty('--theme-color-rgb', skill.rgb);
-      glow.style.backgroundColor = skill.color;
+      glow.style.background = `radial-gradient(circle, rgba(${skill.rgb}, 0.25) 0%, transparent 70%)`;
       
       centerLogo.innerHTML = skill.svg;
       centerName.textContent = skill.name;
