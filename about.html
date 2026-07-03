@@ -1165,31 +1165,29 @@ body.theme-transition, body.theme-transition * {
   const centerLogo = document.getElementById('centerLogo');
   const centerName = document.getElementById('centerName');
   const centerDesc = document.getElementById('centerDesc');
+  const orbitArea = document.getElementById('skillsOrbitArea');
 
   if (!ring || !centerLogo) return;
 
   const total = skillsData.length;
-  const radius = window.innerWidth <= 480 ? 140 : 230; // radius of the dome arc
+  const radius = window.innerWidth <= 480 ? 140 : 260; // Increased radius to 260px
+
+  let rotationOffset = 0;
+  let isHovered = false;
+
+  // Add hover listeners to pause rotation
+  orbitArea.addEventListener('mouseenter', () => { isHovered = true; });
+  orbitArea.addEventListener('mouseleave', () => { isHovered = false; });
+
+  const nodes = [];
 
   // Generate nodes around an upper semicircle arc (185 to 355 degrees)
   skillsData.forEach((skill, i) => {
-    // Distribute from 185 degrees to 355 degrees to form a beautiful dome arch over the active display
-    const startAngle = 185;
-    const endAngle = 355;
-    const angleInDegrees = startAngle + (i * ((endAngle - startAngle) / (total - 1)));
-    const angle = angleInDegrees * (Math.PI / 180);
-    
-    const x = Math.cos(angle) * radius;
-    const y = Math.sin(angle) * radius;
-
     const node = document.createElement('div');
     node.className = 'orbit-node';
-    node.style.left = `calc(50% + ${x}px)`;
-    node.style.top = `calc(50% + ${y}px)`;
     node.style.setProperty('--theme-color', skill.color);
     node.style.setProperty('--theme-color-rgb', skill.rgb);
     node.setAttribute('data-id', skill.id);
-
     node.innerHTML = `<div class="orbit-node-inner">${skill.svg}</div>`;
 
     // Click behavior
@@ -1199,12 +1197,49 @@ body.theme-transition, body.theme-transition * {
     });
 
     ring.appendChild(node);
+    nodes.push({ el: node, index: i });
   });
+
+  // Animation Loop for Semicircle conveyor rotation
+  function updatePositions() {
+    if (!isHovered) {
+      rotationOffset += 0.04; // Slow rotation speed value
+    }
+
+    nodes.forEach(item => {
+      const baseGap = 170 / total;
+      const initialAngle = 185 + (item.index * baseGap) + rotationOffset;
+      
+      // Semicircle wrap logic (185 to 355 degrees)
+      const diff = initialAngle - 185;
+      const relativeAngle = 185 + (diff % 170);
+      const angle = relativeAngle * (Math.PI / 180);
+
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      item.el.style.left = `calc(50% + ${x}px)`;
+      item.el.style.top = `calc(50% + ${y}px)`;
+
+      // Smooth opacity fading at the left/right edges
+      const distToEdge = Math.min(relativeAngle - 185, 355 - relativeAngle);
+      const opacity = Math.min(1, distToEdge / 12);
+      item.el.style.opacity = opacity;
+      
+      // Hide completely if virtually invisible to avoid accidental clicks
+      item.el.style.pointerEvents = opacity < 0.2 ? 'none' : 'auto';
+    });
+
+    requestAnimationFrame(updatePositions);
+  }
+
+  // Start the animation loop
+  updatePositions();
 
   // Set active skill
   function setActiveSkill(skill) {
     // Set active class on nodes
-    document.querySelectorAll('.orbit-node').forEach(node => {
+    document.querySelectorAll('#skillsOrbitArea .orbit-node').forEach(node => {
       if (node.getAttribute('data-id') === skill.id) {
         node.classList.add('active');
       } else {
@@ -1476,30 +1511,29 @@ body.theme-transition, body.theme-transition * {
   const centerLogo = document.getElementById('centerLogo2');
   const centerName = document.getElementById('centerName2');
   const centerDesc = document.getElementById('centerDesc2');
+  const orbitArea = document.getElementById('skillsOrbitArea2');
 
   if (!ring || !centerLogo) return;
 
   const total = softSkillsData.length;
-  const radius = window.innerWidth <= 480 ? 140 : 230;
+  const radius = window.innerWidth <= 480 ? 140 : 260; // Increased radius to 260px
+
+  let rotationOffset = 0;
+  let isHovered = false;
+
+  // Add hover listeners to pause rotation
+  orbitArea.addEventListener('mouseenter', () => { isHovered = true; });
+  orbitArea.addEventListener('mouseleave', () => { isHovered = false; });
+
+  const nodes = [];
 
   // Generate nodes around an upper semicircle arc (185 to 355 degrees)
   softSkillsData.forEach((skill, i) => {
-    const startAngle = 185;
-    const endAngle = 355;
-    const angleInDegrees = startAngle + (i * ((endAngle - startAngle) / (total - 1)));
-    const angle = angleInDegrees * (Math.PI / 180);
-    
-    const x = Math.cos(angle) * radius;
-    const y = Math.sin(angle) * radius;
-
     const node = document.createElement('div');
     node.className = 'orbit-node';
-    node.style.left = `calc(50% + ${x}px)`;
-    node.style.top = `calc(50% + ${y}px)`;
     node.style.setProperty('--theme-color', skill.color);
     node.style.setProperty('--theme-color-rgb', skill.rgb);
     node.setAttribute('data-id', skill.id);
-
     node.innerHTML = `<div class="orbit-node-inner">${skill.svg}</div>`;
 
     node.addEventListener('click', (e) => {
@@ -1508,7 +1542,44 @@ body.theme-transition, body.theme-transition * {
     });
 
     ring.appendChild(node);
+    nodes.push({ el: node, index: i });
   });
+
+  // Animation Loop for Semicircle conveyor rotation
+  function updatePositions() {
+    if (!isHovered) {
+      rotationOffset += 0.04; // Slow rotation speed value
+    }
+
+    nodes.forEach(item => {
+      const baseGap = 170 / total;
+      const initialAngle = 185 + (item.index * baseGap) + rotationOffset;
+      
+      // Semicircle wrap logic (185 to 355 degrees)
+      const diff = initialAngle - 185;
+      const relativeAngle = 185 + (diff % 170);
+      const angle = relativeAngle * (Math.PI / 180);
+
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      item.el.style.left = `calc(50% + ${x}px)`;
+      item.el.style.top = `calc(50% + ${y}px)`;
+
+      // Smooth opacity fading at the left/right edges
+      const distToEdge = Math.min(relativeAngle - 185, 355 - relativeAngle);
+      const opacity = Math.min(1, distToEdge / 12);
+      item.el.style.opacity = opacity;
+      
+      // Hide completely if virtually invisible to avoid accidental clicks
+      item.el.style.pointerEvents = opacity < 0.2 ? 'none' : 'auto';
+    });
+
+    requestAnimationFrame(updatePositions);
+  }
+
+  // Start the animation loop
+  updatePositions();
 
   function setActiveSkill(skill) {
     document.querySelectorAll('#skillsOrbitArea2 .orbit-node').forEach(node => {
