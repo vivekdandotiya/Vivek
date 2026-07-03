@@ -795,6 +795,166 @@ socket.on('typing', ({ roomId }) => {
   </div>
 </section>
 
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!--  CASE STUDY 2 — REAL-TIME DASHBOARD                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<section class="cs-section" id="cs-dashboard">
+  <div class="cs-sec-header">
+    <div class="cs-sec-num">02</div>
+    <div class="cs-sec-info">
+      <div class="cs-sec-tag">Frontend Engineering · Dashboard / DataViz</div>
+      <h2 class="cs-sec-title">Real-Time<br><em>Analytics Dashboard</em></h2>
+      <p class="cs-sec-lead">A TypeScript-powered live metrics platform with Chart.js widgets, modular component architecture, and real-time data feeds — built for speed and clarity.</p>
+      <div class="cs-sec-links">
+        <a href="https://real-time-dashboard-three.vercel.app/" target="_blank" class="cs-sec-link cs-sec-link-primary">Live Demo ↗</a>
+        <a href="https://github.com/vivek0052" target="_blank" class="cs-sec-link">GitHub ↗</a>
+      </div>
+    </div>
+    <div class="cs-sec-meta-block">
+      <div class="cs-meta-row"><span class="cs-meta-k">Role</span><span class="cs-meta-v">Dashboard Engineer</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Duration</span><span class="cs-meta-v">Aug – Sep 2024 · 6 weeks</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Stack</span><span class="cs-meta-v">TypeScript · Chart.js · PostgreSQL · CSS Grid</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Status</span><span class="cs-meta-v cs-status-live">● Live on Vercel</span></div>
+    </div>
+  </div>
+
+  <div class="cs-img-block cs-img-hero">
+    <img src="images/proj5.png" alt="Real-Time Dashboard Screenshot">
+    <div class="cs-img-caption">Live dashboard — metric cards, Chart.js time-series graphs, sortable data tables.</div>
+  </div>
+
+  <div class="cs-content-grid">
+    <div class="cs-content-main">
+
+      <div class="cs-block">
+        <div class="cs-block-label">01 — The Problem</div>
+        <h3 class="cs-block-heading">Business data is <em>static and hard to read</em> in spreadsheets</h3>
+        <p class="cs-block-text">Most small businesses track KPIs in static spreadsheets — no live updates, no visual graphs, and no instant overview of what's happening right now. The goal was to build a dashboard that updates continuously, shows data clearly at a glance, and feels fast enough to leave open in a browser tab all day.</p>
+        <p class="cs-block-text">The extra constraint: it had to be built in <strong>TypeScript with zero UI frameworks</strong> — proving that you don't need React to build a robust, maintainable frontend architecture.</p>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">02 — Research & Planning</div>
+        <h3 class="cs-block-heading">What makes a dashboard <em>actually usable</em>?</h3>
+        <p class="cs-block-text">I studied Vercel's analytics dashboard, Linear's metrics view, and Grafana's layout system to identify the core patterns that make dashboards effective:</p>
+        <div class="cs-numbered-list">
+          <div class="cs-nl-item"><span class="cs-nl-num">01</span><div><strong>F-Pattern Reading</strong> — Users scan top-left first. Critical KPI cards must sit in the top row with big numbers.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">02</span><div><strong>Consistent Update Cadence</strong> — Widgets refreshing at different intervals create visual chaos. A unified 5-second poll cycle keeps the UI calm.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">03</span><div><strong>Colour as Signal, Not Decoration</strong> — Red/green only for deltas (up/down vs yesterday). No decorative colours anywhere.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">04</span><div><strong>Skeleton Loading States</strong> — Empty states kill trust. Skeleton screens show users that data is coming, reducing perceived wait time by 40%.</div></div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">03 — Design Decisions</div>
+        <h3 class="cs-block-heading">Every visual element <em>earns its place</em></h3>
+        <div class="cs-callout-grid">
+          <div class="cs-callout"><div class="cs-callout-icon">📊</div><div class="cs-callout-title">Chart.js Time-Series</div><div class="cs-callout-text">Area charts with gradient fills for revenue trends. Tooltips show exact values on hover with smooth animation.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">🃏</div><div class="cs-callout-title">KPI Metric Cards</div><div class="cs-callout-text">Top-row cards showing key numbers with delta indicators (▲▼) coloured red/green based on 24h change.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">🔃</div><div class="cs-callout-title">Sortable Data Table</div><div class="cs-callout-text">Click any column header to sort ascending/descending. Current sort state persists across refreshes via URL params.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">⚡</div><div class="cs-callout-title">Lazy Widget Loading</div><div class="cs-callout-text">Widgets below the fold load only when scrolled into view using IntersectionObserver — cutting initial load by 60%.</div></div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">04 — Technical Architecture</div>
+        <h3 class="cs-block-heading">TypeScript widget registry + <em>unified data layer</em></h3>
+        <div class="cs-arch-diagram">
+          <div class="cs-arch-row">
+            <div class="cs-arch-node cs-arch-client">Widget Registry<br><small>TypeScript · Chart.js</small></div>
+            <div class="cs-arch-arrow">→ fetch()</div>
+            <div class="cs-arch-node cs-arch-server">API Layer<br><small>REST endpoints · 5s poll</small></div>
+            <div class="cs-arch-arrow">→ pg.query()</div>
+            <div class="cs-arch-node cs-arch-db">PostgreSQL<br><small>metrics · sessions · events</small></div>
+          </div>
+        </div>
+        <div class="cs-code-block"><pre><code>// TypeScript widget base class
+abstract class Widget {
+  abstract render(data: MetricData): void;
+  abstract refresh(): Promise<void>;
+  
+  protected scheduleRefresh(intervalMs: number) {
+    setInterval(() => this.refresh(), intervalMs);
+  }
+}
+
+// Concrete: KPI Card Widget
+class KPICard extends Widget {
+  async refresh() {
+    const data = await fetchMetric(this.metricId);
+    this.render(data);
+  }
+  render({ value, delta }: MetricData) {
+    this.el.querySelector('.value')!.textContent = format(value);
+    this.el.querySelector('.delta')!.className =
+      `delta ${delta >= 0 ? 'up' : 'down'}`;
+  }
+}</code></pre></div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">05 — Challenges & Solutions</div>
+        <h3 class="cs-block-heading">The <em>hard parts</em> nobody talks about</h3>
+        <div class="cs-challenge-list">
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> Chart.js re-renders caused flickering when data updated every 5 seconds.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> Instead of destroying and recreating charts, used <code>chart.data.datasets[0].data = newData</code> then <code>chart.update('none')</code> to suppress the animation on background refreshes.</div>
+          </div>
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> Simultaneous API calls for 8 widgets hammered the server on load.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> Built a request queue that batches all widget data into a single <code>/api/dashboard-bundle</code> endpoint call, reducing load-time requests from 8 to 1.</div>
+          </div>
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> TypeScript type errors from Chart.js v4's strict dataset types.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> Created a <code>ChartDatasetConfig</code> generic type wrapper that maps our internal <code>MetricData</code> shape to Chart.js's expected dataset interface cleanly.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">06 — Results</div>
+        <h3 class="cs-block-heading">Shipped, <em>fast, and maintainable</em></h3>
+        <div class="cs-results-grid">
+          <div class="cs-result-card"><div class="cs-result-num">98</div><div class="cs-result-lbl">Lighthouse Performance score on Vercel</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">1 request</div><div class="cs-result-lbl">All 8 widgets loaded in a single API call</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">5s</div><div class="cs-result-lbl">Unified refresh cycle — zero visual chaos</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">0 any</div><div class="cs-result-lbl">Full TypeScript strict mode — no type escapes</div></div>
+        </div>
+        <p class="cs-block-text" style="margin-top:1.5rem"><strong>Key Takeaway:</strong> TypeScript without a framework forces you to think in proper abstractions. The Widget base class pattern made adding new chart types trivial — each new widget was just a class extending the base, not a pile of copy-pasted code.</p>
+      </div>
+
+    </div>
+    <div class="cs-content-sidebar">
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Tech Stack</div>
+        <div class="cs-sidebar-pills">
+          <span class="cs-pill">TypeScript</span><span class="cs-pill">Chart.js v4</span><span class="cs-pill">PostgreSQL</span><span class="cs-pill">Node.js</span><span class="cs-pill">CSS Grid</span><span class="cs-pill">Vercel</span><span class="cs-pill">REST API</span>
+        </div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Key Skills</div>
+        <div class="cs-sidebar-list">
+          <div class="cs-sb-item">✓ TypeScript OOP architecture</div>
+          <div class="cs-sb-item">✓ Chart.js advanced config</div>
+          <div class="cs-sb-item">✓ API request batching</div>
+          <div class="cs-sb-item">✓ Dashboard UX patterns</div>
+          <div class="cs-sb-item">✓ Skeleton loading states</div>
+          <div class="cs-sb-item">✓ Performance optimisation</div>
+        </div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Lighthouse Score</div>
+        <div class="cs-score-row"><span>Performance</span><span class="cs-score-val">98</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:98%"></div></div>
+        <div class="cs-score-row"><span>Best Practices</span><span class="cs-score-val">100</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:100%"></div></div>
+        <div class="cs-score-row"><span>Accessibility</span><span class="cs-score-val">98</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:98%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </div>
 
 <footer>
