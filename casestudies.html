@@ -242,6 +242,322 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 .cs-divider-line{flex:1;height:1px;background:var(--border);}
 .cs-divider-label{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--text3);white-space:nowrap;}
 
+/* ─── CASE STUDY SECTION ─────────────────────────────────────────── */
+.cs-section{
+  border-top:1px solid var(--border);
+  padding:6rem 2rem;
+  max-width:1200px;
+  margin:0 auto;
+}
+.cs-sec-header{
+  display:grid;
+  grid-template-columns:80px 1fr 300px;
+  gap:2rem;
+  margin-bottom:4rem;
+  align-items:start;
+}
+.cs-sec-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:5rem;
+  font-weight:900;
+  color:var(--border2);
+  line-height:1;
+  letter-spacing:-.04em;
+}
+.cs-sec-tag{
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.8rem;
+}
+.cs-sec-title{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:800;
+  letter-spacing:-.04em;
+  line-height:1.1;
+  margin-bottom:1rem;
+}
+.cs-sec-title em{
+  font-family:'DM Serif Display',serif;
+  font-weight:400;
+  font-style:italic;
+  color:var(--text2);
+}
+.cs-sec-lead{
+  font-size:.9rem;
+  color:var(--text2);
+  line-height:1.8;
+  max-width:540px;
+  margin-bottom:1.5rem;
+}
+.cs-sec-links{display:flex;gap:.8rem;flex-wrap:wrap;}
+.cs-sec-link{
+  font-size:.72rem;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  padding:.6rem 1.4rem;
+  border-radius:999px;
+  text-decoration:none;
+  border:1px solid var(--border2);
+  color:var(--text2);
+  transition:all .2s;
+}
+.cs-sec-link:hover{border-color:var(--text);color:var(--text);}
+.cs-sec-link-primary{background:var(--accent);border-color:var(--accent);color:#000 !important;}
+.cs-sec-link-primary:hover{background:#d4ff6e;border-color:#d4ff6e;}
+.cs-sec-meta-block{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:1.5rem;
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
+.cs-meta-row{display:flex;flex-direction:column;gap:.25rem;}
+.cs-meta-k{font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);}
+.cs-meta-v{font-size:.8rem;color:var(--text);font-weight:500;line-height:1.4;}
+.cs-status-live{color:#4ade80 !important;}
+
+/* Hero image */
+.cs-img-block{
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border2);
+  margin-bottom:3rem;
+  position:relative;
+  background:var(--surface2);
+}
+.cs-img-hero{height:400px;}
+.cs-img-block img{width:100%;height:100%;object-fit:cover;}
+.cs-img-caption{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  padding:.8rem 1.2rem;
+  background:linear-gradient(transparent,rgba(0,0,0,.7));
+  font-size:.65rem;
+  letter-spacing:.1em;
+  color:rgba(255,255,255,.7);
+}
+
+/* Content grid */
+.cs-content-grid{
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:3rem;
+  align-items:start;
+}
+.cs-content-main{display:flex;flex-direction:column;gap:3rem;}
+.cs-content-sidebar{
+  position:sticky;
+  top:80px;
+  display:flex;
+  flex-direction:column;
+  gap:1.2rem;
+}
+
+/* Content blocks */
+.cs-block{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s;}
+.cs-block.in{opacity:1;transform:translateY(0);}
+.cs-block-label{
+  font-size:.6rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:.8rem;
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+}
+.cs-block-label::before{content:'';width:20px;height:1px;background:var(--accent);}
+.cs-block-heading{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.5rem;
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:1.25;
+  margin-bottom:1rem;
+}
+.cs-block-heading em{font-family:'DM Serif Display',serif;font-weight:400;font-style:italic;color:var(--text2);}
+.cs-block-text{font-size:.85rem;color:var(--text2);line-height:1.9;margin-bottom:.8rem;}
+.cs-block-text strong{color:var(--text);}
+
+/* Numbered list */
+.cs-numbered-list{display:flex;flex-direction:column;gap:1rem;margin-top:1rem;}
+.cs-nl-item{display:flex;gap:1.2rem;align-items:flex-start;}
+.cs-nl-num{
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;
+  color:var(--accent);
+  background:rgba(184,255,87,.08);
+  border:1px solid rgba(184,255,87,.2);
+  border-radius:4px;
+  padding:.3rem .6rem;
+  flex-shrink:0;
+  margin-top:.1rem;
+}
+.cs-nl-item div{font-size:.83rem;color:var(--text2);line-height:1.7;}
+.cs-nl-item strong{color:var(--text);}
+
+/* Callout grid */
+.cs-callout-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem;}
+.cs-callout{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:1.2rem;
+  transition:border-color .2s;
+}
+.cs-callout:hover{border-color:rgba(184,255,87,.3);}
+.cs-callout-icon{font-size:1.4rem;margin-bottom:.5rem;}
+.cs-callout-title{font-size:.8rem;font-weight:700;margin-bottom:.4rem;}
+.cs-callout-text{font-size:.75rem;color:var(--text2);line-height:1.6;}
+
+/* Architecture diagram */
+.cs-arch-diagram{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:2rem;
+  margin:1rem 0;
+}
+.cs-arch-row{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;}
+.cs-arch-node{
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:8px;
+  padding:.8rem 1.2rem;
+  font-size:.72rem;
+  font-weight:600;
+  text-align:center;
+  line-height:1.5;
+}
+.cs-arch-node small{display:block;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--text3);font-weight:400;margin-top:.2rem;}
+.cs-arch-client{border-color:rgba(184,255,87,.3);color:var(--accent);}
+.cs-arch-server{border-color:rgba(99,102,241,.4);color:#a5b4fc;}
+.cs-arch-db{border-color:rgba(74,222,128,.3);color:#4ade80;}
+.cs-arch-arrow{font-size:.7rem;color:var(--text3);white-space:nowrap;}
+
+/* Code block */
+.cs-code-block{
+  background:#0d1117;
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:1.5rem;
+  overflow-x:auto;
+  margin-top:1rem;
+}
+.cs-code-block pre{margin:0;}
+.cs-code-block code{
+  font-family:'DM Mono',monospace;
+  font-size:.72rem;
+  color:#c9d1d9;
+  line-height:1.8;
+}
+[data-theme="light"] .cs-code-block{background:#1e1e2e;}
+
+/* Challenge list */
+.cs-challenge-list{display:flex;flex-direction:column;gap:1rem;margin-top:1rem;}
+.cs-challenge-item{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:1.2rem;
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+}
+.cs-challenge-problem{font-size:.8rem;color:var(--text2);line-height:1.6;}
+.cs-challenge-solution{font-size:.8rem;color:var(--text2);line-height:1.6;}
+.cs-challenge-solution code{
+  font-family:'DM Mono',monospace;
+  font-size:.7rem;
+  background:rgba(184,255,87,.08);
+  border:1px solid rgba(184,255,87,.2);
+  padding:.1rem .4rem;
+  border-radius:3px;
+  color:var(--accent);
+}
+
+/* Results grid */
+.cs-results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.cs-result-card{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  padding:1.2rem;
+  text-align:center;
+}
+.cs-result-num{
+  font-family:'Space Grotesk',sans-serif;
+  font-size:1.5rem;
+  font-weight:700;
+  color:var(--accent);
+  letter-spacing:-.02em;
+  margin-bottom:.4rem;
+}
+.cs-result-lbl{font-size:.65rem;color:var(--text3);line-height:1.5;}
+
+/* Sidebar */
+.cs-sidebar-card{
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:1.4rem;
+}
+.cs-sidebar-label{
+  font-size:.58rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:.9rem;
+}
+.cs-sidebar-pills{display:flex;flex-wrap:wrap;gap:.4rem;}
+.cs-pill{
+  font-size:.62rem;
+  padding:.3rem .75rem;
+  border:1px solid var(--border2);
+  border-radius:999px;
+  color:var(--text2);
+  background:var(--surface2);
+  letter-spacing:.04em;
+}
+.cs-sidebar-list{display:flex;flex-direction:column;gap:.55rem;}
+.cs-sb-item{font-size:.75rem;color:var(--text2);display:flex;align-items:flex-start;gap:.5rem;}
+.cs-score-row{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text2);margin-bottom:.3rem;margin-top:.6rem;}
+.cs-score-val{font-weight:700;color:var(--text);font-family:'DM Mono',monospace;}
+.cs-score-bar{height:5px;background:var(--border2);border-radius:3px;overflow:hidden;margin-bottom:.2rem;}
+.cs-score-fill{height:100%;background:linear-gradient(90deg,var(--accent),#7fffb0);border-radius:3px;}
+
+/* Section separator */
+.cs-section-sep{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 2rem;
+  display:flex;
+  align-items:center;
+  gap:1.5rem;
+}
+.cs-section-sep-line{flex:1;height:1px;background:var(--border);}
+
+/* Responsive */
+@media(max-width:1024px){
+  .cs-sec-header{grid-template-columns:60px 1fr;grid-template-rows:auto auto;}
+  .cs-sec-meta-block{grid-column:span 2;}
+  .cs-content-grid{grid-template-columns:1fr;}
+  .cs-content-sidebar{position:static;}
+  .cs-results-grid{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:640px){
+  .cs-callout-grid{grid-template-columns:1fr;}
+  .cs-results-grid{grid-template-columns:1fr 1fr;}
+  .cs-arch-row{flex-direction:column;}
+  .cs-sec-num{font-size:3rem;}
+}
+
 /* ─── FOOTER ─────────────────────────────────────────────────────── */
 footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;}
 .foot-brand{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1rem;letter-spacing:-.02em;color:var(--text2);}
@@ -328,8 +644,158 @@ footer{border-top:1px solid var(--border);padding:2rem 2.5rem;display:flex;justi
   <!-- Cards injected by JS -->
 </div>
 
-<!-- ─── CASE STUDY DETAIL SECTIONS — injected in next commits ─── -->
-<div id="cs-details"></div>
+<!-- ─── CASE STUDY DETAIL SECTIONS ─── -->
+<div id="cs-details">
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!--  CASE STUDY 1 — VARTA                                      -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<section class="cs-section" id="cs-varta">
+  <div class="cs-sec-header">
+    <div class="cs-sec-num">01</div>
+    <div class="cs-sec-info">
+      <div class="cs-sec-tag">Full Stack Development · Web Application</div>
+      <h2 class="cs-sec-title">Varta —<br><em>Real-time Chat App</em></h2>
+      <p class="cs-sec-lead">A WhatsApp-inspired secure messaging app built with WebSockets, Node.js, and MongoDB — shipped in 8 weeks with zero polling.</p>
+      <div class="cs-sec-links">
+        <a href="https://github.com/vivek0052/varta" target="_blank" class="cs-sec-link cs-sec-link-primary">View on GitHub ↗</a>
+        <a href="https://github.com/vivek0052/varta" target="_blank" class="cs-sec-link">Live Demo ↗</a>
+      </div>
+    </div>
+    <div class="cs-sec-meta-block">
+      <div class="cs-meta-row"><span class="cs-meta-k">Role</span><span class="cs-meta-v">Full Stack Developer</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Duration</span><span class="cs-meta-v">May – Jul 2024 · 8 weeks</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Stack</span><span class="cs-meta-v">Node.js · Socket.io · MongoDB · Vanilla JS</span></div>
+      <div class="cs-meta-row"><span class="cs-meta-k">Status</span><span class="cs-meta-v cs-status-live">● Live</span></div>
+    </div>
+  </div>
+
+  <div class="cs-img-block cs-img-hero">
+    <img src="images/varta.jpg" alt="Varta Chat App">
+    <div class="cs-img-caption">Varta — Production interface. Real-time messages, typing indicators, online presence.</div>
+  </div>
+
+  <div class="cs-content-grid">
+    <div class="cs-content-main">
+
+      <div class="cs-block">
+        <div class="cs-block-label">01 — The Problem</div>
+        <h3 class="cs-block-heading">Users want messaging that feels <em>genuinely instant</em></h3>
+        <p class="cs-block-text">Most beginner chat apps use polling — fetching the server every few seconds. This causes visible lag, high server load, and a poor UX. The goal was to build something that felt like WhatsApp using persistent WebSocket connections, with typing indicators, read receipts, and presence — all in real time.</p>
+        <p class="cs-block-text">The UI also had to feel <strong>premium</strong> — not a "tutorial project" — with a glassmorphic dark design matching user expectations set by modern messengers like Telegram.</p>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">02 — Research & Discovery</div>
+        <h3 class="cs-block-heading">Studying how <em>real messengers</em> handle state</h3>
+        <p class="cs-block-text">Before writing code I reverse-engineered WhatsApp Web and Telegram Web to identify 4 core mechanics:</p>
+        <div class="cs-numbered-list">
+          <div class="cs-nl-item"><span class="cs-nl-num">01</span><div><strong>Persistent WS Connection</strong> — Socket.io keeps one TCP connection per user, emitting events both directions instead of polling.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">02</span><div><strong>Room-based Architecture</strong> — Each conversation is a "room". Messages emit only to that room, not broadcast globally.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">03</span><div><strong>Optimistic UI Updates</strong> — Messages appear immediately in the UI while the server confirms delivery in the background.</div></div>
+          <div class="cs-nl-item"><span class="cs-nl-num">04</span><div><strong>Presence System</strong> — Online/offline status and typing indicators tracked server-side via socket lifecycle events.</div></div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">03 — Design Decisions</div>
+        <h3 class="cs-block-heading">Glassmorphic dark UI — <em>premium, not basic</em></h3>
+        <div class="cs-callout-grid">
+          <div class="cs-callout"><div class="cs-callout-icon">🎨</div><div class="cs-callout-title">Glassmorphism</div><div class="cs-callout-text">Chat bubbles use backdrop-filter blur with translucent backgrounds — depth without heavy shadows.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">✍️</div><div class="cs-callout-title">Typing Indicator</div><div class="cs-callout-text">Animated 3-dot pulse that appears when the other party types, with 1.5s debounce to prevent spam.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">🟢</div><div class="cs-callout-title">Live Presence</div><div class="cs-callout-text">Green pulsing dot on avatars showing real-time online status synced via socket disconnect events.</div></div>
+          <div class="cs-callout"><div class="cs-callout-icon">📱</div><div class="cs-callout-title">Mobile-First</div><div class="cs-callout-text">Two-panel desktop layout collapses to single panel on mobile with smooth slide transitions.</div></div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">04 — Technical Architecture</div>
+        <h3 class="cs-block-heading">Socket.io + MongoDB + <em>Room-based messaging</em></h3>
+        <div class="cs-arch-diagram">
+          <div class="cs-arch-row">
+            <div class="cs-arch-node cs-arch-client">Client Browser<br><small>Vanilla JS + Socket.io-client</small></div>
+            <div class="cs-arch-arrow">⟷ WebSocket</div>
+            <div class="cs-arch-node cs-arch-server">Node.js Server<br><small>Express + Socket.io</small></div>
+            <div class="cs-arch-arrow">⟷ Mongoose</div>
+            <div class="cs-arch-node cs-arch-db">MongoDB Atlas<br><small>messages · users · rooms</small></div>
+          </div>
+        </div>
+        <div class="cs-code-block"><pre><code>// Emit message and persist to DB
+socket.on('send_message', async ({ roomId, text, senderId }) => {
+  const msg = await Message.create({ roomId, text, senderId });
+  io.to(roomId).emit('receive_message', msg);
+});
+
+// Typing indicator with debounce
+socket.on('typing', ({ roomId }) => {
+  socket.to(roomId).emit('user_typing', socket.userId);
+});</code></pre></div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">05 — Challenges & Solutions</div>
+        <h3 class="cs-block-heading">What went <em>wrong</em> — and how I fixed it</h3>
+        <div class="cs-challenge-list">
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> Messages arriving out of order at high frequency.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> Added <code>createdAt</code> timestamp to every message and sorted client-side on render rather than trusting socket event order.</div>
+          </div>
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> User reconnects after network drop and misses messages sent while offline.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> On reconnect, client emits <code>sync_messages</code> with the last seen message ID. Server returns all messages after that ID.</div>
+          </div>
+          <div class="cs-challenge-item">
+            <div class="cs-challenge-problem">🔴 <strong>Problem:</strong> Typing indicator kept showing after sender stopped typing.</div>
+            <div class="cs-challenge-solution">✅ <strong>Solution:</strong> 1.5s <code>setTimeout</code> debounce on client — if no keypress in 1.5s, emit <code>stopped_typing</code> to clear the indicator.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-block">
+        <div class="cs-block-label">06 — Results</div>
+        <h3 class="cs-block-heading">What <em>actually shipped</em></h3>
+        <div class="cs-results-grid">
+          <div class="cs-result-card"><div class="cs-result-num">&lt;80ms</div><div class="cs-result-lbl">Avg message delivery latency over LAN</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">100%</div><div class="cs-result-lbl">Real-time — zero polling, all WebSocket</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">4 features</div><div class="cs-result-lbl">Typing, presence, rooms, message sync</div></div>
+          <div class="cs-result-card"><div class="cs-result-num">8 weeks</div><div class="cs-result-lbl">Idea to production-ready build</div></div>
+        </div>
+        <p class="cs-block-text" style="margin-top:1.5rem"><strong>Key Takeaway:</strong> Real-time state is a distributed systems problem. Managing socket lifecycle events is as important as the feature logic itself.</p>
+      </div>
+
+    </div>
+    <div class="cs-content-sidebar">
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Tech Stack</div>
+        <div class="cs-sidebar-pills">
+          <span class="cs-pill">Node.js</span><span class="cs-pill">Socket.io</span><span class="cs-pill">MongoDB</span><span class="cs-pill">Express.js</span><span class="cs-pill">Mongoose</span><span class="cs-pill">Vanilla JS</span><span class="cs-pill">CSS3</span><span class="cs-pill">JWT Auth</span>
+        </div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Key Skills</div>
+        <div class="cs-sidebar-list">
+          <div class="cs-sb-item">✓ WebSocket architecture</div>
+          <div class="cs-sb-item">✓ MongoDB schema design</div>
+          <div class="cs-sb-item">✓ JWT authentication flow</div>
+          <div class="cs-sb-item">✓ Glassmorphic UI design</div>
+          <div class="cs-sb-item">✓ Event-driven programming</div>
+          <div class="cs-sb-item">✓ Reconnect state sync</div>
+        </div>
+      </div>
+      <div class="cs-sidebar-card">
+        <div class="cs-sidebar-label">Lighthouse Score</div>
+        <div class="cs-score-row"><span>Performance</span><span class="cs-score-val">95</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:95%"></div></div>
+        <div class="cs-score-row"><span>Best Practices</span><span class="cs-score-val">96</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:96%"></div></div>
+        <div class="cs-score-row"><span>Accessibility</span><span class="cs-score-val">95</span></div>
+        <div class="cs-score-bar"><div class="cs-score-fill" style="width:95%"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
 
 <footer>
   <span>© 2025 Vivek Dandotiya</span>
