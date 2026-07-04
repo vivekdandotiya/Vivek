@@ -1965,6 +1965,186 @@ body.theme-transition, body.theme-transition * {
   </div>
 </section>
 
+<!-- ── WORKSPACE SETUP TOUR ── -->
+<section class="setup-section reveal" style="border-top:1px solid var(--border);">
+  <p class="eyebrow">My Environment</p>
+  <h2>Where the <em>Magic</em><br>Happens</h2>
+  <p class="sub">Click any of the glowing hotspots in my workstation to tour my development hardware, setup configuration, and software environments.</p>
+
+  <div class="setup-grid">
+    <!-- Left Column: Interactive visual scene -->
+    <div class="setup-visual-card">
+      <div class="setup-scene-container">
+        <!-- Visual Desk Representation -->
+        <div class="setup-desk-graphic">
+          <!-- Monitor Light Bar -->
+          <div class="setup-desk-light"></div>
+          
+          <!-- Screen -->
+          <div class="setup-desk-screen">
+            <div class="setup-screen-glow"></div>
+            <div class="setup-screen-code">
+              <span class="green">// VS Code Editor</span><br>
+              const developer = {<br>
+              &nbsp;&nbsp;name: "Vivek",<br>
+              &nbsp;&nbsp;focus: "Frontend",<br>
+              &nbsp;&nbsp;theme: "GitHub Dark",<br>
+              &nbsp;&nbsp;setup: "Keychron K2"<br>
+              };
+            </div>
+          </div>
+          
+          <!-- Keyboard -->
+          <div class="setup-desk-keyboard"></div>
+          
+          <!-- Mouse -->
+          <div class="setup-desk-mouse"></div>
+          
+          <!-- Interactive Hotspots -->
+          <div class="setup-hotspot" id="hotspot-monitor" data-key="monitor"></div>
+          <div class="setup-hotspot" id="hotspot-theme" data-key="theme"></div>
+          <div class="setup-hotspot" id="hotspot-keyboard" data-key="keyboard"></div>
+          <div class="setup-hotspot" id="hotspot-mouse" data-key="mouse"></div>
+          <div class="setup-hotspot" id="hotspot-lamp" data-key="lamp"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Specs Panel Details -->
+    <div class="setup-details-card">
+      <div class="setup-details-header" id="setupDetailsHeader">Hardware Setup</div>
+      <h3 class="setup-details-name" id="setupDetailsName">Workspace Gear</h3>
+      <p class="setup-details-desc" id="setupDetailsDesc">Click any hotspot on the workstation visualizer to see configuration specifications, model names, and plugins.</p>
+      
+      <div class="setup-specs-list" id="setupSpecsList">
+        <!-- Specs list items injected here -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Setup Tour Interactive Script -->
+<script>
+(function initSetupTour() {
+  const setupSpecs = {
+    monitor: {
+      category: 'Display / Screen',
+      name: 'LG UltraFine 4K IPS',
+      desc: 'An ultra-sharp 4K color-accurate IPS monitor for pixel-perfect layout alignments and detailed Figma review.',
+      specs: [
+        { label: 'Resolution', value: '3840 x 2160' },
+        { label: 'Panel Type', value: 'IPS Grade' },
+        { label: 'Refresh Rate', value: '60Hz' },
+        { label: 'Color Space', value: '98% DCI-P3' }
+      ]
+    },
+    theme: {
+      category: 'Software / Theme',
+      name: 'GitHub Dark Default',
+      desc: 'My preferred text editor setup. Customized for clean legibility, deep contrasts, and minimized eye strain.',
+      specs: [
+        { label: 'Editor Theme', value: 'GitHub Dark' },
+        { label: 'Editor Font', value: 'JetBrains Mono' },
+        { label: 'Extensions', value: 'Prettier, ESLint' },
+        { label: 'Linter', value: 'Strict TypeCheck' }
+      ]
+    },
+    keyboard: {
+      category: 'Hardware / Inputs',
+      name: 'Keychron K2 V2',
+      desc: 'A compact 75% layout mechanical keyboard with custom brown tactile switches for an absolute responsive typing flow.',
+      specs: [
+        { label: 'Keyboard Type', value: '75% Mechanical' },
+        { label: 'Key Switches', value: 'Gateron G-Pro Brown' },
+        { label: 'Keycaps', value: 'Double-Shot PBT' },
+        { label: 'Connectivity', value: 'Bluetooth & USB-C' }
+      ]
+    },
+    mouse: {
+      category: 'Hardware / Inputs',
+      name: 'Logitech MX Master 3S',
+      desc: 'The ultimate creator mouse featuring highly ergonomic thumb wheel rests and highly responsive tracking surfaces.',
+      specs: [
+        { label: 'Tracking Sensor', value: '8K DPI Darkfield' },
+        { label: 'Scroll Wheel', value: 'MagSpeed Electromagnetic' },
+        { label: 'Ergonomics', value: 'High Ergonomic Profile' },
+        { label: 'Battery Life', value: 'Up to 70 days' }
+      ]
+    },
+    lamp: {
+      category: 'Workspace / Light',
+      name: 'BenQ ScreenBar Halo',
+      desc: 'Auto-dimming monitor lightbar casting balanced desk illumination with absolute zero screen reflection.',
+      specs: [
+        { label: 'Light Type', value: 'Asymmetric Optical' },
+        { label: 'Brightness', value: 'Auto-Dimming' },
+        { label: 'Color Temp', value: '2700K - 6500K' },
+        { label: 'Control Dial', value: 'Wireless Dial' }
+      ]
+    }
+  };
+
+  const hotspots = document.querySelectorAll('.setup-hotspot');
+  const detailsHeader = document.getElementById('setupDetailsHeader');
+  const detailsName = document.getElementById('setupDetailsName');
+  const detailsDesc = document.getElementById('setupDetailsDesc');
+  const specsList = document.getElementById('setupSpecsList');
+
+  if (!hotspots.length || !detailsName) return;
+
+  function selectHotspot(key) {
+    const data = setupSpecs[key];
+    if (!data) return;
+
+    // Toggle active state
+    hotspots.forEach(dot => {
+      if (dot.getAttribute('data-key') === key) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+
+    // Animate details transition
+    detailsHeader.style.opacity = '0';
+    detailsName.style.opacity = '0';
+    detailsDesc.style.opacity = '0';
+    specsList.style.opacity = '0';
+
+    setTimeout(() => {
+      detailsHeader.textContent = data.category;
+      detailsName.textContent = data.name;
+      detailsDesc.textContent = data.desc;
+
+      // Inject list specs
+      specsList.innerHTML = data.specs.map(spec => `
+        <div class="setup-spec-item">
+          <span class="setup-spec-lbl">${spec.label}</span>
+          <span class="setup-spec-val">${spec.value}</span>
+        </div>
+      `).join('');
+
+      detailsHeader.style.opacity = '1';
+      detailsName.style.opacity = '1';
+      detailsDesc.style.opacity = '1';
+      specsList.style.opacity = '1';
+    }, 200);
+  }
+
+  // Bind clicks
+  hotspots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const key = dot.getAttribute('data-key');
+      selectHotspot(key);
+    });
+  });
+
+  // Default selection
+  selectHotspot('monitor');
+})();
+</script>
+
 <!-- ── GITHUB HEATMAP ── -->
 <section class="github-section reveal">
   <p class="eyebrow">My Code Journey</p>
