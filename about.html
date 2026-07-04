@@ -1203,31 +1203,40 @@ body.theme-transition, body.theme-transition * {
   // Animation Loop for Semicircle conveyor rotation
   function updatePositions() {
     if (!isHovered) {
-      rotationOffset += 0.04; // Slow rotation speed value
+      rotationOffset += 0.05; // Slow rotation speed value
     }
 
+    const baseGap = 24.5; // Spacious gap: 170deg / 7 ~ 24.5deg (around 7 skills visible at once)
+    const virtualLength = total * baseGap;
+
     nodes.forEach(item => {
-      const baseGap = 170 / total;
       const initialAngle = 185 + (item.index * baseGap) + rotationOffset;
       
-      // Semicircle wrap logic (185 to 355 degrees)
-      const diff = initialAngle - 185;
-      const relativeAngle = 185 + (diff % 170);
-      const angle = relativeAngle * (Math.PI / 180);
+      // Virtual wrap logic
+      let diff = (initialAngle - 185) % virtualLength;
+      if (diff < 0) diff += virtualLength;
+      const currentAngle = 185 + diff;
 
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
+      // Only display if the node is within the visible dome semicircle arc
+      if (currentAngle >= 184 && currentAngle <= 356) {
+        const angle = currentAngle * (Math.PI / 180);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
 
-      item.el.style.left = `calc(50% + ${x}px)`;
-      item.el.style.top = `calc(50% + ${y}px)`;
+        item.el.style.left = `calc(50% + ${x}px)`;
+        item.el.style.top = `calc(50% + ${y}px)`;
+        item.el.style.display = 'flex';
 
-      // Smooth opacity fading at the left/right edges
-      const distToEdge = Math.min(relativeAngle - 185, 355 - relativeAngle);
-      const opacity = Math.min(1, distToEdge / 12);
-      item.el.style.opacity = opacity;
-      
-      // Hide completely if virtually invisible to avoid accidental clicks
-      item.el.style.pointerEvents = opacity < 0.2 ? 'none' : 'auto';
+        // Smooth opacity fading at the left/right edges
+        const distToEdge = Math.min(currentAngle - 185, 355 - currentAngle);
+        const opacity = Math.min(1, distToEdge / 18); // Fades out in the last 18 degrees
+        item.el.style.opacity = opacity;
+        item.el.style.pointerEvents = opacity < 0.25 ? 'none' : 'auto';
+      } else {
+        item.el.style.opacity = 0;
+        item.el.style.pointerEvents = 'none';
+        item.el.style.display = 'none';
+      }
     });
 
     requestAnimationFrame(updatePositions);
@@ -1548,31 +1557,40 @@ body.theme-transition, body.theme-transition * {
   // Animation Loop for Semicircle conveyor rotation
   function updatePositions() {
     if (!isHovered) {
-      rotationOffset += 0.04; // Slow rotation speed value
+      rotationOffset += 0.05; // Slow rotation speed value
     }
 
+    const baseGap = 24.5; // Spacious gap (around 7 skills visible at once)
+    const virtualLength = total * baseGap;
+
     nodes.forEach(item => {
-      const baseGap = 170 / total;
       const initialAngle = 185 + (item.index * baseGap) + rotationOffset;
       
-      // Semicircle wrap logic (185 to 355 degrees)
-      const diff = initialAngle - 185;
-      const relativeAngle = 185 + (diff % 170);
-      const angle = relativeAngle * (Math.PI / 180);
+      // Virtual wrap logic
+      let diff = (initialAngle - 185) % virtualLength;
+      if (diff < 0) diff += virtualLength;
+      const currentAngle = 185 + diff;
 
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
+      // Only display if the node is within the visible dome semicircle arc
+      if (currentAngle >= 184 && currentAngle <= 356) {
+        const angle = currentAngle * (Math.PI / 180);
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
 
-      item.el.style.left = `calc(50% + ${x}px)`;
-      item.el.style.top = `calc(50% + ${y}px)`;
+        item.el.style.left = `calc(50% + ${x}px)`;
+        item.el.style.top = `calc(50% + ${y}px)`;
+        item.el.style.display = 'flex';
 
-      // Smooth opacity fading at the left/right edges
-      const distToEdge = Math.min(relativeAngle - 185, 355 - relativeAngle);
-      const opacity = Math.min(1, distToEdge / 12);
-      item.el.style.opacity = opacity;
-      
-      // Hide completely if virtually invisible to avoid accidental clicks
-      item.el.style.pointerEvents = opacity < 0.2 ? 'none' : 'auto';
+        // Smooth opacity fading at the left/right edges
+        const distToEdge = Math.min(currentAngle - 185, 355 - currentAngle);
+        const opacity = Math.min(1, distToEdge / 18); // Fades out in the last 18 degrees
+        item.el.style.opacity = opacity;
+        item.el.style.pointerEvents = opacity < 0.25 ? 'none' : 'auto';
+      } else {
+        item.el.style.opacity = 0;
+        item.el.style.pointerEvents = 'none';
+        item.el.style.display = 'none';
+      }
     });
 
     requestAnimationFrame(updatePositions);
