@@ -1137,97 +1137,44 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<section class="work-hero">
-  <p class="eyebrow">Selected Work</p>
-  <h1>MY <em>Projects</em></h1>
-  <p>10 projects spanning full-stack development, UI/UX design, branding & interactive experiences.</p>
-</section>
+<!-- CURVED SIDEBAR NAVIGATION -->
+<div class="curved-sidebar">
+  <a href="index.html" class="curved-sidebar-btn" data-tooltip="Home">🏠</a>
+  <a href="about.html" class="curved-sidebar-btn" data-tooltip="About">👤</a>
+  <a href="work.html" class="curved-sidebar-btn active" data-tooltip="Projects">💼</a>
+  <a href="casestudies.html" class="curved-sidebar-btn" data-tooltip="Case Studies">📖</a>
+  <a href="certifications.html" class="curved-sidebar-btn" data-tooltip="Certs">🏅</a>
+  <a href="blog.html" class="curved-sidebar-btn" data-tooltip="Blog">✍️</a>
+</div>
 
-<section id="section-fan">
-  <div class="fan-header">
-    <p class="fan-eyebrow">— All Projects</p>
-    <h2 class="fan-title">CLICK A <span>CARD</span></h2>
+<!-- 3D CYLINDER GALLERY GRID WALL -->
+<section style="position:relative; width:100vw; height:100vh; overflow:hidden; background:transparent;">
+  <div class="wall-header reveal">
+    <p class="eyebrow">— Visual Workspace</p>
+    <h2>Interactive <em>Cylinder</em> Grid</h2>
+    <p class="sub">Hover cards to lift them in 3D perspective depth, slide to rotate the panoramic screen, and select tags to filter.</p>
   </div>
-  <div class="fan-controls">
-    <button class="nav-btn" id="btnPrev">←</button>
-    <div class="counter-block">
-      <div class="fan-counter"><span class="cur" id="cCurrent">01</span>&nbsp;/&nbsp;<span id="cTotal">09</span></div>
-      <div class="fan-dots" id="fanDots"></div>
-    </div>
-    <button class="nav-btn" id="btnNext">→</button>
-  </div>
-  <div id="fan-stage"></div>
-  <p class="fan-hint">↑ Click card to explore · ← → navigate · card buttons go direct</p>
-</section>
 
-<!-- ══ 3D VIDEO SHOWCASE ══ -->
-<section class="vs-section">
-  <div class="vs-header">
-    <p class="vs-eyebrow">— In Motion</p>
-    <h2 class="vs-title">Projects <em>Live</em></h2>
+  <div class="wall-perspective-container">
+    <div class="curved-wall-grid" id="curvedWallGrid">
+      <!-- Generated Dynamically via Javascript -->
+    </div>
   </div>
- 
-  <div class="vs-stage">
-    <!-- Floating ambient orbs -->
-    <div class="vs-orb vs-orb1"></div>
-    <div class="vs-orb vs-orb2"></div>
- 
-    <!-- LEFT — tilted backward-left -->
-    <div class="vs-frame vs-frame-left" id="vsL">
-      <div class="vs-screen">
-        <div class="vs-bezel">
-          <div class="vs-notch"></div>
-          <video src="v1.mp4" autoplay muted loop playsinline></video>
-          <div class="vs-scanlines"></div>
-        </div>
-        <!-- Reflection strip -->
-        <div class="vs-reflection"></div>
-      </div>
-      <!-- Info tag floating below -->
-      <div class="vs-tag">
-        <span class="vs-tag-num">01</span>
-        <div class="vs-tag-body">
-          <span class="vs-tag-cat">Full-Stack</span>
-          <strong class="vs-tag-title">Portfolio &amp; Dashboard</strong>
-        </div>
-        <a href="https://vivek0052.in/" target="_blank" class="vs-tag-btn">↗</a>
-      </div>
+
+  <div class="prompt-bar-container reveal">
+    <div class="prompt-bar">
+      <span class="prompt-sparkle">✦</span>
+      <input type="text" id="promptInput" placeholder="A futuristic AI-powered workspace showing digital assets..." readonly>
+      <button class="prompt-btn" id="promptBtn">Create ✧</button>
     </div>
- 
-    <!-- CENTER divider text -->
-    <div class="vs-center-text">
-      <span>SELECTED</span>
-      <span class="vs-dot-sep">✦</span>
-      <span>WORK</span>
-    </div>
- 
-    <!-- RIGHT — tilted backward-right -->
-    <div class="vs-frame vs-frame-right" id="vsR">
-      <div class="vs-screen">
-        <div class="vs-bezel">
-          <div class="vs-notch"></div>
-          <video src="varta.mp4" autoplay muted loop playsinline></video>
-          <div class="vs-scanlines"></div>
-        </div>
-        <div class="vs-reflection"></div>
-      </div>
-      <div class="vs-tag">
-        <span class="vs-tag-num">02</span>
-        <div class="vs-tag-body">
-          <span class="vs-tag-cat">Mobile App</span>
-          <strong class="vs-tag-title">Varta (Chat App)</strong>
-        </div>
-        <a href="https://github.com/vivek0052/varta" target="_blank" class="vs-tag-btn">↗</a>
-      </div>
+    <div class="prompt-tags">
+      <button class="prompt-tag active" data-tag="all">ALL</button>
+      <button class="prompt-tag" data-tag="web">WEB</button>
+      <button class="prompt-tag" data-tag="design">DESIGN</button>
+      <button class="prompt-tag" data-tag="chat">CHAT</button>
     </div>
   </div>
 </section>
-
-
-<footer>
-  <span>© 2025 Vivek Dandotiya</span>
-  <span class="foot-brand">VD.</span>
-</footer>
 
 <!-- MODAL -->
 <div id="modal-overlay">
