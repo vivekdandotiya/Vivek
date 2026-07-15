@@ -1303,7 +1303,7 @@ const projects=[
     tags:['HTML5','CSS3','Responsive'],
     link:'https://vivek0052.in/',
     gh:'https://github.com/vivek0052',
-    img:'images/proj1.png',
+    img:'images/portfolio_mockup.png',
     sub:'Personal Brand & Interactive Portfolio',
     overview:"A hand-crafted, high-performance personal portfolio built to highlight frontend design engineering capabilities. Built from the ground up with modular styling and interactive elements.",
     duration:'Feb 2025 - Mar 2025',
@@ -1311,7 +1311,9 @@ const projects=[
     status:'Completed',
     features:['Responsive Grid Layout', 'Synchronized Dark/Light Theme Switcher', 'Interactive 3D Three.js Visualizations', 'SEO-Optimized Metadata & Structure'],
     metrics:{ perf: 99, quality: 'A+', qualityBar: 98, best: 100, access: 96 },
-    dbName: 'LocalStorage (Theme Cache)'
+    dbName: 'LocalStorage (Theme Cache)',
+    category: 'web',
+    themeColor: '#ffffff'
   },
   {
     num:'02',
@@ -1329,7 +1331,9 @@ const projects=[
     status:'Completed',
     features:['Dynamic Client-Side Routing', 'Bento-Style Dashboard Layout', 'Structured Services Listing Grid', 'Automated Lead Collection Form'],
     metrics:{ perf: 96, quality: 'A', qualityBar: 92, best: 95, access: 98 },
-    dbName: 'Supabase SQL Database'
+    dbName: 'Supabase SQL Database',
+    category: 'web',
+    themeColor: '#38bdf8'
   },
   {
     num:'03',
@@ -1347,7 +1351,9 @@ const projects=[
     status:'Completed',
     features:['Real-time REST API Polling', 'Interactive Price Trend Charts', 'Filterable Coins Search Matrix', 'Custom Watchlist Persistence'],
     metrics:{ perf: 94, quality: 'A+', qualityBar: 96, best: 98, access: 95 },
-    dbName: 'LocalStorage (Watchlists)'
+    dbName: 'LocalStorage (Watchlists)',
+    category: 'web',
+    themeColor: '#34d399'
   },
   {
     num:'04',
@@ -1365,7 +1371,9 @@ const projects=[
     status:'Completed',
     features:['Interactive Seating Grid Map', 'Real-time Selected Seat Buffer', 'Dynamic Total Pricing Calculation', 'Ticket Details Export Card'],
     metrics:{ perf: 92, quality: 'B+', qualityBar: 88, best: 90, access: 94 },
-    dbName: 'Firebase Realtime DB'
+    dbName: 'Firebase Realtime DB',
+    category: 'web',
+    themeColor: '#e11d48'
   },
   {
     num:'05',
@@ -1375,7 +1383,7 @@ const projects=[
     tags:['TypeScript','Dashboard','DataViz'],
     link:'https://real-time-dashboard-three.vercel.app/',
     gh:'https://github.com/vivek0052',
-    img:'images/proj5.png',
+    img:'images/analytics_mockup.png',
     sub:'Live Telemetry & Metrics Monitor',
     overview:"A dashboard built with TypeScript for visualizing live metrics, resource telemetry tracking, and grid analytics.",
     duration:'Aug 2024 - Sep 2024',
@@ -1383,7 +1391,9 @@ const projects=[
     status:'Completed',
     features:['Modular Telemetry Widget Cards', 'Real-time Chart.js Graphing Feed', 'System Metric Progress Bars', 'Active Columns Sorting & Filtering'],
     metrics:{ perf: 98, quality: 'A+', qualityBar: 98, best: 100, access: 98 },
-    dbName: 'PostgreSQL Server Instance'
+    dbName: 'PostgreSQL Server Instance',
+    category: 'web',
+    themeColor: '#b8ff57'
   },
   {
     num:'06',
@@ -1401,7 +1411,9 @@ const projects=[
     status:'Completed',
     features:['Dynamic Shopping Cart Handler', 'Stripe Checkout API Integration', 'Product Categories Tab Navigation', 'Next.js Image CDN Optimization'],
     metrics:{ perf: 95, quality: 'A', qualityBar: 93, best: 96, access: 97 },
-    dbName: 'MongoDB Cluster (Catalog)'
+    dbName: 'MongoDB Cluster (Catalog)',
+    category: 'web',
+    themeColor: '#f97316'
   },
   {
     num:'07',
@@ -1419,7 +1431,9 @@ const projects=[
     status:'Completed',
     features:['Dynamic Category Tag Filtering', 'Drag-and-Drop Task Sorting', 'Productivity Metrics Progression Tracker', 'Responsive Mobile-Ready Cards Grid'],
     metrics:{ perf: 97, quality: 'A', qualityBar: 92, best: 98, access: 96 },
-    dbName: 'LocalStorage (Tasks File)'
+    dbName: 'LocalStorage (Tasks File)',
+    category: 'web',
+    themeColor: '#fbbf24'
   },
   {
     num:'08',
@@ -1437,7 +1451,9 @@ const projects=[
     status:'Completed',
     features:['Pixel-Perfect Landing Artboard', 'Interactive Drawer Sidebars', 'Refined Typography Design Tokens', 'Click-to-Navigate Prototype Links'],
     metrics:{ perf: 100, quality: 'A+', qualityBar: 100, best: 100, access: 99 },
-    dbName: 'Figma Variables Library'
+    dbName: 'Figma Variables Library',
+    category: 'design',
+    themeColor: '#ff7262'
   },
   {
     num:'09',
@@ -1455,7 +1471,9 @@ const projects=[
     status:'Completed',
     features:['Dynamic Scroll-Triggered Motion', 'Fluid Viewport Adaptive Layouts', 'Structured Framer CMS Integration', 'Parallax Images Scrolling Overlay'],
     metrics:{ perf: 93, quality: 'A', qualityBar: 91, best: 94, access: 96 },
-    dbName: 'Framer CMS Database'
+    dbName: 'Framer CMS Database',
+    category: 'design',
+    themeColor: '#e2e8f0'
   },
   {
     num:'10',
@@ -1465,7 +1483,7 @@ const projects=[
     tags:['JavaScript','WebSockets','Firebase'],
     link:'https://github.com/vivek0052/varta',
     gh:'https://github.com/vivek0052/varta',
-    img:'images/varta.jpg',
+    img:'images/varta_mockup.png',
     sub:'Real-time Secure Messaging App',
     overview:"A production chatting platform mimicking modern secure messengers. Uses socket systems to bridge messages immediately with zero database poll lag.",
     duration:'May 2024 - Jul 2024',
@@ -1473,100 +1491,255 @@ const projects=[
     status:'Live',
     features:['Real-time WebSocket Messaging', 'Active Online Status Indicators', 'Typing Telemetry Broadcaster', 'Dark Glassmorphic UI Dashboard'],
     metrics:{ perf: 95, quality: 'A', qualityBar: 94, best: 96, access: 95 },
-    dbName: 'MongoDB Replica Set'
+    dbName: 'MongoDB Replica Set',
+    category: 'chat',
+    themeColor: '#00ffd5'
+  },
+  {
+    num:'11',
+    icon:'📐',
+    name:'Skills Dome Visualizer',
+    desc:'Interactive semicircle dome visualizing technical and soft skills. Animated conveyor belt layouts built with colorful SVG brand assets.',
+    tags:['SVG','Animation','UI Design'],
+    link:'about.html',
+    gh:'https://github.com/vivek0052',
+    img:'images/skills_mockup.png',
+    sub:'Cinematic Skills Dome Interface',
+    overview:"An interactive conveyor belt semicircle dome layout displaying technical competencies and soft skills with colorful customized SVG brand paths.",
+    duration:'Jun 2024 - Jul 2024',
+    role:'UX Engineer',
+    status:'Completed',
+    features:['Semicircle Conveyor Layout Wrapping', 'Smooth Auto-Rotation loop', 'Adaptive Orbit Node Sizing', 'Distance-to-Edge Opacity Fades'],
+    metrics:{ perf: 99, quality: 'A+', qualityBar: 98, best: 99, access: 98 },
+    dbName: 'Local Storage Layout Configuration',
+    category: 'design',
+    themeColor: '#ff7262'
+  },
+  {
+    num:'12',
+    icon:'🌍',
+    name:'3D WebGL Globe Explorer',
+    desc:'WebGL-powered interactive 3D globe visualization in a bento card layout. Displays active communication links and custom connection nodes.',
+    tags:['Three.js','WebGL','DataViz'],
+    link:'index.html',
+    gh:'https://github.com/vivek0052',
+    img:'images/globe_mockup.png',
+    sub:'Holographic 3D Globe Visualizer',
+    overview:"A custom WebGL 3D globe explorer showcasing geographic connection nodes, resource coordinates, and smooth rotational orbit physics.",
+    duration:'Jul 2024 - Aug 2024',
+    role:'WebGL Developer',
+    status:'Completed',
+    features:['Interactive WebGL Globe Mesh', 'Holographic Atmosphere Glow', 'Dynamic Coordinate Nodes Mapping', 'Damped Mouse Parallax Tracking'],
+    metrics:{ perf: 95, quality: 'A', qualityBar: 94, best: 96, access: 95 },
+    dbName: 'Three.js Camera Telemetry',
+    category: 'web',
+    themeColor: '#38bdf8'
   }
 ];
+
 const N = projects.length;
 const mod = (n,m) => ((n%m)+m)%m;
 
-
+// ═══ CURSOR GRADIENT EFFECTS ═══
 const cur=document.getElementById('cur'),curRing=document.getElementById('cur-ring');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
-(function loop(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curRing.style.left=rx+'px';curRing.style.top=ry+'px';requestAnimationFrame(loop);})();
+(function loop(){
+  cur.style.left=mx+'px';
+  cur.style.top=my+'px';
+  rx+=(mx-rx)*.12;
+  ry+=(my-ry)*.12;
+  curRing.style.left=rx+'px';
+  curRing.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+
+// Mobile nav
 const ham=document.getElementById('ham'),mob=document.getElementById('mob');
 ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
 mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
+
+// Intersection Observer reveal animations
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.06});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-document.querySelectorAll('.filter-btn').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const f=btn.dataset.filter;
-  document.querySelectorAll('.proj-card').forEach(c=>{
-    c.style.display=f==='all'||c.dataset.cat===f?'flex':'none';
-  });
-}));
+// ═══ 3D CYLINDER GRID GENERATION & LAYOUT Math ═══
+const numCols = 6;
+const radius = 980; // cylinder radius in pixels
+const baseGap = 26; // gap in degrees between columns
+const curvedWallGrid = document.getElementById('curvedWallGrid');
 
+function hexToRgb(hex) {
+  const bigint = parseInt(hex.replace('#', ''), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r}, ${g}, ${b}`;
+}
 
-// ═══ FAN CARDS ═══════════════════════════════════════════════════
-const stage=document.getElementById('fan-stage');
-const dotsWrap=document.getElementById('fanDots');
-const cCurEl=document.getElementById('cCurrent');
-document.getElementById('cTotal').textContent=String(N).padStart(2,'0');
-const VISIBLE=5;
-let center=0,fanReady=false,modalOpen=false,modalIdx=0;
-
-const cardEls=projects.map((p,i)=>{
-  const el=document.createElement('div'); el.className='proj-card';
-  el.innerHTML=`
-    <img src="${p.img}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.45;mix-blend-mode:luminosity;z-index:0;">
-    <div class="card-glow" style="z-index:1;"></div><div class="teal-ring" style="z-index:1;"></div>
-    <div class="card-header" style="z-index:2;">
-      <div class="card-num">[${p.num}]</div>
-      <div class="card-logo"><div class="card-logo-c"></div><div class="card-logo-c"></div></div>
-    </div>
-    <div class="card-icon">${p.icon}</div>
-    <div class="card-bottom" style="z-index:2;">
-      <div class="card-name">${p.name}</div>
-      <div class="card-links">
-        <a href="${p.link}" target="_blank" class="card-btn card-btn-live">↗ Live</a>
-        <a href="${p.gh}"   target="_blank" class="card-btn card-btn-gh">⌥ GitHub</a>
+function createCardElement(p, idx) {
+  const card = document.createElement('div');
+  card.className = 'wall-card';
+  card.dataset.cat = p.category;
+  card.dataset.index = idx;
+  card.style.setProperty('--theme-color', p.themeColor);
+  card.style.setProperty('--theme-color-rgb', hexToRgb(p.themeColor));
+  
+  card.innerHTML = `
+    <div class="wall-card-preview" style="background-image: url('${p.img}');"></div>
+    <div class="wall-card-glow"></div>
+    <div class="wall-card-overlay">
+      <div class="wall-card-top">
+        <span class="wall-card-badge">${p.category}</span>
+        <span class="wall-card-num">${p.num}</span>
+      </div>
+      <div class="wall-card-bottom">
+        <h3 class="wall-card-title">${p.name}</h3>
+        <p class="wall-card-desc">${p.desc}</p>
       </div>
     </div>
-    <div class="card-shimmer"></div>`;
-  stage.appendChild(el);
-  el.addEventListener('mouseenter',()=>{ if(fanReady) el.classList.add('active-hover'); });
-  el.addEventListener('mouseleave',()=>el.classList.remove('active-hover'));
-  el.addEventListener('click',e=>{ if(e.target.classList.contains('card-btn')||e.target.closest('.card-btn')) return;  openModal(i); });
-  return el;
-});
-
-projects.forEach((_,i)=>{
-  const d=document.createElement('div'); d.className='fan-dot'+(i===0?' active':'');
-  d.addEventListener('click',()=>goTo(i)); dotsWrap.appendChild(d);
-});
-
-function layout(animate){
-  const SPREAD=13,R=560,half=Math.floor(VISIBLE/2);
-  projects.forEach((_,idx)=>{
-    const el=cardEls[idx]; let offset=idx-center;
-    if(offset>N/2) offset-=N; if(offset<-N/2) offset+=N;
-    const visible=Math.abs(offset)<=half;
-    if(!visible){ el.style.transition=animate?'transform .55s cubic-bezier(.16,1,.3,1),opacity .4s':'none'; el.style.opacity='0'; el.style.pointerEvents='none'; el.style.transform='translate(0,60px) scale(.85)'; el.style.zIndex='0'; return; }
-    const angle=offset*SPREAD, rad=angle*Math.PI/180;
-    const tx=Math.sin(rad)*R, ty=R-Math.cos(rad)*R;
-    const scale=offset===0?1:1-Math.abs(offset)*.035;
-    const opacity=1-Math.abs(offset)*.07;
-    const delay=Math.abs(offset)*.04;
-    const shadow=offset===0?'0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(184,255,87,.15)':'0 16px 50px rgba(0,0,0,.5),0 0 0 1px rgba(92,255,200,.06)';
-    el.style.transition=animate?`transform .65s cubic-bezier(.16,1,.3,1) ${delay}s,opacity .4s,box-shadow .3s`:'none';
-    el.style.transform=`translate(${tx}px,${-ty}px) rotate(${angle}deg) scale(${scale})`;
-    el.style.zIndex=String(10-Math.abs(offset));
-    el.style.opacity=String(opacity); el.style.boxShadow=shadow; el.style.pointerEvents='all';
+  `;
+  
+  card.addEventListener('click', () => {
+    openModal(idx);
   });
-  cCurEl.textContent=String(center+1).padStart(2,'0');
-  dotsWrap.querySelectorAll('.fan-dot').forEach((d,i)=>d.classList.toggle('active',i===center));
+  
+  return card;
 }
-function goTo(idx,animate=true){ center=mod(idx,N); layout(animate); }
-document.getElementById('btnPrev').addEventListener('click',()=>goTo(center-1));
-document.getElementById('btnNext').addEventListener('click',()=>goTo(center+1));
-document.addEventListener('keydown',e=>{ if(modalOpen)return; if(e.key==='ArrowLeft')goTo(center-1); if(e.key==='ArrowRight')goTo(center+1); });
-let tx0=0;
-stage.addEventListener('touchstart',e=>tx0=e.touches[0].clientX,{passive:true});
-stage.addEventListener('touchend',e=>{ const dx=e.changedTouches[0].clientX-tx0; if(Math.abs(dx)>40) dx<0?goTo(center+1):goTo(center-1); },{passive:true});
-layout(false); cardEls.forEach(el=>{el.style.opacity='0';el.style.pointerEvents='none';});
-new IntersectionObserver(entries=>{ if(entries[0].isIntersecting&&!fanReady){ fanReady=true; setTimeout(()=>layout(true),150); } },{threshold:.2}).observe(document.getElementById('section-fan'));
+
+// Generate the curved grid cylinder structure
+function initCylinderGrid() {
+  curvedWallGrid.innerHTML = "";
+  for (let c = 0; c < numCols; c++) {
+    const colAngle = (c - (numCols - 1) / 2) * baseGap; // e.g. -65, -39, -13, 13, 39, 65
+    const colEl = document.createElement('div');
+    colEl.className = 'wall-col';
+    colEl.style.transform = `rotateY(${colAngle}deg) translateZ(${-radius}px) rotateY(${-colAngle * 0.15}deg)`;
+    
+    // Row 0 card
+    const p1Idx = c * 2;
+    if (p1Idx < N) {
+      colEl.appendChild(createCardElement(projects[p1Idx], p1Idx));
+    }
+    
+    // Row 1 card
+    const p2Idx = c * 2 + 1;
+    if (p2Idx < N) {
+      colEl.appendChild(createCardElement(projects[p2Idx], p2Idx));
+    }
+    
+    curvedWallGrid.appendChild(colEl);
+  }
+}
+initCylinderGrid();
+
+// ═══ MOUSE-TRACKING ROTATION & FLOATING PARALLAX ═══
+let yaw = 0;
+let pitch = 0;
+let targetYaw = 0;
+let targetPitch = 0;
+let rotationOffset = 0;
+let isDragging = false;
+let startX = 0;
+
+document.addEventListener('mousemove', e => {
+  if (isDragging) return;
+  const xPercent = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+  const yPercent = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+  targetYaw = xPercent * 24; // rotate grid up to 24 deg
+  targetPitch = -yPercent * 12; // pitch grid up to 12 deg
+});
+
+// Drag interaction
+const wallStage = document.querySelector('.wall-perspective-container');
+if (wallStage) {
+  wallStage.addEventListener('mousedown', e => {
+    isDragging = true;
+    startX = e.clientX;
+    wallStage.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const deltaX = e.clientX - startX;
+    rotationOffset += deltaX * 0.12; // drag responsiveness
+    startX = e.clientX;
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    wallStage.style.cursor = 'none';
+  });
+}
+
+// Smooth damping animation loop
+function updateDamping() {
+  if (!isDragging) {
+    yaw += (targetYaw - yaw) * 0.07;
+    pitch += (targetPitch - pitch) * 0.07;
+  }
+  if (curvedWallGrid) {
+    curvedWallGrid.style.transform = `rotateX(${pitch}deg) rotateY(${yaw + rotationOffset}deg)`;
+  }
+  requestAnimationFrame(updateDamping);
+}
+updateDamping();
+
+// ═══ TYPEWRITER PROMPT FILTER CONTROLLERS ═══
+let typewriterTimer = null;
+const promptInput = document.getElementById('promptInput');
+
+const promptMap = {
+  all: "Show all systems, Figma prototypes, and creative web portals in the 3D space...",
+  web: "Filter and reveal high-performance responsive web products and telemetry logs...",
+  design: "Filter pixel-perfect Figma prototypes and Framer CMS creations...",
+  chat: "Filter instant WebSocket messaging networks and real-time dashboards..."
+};
+
+function typePromptText(text) {
+  if (!promptInput) return;
+  clearInterval(typewriterTimer);
+  promptInput.value = "";
+  let i = 0;
+  typewriterTimer = setInterval(() => {
+    if (i < text.length) {
+      promptInput.value += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(typewriterTimer);
+    }
+  }, 20);
+}
+
+function filterTag(tag) {
+  document.querySelectorAll('.wall-card').forEach(card => {
+    const cat = card.dataset.cat;
+    if (tag === 'all' || cat === tag) {
+      card.classList.remove('filtered-out');
+    } else {
+      card.classList.add('filtered-out');
+    }
+  });
+}
+
+// Bind tags
+const tags = document.querySelectorAll('.prompt-tag');
+tags.forEach(tagBtn => {
+  tagBtn.addEventListener('click', () => {
+    tags.forEach(t => t.classList.remove('active'));
+    tagBtn.classList.add('active');
+    
+    const tag = tagBtn.dataset.tag;
+    typePromptText(promptMap[tag]);
+    filterTag(tag);
+  });
+  
+  tagBtn.addEventListener('mouseenter', () => {
+    const tag = tagBtn.dataset.tag;
+    typePromptText(promptMap[tag]);
+  });
+});
+
+typePromptText(promptMap.all);
 
 
 // ═══ DYNAMIC SVG BLUEPRINT GENERATORS ════════════════════════════
