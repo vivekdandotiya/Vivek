@@ -195,7 +195,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 .sec-stack {
   position: relative;
-  height: 150vh; /* scroll distance */
+  height: 200vh; /* scroll distance (larger value = slower speed) */
   width: 100vw;
   background: transparent;
   border-bottom: 1px solid var(--border);
@@ -224,51 +224,60 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 }
 .stack-track {
   display: flex;
-  gap: 50px;
+  gap: 40px;
   position: absolute;
   left: 50%;
-  transform: translateX(-120vw); /* starts completely off-screen left */
+  transform: translateX(-120vw);
   will-change: transform;
 }
 .horizontal-card {
   flex-shrink: 0;
-  width: 240px;
-  height: 350px;
-  border-radius: 20px;
+  width: 190px;
+  height: 280px;
+  border-radius: 18px;
   background: var(--surface);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.55);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.55);
   background-size: cover;
   background-position: center;
   position: relative;
   overflow: hidden;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  filter: grayscale(100%) contrast(1.1); /* Black and white theme */
+  transition: 
+    filter 0.5s ease,
+    border-color 0.3s ease, 
+    box-shadow 0.3s ease, 
+    transform 0.3s ease;
   cursor: none;
 }
 .horizontal-card-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 120%, rgba(var(--accent-rgb), 0.2), transparent 70%);
+  background: radial-gradient(circle at 50% 120%, rgba(var(--accent-rgb), 0.25), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 .horizontal-card:hover {
+  filter: grayscale(0%) contrast(1); /* Hover reveals color */
   border-color: var(--accent);
-  box-shadow: 0 25px 50px rgba(184, 255, 87, 0.25);
-  transform: scale(1.06) translateY(-10px) !important;
+  box-shadow: 0 20px 45px rgba(184, 255, 87, 0.25);
+  transform: scale(1.07) translateY(-12px) !important;
   z-index: 10;
 }
 .horizontal-card:hover .horizontal-card-glow {
   opacity: 1;
 }
 
-/* Stagger card heights and angles for visual curve */
-.horizontal-card:nth-child(1) { transform: rotate(-8deg) translateY(25px); }
-.horizontal-card:nth-child(2) { transform: rotate(-4deg) translateY(10px); }
-.horizontal-card:nth-child(3) { transform: rotate(0deg) translateY(0px); }
-.horizontal-card:nth-child(4) { transform: rotate(4deg) translateY(10px); }
-.horizontal-card:nth-child(5) { transform: rotate(8deg) translateY(25px); }
-.horizontal-card:nth-child(6) { transform: rotate(12deg) translateY(45px); }
+/* Stagger card heights and angles for visual curve (9 cards) */
+.horizontal-card:nth-child(1) { transform: rotate(-8deg) translateY(30px); }
+.horizontal-card:nth-child(2) { transform: rotate(-6deg) translateY(15px); }
+.horizontal-card:nth-child(3) { transform: rotate(-4deg) translateY(5px); }
+.horizontal-card:nth-child(4) { transform: rotate(-2deg) translateY(0px); }
+.horizontal-card:nth-child(5) { transform: rotate(0deg) translateY(0px); }
+.horizontal-card:nth-child(6) { transform: rotate(2deg) translateY(0px); }
+.horizontal-card:nth-child(7) { transform: rotate(4deg) translateY(5px); }
+.horizontal-card:nth-child(8) { transform: rotate(6deg) translateY(15px); }
+.horizontal-card:nth-child(9) { transform: rotate(8deg) translateY(30px); }
 
 /* SECTION 3: CYLINDER GRID WALL OVERRIDES */
 .sec-cylinder {
@@ -1363,6 +1372,15 @@ body.theme-transition, body.theme-transition * {
         <div class="horizontal-card" style="background-image: url('images/proj4.png');">
           <div class="horizontal-card-glow"></div>
         </div>
+        <div class="horizontal-card" style="background-image: url('images/proj6.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/proj3.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/proj2.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1797,14 +1815,14 @@ if (secStack && stackTrack) {
     
     if (scrolled >= 0 && scrolled <= scrollHeight) {
       const pct = scrolled / scrollHeight; // range 0 to 1
-      const startX = -65;
-      const endX = 65;
+      const startX = -90;
+      const endX = 90;
       const currentX = startX + pct * (endX - startX);
       stackTrack.style.transform = `translateX(${currentX}vw) translateX(-50%)`;
     } else if (scrolled < 0) {
-      stackTrack.style.transform = `translateX(-65vw) translateX(-50%)`;
+      stackTrack.style.transform = `translateX(-90vw) translateX(-50%)`;
     } else {
-      stackTrack.style.transform = `translateX(65vw) translateX(-50%)`;
+      stackTrack.style.transform = `translateX(90vw) translateX(-50%)`;
     }
   });
 }
