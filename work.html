@@ -193,65 +193,82 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   margin: 0 auto;
 }
 
-.stack-stage {
+.sec-stack {
   position: relative;
-  height: 380px;
-  width: 100%;
-  max-width: 800px;
-  margin-top: 3rem;
+  height: 220vh; /* scroll distance */
+  width: 100vw;
+  background: transparent;
+  border-bottom: 1px solid var(--border);
+  padding: 0;
+}
+.sec-stack-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  perspective: 1200px;
-  z-index: 5;
+  overflow: hidden;
+  padding: 4rem 2rem;
 }
-.stack-card {
+.stack-track-container {
+  position: relative;
+  width: 100%;
+  height: 420px;
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stack-track {
+  display: flex;
+  gap: 50px;
   position: absolute;
-  width: 220px;
-  height: 320px;
-  border-radius: 16px;
+  left: 50%;
+  transform: translateX(-120vw); /* starts completely off-screen left */
+  will-change: transform;
+}
+.horizontal-card {
+  flex-shrink: 0;
+  width: 240px;
+  height: 350px;
+  border-radius: 20px;
   background: var(--surface);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.55);
   background-size: cover;
   background-position: center;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-              opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.4s ease;
-  transform: scale(0.9) rotate(0deg);
-  opacity: 0;
-  pointer-events: none;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   cursor: none;
 }
-/* When fanned out (active via scroll) */
-.stack-stage.in .stack-card:nth-child(1) {
-  transform: translateX(-270px) translateY(20px) rotate(-8deg) scale(0.95);
-  opacity: 0.9;
-  pointer-events: all;
+.horizontal-card-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 120%, rgba(var(--accent-rgb), 0.2), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
-.stack-stage.in .stack-card:nth-child(2) {
-  transform: translateX(-90px) translateY(-5px) rotate(-3deg) scale(1);
-  opacity: 1;
-  pointer-events: all;
-}
-.stack-stage.in .stack-card:nth-child(3) {
-  transform: translateX(90px) translateY(-5px) rotate(3deg) scale(1);
-  opacity: 1;
-  pointer-events: all;
-}
-.stack-stage.in .stack-card:nth-child(4) {
-  transform: translateX(270px) translateY(20px) rotate(8deg) scale(0.95);
-  opacity: 0.9;
-  pointer-events: all;
-}
-/* Hover effect to pull card forward */
-.stack-card:hover {
-  transform: scale(1.08) translateY(-20px) translateZ(50px) !important;
+.horizontal-card:hover {
   border-color: var(--accent);
-  box-shadow: 0 25px 50px rgba(184, 255, 87, 0.3);
-  z-index: 100;
-  opacity: 1 !important;
+  box-shadow: 0 25px 50px rgba(184, 255, 87, 0.25);
+  transform: scale(1.06) translateY(-10px) !important;
+  z-index: 10;
 }
+.horizontal-card:hover .horizontal-card-glow {
+  opacity: 1;
+}
+
+/* Stagger card heights and angles for visual curve */
+.horizontal-card:nth-child(1) { transform: rotate(-8deg) translateY(25px); }
+.horizontal-card:nth-child(2) { transform: rotate(-4deg) translateY(10px); }
+.horizontal-card:nth-child(3) { transform: rotate(0deg) translateY(0px); }
+.horizontal-card:nth-child(4) { transform: rotate(4deg) translateY(10px); }
+.horizontal-card:nth-child(5) { transform: rotate(8deg) translateY(25px); }
+.horizontal-card:nth-child(6) { transform: rotate(12deg) translateY(45px); }
 
 /* SECTION 3: CYLINDER GRID WALL OVERRIDES */
 .sec-cylinder {
@@ -1391,19 +1408,37 @@ body.theme-transition, body.theme-transition * {
   </div>
 </section>
 
-<!-- SECTION 2: OVERLAPPING CARDS STACK -->
+<!-- SECTION 2: STICKY HORIZONTAL SCROLL CARDS SHOWCASE -->
 <section class="sec-stack">
-  <div class="stack-header reveal">
-    <p class="eyebrow">— Layout Showcase</p>
-    <h2>Revolutionizing <em>Interaction</em> Design</h2>
-    <p class="sub">Dynamic, responsive grid layouts fanned out with smooth parallax, customized CSS layers, and rich dark textures.</p>
-  </div>
-  
-  <div class="stack-stage reveal" id="scrollStackStage">
-    <div class="stack-card" style="background-image: url('images/varta_mockup.png');"></div>
-    <div class="stack-card" style="background-image: url('images/analytics_mockup.png');"></div>
-    <div class="stack-card" style="background-image: url('images/skills_mockup.png');"></div>
-    <div class="stack-card" style="background-image: url('images/globe_mockup.png');"></div>
+  <div class="sec-stack-sticky">
+    <div class="stack-header reveal">
+      <p class="eyebrow">— Layout Showcase</p>
+      <h2>Revolutionizing <em>Interaction</em> Design</h2>
+      <p class="sub">Dynamic, responsive grid layouts fanned out with smooth parallax, customized CSS layers, and rich dark textures.</p>
+    </div>
+    
+    <div class="stack-track-container">
+      <div class="stack-track" id="stackTrack">
+        <div class="horizontal-card" style="background-image: url('images/varta_mockup.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/analytics_mockup.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/skills_mockup.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/globe_mockup.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/portfolio_mockup.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+        <div class="horizontal-card" style="background-image: url('images/proj4.png');">
+          <div class="horizontal-card-glow"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1822,6 +1857,39 @@ mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classLi
 // Intersection Observer reveal animations
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.06});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ═══ STICKY HORIZONTAL SCROLL CARDS SHOWCASE ═══
+const secStack = document.querySelector('.sec-stack');
+const stackTrack = document.getElementById('stackTrack');
+
+if (secStack && stackTrack) {
+  window.addEventListener('scroll', () => {
+    const rect = secStack.getBoundingClientRect();
+    const scrollStart = window.pageYOffset + rect.top;
+    const scrollHeight = rect.height - window.innerHeight;
+    const scrolled = window.pageYOffset - scrollStart;
+    
+    if (scrolled >= 0 && scrolled <= scrollHeight) {
+      const pct = scrolled / scrollHeight; // range 0 to 1
+      const startX = -120;
+      const endX = 120;
+      const currentX = startX + pct * (endX - startX);
+      stackTrack.style.transform = `translateX(${currentX}vw) translateX(-50%)`;
+    } else if (scrolled < 0) {
+      stackTrack.style.transform = `translateX(-120vw) translateX(-50%)`;
+    } else {
+      stackTrack.style.transform = `translateX(120vw) translateX(-50%)`;
+    }
+  });
+}
+
+// ═══ ENTRANCE FADE-IN ANIMATION ═══
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.body.classList.add('loaded');
+  }, 100);
+});
+
 // ═══ 3D CYLINDER GRID GENERATION & LAYOUT Math ═══
 const numCols = 6;
 const radius = 980; // cylinder radius in pixels
