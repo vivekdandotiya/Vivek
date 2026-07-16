@@ -312,69 +312,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   margin: 0 auto;
 }
 
-/* CURVED SIDEBAR NAVIGATION */
-.curved-sidebar {
-  position: fixed;
-  left: 2.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  background: rgba(18, 18, 24, 0.45);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 99px;
-  padding: 1.8rem 0.8rem;
-  backdrop-filter: blur(20px);
-  z-index: 600;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-.curved-sidebar-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #8a8a93;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  text-decoration: none;
-  font-size: 1.1rem;
-  position: relative;
-}
-.curved-sidebar-btn:hover, .curved-sidebar-btn.active {
-  background: var(--accent);
-  color: #000;
-  border-color: var(--accent);
-  box-shadow: 0 0 20px rgba(184, 255, 87, 0.45);
-  transform: scale(1.12);
-}
-.curved-sidebar-btn::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%) translateX(15px);
-  background: rgba(10, 10, 15, 0.95);
-  border: 1px solid var(--border2);
-  color: #fff;
-  font-size: 0.65rem;
-  padding: 0.4rem 0.8rem;
-  border-radius: 6px;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s ease;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-}
-.curved-sidebar-btn:hover::after {
-  opacity: 1;
-  transform: translateY(-50%) translateX(10px);
-}
+
 
 /* 3D perspectiva viewport */
 .wall-perspective-container {
@@ -611,11 +549,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   box-shadow: 0 0 12px rgba(184, 255, 87, 0.3);
 }
 
-@media(max-width: 900px) {
-  .curved-sidebar {
-    display: none;
-  }
-}
+
 @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:1} }
 
 #modal-overlay { position: fixed; inset: 0; z-index: 2000; background: rgba(4,4,6,.9); backdrop-filter: blur(28px); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity .35s; }
@@ -1379,15 +1313,7 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- CURVED SIDEBAR NAVIGATION -->
-<div class="curved-sidebar">
-  <a href="index.html" class="curved-sidebar-btn" data-tooltip="Home">🏠</a>
-  <a href="about.html" class="curved-sidebar-btn" data-tooltip="About">👤</a>
-  <a href="work.html" class="curved-sidebar-btn active" data-tooltip="Projects">💼</a>
-  <a href="casestudies.html" class="curved-sidebar-btn" data-tooltip="Case Studies">📖</a>
-  <a href="certifications.html" class="curved-sidebar-btn" data-tooltip="Certs">🏅</a>
-  <a href="blog.html" class="curved-sidebar-btn" data-tooltip="Blog">✍️</a>
-</div>
+
 
 <!-- 3D CYLINDER GALLERY GRID WALL -->
 <!-- SECTION 1: HERO INTRO -->
