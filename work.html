@@ -195,7 +195,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 .sec-stack {
   position: relative;
-  height: 220vh; /* scroll distance */
+  height: 150vh; /* scroll distance */
   width: 100vw;
   background: transparent;
   border-bottom: 1px solid var(--border);
@@ -1797,14 +1797,14 @@ if (secStack && stackTrack) {
     
     if (scrolled >= 0 && scrolled <= scrollHeight) {
       const pct = scrolled / scrollHeight; // range 0 to 1
-      const startX = -120;
-      const endX = 120;
+      const startX = -65;
+      const endX = 65;
       const currentX = startX + pct * (endX - startX);
       stackTrack.style.transform = `translateX(${currentX}vw) translateX(-50%)`;
     } else if (scrolled < 0) {
-      stackTrack.style.transform = `translateX(-120vw) translateX(-50%)`;
+      stackTrack.style.transform = `translateX(-65vw) translateX(-50%)`;
     } else {
-      stackTrack.style.transform = `translateX(120vw) translateX(-50%)`;
+      stackTrack.style.transform = `translateX(65vw) translateX(-50%)`;
     }
   });
 }
