@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Error // System Link Offline — Vivek Dandotiya</title>
+<link rel="icon" type="image/png" href="fevicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:italic&family=Inter:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/index.css">
+<style>
+/* CSS Reset and Variables are imported from css/index.css */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+}
+
+/* BACKGROUND GRID LAYOUT LINES */
+.bg-grid-lines {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1380px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+  z-index: 1;
+  padding: 0 2rem;
+}
+.bg-line {
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(to bottom, 
+    transparent 0%, 
+    var(--grid-line) 15%, 
+    var(--grid-line) 85%, 
+    transparent 100%
+  );
+}
+
+/* ERROR VIEWPORT STAGE */
+.error-stage {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding: 6rem 2rem;
+  box-sizing: border-box;
+}
+
+/* HOLOGRAPHIC WARNING VISUAL */
+.radar-container {
+  position: relative;
+  width: 220px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+.radar-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(244, 63, 94, 0.2); /* warning rose border */
+  width: 100%;
+  height: 100%;
+  animation: radar-rotate 20s linear infinite;
+}
+.radar-ring-inner {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 63, 94, 0.15);
+}
+.radar-ring-core {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  border-radius: 50%;
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.radar-sweep {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  top: 0;
+  left: 0;
+  background: conic-gradient(from 0deg, rgba(244, 63, 94, 0.15) 0deg, transparent 90deg);
+  border-radius: 100% 0 0 0;
+  transform-origin: 100% 100%;
+  animation: radar-sweep 4s linear infinite;
+}
+.warning-icon {
+  font-size: 2.2rem;
+  color: #f43f5e;
+  animation: pulse-glow 2s ease infinite;
+}
+
+@keyframes radar-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1); opacity: 0.8; filter: drop-shadow(0 0 5px rgba(244,63,94,0.4)); }
+  50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 15px rgba(244,63,94,0.8)); }
+}
+
+/* ERROR INFO PANELS */
+.error-meta {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #f43f5e;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+.error-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  margin: 0 0 1rem;
+  line-height: 1.1;
+  text-align: center;
+}
+.error-title em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+/* DIAGNOSTIC TERMINAL LOGS */
+.terminal-console {
+  width: 100%;
+  max-width: 580px;
+  background: rgba(10, 10, 15, 0.8);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-sizing: border-box;
+  margin-bottom: 2.2rem;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  text-align: left;
+  backdrop-filter: blur(15px);
+  box-shadow: 
+    0 20px 40px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(244,63,94,0.08);
+}
+.terminal-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(244, 63, 94, 0.15);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+.terminal-dots {
+  display: flex;
+  gap: 6px;
+}
+.terminal-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(244, 63, 94, 0.4);
+}
+.terminal-dot:nth-child(2) { background: rgba(251, 191, 36, 0.4); }
+.terminal-dot:nth-child(3) { background: rgba(52, 211, 153, 0.4); }
+.terminal-title {
+  font-size: 0.65rem;
+  color: rgba(244, 63, 94, 0.6);
+  letter-spacing: 0.1em;
+}
+
+.terminal-line {
+  margin: 0.25rem 0;
+  display: flex;
+  gap: 0.5rem;
+}
+.line-prompt { color: #f43f5e; }
+.line-text {
+  word-break: break-all;
+}
+.line-status {
+  margin-left: auto;
+  font-weight: bold;
+}
+.status-fail { color: #f43f5e; }
+.status-warn { color: #fbbf24; }
+.status-ok { color: #34d399; }
+
+/* TELEMETRY MATRIX */
+.telemetry-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+.telemetry-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.telemetry-lbl {
+  font-size: 0.55rem;
+  color: var(--text3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.telemetry-val {
+  font-family: monospace;
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* BUTTON CONTROLS */
+.btn-row {
+  display: flex;
+  gap: 1.2rem;
+}
+.btn-error {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.85rem 2.2rem;
+  border-radius: 99px;
+  text-decoration: none;
+  cursor: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(244, 63, 94, 0.35);
+  background: rgba(244, 63, 94, 0.08);
+  color: #ff8a9a;
+  box-shadow: 0 10px 25px rgba(244, 63, 94, 0.15);
+}
+.btn-error:hover {
+  transform: translateY(-3px);
+  background: rgba(244, 63, 94, 0.18);
+  border-color: #f43f5e;
+  box-shadow: 0 15px 30px rgba(244, 63, 94, 0.35);
+  color: #fff;
+}
+.btn-error-secondary {
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text2);
+  box-shadow: none;
+}
+.btn-error-secondary:hover {
+  transform: translateY(-3px);
+  border-color: var(--text);
+  color: #fff;
+}
+
+/* SMOOTH CURSOR */
+#cur, #cur-ring {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%,-50%);
+  transition: width .2s, height .2s, background-color .2s;
+}
+#cur { width: 6px; height: 6px; background-color: var(--accent); }
+#cur-ring { width: 32px; height: 32px; border: 1px solid var(--border2); }
+
+/* LIGHT MODE OVERRIDES */
+[data-theme='light'] body { background: #f8fafc; }
+[data-theme='light'] .terminal-console {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(244, 63, 94, 0.3);
+  color: #333;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+}
+[data-theme='light'] .btn-error-secondary {
+  border-color: rgba(0, 0, 0, 0.15);
+  color: #333;
+}
+[data-theme='light'] .btn-error-secondary:hover {
+  border-color: #000;
+  color: #000;
+}
+[data-theme='light'] .radar-ring-core {
+  background: rgba(255, 255, 255, 0.85);
+}
+[data-theme='light'] .telemetry-val {
+  color: #333;
+}
+</style>
+</head>
+<body>
+<!-- BACKGROUND LAYOUT GRID LINES -->
+<div class="bg-grid-lines" aria-hidden="true">
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+  <div class="bg-line"></div>
+</div>
+
+<div id="cur"></div><div id="cur-ring"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">
+    <span class="nav-logo">VD</span>
+    <div class="nav-tagline"><span>Web Designer</span><span class="green">Building The Future</span></div>
+  </a>
+  <div class="nav-center">
+    <a href="index.html">Home</a><a href="about.html">About</a>
+    <a href="work.html">Work</a>
+    <a href="casestudies.html">Case Studies</a>
+    <a href="certifications.html">Certs</a><a href="blog.html">Blog</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:.6rem;">
+    <button id="themeToggle" style="background:none;border:none;cursor:none;font-size:1.1rem;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);margin-right:1rem;color:var(--text);transition:all 0.2s;">
+      <span class="sun-icon" style="display:none;">☀</span>
+      <span class="moon-icon">☾</span>
+    </button>
+    <a href="contact.html" class="btn-hire">Book a Call ↗</a>
+    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-nav" id="mob">
+  <a href="index.html">Home</a><a href="about.html">About</a><a href="work.html">Work</a>
+  <a href="casestudies.html">Case Studies</a>
+  <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
+</div>
+
+<!-- ERROR CONTENT SECTION -->
+<section class="error-stage">
+  <div class="radar-container">
+    <div class="radar-ring"></div>
+    <div class="radar-ring-inner"></div>
+    <div class="radar-sweep"></div>
+    <div class="radar-ring-core">
+      <span class="warning-icon">⚠</span>
+    </div>
+  </div>
+
+  <div class="error-meta">LINK_STATUS_FAILED</div>
+  <h1 class="error-title">Network <em>Error</em> Detected</h1>
+  <p style="color: var(--text2); font-size: 0.9rem; max-width: 480px; text-align: center; margin: 0 0 2rem; line-height: 1.6;">
+    The link connection to our secure server port was interrupted. We are attempting to diagnose the channel link configuration.
+  </p>
+
+  <!-- DIAGNOSTIC CONSOLE -->
+  <div class="terminal-console">
+    <div class="terminal-header">
+      <div class="terminal-dots">
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+        <div class="terminal-dot"></div>
+      </div>
+      <div class="terminal-title">DIAGNOSTIC_UTILITY_V1.0</div>
+    </div>
+    <div id="terminalBody">
+      <!-- Generated character by character -->
+    </div>
+  </div>
+
+  <!-- TELEMETRY READOUTS -->
+  <div class="telemetry-row">
+    <div class="telemetry-item">
+      <span class="telemetry-lbl">Channel Latency</span>
+      <span class="telemetry-val" id="tLatency">0.00 ms</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-lbl">Packet loss</span>
+      <span class="telemetry-val" id="tLoss">100.00%</span>
+    </div>
+    <div class="telemetry-item">
+      <span class="telemetry-lbl">Link quality</span>
+      <span class="telemetry-val" id="tQuality">OFFLINE</span>
+    </div>
+  </div>
+
+  <!-- CTAS -->
+  <div class="btn-row">
+    <button class="btn-error" id="btnRetry">
+      <span class="spinner" id="retrySpinner" style="display:none; width: 12px; height: 12px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: radar-rotate 0.8s linear infinite;"></span>
+      <span id="retryText">Retry Link</span>
+    </button>
+    <a href="index.html" class="btn-error btn-error-secondary">Return to Base</a>
+  </div>
+</section>
+
+<!-- CURSOR SCRIPT -->
+<script>
+const cur=document.getElementById('cur'),curRing=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function loop(){
+  cur.style.left=mx+'px';
+  cur.style.top=my+'px';
+  rx+=(mx-rx)*.12;
+  ry+=(my-ry)*.12;
+  curRing.style.left=rx+'px';
+  curRing.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+
+// Mobile Nav
+const ham=document.getElementById('ham'),mob=document.getElementById('mob');
+ham.addEventListener('click',()=>{ham.classList.toggle('open');mob.classList.toggle('open');});
+mob.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{ham.classList.remove('open');mob.classList.remove('open');}));
+</script>
+
+<!-- DIAGNOSTIC TYPEWRITER SCRIPT -->
+<script>
+const diagnosticLines = [
+  { text: "Initializing gateway connection diagnosis...", status: "OK", statusClass: "status-ok" },
+  { text: "Checking local network device handshake...", status: "OK", statusClass: "status-ok" },
+  { text: "Pinging server domain node 'vivek0052.in'...", status: "FAIL", statusClass: "status-fail" },
+  { text: "Resolving DNS lookup mapping...", status: "WARN", statusClass: "status-warn" },
+  { text: "Handshake payload returned 502 Bad Gateway.", status: "FAIL", statusClass: "status-fail" },
+  { text: "Connection channel status is OFFLINE.", status: "DOWN", statusClass: "status-fail" }
+];
+
+const consoleBody = document.getElementById('terminalBody');
+
+function renderDiagnosticLogs() {
+  consoleBody.innerHTML = "";
+  let lineIdx = 0;
+  
+  function typeNextLine() {
+    if (lineIdx >= diagnosticLines.length) return;
+    
+    const lineData = diagnosticLines[lineIdx];
+    const lineEl = document.createElement('div');
+    lineEl.className = 'terminal-line';
+    
+    const promptSpan = document.createElement('span');
+    promptSpan.className = 'line-prompt';
+    promptSpan.textContent = '$';
+    lineEl.appendChild(promptSpan);
+    
+    const textSpan = document.createElement('span');
+    textSpan.className = 'line-text';
+    lineEl.appendChild(textSpan);
+    
+    const statusSpan = document.createElement('span');
+    statusSpan.className = 'line-status ' + lineData.statusClass;
+    lineEl.appendChild(statusSpan);
+    
+    consoleBody.appendChild(lineEl);
+    
+    // Type out the line text character by character
+    let charIdx = 0;
+    const typeInterval = setInterval(() => {
+      if (charIdx < lineData.text.length) {
+        textSpan.textContent += lineData.text.charAt(charIdx);
+        charIdx++;
+      } else {
+        clearInterval(typeInterval);
+        // Show status badge after typing completes
+        statusSpan.textContent = `[${lineData.status}]`;
+        lineIdx++;
+        // Small delay before typing the next line
+        setTimeout(typeNextLine, 250);
+      }
+    }, 15);
+  }
+  
+  typeNextLine();
+}
+
+renderDiagnosticLogs();
+
+// RETRY BUTTON INTERACTION
+const btnRetry = document.getElementById('btnRetry');
+const spinner = document.getElementById('retrySpinner');
+const retryText = document.getElementById('retryText');
+const tLatency = document.getElementById('tLatency');
+const tLoss = document.getElementById('tLoss');
+const tQuality = document.getElementById('tQuality');
+
+btnRetry.addEventListener('click', () => {
+  btnRetry.disabled = true;
+  spinner.style.display = 'inline-block';
+  retryText.textContent = "Reconnecting...";
+  
+  // Reset diagnostic console to show loading diagnostics
+  consoleBody.innerHTML = `
+    <div class="terminal-line">
+      <span class="line-prompt">$</span>
+      <span class="line-text" style="color: var(--accent);">Re-establishing link protocol configuration... [RETRYING]</span>
+    </div>
+  `;
+  
+  // Reset telemetries
+  tLatency.textContent = "---";
+  tLoss.textContent = "---";
+  tQuality.textContent = "TUNING...";
+  
+  setTimeout(() => {
+    // Simulate reconnection complete, but returns offline again
+    spinner.style.display = 'none';
+    btnRetry.disabled = false;
+    retryText.textContent = "Retry Link";
+    tLatency.textContent = "0.00 ms";
+    tLoss.textContent = "100.00%";
+    tQuality.textContent = "OFFLINE";
+    
+    renderDiagnosticLogs();
+  }, 2200);
+});
+</script>
+
+<!-- THEME TOGGLE SCRIPT -->
+<script>
+(function(){
+  const btn = document.getElementById('themeToggle');
+  if(!btn) return;
+  const sun = btn.querySelector('.sun-icon');
+  const moon = btn.querySelector('.moon-icon');
+  
+  function applyTheme(th) {
+    document.documentElement.setAttribute('data-theme', th);
+    if(th === 'light') {
+      sun.style.display = 'inline';
+      moon.style.display = 'none';
+    } else {
+      sun.style.display = 'none';
+      moon.style.display = 'inline';
+    }
+  }
+
+  let currentTheme = localStorage.getItem('theme') || 'dark';
+  applyTheme(currentTheme);
+  
+  btn.addEventListener('click', () => {
+    document.body.classList.add('theme-transition');
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme(currentTheme);
+    setTimeout(() => document.body.classList.remove('theme-transition'), 500);
+  });
+})();
+</script>
+</body>
+</html>
