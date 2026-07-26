@@ -291,26 +291,44 @@ body {
 #cur-ring { width: 32px; height: 32px; border: 1px solid var(--border2); }
 
 /* LIGHT MODE OVERRIDES */
-[data-theme='light'] body { background: #f8fafc; }
+[data-theme='light'] body {
+  background-color: #ffffff;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1.5px, transparent 1.5px);
+  background-size: 24px 24px;
+}
 [data-theme='light'] .terminal-console {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(244, 63, 94, 0.3);
-  color: #333;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+  background: #ffffff !important;
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  box-shadow: 6px 6px 0px #000000 !important;
+}
+[data-theme='light'] .btn-error {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
+}
+[data-theme='light'] .btn-error:hover {
+  background: var(--accent) !important;
+  color: #000000 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
 }
 [data-theme='light'] .btn-error-secondary {
-  border-color: rgba(0, 0, 0, 0.15);
-  color: #333;
+  background: transparent !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+  box-shadow: 3px 3px 0px #000000 !important;
 }
 [data-theme='light'] .btn-error-secondary:hover {
-  border-color: #000;
-  color: #000;
+  background: #f1f5f9 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
 }
 [data-theme='light'] .radar-ring-core {
-  background: rgba(255, 255, 255, 0.85);
+  background: #ffffff !important;
+  border-color: #000000 !important;
 }
 [data-theme='light'] .telemetry-val {
-  color: #333;
+  color: #000000 !important;
 }
 </style>
 </head>
