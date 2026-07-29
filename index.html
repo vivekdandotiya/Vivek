@@ -395,8 +395,12 @@ body.theme-transition, body.theme-transition * {
   z-index: 2;
   pointer-events: auto;
 }
-.hero-eyebrow, .hero-name, .hero-sub, .hero-corners, .hero-scroll {
+.hero-eyebrow, .hero-name, .hero-sub {
   position: relative;
+  z-index: 10;
+  pointer-events: none;
+}
+.hero-corners, .hero-scroll {
   z-index: 10;
   pointer-events: none;
 }
