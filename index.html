@@ -531,8 +531,6 @@ body.theme-transition, body.theme-transition * {
 
 <!-- HERO -->
 <section id="hero" style="padding-top:64px; position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden;">
-  <video id="hero-bg-video" src="back.mp4" muted playsinline preload="auto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; opacity: 0.45; pointer-events: none; transition: opacity 0.4s ease;"></video>
-  <div style="position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle at center, rgba(10,10,10,0.2) 20%, var(--bg) 95%); pointer-events: none;"></div>
   <canvas id="hero-name-canvas" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 5;"></canvas>
   <p class="hero-eyebrow">Web Designer &amp; Developer · India</p>
   <h1 class="hero-name"><span>V</span><span>I</span><span>V</span><span>E</span><span>K</span></h1>
@@ -1092,55 +1090,6 @@ document.querySelectorAll('.c-tab').forEach(t=>t.addEventListener('click',()=>{d
     applyTheme(currentTheme);
     setTimeout(() => document.body.classList.remove('theme-transition'), 500);
   });
-})();
-
-/* ── SCROLL-DRIVEN BACKGROUND VIDEO ANIMATION ── */
-(function initScrollVideoAnimation() {
-  const video = document.getElementById('hero-bg-video');
-  if (!video) return;
-
-  video.pause();
-  video.currentTime = 0;
-
-  let targetTime = 0;
-  let duration = 0;
-  let isReady = false;
-
-  function onMetadata() {
-    duration = video.duration || 0;
-    isReady = true;
-    updateScroll();
-  }
-
-  video.addEventListener('loadedmetadata', onMetadata);
-  if (video.readyState >= 1) {
-    onMetadata();
-  }
-
-  function updateScroll() {
-    if (!isReady || !duration) return;
-    const hero = document.getElementById('hero');
-    const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
-    const maxScroll = Math.max(heroHeight * 1.8, 1);
-    const scrollPos = window.scrollY;
-    const progress = Math.min(Math.max(scrollPos / maxScroll, 0), 1);
-    targetTime = progress * duration;
-  }
-
-  window.addEventListener('scroll', updateScroll, { passive: true });
-  window.addEventListener('resize', updateScroll, { passive: true });
-
-  // RAF Lerp Loop for frame-by-frame scrubbing
-  function renderLoop() {
-    if (isReady && duration > 0) {
-      const diff = targetTime - video.currentTime;
-      if (Math.abs(diff) > 0.003) {
-        video.currentTime += diff * 0.2;
-      }
-    }
-    requestAnimationFrame(renderLoop);
-  }
-  requestAnimationFrame(renderLoop);
 })();
 </script>
 
