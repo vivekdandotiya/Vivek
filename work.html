@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Work — Vivek Dandotiya</title>
+<meta name="description" content="Explore featured web design projects, full-stack applications, and interactive digital work built by Vivek Dandotiya.">
+<meta property="og:title" content="Work & Portfolio — Vivek Dandotiya">
+<meta property="og:description" content="Selected projects showcase by web designer and developer Vivek Dandotiya.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
