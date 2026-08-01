@@ -680,12 +680,12 @@ body.theme-transition, body.theme-transition * {
     <a href="blog.html">Blog</a>
   </div>
   <div class="nav-right">
-    <button id="themeToggle" style="background:none;border:none;cursor:none;font-size:1.1rem;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);margin-right:1rem;color:var(--text);transition:all 0.2s;">
+    <button id="themeToggle" aria-label="Toggle dark/light theme" style="background:none;border:none;cursor:none;font-size:1.1rem;display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;border:1px solid var(--border2);margin-right:1rem;color:var(--text);transition:all 0.2s;">
   <span class="sun-icon" style="display:none;">☀</span>
   <span class="moon-icon">☾</span>
 </button>
     <a href="contact.html" class="btn-hire">Book a Call ↗</a>
-    <button class="ham" id="ham"><span></span><span></span><span></span></button>
+    <button class="ham" id="ham" aria-label="Toggle navigation menu"><span></span><span></span><span></span></button>
   </div>
 </nav>
 <div class="mob-nav" id="mob">
