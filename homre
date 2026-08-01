@@ -824,14 +824,7 @@ body.theme-transition, body.theme-transition * {
 
 
 
-<!-- CTA SECTION -->
-<div class="cta-section reveal">
-  <div class="big-text">Ready To<br><em>Build?</em></div>
-  <div class="cta-btns">
-    <a href="contact.html" class="btn-primary">Start a Project ↗</a>
-    <a href="work.html" class="btn-outline">See My Work</a>
-  </div>
-</div>
+
 
   <!-- ==================== ORGANIC FLAME FOOTER ==================== -->
   <footer class="footer-section" id="contact">
