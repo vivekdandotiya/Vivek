@@ -1597,9 +1597,14 @@ body.theme-transition, body.theme-transition * {
 }
 
 #crystal-mobius-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  min-height: 580px;
   display: block;
+  z-index: 10;
 }
 
 </style>
@@ -2866,8 +2871,11 @@ document.addEventListener('keydown', e => {
     }
 
     const container = canvas.parentElement;
-    const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || window.innerHeight;
+    let width = (container && container.clientWidth > 0) ? container.clientWidth : window.innerWidth;
+    let height = (container && container.clientHeight > 0) ? container.clientHeight : Math.max(window.innerHeight * 0.85, 580);
+
+    if (isNaN(width) || width <= 0) width = window.innerWidth;
+    if (isNaN(height) || height <= 0) height = 600;
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
@@ -2882,13 +2890,15 @@ document.addEventListener('keydown', e => {
     renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    window.addEventListener('resize', () => {
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || window.innerHeight;
+    function handleResize() {
+      const w = (container && container.clientWidth > 0) ? container.clientWidth : window.innerWidth;
+      const h = (container && container.clientHeight > 0) ? container.clientHeight : Math.max(window.innerHeight * 0.85, 580);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
-    });
+    }
+    window.addEventListener('resize', handleResize);
+    setTimeout(handleResize, 100);
 
     // ═══ HIGH-GLOSS CRYSTAL GLASS LIQUID MATCAP CANVAS ═══
     const mcCanvas = document.createElement('canvas');
