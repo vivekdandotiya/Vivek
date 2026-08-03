@@ -1577,13 +1577,58 @@ body.theme-transition, body.theme-transition * {
   min-height: 700px;
   background: #060608;
   background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.09), transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.09), transparent 50%);
+    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.1), transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.1), transparent 50%);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   z-index: 5;
+}
+
+.fluid-stage-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 950px;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.fluid-sculpture-standalone {
+  width: 100%;
+  max-width: 820px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.9)) drop-shadow(0 0 55px rgba(0, 242, 254, 0.35));
+  will-change: transform, filter;
+  animation: liquidFluidMorph 8s ease-in-out infinite alternate;
+  transition: transform 0.15s ease-out;
+}
+
+@keyframes liquidFluidMorph {
+  0% {
+    transform: translateY(0px) scale(1) rotate(0deg);
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.9)) drop-shadow(0 0 45px rgba(0, 242, 254, 0.35));
+  }
+  33% {
+    transform: translateY(-18px) scale(1.03) rotate(1.5deg);
+    filter: drop-shadow(0 35px 70px rgba(0,0,0,0.95)) drop-shadow(0 0 55px rgba(184, 255, 87, 0.4));
+  }
+  66% {
+    transform: translateY(-10px) scale(0.98) rotate(-1.5deg);
+    filter: drop-shadow(0 25px 50px rgba(0,0,0,0.85)) drop-shadow(0 0 50px rgba(255, 0, 127, 0.35));
+  }
+  100% {
+    transform: translateY(-24px) scale(1.04) rotate(2deg);
+    filter: drop-shadow(0 40px 80px rgba(0,0,0,0.95)) drop-shadow(0 0 60px rgba(0, 242, 254, 0.45));
+  }
 }
 
 #art-hero-canvas {
@@ -1592,6 +1637,7 @@ body.theme-transition, body.theme-transition * {
   width: 100%;
   height: 100%;
   z-index: 4;
+  pointer-events: none;
 }
 
 </style>
@@ -1635,6 +1681,9 @@ body.theme-transition, body.theme-transition * {
 
 <!-- ==================== STANDALONE 3D FLUID MOBIUS SCULPTURE HERO ==================== -->
 <section class="art-hero-section">
+  <div class="fluid-stage-wrap">
+    <img src="images/mobius_art.jpg" alt="3D Fluid Liquid Chrome Sculpture" id="fluidSculptureImg" class="fluid-sculpture-standalone">
+  </div>
   <canvas id="art-hero-canvas"></canvas>
 </section>
 
@@ -2955,6 +3004,31 @@ document.addEventListener('keydown', e => {
 
     animate();
   });
+})();
+
+// FLUID SCULPTURE REALTIME MOUSE TRACKING TILT
+(function initFluidSculptureMouseTracking() {
+  const el = document.getElementById('fluidSculptureImg');
+  if (!el) return;
+
+  let targetX = 0, targetY = 0;
+  let currentX = 0, currentY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+    const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+    targetX = x * 26;
+    targetY = -y * 16;
+  });
+
+  function update() {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+
+    el.style.transform = `perspective(1000px) rotateY(${currentX}deg) rotateX(${currentY}deg) scale(1.02)`;
+    requestAnimationFrame(update);
+  }
+  update();
 })();
 </script>
 
