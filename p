@@ -1568,7 +1568,40 @@ body.theme-transition, body.theme-transition * {
     var(--grid-line) 85%, 
     transparent 100%
   );
+}/* ==================== CRYSTAL GLASS LIQUID HERO ==================== */
+.crystal-hero-section {
+  position: relative;
+  width: 100vw;
+  height: 85vh;
+  min-height: 580px;
+  background: #05060a;
+  background-image: 
+    radial-gradient(circle at 50% 45%, rgba(0, 242, 254, 0.12), transparent 55%),
+    radial-gradient(circle at 70% 80%, rgba(184, 255, 87, 0.1), transparent 50%),
+    radial-gradient(circle at 30% 20%, rgba(255, 0, 127, 0.08), transparent 50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 5;
 }
+
+.crystal-stage-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#crystal-mobius-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
 </style>
 </head>
 <body>
@@ -1607,6 +1640,13 @@ body.theme-transition, body.theme-transition * {
   <a href="casestudies.html">Case Studies</a>
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
+
+<!-- ==================== CRYSTAL GLASS LIQUID MOBIUS MODEL HERO ==================== -->
+<section class="crystal-hero-section">
+  <div class="crystal-stage-container">
+    <canvas id="crystal-mobius-canvas"></canvas>
+  </div>
+</section>
 
 <!-- SECTION 2: STICKY HORIZONTAL SCROLL CARDS SHOWCASE -->
 <section class="sec-stack">
@@ -2812,6 +2852,146 @@ document.addEventListener('keydown', e => {
       el.style.transform = 'translate3d(0, 0, 0) scale(1)';
       el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
   });
+})();
+
+// REAL 3D CRYSTAL GLASS LIQUID MOBIUS SHADER ENGINE
+(function initCrystalGlassMobiusModel() {
+  function startEngine() {
+    const canvas = document.getElementById('crystal-mobius-canvas');
+    if (!canvas) return;
+
+    if (typeof THREE === 'undefined') {
+      setTimeout(startEngine, 80);
+      return;
+    }
+
+    const container = canvas.parentElement;
+    const width = container.clientWidth || window.innerWidth;
+    const height = container.clientHeight || window.innerHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    camera.position.set(0, 0, 6.8);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: "high-performance"
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    window.addEventListener('resize', () => {
+      const w = container.clientWidth || window.innerWidth;
+      const h = container.clientHeight || window.innerHeight;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+    });
+
+    // ═══ HIGH-GLOSS CRYSTAL GLASS LIQUID MATCAP CANVAS ═══
+    const mcCanvas = document.createElement('canvas');
+    mcCanvas.width = mcCanvas.height = 512;
+    const mcCtx = mcCanvas.getContext('2d');
+
+    // Multi-stop rainbow chromatic dispersion gradient
+    const mcGrad = mcCtx.createRadialGradient(220, 160, 15, 256, 256, 245);
+    mcGrad.addColorStop(0.0, '#ffffff');
+    mcGrad.addColorStop(0.12, '#e0f7fa');
+    mcGrad.addColorStop(0.28, '#00f2fe');
+    mcGrad.addColorStop(0.45, '#ff007f');
+    mcGrad.addColorStop(0.62, '#b8ff57');
+    mcGrad.addColorStop(0.78, '#7c3aed');
+    mcGrad.addColorStop(0.90, '#0f172a');
+    mcGrad.addColorStop(1.0, '#ffffff');
+    mcCtx.fillStyle = mcGrad;
+    mcCtx.fillRect(0, 0, 512, 512);
+
+    const matcapTex = new THREE.CanvasTexture(mcCanvas);
+
+    // ═══ 3D MOBIUS KNOT GEOMETRY ═══
+    const geo = new THREE.TorusKnotGeometry(1.9, 0.56, 240, 40, 2, 3);
+    const posAttr = geo.attributes.position;
+    const origPositions = new Float32Array(posAttr.array.length);
+    origPositions.set(posAttr.array);
+
+    // High Refraction Crystal Glass Material
+    const mat = new THREE.MeshMatcapMaterial({
+      matcap: matcapTex,
+      transparent: true,
+      opacity: 0.95
+    });
+
+    const mobiusMesh = new THREE.Mesh(geo, mat);
+    scene.add(mobiusMesh);
+
+    // ═══ LIGHTING FOR EXTRA SPARKLE & REFLECTIONS ═══
+    const ambLight = new THREE.AmbientLight(0xffffff, 1.5);
+    scene.add(ambLight);
+
+    const pointLight1 = new THREE.PointLight(0x00f2fe, 3.0, 20);
+    pointLight1.position.set(4, 5, 4);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xb8ff57, 3.0, 20);
+    pointLight2.position.set(-4, -5, 3);
+    scene.add(pointLight2);
+
+    // ═══ REALTIME FLUID WAVE ANIMATION LOOP ═══
+    let time = 0;
+    let mouseX = 0, mouseY = 0;
+    let targetRotX = 0, targetRotY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      targetRotY = mouseX * 0.85;
+      targetRotX = mouseY * 0.55;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.035;
+
+      // Deform 3D vertices for fluid liquid sloshing
+      const pos = posAttr.array;
+      for (let i = 0; i < pos.length; i += 3) {
+        const ox = origPositions[i];
+        const oy = origPositions[i + 1];
+        const oz = origPositions[i + 2];
+
+        const theta = Math.atan2(oy, ox);
+        const wobble1 = Math.sin(theta * 4.0 + time * 2.8) * 0.075;
+        const wobble2 = Math.cos(oz * 3.5 + time * 2.2) * 0.055;
+        const mouseRipple = Math.sin(ox * 2.5 + mouseX * 4.5) * 0.045;
+
+        const factor = 1 + wobble1 + wobble2 + mouseRipple;
+        pos[i] = ox * factor;
+        pos[i + 1] = oy * factor;
+        pos[i + 2] = oz * factor;
+      }
+      posAttr.needsUpdate = true;
+      geo.computeVertexNormals();
+
+      // Continuous 3D Fluid Rotation
+      mobiusMesh.rotation.x += 0.007;
+      mobiusMesh.rotation.y += 0.012;
+
+      mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.05;
+      mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.05;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startEngine);
+  } else {
+    startEngine();
+  }
 })();
 </script>
 
