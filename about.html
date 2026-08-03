@@ -2647,7 +2647,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 </script>
 
-<!-- ==================== PHOTOREALISTIC 3D LIQUID MERCURY DROPLET ENGINE ==================== -->
+<!-- ==================== PRISTINE 3D LIQUID MERCURY DROPLET ENGINE ==================== -->
 <script>
 (function() {
   const style = document.createElement('style');
@@ -2689,41 +2689,39 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const mcCanvas = document.createElement('canvas');
-    mcCanvas.width = mcCanvas.height = 256;
-    const mcCtx = mcCanvas.getContext('2d');
-    const mcGrad = mcCtx.createRadialGradient(128, 90, 10, 128, 128, 120);
-    mcGrad.addColorStop(0.0, '#ffffff');
-    mcGrad.addColorStop(0.15, '#ffffff');
-    mcGrad.addColorStop(0.35, '#d0d0d0');
-    mcGrad.addColorStop(0.55, '#555555');
-    mcGrad.addColorStop(0.7, '#151515');
-    mcGrad.addColorStop(0.85, '#b8ff57');
-    mcGrad.addColorStop(1.0, '#050505');
-    mcCtx.fillStyle = mcGrad;
-    mcCtx.fillRect(0, 0, 256, 256);
+    const geo = new THREE.SphereGeometry(0.24, 48, 48);
 
-    const matcapTexture = new THREE.CanvasTexture(mcCanvas);
-
-    const baseGeo = new THREE.SphereGeometry(0.38, 64, 64);
-    const posAttr = baseGeo.attributes.position;
-    const origPositions = new Float32Array(posAttr.array.length);
-    origPositions.set(posAttr.array);
-
-    const mercuryMat = new THREE.MeshMatcapMaterial({
-      matcap: matcapTexture
+    const mat = new THREE.MeshStandardMaterial({
+      color: 0xf5f5f5,
+      metalness: 0.96,
+      roughness: 0.06
     });
 
-    const mercuryMesh = new THREE.Mesh(baseGeo, mercuryMat);
+    const mercuryMesh = new THREE.Mesh(geo, mat);
     scene.add(mercuryMesh);
 
-    const glowGeo = new THREE.PlaneGeometry(2.4, 2.4);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const mainLight = new THREE.DirectionalLight(0xffffff, 2.8);
+    mainLight.position.set(5, 8, 10);
+    scene.add(mainLight);
+
+    const accentLight = new THREE.PointLight(0xb8ff57, 2.5, 12);
+    accentLight.position.set(-4, -4, 4);
+    scene.add(accentLight);
+
+    const cyanLight = new THREE.PointLight(0x00f2fe, 1.8, 12);
+    cyanLight.position.set(4, -4, 4);
+    scene.add(cyanLight);
+
+    const glowGeo = new THREE.PlaneGeometry(1.6, 1.6);
     const glowCanvas = document.createElement('canvas');
     glowCanvas.width = glowCanvas.height = 128;
     const gCtx = glowCanvas.getContext('2d');
-    const gGrad = gCtx.createRadialGradient(64, 64, 5, 64, 64, 60);
-    gGrad.addColorStop(0, 'rgba(184, 255, 87, 0.45)');
-    gGrad.addColorStop(0.4, 'rgba(0, 242, 254, 0.25)');
+    const gGrad = gCtx.createRadialGradient(64, 64, 4, 64, 64, 60);
+    gGrad.addColorStop(0, 'rgba(184, 255, 87, 0.35)');
+    gGrad.addColorStop(0.5, 'rgba(0, 242, 254, 0.12)');
     gGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     gCtx.fillStyle = gGrad;
     gCtx.fillRect(0, 0, 128, 128);
@@ -2736,7 +2734,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       blending: THREE.AdditiveBlending
     });
     const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    glowMesh.position.z = -0.1;
+    glowMesh.position.z = -0.05;
     scene.add(glowMesh);
 
     let mouseX = 0, mouseY = 0;
@@ -2744,7 +2742,6 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     let curX = 0, curY = 0;
     let vx = 0, vy = 0;
     let isHovered = false;
-    let time = 0;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -2778,14 +2775,13 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
     function animate() {
       requestAnimationFrame(animate);
-      time += 0.035;
 
       const dx = targetX - curX;
       const dy = targetY - curY;
-      vx += dx * 0.16;
-      vy += dy * 0.16;
-      vx *= 0.72;
-      vy *= 0.72;
+      vx += dx * 0.22;
+      vy += dy * 0.22;
+      vx *= 0.65;
+      vy *= 0.65;
 
       curX += vx;
       curY += vy;
@@ -2798,40 +2794,21 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       const speed = Math.hypot(vx, vy);
       const moveAngle = Math.atan2(vy, vx);
 
-      const pos = posAttr.array;
-      for (let i = 0; i < pos.length; i += 3) {
-        const ox = origPositions[i];
-        const oy = origPositions[i + 1];
-        const oz = origPositions[i + 2];
+      const targetScale = isHovered ? 1.5 : 1.0;
+      const stretchX = targetScale * (1 + Math.min(speed * 0.6, 0.7));
+      const stretchY = targetScale * Math.max(0.6, 1 - Math.min(speed * 0.35, 0.4));
 
-        const theta = Math.atan2(oy, ox);
-        const wobble = Math.sin(theta * 4 + time * 3) * 0.04 + Math.cos(oz * 6 + time * 2) * 0.03;
-        const stretch = Math.sin(2 * (theta - moveAngle)) * Math.min(speed * 0.28, 0.16);
+      mercuryMesh.scale.x += (stretchX - mercuryMesh.scale.x) * 0.2;
+      mercuryMesh.scale.y += (stretchY - mercuryMesh.scale.y) * 0.2;
+      mercuryMesh.scale.z += (targetScale - mercuryMesh.scale.z) * 0.2;
 
-        const factor = 1 + wobble + stretch;
-        pos[i] = ox * factor;
-        pos[i + 1] = oy * factor;
-        pos[i + 2] = oz * factor;
-      }
-      posAttr.needsUpdate = true;
-      baseGeo.computeVertexNormals();
-
-      const targetScale = isHovered ? 1.7 : 1.0;
-      mercuryMesh.scale.x += (targetScale * (1 + speed * 0.7) - mercuryMesh.scale.x) * 0.18;
-      mercuryMesh.scale.y += (targetScale * Math.max(0.6, 1 - speed * 0.35) - mercuryMesh.scale.y) * 0.18;
-      mercuryMesh.scale.z += (targetScale - mercuryMesh.scale.z) * 0.18;
-
-      glowMesh.scale.set(
-        mercuryMesh.scale.x * 1.5,
-        mercuryMesh.scale.y * 1.5,
-        1
-      );
+      glowMesh.scale.set(mercuryMesh.scale.x * 1.4, mercuryMesh.scale.y * 1.4, 1);
 
       if (speed > 0.001) {
         mercuryMesh.rotation.z = moveAngle;
       }
-      mercuryMesh.rotation.x += 0.015;
-      mercuryMesh.rotation.y += 0.02;
+      mercuryMesh.rotation.x += 0.03;
+      mercuryMesh.rotation.y += 0.04;
 
       renderer.render(scene, camera);
     }
@@ -2840,9 +2817,6 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   });
 })();
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
