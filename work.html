@@ -1569,53 +1569,21 @@ body.theme-transition, body.theme-transition * {
     transparent 100%
   );
 }
-/* ==================== 3D MUSEUM ART GALLERY HERO SECTION ==================== */
+/* ==================== 3D FLUID MOBIUS HERO SECTION ==================== */
 .art-hero-section {
   position: relative;
   width: 100vw;
   height: 100vh;
-  min-height: 750px;
+  min-height: 700px;
   background: #060608;
   background-image: 
-    radial-gradient(circle at 50% 35%, rgba(0, 242, 254, 0.08), transparent 45%),
-    radial-gradient(circle at 75% 70%, rgba(184, 255, 87, 0.08), transparent 50%);
+    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.09), transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.09), transparent 50%);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   overflow: hidden;
-  padding: 85px 2.5rem 3.5rem;
   z-index: 5;
-}
-
-.art-sculpture-wrap {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -55%);
-  width: 100%;
-  max-width: 900px;
-  height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.art-sculpture-img {
-  width: 100%;
-  max-width: 680px;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 25px 50px rgba(0,0,0,0.85)) drop-shadow(0 0 45px rgba(184, 255, 87, 0.25));
-  animation: floatSculpture 6s ease-in-out infinite alternate;
-  transition: transform 0.3s ease-out;
-}
-
-@keyframes floatSculpture {
-  0% { transform: translateY(0px) rotate(0deg); }
-  100% { transform: translateY(-16px) rotate(2deg); }
 }
 
 #art-hero-canvas {
@@ -1623,102 +1591,7 @@ body.theme-transition, body.theme-transition * {
   inset: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none;
   z-index: 4;
-}
-
-.art-hero-top-bar {
-  width: 100%;
-  max-width: 1400px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  pointer-events: none;
-}
-.art-hero-badge {
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  color: rgba(255, 255, 255, 0.8);
-  text-transform: uppercase;
-}
-
-.art-hero-vertical-nav {
-  position: absolute;
-  left: 2.2rem;
-  top: 50%;
-  z-index: 10;
-  display: flex;
-  gap: 1.2rem;
-  writing-mode: vertical-rl;
-  transform: translateY(-50%) rotate(180deg);
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: rgba(255, 255, 255, 0.45);
-  text-transform: uppercase;
-  pointer-events: auto;
-}
-.art-hero-vertical-nav a {
-  color: rgba(255, 255, 255, 0.45);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-.art-hero-vertical-nav a:hover {
-  color: var(--accent, #b8ff57);
-}
-
-.art-hero-center-content {
-  position: absolute;
-  bottom: 2.8rem;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 10;
-  width: 90%;
-  max-width: 1300px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.art-hero-title {
-  font-family: 'Inter', 'Space Grotesk', sans-serif;
-  font-size: clamp(2.8rem, 6.8vw, 6rem);
-  font-weight: 900;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: #ffffff;
-  text-shadow: 0 0 35px rgba(255, 255, 255, 0.3), 0 0 65px rgba(184, 255, 87, 0.2);
-  margin: 0;
-  line-height: 1;
-}
-
-.art-hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #000;
-  background: var(--accent, #b8ff57);
-  padding: 0.75rem 1.8rem;
-  border-radius: 99px;
-  text-decoration: none;
-  box-shadow: 0 0 25px rgba(184, 255, 87, 0.4);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 0.4rem;
-}
-.art-hero-cta:hover {
-  transform: translateY(-4px) scale(1.05);
-  box-shadow: 0 0 40px rgba(184, 255, 87, 0.7);
 }
 
 </style>
@@ -1760,26 +1633,9 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- ==================== 3D MUSEUM ART GALLERY HERO SECTION ==================== -->
+<!-- ==================== STANDALONE 3D FLUID MOBIUS SCULPTURE HERO ==================== -->
 <section class="art-hero-section">
-  <div class="art-sculpture-wrap">
-    <img src="images/mobius_art.jpg" alt="3D Liquid Chrome Sculpture" class="art-sculpture-img">
-  </div>
   <canvas id="art-hero-canvas"></canvas>
-
-  <div class="art-hero-top-bar">
-    <div class="art-hero-badge">EXHIBITION 2026</div>
-    <div class="art-hero-badge">Awwwards SOTY '26</div>
-  </div>
-
-  <div class="art-hero-vertical-nav">
-    <a href="index.html">HOME</a> // <a href="about.html">ABOUT</a> // <a href="#projects-stage">ARTWORKS</a> // <a href="casestudies.html">ARCHIVE</a> // <a href="contact.html">START JOURNEY</a>
-  </div>
-
-  <div class="art-hero-center-content">
-    <h1 class="art-hero-title">CRAFTING DIGITAL ART</h1>
-    <a href="#projects-stage" class="art-hero-cta">Explore Exhibition ↗</a>
-  </div>
 </section>
 
 <!-- SECTION 2: STICKY HORIZONTAL SCROLL CARDS SHOWCASE -->
@@ -3037,32 +2893,59 @@ document.addEventListener('keydown', e => {
 
     const matcapTex = new THREE.CanvasTexture(mcCanvas);
 
-    // 3D Mobius Infinity Ribbon Geometry
-    const geo = new THREE.TorusKnotGeometry(1.85, 0.54, 180, 32, 2, 3);
+    // 3D Mobius Infinity Ribbon Geometry with Original Positions Saved
+    const geo = new THREE.TorusKnotGeometry(2.1, 0.6, 200, 36, 2, 3);
+    const posAttr = geo.attributes.position;
+    const origPositions = new Float32Array(posAttr.array.length);
+    origPositions.set(posAttr.array);
+
     const mat = new THREE.MeshMatcapMaterial({
       matcap: matcapTex,
       transparent: true,
-      opacity: 0.95
+      opacity: 0.98
     });
 
     const mobiusMesh = new THREE.Mesh(geo, mat);
     scene.add(mobiusMesh);
 
+    let time = 0;
     let mouseX = 0, mouseY = 0;
     let targetRotX = 0, targetRotY = 0;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
       mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      targetRotY = mouseX * 0.75;
-      targetRotX = mouseY * 0.45;
+      targetRotY = mouseX * 0.85;
+      targetRotX = mouseY * 0.55;
     });
 
     function animate() {
       requestAnimationFrame(animate);
+      time += 0.035;
 
+      // Realtime Fluid Wave Deformation on Geometry Vertices
+      const pos = posAttr.array;
+      for (let i = 0; i < pos.length; i += 3) {
+        const ox = origPositions[i];
+        const oy = origPositions[i + 1];
+        const oz = origPositions[i + 2];
+
+        const theta = Math.atan2(oy, ox);
+        const wobble1 = Math.sin(theta * 4.0 + time * 2.8) * 0.07;
+        const wobble2 = Math.cos(oz * 3.5 + time * 2.2) * 0.06;
+        const mouseRipple = Math.sin(ox * 2.5 + mouseX * 4.5) * 0.05;
+
+        const factor = 1 + wobble1 + wobble2 + mouseRipple;
+        pos[i] = ox * factor;
+        pos[i + 1] = oy * factor;
+        pos[i + 2] = oz * factor;
+      }
+      posAttr.needsUpdate = true;
+      geo.computeVertexNormals();
+
+      // Continuous 3D Fluid Rotation
       mobiusMesh.rotation.x += 0.008;
-      mobiusMesh.rotation.y += 0.012;
+      mobiusMesh.rotation.y += 0.014;
 
       mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.05;
       mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.05;
