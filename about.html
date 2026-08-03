@@ -2647,7 +2647,7 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 </script>
 
-<!-- ==================== PRISTINE 3D LIQUID MERCURY DROPLET ENGINE ==================== -->
+<!-- ==================== PURE LIQUID SILVER MERCURY CURSOR ENGINE ==================== -->
 <script>
 (function() {
   const style = document.createElement('style');
@@ -2689,53 +2689,30 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const geo = new THREE.SphereGeometry(0.24, 48, 48);
+    const mcCanvas = document.createElement('canvas');
+    mcCanvas.width = mcCanvas.height = 256;
+    const mcCtx = mcCanvas.getContext('2d');
 
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xf5f5f5,
-      metalness: 0.96,
-      roughness: 0.06
+    const mcGrad = mcCtx.createRadialGradient(100, 70, 5, 128, 128, 120);
+    mcGrad.addColorStop(0.0, '#ffffff');
+    mcGrad.addColorStop(0.25, '#e6e6e6');
+    mcGrad.addColorStop(0.5, '#999999');
+    mcGrad.addColorStop(0.75, '#333333');
+    mcGrad.addColorStop(0.92, '#111111');
+    mcGrad.addColorStop(1.0, '#ffffff');
+    mcCtx.fillStyle = mcGrad;
+    mcCtx.fillRect(0, 0, 256, 256);
+
+    const matcapTexture = new THREE.CanvasTexture(mcCanvas);
+
+    const geo = new THREE.SphereGeometry(0.22, 48, 48);
+
+    const mat = new THREE.MeshMatcapMaterial({
+      matcap: matcapTexture
     });
 
     const mercuryMesh = new THREE.Mesh(geo, mat);
     scene.add(mercuryMesh);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
-    scene.add(ambientLight);
-
-    const mainLight = new THREE.DirectionalLight(0xffffff, 2.8);
-    mainLight.position.set(5, 8, 10);
-    scene.add(mainLight);
-
-    const accentLight = new THREE.PointLight(0xb8ff57, 2.5, 12);
-    accentLight.position.set(-4, -4, 4);
-    scene.add(accentLight);
-
-    const cyanLight = new THREE.PointLight(0x00f2fe, 1.8, 12);
-    cyanLight.position.set(4, -4, 4);
-    scene.add(cyanLight);
-
-    const glowGeo = new THREE.PlaneGeometry(1.6, 1.6);
-    const glowCanvas = document.createElement('canvas');
-    glowCanvas.width = glowCanvas.height = 128;
-    const gCtx = glowCanvas.getContext('2d');
-    const gGrad = gCtx.createRadialGradient(64, 64, 4, 64, 64, 60);
-    gGrad.addColorStop(0, 'rgba(184, 255, 87, 0.35)');
-    gGrad.addColorStop(0.5, 'rgba(0, 242, 254, 0.12)');
-    gGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-    gCtx.fillStyle = gGrad;
-    gCtx.fillRect(0, 0, 128, 128);
-
-    const glowTexture = new THREE.CanvasTexture(glowCanvas);
-    const glowMat = new THREE.MeshBasicMaterial({
-      map: glowTexture,
-      transparent: true,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-    const glowMesh = new THREE.Mesh(glowGeo, glowMat);
-    glowMesh.position.z = -0.05;
-    scene.add(glowMesh);
 
     let mouseX = 0, mouseY = 0;
     let targetX = 0, targetY = 0;
@@ -2778,37 +2755,33 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
       const dx = targetX - curX;
       const dy = targetY - curY;
-      vx += dx * 0.22;
-      vy += dy * 0.22;
-      vx *= 0.65;
-      vy *= 0.65;
+      vx += dx * 0.24;
+      vy += dy * 0.24;
+      vx *= 0.64;
+      vy *= 0.64;
 
       curX += vx;
       curY += vy;
 
       mercuryMesh.position.x = curX;
       mercuryMesh.position.y = curY;
-      glowMesh.position.x = curX;
-      glowMesh.position.y = curY;
 
       const speed = Math.hypot(vx, vy);
       const moveAngle = Math.atan2(vy, vx);
 
       const targetScale = isHovered ? 1.5 : 1.0;
-      const stretchX = targetScale * (1 + Math.min(speed * 0.6, 0.7));
+      const stretchX = targetScale * (1 + Math.min(speed * 0.55, 0.65));
       const stretchY = targetScale * Math.max(0.6, 1 - Math.min(speed * 0.35, 0.4));
 
-      mercuryMesh.scale.x += (stretchX - mercuryMesh.scale.x) * 0.2;
-      mercuryMesh.scale.y += (stretchY - mercuryMesh.scale.y) * 0.2;
-      mercuryMesh.scale.z += (targetScale - mercuryMesh.scale.z) * 0.2;
-
-      glowMesh.scale.set(mercuryMesh.scale.x * 1.4, mercuryMesh.scale.y * 1.4, 1);
+      mercuryMesh.scale.x += (stretchX - mercuryMesh.scale.x) * 0.22;
+      mercuryMesh.scale.y += (stretchY - mercuryMesh.scale.y) * 0.22;
+      mercuryMesh.scale.z += (targetScale - mercuryMesh.scale.z) * 0.22;
 
       if (speed > 0.001) {
         mercuryMesh.rotation.z = moveAngle;
       }
-      mercuryMesh.rotation.x += 0.03;
-      mercuryMesh.rotation.y += 0.04;
+      mercuryMesh.rotation.x += 0.025;
+      mercuryMesh.rotation.y += 0.035;
 
       renderer.render(scene, camera);
     }
@@ -2817,6 +2790,9 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   });
 })();
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
