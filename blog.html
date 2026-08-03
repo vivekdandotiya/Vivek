@@ -14,10 +14,19 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 :root{
   --grid-line: rgba(255, 255, 255, 0.095);--bg:#0a0a0a;--surface:#111;--surface2:#161616;--border:#1f1f1f;--border2:#2a2a2a;--text:#fff;--text2:#a0a0a0;--text3:#555;--accent:#b8ff57;--radius:16px;}
-html{scroll-behavior:smooth;}
+@keyframes gridMove {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 120px 120px, 120px 120px;
+  }
+}
+
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 120px 120px;}
+  background-size: 120px 120px;
+  animation: gridMove 25s linear infinite;}
 #cur{position:fixed;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
 #cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s;}
 body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px;}

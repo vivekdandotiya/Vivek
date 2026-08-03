@@ -19,9 +19,19 @@
   --accent:#b8ff57;--radius:16px;
 }
 html{scroll-behavior:smooth;}
+@keyframes gridMove {
+  0% {
+    background-position: 0 0, 0 0;
+  }
+  100% {
+    background-position: 120px 120px, 120px 120px;
+  }
+}
+
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none;
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 120px 120px;}
+  background-size: 120px 120px;
+  animation: gridMove 25s linear infinite;}
 
 /* FLAME FOOTER DESIGN */
 .footer-section {
