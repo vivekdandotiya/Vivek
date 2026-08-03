@@ -1569,30 +1569,6 @@ body.theme-transition, body.theme-transition * {
     transparent 100%
   );
 }
-/* ==================== 3D FLUID MOBIUS HERO SECTION ==================== */
-.art-hero-section {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  min-height: 700px;
-  background: #060608;
-  background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.12), transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.12), transparent 50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  z-index: 5;
-}
-
-#art-hero-canvas {
-  width: 100vw;
-  height: 100vh;
-  display: block;
-  z-index: 10;
-}
-
 </style>
 </head>
 <body>
@@ -1631,11 +1607,6 @@ body.theme-transition, body.theme-transition * {
   <a href="casestudies.html">Case Studies</a>
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
-
-<!-- ==================== STANDALONE 3D FLUID MOBIUS SCULPTURE HERO ==================== -->
-<section class="art-hero-section">
-  <canvas id="art-hero-canvas"></canvas>
-</section>
 
 <!-- SECTION 2: STICKY HORIZONTAL SCROLL CARDS SHOWCASE -->
 <section class="sec-stack">
@@ -2841,164 +2812,6 @@ document.addEventListener('keydown', e => {
       el.style.transform = 'translate3d(0, 0, 0) scale(1)';
       el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
   });
-})();
-
-// 3D PURE WEBGL FLUID MOBIUS MODEL ENGINE
-(function initPure3DFluidMobiusModel() {
-  function startEngine() {
-    const canvas = document.getElementById('art-hero-canvas');
-    if (!canvas) return;
-
-    if (typeof THREE === 'undefined') {
-      setTimeout(startEngine, 100);
-      return;
-    }
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 0, 7.5);
-
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // ═══ SCENE LIGHTING (IRIDESCENT METALLIC LIGHTS) ═══
-    const ambLight = new THREE.AmbientLight(0xffffff, 1.4);
-    scene.add(ambLight);
-
-    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
-    dirLight1.position.set(5, 8, 5);
-    scene.add(dirLight1);
-
-    const dirLight2 = new THREE.DirectionalLight(0x00f2fe, 2.0);
-    dirLight2.position.set(-5, -5, -2);
-    scene.add(dirLight2);
-
-    const pointLight1 = new THREE.PointLight(0xb8ff57, 3.5, 15);
-    pointLight1.position.set(3, 4, 3);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0xff007f, 3.5, 15);
-    pointLight2.position.set(-3, -4, 2);
-    scene.add(pointLight2);
-
-    // ═══ IRIDESCENT MATCAP TEXTURE GENERATOR ═══
-    const mcCanvas = document.createElement('canvas');
-    mcCanvas.width = mcCanvas.height = 512;
-    const mcCtx = mcCanvas.getContext('2d');
-    const mcGrad = mcCtx.createRadialGradient(256, 200, 10, 256, 256, 250);
-    mcGrad.addColorStop(0.0, '#ffffff');
-    mcGrad.addColorStop(0.15, '#00f2fe');
-    mcGrad.addColorStop(0.35, '#ff007f');
-    mcGrad.addColorStop(0.55, '#b8ff57');
-    mcGrad.addColorStop(0.75, '#3b82f6');
-    mcGrad.addColorStop(0.9, '#0f172a');
-    mcGrad.addColorStop(1.0, '#ffffff');
-    mcCtx.fillStyle = mcGrad;
-    mcCtx.fillRect(0, 0, 512, 512);
-
-    const matcapTexture = new THREE.CanvasTexture(mcCanvas);
-
-    // ═══ 3D MOBIUS INFINITY GEOMETRY ═══
-    const geo = new THREE.TorusKnotGeometry(2.1, 0.62, 220, 38, 2, 3);
-    const posAttr = geo.attributes.position;
-    const origPositions = new Float32Array(posAttr.array.length);
-    origPositions.set(posAttr.array);
-
-    const mat = new THREE.MeshMatcapMaterial({
-      matcap: matcapTexture,
-      transparent: true,
-      opacity: 0.98
-    });
-
-    const mobiusMesh = new THREE.Mesh(geo, mat);
-    scene.add(mobiusMesh);
-
-    // ═══ ANIMATION LOOP ═══
-    let time = 0;
-    let mouseX = 0, mouseY = 0;
-    let targetRotX = 0, targetRotY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-      mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      targetRotY = mouseX * 0.9;
-      targetRotX = mouseY * 0.6;
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      time += 0.035;
-
-      // Realtime Fluid Wave Deformation on 3D Geometry Vertices
-      const pos = posAttr.array;
-      for (let i = 0; i < pos.length; i += 3) {
-        const ox = origPositions[i];
-        const oy = origPositions[i + 1];
-        const oz = origPositions[i + 2];
-
-        const theta = Math.atan2(oy, ox);
-        const wobble1 = Math.sin(theta * 4.0 + time * 3.0) * 0.08;
-        const wobble2 = Math.cos(oz * 3.5 + time * 2.2) * 0.06;
-        const mouseRipple = Math.sin(ox * 2.5 + mouseX * 4.5) * 0.05;
-
-        const factor = 1 + wobble1 + wobble2 + mouseRipple;
-        pos[i] = ox * factor;
-        pos[i + 1] = oy * factor;
-        pos[i + 2] = oz * factor;
-      }
-      posAttr.needsUpdate = true;
-      geo.computeVertexNormals();
-
-      // Continuous 3D Fluid Rotation
-      mobiusMesh.rotation.x += 0.008;
-      mobiusMesh.rotation.y += 0.014;
-
-      mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.06;
-      mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.06;
-
-      renderer.render(scene, camera);
-    }
-
-    animate();
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startEngine);
-  } else {
-    startEngine();
-  }
-})();
-
-// FLUID SCULPTURE REALTIME MOUSE TRACKING TILT
-(function initFluidSculptureMouseTracking() {
-  const el = document.getElementById('fluidSculptureImg');
-  if (!el) return;
-
-  let targetX = 0, targetY = 0;
-  let currentX = 0, currentY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    const x = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-    const y = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-    targetX = x * 26;
-    targetY = -y * 16;
-  });
-
-  function update() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-
-    el.style.transform = `perspective(1000px) rotateY(${currentX}deg) rotateX(${currentY}deg) scale(1.02)`;
-    requestAnimationFrame(update);
-  }
-  update();
 })();
 </script>
 
