@@ -3039,36 +3039,14 @@ document.addEventListener('keydown', e => {
       mercuryMesh.position.y = curY;
 
       const speed = Math.hypot(vx, vy);
-      const moveAngle = Math.atan2(vy, vx);
+      uniforms.uSpeed.value = speed;
+      uniforms.uDirection.value.set(vx, vy);
 
-      const pos = posAttr.array;
-      for (let i = 0; i < pos.length; i += 3) {
-        const ox = origPositions[i];
-        const oy = origPositions[i + 1];
-        const oz = origPositions[i + 2];
+      const targetScale = isHovered ? 1.55 : 1.0;
+      mercuryMesh.scale.set(targetScale, targetScale, targetScale);
 
-        const theta = Math.atan2(oy, ox);
-        const wobble = Math.sin(theta * 5 + time * 3.5) * 0.035 + Math.cos(oz * 8 + time * 2.5) * 0.025;
-        const stretch = Math.sin(2 * (theta - moveAngle)) * Math.min(speed * 0.35, 0.22);
-
-        const factor = 1 + wobble + stretch;
-        pos[i] = ox * factor;
-        pos[i + 1] = oy * factor;
-        pos[i + 2] = oz * factor;
-      }
-      posAttr.needsUpdate = true;
-      baseGeo.computeVertexNormals();
-
-      const targetScale = isHovered ? 1.9 : 1.0;
-      mercuryMesh.scale.x += (targetScale * (1 + speed * 0.9) - mercuryMesh.scale.x) * 0.18;
-      mercuryMesh.scale.y += (targetScale * Math.max(0.55, 1 - speed * 0.45) - mercuryMesh.scale.y) * 0.18;
-      mercuryMesh.scale.z += (targetScale - mercuryMesh.scale.z) * 0.18;
-
-      if (speed > 0.001) {
-        mercuryMesh.rotation.z = moveAngle;
-      }
-      mercuryMesh.rotation.x += 0.02;
-      mercuryMesh.rotation.y += 0.025;
+      mercuryMesh.rotation.x += 0.01;
+      mercuryMesh.rotation.y += 0.015;
 
       renderer.render(scene, camera);
     }
