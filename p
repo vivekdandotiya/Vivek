@@ -2900,53 +2900,69 @@ document.addEventListener('keydown', e => {
     window.addEventListener('resize', handleResize);
     setTimeout(handleResize, 100);
 
-    // ═══ HIGH-GLOSS CRYSTAL GLASS LIQUID MATCAP CANVAS ═══
-    const mcCanvas = document.createElement('canvas');
-    mcCanvas.width = mcCanvas.height = 512;
-    const mcCtx = mcCanvas.getContext('2d');
-
-    // Multi-stop rainbow chromatic dispersion gradient
-    const mcGrad = mcCtx.createRadialGradient(220, 160, 15, 256, 256, 245);
-    mcGrad.addColorStop(0.0, '#ffffff');
-    mcGrad.addColorStop(0.12, '#e0f7fa');
-    mcGrad.addColorStop(0.28, '#00f2fe');
-    mcGrad.addColorStop(0.45, '#ff007f');
-    mcGrad.addColorStop(0.62, '#b8ff57');
-    mcGrad.addColorStop(0.78, '#7c3aed');
-    mcGrad.addColorStop(0.90, '#0f172a');
-    mcGrad.addColorStop(1.0, '#ffffff');
-    mcCtx.fillStyle = mcGrad;
-    mcCtx.fillRect(0, 0, 512, 512);
-
-    const matcapTex = new THREE.CanvasTexture(mcCanvas);
-
     // ═══ 3D MOBIUS KNOT GEOMETRY ═══
-    const geo = new THREE.TorusKnotGeometry(1.9, 0.56, 240, 40, 2, 3);
+    const geo = new THREE.TorusKnotGeometry(1.95, 0.58, 240, 40, 2, 3);
     const posAttr = geo.attributes.position;
     const origPositions = new Float32Array(posAttr.array.length);
     origPositions.set(posAttr.array);
 
-    // High Refraction Crystal Glass Material
-    const mat = new THREE.MeshMatcapMaterial({
-      matcap: matcapTex,
+    // ═══ PURE GLSL CRYSTAL GLASS LIQUID SHADER ═══
+    const glassMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uMouse: { value: new THREE.Vector2(0, 0) }
+      },
+      vertexShader: `
+        uniform float uTime;
+        varying vec3 vNormal;
+        varying vec3 vViewPosition;
+        varying vec3 vWorldPosition;
+
+        void main() {
+          vNormal = normalize(normalMatrix * normal);
+          vec4 worldPos = modelMatrix * vec4(position, 1.0);
+          vWorldPosition = worldPos.xyz;
+          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+          vViewPosition = -mvPosition.xyz;
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform float uTime;
+        varying vec3 vNormal;
+        varying vec3 vViewPosition;
+        varying vec3 vWorldPosition;
+
+        void main() {
+          vec3 normal = normalize(vNormal);
+          vec3 viewDir = normalize(vViewPosition);
+
+          float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 2.2);
+
+          vec3 cyan = vec3(0.0, 0.95, 0.99);
+          vec3 magenta = vec3(1.0, 0.05, 0.55);
+          vec3 lime = vec3(0.72, 1.0, 0.34);
+          vec3 silver = vec3(0.92, 0.95, 1.0);
+
+          float colorMix = sin(vWorldPosition.x * 2.2 + vWorldPosition.y * 2.2 + uTime * 1.8) * 0.5 + 0.5;
+          vec3 baseColor = mix(cyan, magenta, colorMix);
+          baseColor = mix(baseColor, lime, fresnel * 0.7);
+
+          vec3 finalColor = mix(baseColor, silver, fresnel * 0.9);
+          float alpha = 0.92 + fresnel * 0.08;
+          gl_FragColor = vec4(finalColor, alpha);
+        }
+      `,
       transparent: true,
-      opacity: 0.95
+      side: THREE.DoubleSide
     });
 
-    const mobiusMesh = new THREE.Mesh(geo, mat);
+    const mobiusMesh = new THREE.Mesh(geo, glassMaterial);
     scene.add(mobiusMesh);
 
-    // ═══ LIGHTING FOR EXTRA SPARKLE & REFLECTIONS ═══
+    // Ambient light
     const ambLight = new THREE.AmbientLight(0xffffff, 1.5);
     scene.add(ambLight);
-
-    const pointLight1 = new THREE.PointLight(0x00f2fe, 3.0, 20);
-    pointLight1.position.set(4, 5, 4);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0xb8ff57, 3.0, 20);
-    pointLight2.position.set(-4, -5, 3);
-    scene.add(pointLight2);
 
     // ═══ REALTIME FLUID WAVE ANIMATION LOOP ═══
     let time = 0;
@@ -2964,6 +2980,8 @@ document.addEventListener('keydown', e => {
       requestAnimationFrame(animate);
       time += 0.035;
 
+      glassMaterial.uniforms.uTime.value = time;
+
       // Deform 3D vertices for fluid liquid sloshing
       const pos = posAttr.array;
       for (let i = 0; i < pos.length; i += 3) {
@@ -2976,7 +2994,7 @@ document.addEventListener('keydown', e => {
         const wobble2 = Math.cos(oz * 3.5 + time * 2.2) * 0.055;
         const mouseRipple = Math.sin(ox * 2.5 + mouseX * 4.5) * 0.045;
 
-        const factor = 1 + wobble1 + wobble2 + mouseRipple;
+        const factor = 1.0 + wobble1 + wobble2 + mouseRipple;
         pos[i] = ox * factor;
         pos[i + 1] = oy * factor;
         pos[i + 2] = oz * factor;
