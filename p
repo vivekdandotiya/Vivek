@@ -1574,11 +1574,11 @@ body.theme-transition, body.theme-transition * {
   position: relative;
   width: 100vw;
   height: 100vh;
-  min-height: 720px;
-  background: #09090b;
+  min-height: 750px;
+  background: #060608;
   background-image: 
-    radial-gradient(circle at 80% 60%, rgba(184, 255, 87, 0.09), transparent 50%),
-    radial-gradient(circle at 20% 40%, rgba(0, 242, 254, 0.07), transparent 50%);
+    radial-gradient(circle at 50% 35%, rgba(0, 242, 254, 0.08), transparent 45%),
+    radial-gradient(circle at 75% 70%, rgba(184, 255, 87, 0.08), transparent 50%);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1588,14 +1588,43 @@ body.theme-transition, body.theme-transition * {
   z-index: 5;
 }
 
+.art-sculpture-wrap {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  width: 100%;
+  max-width: 900px;
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.art-sculpture-img {
+  width: 100%;
+  max-width: 680px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 25px 50px rgba(0,0,0,0.85)) drop-shadow(0 0 45px rgba(184, 255, 87, 0.25));
+  animation: floatSculpture 6s ease-in-out infinite alternate;
+  transition: transform 0.3s ease-out;
+}
+
+@keyframes floatSculpture {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-16px) rotate(2deg); }
+}
+
 #art-hero-canvas {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 2;
+  z-index: 4;
 }
 
 .art-hero-top-bar {
@@ -1609,10 +1638,10 @@ body.theme-transition, body.theme-transition * {
 }
 .art-hero-badge {
   font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.22em;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
   text-transform: uppercase;
 }
 
@@ -1628,7 +1657,7 @@ body.theme-transition, body.theme-transition * {
   font-family: 'Space Grotesk', monospace, sans-serif;
   font-size: 0.65rem;
   font-weight: 600;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   color: rgba(255, 255, 255, 0.45);
   text-transform: uppercase;
   pointer-events: auto;
@@ -1644,27 +1673,27 @@ body.theme-transition, body.theme-transition * {
 
 .art-hero-center-content {
   position: absolute;
-  bottom: 3rem;
+  bottom: 2.8rem;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   z-index: 10;
   width: 90%;
-  max-width: 1200px;
+  max-width: 1300px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .art-hero-title {
   font-family: 'Inter', 'Space Grotesk', sans-serif;
-  font-size: clamp(2.6rem, 6.5vw, 5.8rem);
+  font-size: clamp(2.8rem, 6.8vw, 6rem);
   font-weight: 900;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #ffffff;
-  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25), 0 0 60px rgba(184, 255, 87, 0.15);
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.3), 0 0 65px rgba(184, 255, 87, 0.2);
   margin: 0;
   line-height: 1;
 }
@@ -1685,7 +1714,7 @@ body.theme-transition, body.theme-transition * {
   text-decoration: none;
   box-shadow: 0 0 25px rgba(184, 255, 87, 0.4);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  margin-top: 0.5rem;
+  margin-top: 0.4rem;
 }
 .art-hero-cta:hover {
   transform: translateY(-4px) scale(1.05);
@@ -1733,6 +1762,9 @@ body.theme-transition, body.theme-transition * {
 
 <!-- ==================== 3D MUSEUM ART GALLERY HERO SECTION ==================== -->
 <section class="art-hero-section">
+  <div class="art-sculpture-wrap">
+    <img src="images/mobius_art.jpg" alt="3D Liquid Chrome Sculpture" class="art-sculpture-img">
+  </div>
   <canvas id="art-hero-canvas"></canvas>
 
   <div class="art-hero-top-bar">
