@@ -2654,5 +2654,120 @@ document.addEventListener('keydown', e => {
     </div>
   </footer>
 
+<!-- ==================== INTERACTIVE JELLY BACKGROUND CANVAS ==================== -->
+<script>
+(function() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'jelly-canvas';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;';
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+
+  let mouseX = width / 2;
+  let mouseY = height / 2;
+  let curX = mouseX;
+  let curY = mouseY;
+  let vx = 0;
+  let vy = 0;
+  let time = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  const NUM_POINTS = 32;
+  const BASE_RADIUS = 160;
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    const dx = mouseX - curX;
+    const dy = mouseY - curY;
+    vx += dx * 0.08;
+    vy += dy * 0.08;
+    vx *= 0.76;
+    vy *= 0.76;
+
+    curX += vx;
+    curY += vy;
+
+    const speed = Math.hypot(vx, vy);
+    const angle = Math.atan2(vy, vx);
+    time += 0.04 + Math.min(speed * 0.008, 0.06);
+
+    ctx.save();
+    ctx.translate(curX, curY);
+
+    const points = [];
+    for (let i = 0; i < NUM_POINTS; i++) {
+      const theta = (i / NUM_POINTS) * Math.PI * 2;
+      const stretch = Math.sin(2 * (theta - angle)) * Math.min(speed * 1.6, 75);
+      const wobble = Math.sin(theta * 4 + time) * 14 + Math.cos(theta * 3 - time * 0.9) * 9;
+      const r = BASE_RADIUS + stretch + wobble;
+
+      points.push({
+        x: Math.cos(theta) * r,
+        y: Math.sin(theta) * r
+      });
+    }
+
+    ctx.beginPath();
+    ctx.moveTo((points[0].x + points[NUM_POINTS - 1].x) / 2, (points[0].y + points[NUM_POINTS - 1].y) / 2);
+
+    for (let i = 0; i < NUM_POINTS; i++) {
+      const p1 = points[i];
+      const p2 = points[(i + 1) % NUM_POINTS];
+      const midX = (p1.x + p2.x) / 2;
+      const midY = (p1.y + p2.y) / 2;
+      ctx.quadraticCurveTo(p1.x, p1.y, midX, midY);
+    }
+    ctx.closePath();
+
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const grad = ctx.createRadialGradient(0, 0, 10, 0, 0, BASE_RADIUS + 90);
+
+    if (isLight) {
+      grad.addColorStop(0, 'rgba(0, 0, 0, 0.12)');
+      grad.addColorStop(0.5, 'rgba(184, 255, 87, 0.25)');
+      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+    } else {
+      grad.addColorStop(0, 'rgba(184, 255, 87, 0.24)');
+      grad.addColorStop(0.4, 'rgba(0, 242, 254, 0.12)');
+      grad.addColorStop(0.75, 'rgba(138, 43, 226, 0.05)');
+      grad.addColorStop(1, 'rgba(10, 10, 10, 0)');
+    }
+
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(184, 255, 87, 0.18)';
+    ctx.stroke();
+
+    ctx.restore();
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+})();
+</script>
+
 </body>
 </html>
