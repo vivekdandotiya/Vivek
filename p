@@ -1577,8 +1577,8 @@ body.theme-transition, body.theme-transition * {
   min-height: 700px;
   background: #060608;
   background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.1), transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.1), transparent 50%);
+    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.12), transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(184, 255, 87, 0.12), transparent 50%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1586,58 +1586,11 @@ body.theme-transition, body.theme-transition * {
   z-index: 5;
 }
 
-.fluid-stage-wrap {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  max-width: 950px;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.fluid-sculpture-standalone {
-  width: 100%;
-  max-width: 820px;
-  height: auto;
-  object-fit: contain;
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.9)) drop-shadow(0 0 55px rgba(0, 242, 254, 0.35));
-  will-change: transform, filter;
-  animation: liquidFluidMorph 8s ease-in-out infinite alternate;
-  transition: transform 0.15s ease-out;
-}
-
-@keyframes liquidFluidMorph {
-  0% {
-    transform: translateY(0px) scale(1) rotate(0deg);
-    filter: drop-shadow(0 30px 60px rgba(0,0,0,0.9)) drop-shadow(0 0 45px rgba(0, 242, 254, 0.35));
-  }
-  33% {
-    transform: translateY(-18px) scale(1.03) rotate(1.5deg);
-    filter: drop-shadow(0 35px 70px rgba(0,0,0,0.95)) drop-shadow(0 0 55px rgba(184, 255, 87, 0.4));
-  }
-  66% {
-    transform: translateY(-10px) scale(0.98) rotate(-1.5deg);
-    filter: drop-shadow(0 25px 50px rgba(0,0,0,0.85)) drop-shadow(0 0 50px rgba(255, 0, 127, 0.35));
-  }
-  100% {
-    transform: translateY(-24px) scale(1.04) rotate(2deg);
-    filter: drop-shadow(0 40px 80px rgba(0,0,0,0.95)) drop-shadow(0 0 60px rgba(0, 242, 254, 0.45));
-  }
-}
-
 #art-hero-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 4;
-  pointer-events: none;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+  z-index: 10;
 }
 
 </style>
@@ -1681,9 +1634,6 @@ body.theme-transition, body.theme-transition * {
 
 <!-- ==================== STANDALONE 3D FLUID MOBIUS SCULPTURE HERO ==================== -->
 <section class="art-hero-section">
-  <div class="fluid-stage-wrap">
-    <img src="images/mobius_art.jpg" alt="3D Fluid Liquid Chrome Sculpture" id="fluidSculptureImg" class="fluid-sculpture-standalone">
-  </div>
   <canvas id="art-hero-canvas"></canvas>
 </section>
 
@@ -2893,28 +2843,22 @@ document.addEventListener('keydown', e => {
   });
 })();
 
-// 3D MUSEUM ART GALLERY HERO CANVAS ENGINE
-(function initArtHero() {
-  function loadThree(cb) {
-    if (typeof THREE !== 'undefined') {
-      cb();
-    } else {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-      script.onload = cb;
-      document.head.appendChild(script);
-    }
-  }
-
-  loadThree(() => {
+// 3D PURE WEBGL FLUID MOBIUS MODEL ENGINE
+(function initPure3DFluidMobiusModel() {
+  function startEngine() {
     const canvas = document.getElementById('art-hero-canvas');
     if (!canvas) return;
+
+    if (typeof THREE === 'undefined') {
+      setTimeout(startEngine, 100);
+      return;
+    }
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0, 0, 7.5);
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -2924,32 +2868,51 @@ document.addEventListener('keydown', e => {
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // High-Gloss Iridescent Chrome Canvas MatCap
+    // ═══ SCENE LIGHTING (IRIDESCENT METALLIC LIGHTS) ═══
+    const ambLight = new THREE.AmbientLight(0xffffff, 1.4);
+    scene.add(ambLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 2.5);
+    dirLight1.position.set(5, 8, 5);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x00f2fe, 2.0);
+    dirLight2.position.set(-5, -5, -2);
+    scene.add(dirLight2);
+
+    const pointLight1 = new THREE.PointLight(0xb8ff57, 3.5, 15);
+    pointLight1.position.set(3, 4, 3);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0xff007f, 3.5, 15);
+    pointLight2.position.set(-3, -4, 2);
+    scene.add(pointLight2);
+
+    // ═══ IRIDESCENT MATCAP TEXTURE GENERATOR ═══
     const mcCanvas = document.createElement('canvas');
     mcCanvas.width = mcCanvas.height = 512;
     const mcCtx = mcCanvas.getContext('2d');
-
-    const mcGrad = mcCtx.createRadialGradient(180, 140, 10, 256, 256, 240);
+    const mcGrad = mcCtx.createRadialGradient(256, 200, 10, 256, 256, 250);
     mcGrad.addColorStop(0.0, '#ffffff');
-    mcGrad.addColorStop(0.18, '#00f2fe');
-    mcGrad.addColorStop(0.38, '#ff007f');
-    mcGrad.addColorStop(0.58, '#b8ff57');
-    mcGrad.addColorStop(0.78, '#1e1b4b');
-    mcGrad.addColorStop(0.92, '#0f172a');
+    mcGrad.addColorStop(0.15, '#00f2fe');
+    mcGrad.addColorStop(0.35, '#ff007f');
+    mcGrad.addColorStop(0.55, '#b8ff57');
+    mcGrad.addColorStop(0.75, '#3b82f6');
+    mcGrad.addColorStop(0.9, '#0f172a');
     mcGrad.addColorStop(1.0, '#ffffff');
     mcCtx.fillStyle = mcGrad;
     mcCtx.fillRect(0, 0, 512, 512);
 
-    const matcapTex = new THREE.CanvasTexture(mcCanvas);
+    const matcapTexture = new THREE.CanvasTexture(mcCanvas);
 
-    // 3D Mobius Infinity Ribbon Geometry with Original Positions Saved
-    const geo = new THREE.TorusKnotGeometry(2.1, 0.6, 200, 36, 2, 3);
+    // ═══ 3D MOBIUS INFINITY GEOMETRY ═══
+    const geo = new THREE.TorusKnotGeometry(2.1, 0.62, 220, 38, 2, 3);
     const posAttr = geo.attributes.position;
     const origPositions = new Float32Array(posAttr.array.length);
     origPositions.set(posAttr.array);
 
     const mat = new THREE.MeshMatcapMaterial({
-      matcap: matcapTex,
+      matcap: matcapTexture,
       transparent: true,
       opacity: 0.98
     });
@@ -2957,6 +2920,7 @@ document.addEventListener('keydown', e => {
     const mobiusMesh = new THREE.Mesh(geo, mat);
     scene.add(mobiusMesh);
 
+    // ═══ ANIMATION LOOP ═══
     let time = 0;
     let mouseX = 0, mouseY = 0;
     let targetRotX = 0, targetRotY = 0;
@@ -2964,15 +2928,15 @@ document.addEventListener('keydown', e => {
     document.addEventListener('mousemove', (e) => {
       mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
       mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      targetRotY = mouseX * 0.85;
-      targetRotX = mouseY * 0.55;
+      targetRotY = mouseX * 0.9;
+      targetRotX = mouseY * 0.6;
     });
 
     function animate() {
       requestAnimationFrame(animate);
       time += 0.035;
 
-      // Realtime Fluid Wave Deformation on Geometry Vertices
+      // Realtime Fluid Wave Deformation on 3D Geometry Vertices
       const pos = posAttr.array;
       for (let i = 0; i < pos.length; i += 3) {
         const ox = origPositions[i];
@@ -2980,7 +2944,7 @@ document.addEventListener('keydown', e => {
         const oz = origPositions[i + 2];
 
         const theta = Math.atan2(oy, ox);
-        const wobble1 = Math.sin(theta * 4.0 + time * 2.8) * 0.07;
+        const wobble1 = Math.sin(theta * 4.0 + time * 3.0) * 0.08;
         const wobble2 = Math.cos(oz * 3.5 + time * 2.2) * 0.06;
         const mouseRipple = Math.sin(ox * 2.5 + mouseX * 4.5) * 0.05;
 
@@ -2996,14 +2960,20 @@ document.addEventListener('keydown', e => {
       mobiusMesh.rotation.x += 0.008;
       mobiusMesh.rotation.y += 0.014;
 
-      mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.05;
-      mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.05;
+      mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.06;
+      mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.06;
 
       renderer.render(scene, camera);
     }
 
     animate();
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startEngine);
+  } else {
+    startEngine();
+  }
 })();
 
 // FLUID SCULPTURE REALTIME MOUSE TRACKING TILT
