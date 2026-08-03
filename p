@@ -425,26 +425,74 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   background-position: center;
   position: relative;
   overflow: hidden;
-  filter: grayscale(100%) contrast(1.1); /* Black and white theme */
+  border-radius: 18px;
+  background: var(--surface);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 35px rgba(0,0,0,0.55);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  filter: brightness(0.9) contrast(1.05);
   transition: 
     filter 0.5s ease,
     border-color 0.3s ease, 
     box-shadow 0.3s ease, 
-    transform 0.3s ease;
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: none;
 }
 .horizontal-card-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 120%, rgba(var(--accent-rgb), 0.25), transparent 70%);
+  background: radial-gradient(circle at 50% 120%, rgba(184, 255, 87, 0.25), transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
+.h-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 8, 16, 0.92) 0%, rgba(5, 8, 16, 0.3) 50%, transparent 100%);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  opacity: 0.85;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.horizontal-card:hover .h-card-overlay {
+  opacity: 1;
+  transform: translateY(-4px);
+}
+.h-card-tag {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent, #b8ff57);
+  background: rgba(184, 255, 87, 0.15);
+  border: 1px solid rgba(184, 255, 87, 0.35);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  width: fit-content;
+}
+.h-card-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+}
+.h-card-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.35;
+}
 .horizontal-card:hover {
-  filter: grayscale(0%) contrast(1); /* Hover reveals color */
-  border-color: var(--accent);
-  box-shadow: 0 20px 45px rgba(184, 255, 87, 0.25);
-  transform: scale(1.07) translateY(-12px) !important;
+  filter: brightness(1) contrast(1.1);
+  border-color: var(--accent, #b8ff57);
+  box-shadow: 0 22px 50px rgba(184, 255, 87, 0.3), 0 0 25px rgba(184, 255, 87, 0.2);
+  transform: scale(1.08) translateY(-14px) !important;
   z-index: 10;
 }
 .horizontal-card:hover .horizontal-card-glow {
@@ -641,6 +689,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
   font-size: 0.72rem;
   color: rgba(255, 255, 255, 0.6);
   line-height: 1.4;
+}
+.card-btn-bp, .card-btn-demo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  cursor: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.card-btn-bp {
+  background: rgba(184, 255, 87, 0.15);
+  color: var(--accent, #b8ff57);
+  border: 1px solid rgba(184, 255, 87, 0.4);
+}
+.card-btn-bp:hover {
+  background: var(--accent, #b8ff57);
+  color: #000;
+  box-shadow: 0 0 12px rgba(184, 255, 87, 0.4);
+}
+.card-btn-demo {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.card-btn-demo:hover {
+  background: #fff;
+  color: #000;
 }
 
 /* Hover tilt popping */
@@ -1562,30 +1643,75 @@ body.theme-transition, body.theme-transition * {
       <div class="stack-track" id="stackTrack">
         <div class="horizontal-card" style="background-image: url('images/varta_mockup.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">CHAT APP</span>
+            <h3 class="h-card-title">VARTA Messenger</h3>
+            <p class="h-card-desc">Realtime encrypted WebSocket messaging engine.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/analytics_mockup.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">TELEMETRY</span>
+            <h3 class="h-card-title">Realtime Dashboard</h3>
+            <p class="h-card-desc">Live client browser telemetry analytics portal.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/skills_mockup.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">INTERACTIVE</span>
+            <h3 class="h-card-title">Skills Matrix Visualizer</h3>
+            <p class="h-card-desc">Dynamic developer tech stack grid.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/globe_mockup.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">WEBGL 3D</span>
+            <h3 class="h-card-title">3D Interactive Globe</h3>
+            <p class="h-card-desc">Custom Three.js particle globe visualization.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/portfolio_mockup.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">PORTFOLIO</span>
+            <h3 class="h-card-title">Interactive Portfolio</h3>
+            <p class="h-card-desc">Hand-crafted high-performance web product.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/proj4.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">FULLSTACK</span>
+            <h3 class="h-card-title">Smart Task Engine</h3>
+            <p class="h-card-desc">Full-stack productivity workspace.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/proj6.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">AI TOOL</span>
+            <h3 class="h-card-title">AI Prompt Studio</h3>
+            <p class="h-card-desc">Interactive creative prompt generator.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/proj3.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">FINTECH</span>
+            <h3 class="h-card-title">Live Crypto Tracker</h3>
+            <p class="h-card-desc">Real-time cryptocurrency price tracker.</p>
+          </div>
         </div>
         <div class="horizontal-card" style="background-image: url('images/proj2.png');">
           <div class="horizontal-card-glow"></div>
+          <div class="h-card-overlay">
+            <span class="h-card-tag">CLIENT WORK</span>
+            <h3 class="h-card-title">Freelancing Portal</h3>
+            <p class="h-card-desc">Client showcase & service booking platform.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2073,6 +2199,10 @@ function createCardElement(p, idx) {
       <div class="wall-card-bottom">
         <h3 class="wall-card-title">${p.name}</h3>
         <p class="wall-card-desc">${p.desc}</p>
+        <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+          <button class="card-btn-bp" onclick="event.stopPropagation(); openModal(${idx});">Blueprint ⚙</button>
+          <a href="${p.link}" target="_blank" class="card-btn-demo" onclick="event.stopPropagation();">Live Demo ↗</a>
+        </div>
       </div>
     </div>
   `;
