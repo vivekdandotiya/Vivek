@@ -1569,6 +1569,128 @@ body.theme-transition, body.theme-transition * {
     transparent 100%
   );
 }
+/* ==================== 3D MUSEUM ART GALLERY HERO SECTION ==================== */
+.art-hero-section {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: 720px;
+  background: #09090b;
+  background-image: 
+    radial-gradient(circle at 80% 60%, rgba(184, 255, 87, 0.09), transparent 50%),
+    radial-gradient(circle at 20% 40%, rgba(0, 242, 254, 0.07), transparent 50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  overflow: hidden;
+  padding: 85px 2.5rem 3.5rem;
+  z-index: 5;
+}
+
+#art-hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.art-hero-top-bar {
+  width: 100%;
+  max-width: 1400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+}
+.art-hero-badge {
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.75);
+  text-transform: uppercase;
+}
+
+.art-hero-vertical-nav {
+  position: absolute;
+  left: 2.2rem;
+  top: 50%;
+  z-index: 10;
+  display: flex;
+  gap: 1.2rem;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%) rotate(180deg);
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  pointer-events: auto;
+}
+.art-hero-vertical-nav a {
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.art-hero-vertical-nav a:hover {
+  color: var(--accent, #b8ff57);
+}
+
+.art-hero-center-content {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 10;
+  width: 90%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.art-hero-title {
+  font-family: 'Inter', 'Space Grotesk', sans-serif;
+  font-size: clamp(2.6rem, 6.5vw, 5.8rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 0 35px rgba(255, 255, 255, 0.25), 0 0 60px rgba(184, 255, 87, 0.15);
+  margin: 0;
+  line-height: 1;
+}
+
+.art-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #000;
+  background: var(--accent, #b8ff57);
+  padding: 0.75rem 1.8rem;
+  border-radius: 99px;
+  text-decoration: none;
+  box-shadow: 0 0 25px rgba(184, 255, 87, 0.4);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 0.5rem;
+}
+.art-hero-cta:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 0 40px rgba(184, 255, 87, 0.7);
+}
 
 </style>
 </head>
@@ -1609,24 +1731,22 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
+<!-- ==================== 3D MUSEUM ART GALLERY HERO SECTION ==================== -->
+<section class="art-hero-section">
+  <canvas id="art-hero-canvas"></canvas>
 
+  <div class="art-hero-top-bar">
+    <div class="art-hero-badge">EXHIBITION 2026</div>
+    <div class="art-hero-badge">Awwwards SOTY '26</div>
+  </div>
 
-<!-- 3D CYLINDER GALLERY GRID WALL -->
-<!-- SECTION 1: HERO INTRO -->
-<section class="sec-intro">
-  <div class="intro-grid">
-    <div class="intro-left reveal">
-      <p style="font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--text3);">— WORK INTRO</p>
-      <h1>Instantly Build<br><em>Stunning</em> Interfaces</h1>
-      <p>Explore a collection of hand-crafted developer telemetry hubs, WebGL visual globes, bento portfolios, and chat applications designed for maximum high-performance visuals.</p>
-      <a href="#projects-stage" class="intro-btn">Get Started ↗</a>
-    </div>
-    <div class="intro-right">
-      <div class="hero-outline-text" aria-hidden="true">CRAFT</div>
-      <div class="hero-visual-pedestal">
-        <div class="pedestal-mockup"></div>
-      </div>
-    </div>
+  <div class="art-hero-vertical-nav">
+    <a href="index.html">HOME</a> // <a href="about.html">ABOUT</a> // <a href="#projects-stage">ARTWORKS</a> // <a href="casestudies.html">ARCHIVE</a> // <a href="contact.html">START JOURNEY</a>
+  </div>
+
+  <div class="art-hero-center-content">
+    <h1 class="art-hero-title">CRAFTING DIGITAL ART</h1>
+    <a href="#projects-stage" class="art-hero-cta">Explore Exhibition ↗</a>
   </div>
 </section>
 
@@ -2833,7 +2953,92 @@ document.addEventListener('keydown', e => {
     el.addEventListener('mouseleave', () => {
       el.style.transform = 'translate3d(0, 0, 0) scale(1)';
       el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+})();
+
+// 3D MUSEUM ART GALLERY HERO CANVAS ENGINE
+(function initArtHero() {
+  function loadThree(cb) {
+    if (typeof THREE !== 'undefined') {
+      cb();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      script.onload = cb;
+      document.head.appendChild(script);
+    }
+  }
+
+  loadThree(() => {
+    const canvas = document.getElementById('art-hero-canvas');
+    if (!canvas) return;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 0, 7.5);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // High-Gloss Iridescent Chrome Canvas MatCap
+    const mcCanvas = document.createElement('canvas');
+    mcCanvas.width = mcCanvas.height = 512;
+    const mcCtx = mcCanvas.getContext('2d');
+
+    const mcGrad = mcCtx.createRadialGradient(180, 140, 10, 256, 256, 240);
+    mcGrad.addColorStop(0.0, '#ffffff');
+    mcGrad.addColorStop(0.18, '#00f2fe');
+    mcGrad.addColorStop(0.38, '#ff007f');
+    mcGrad.addColorStop(0.58, '#b8ff57');
+    mcGrad.addColorStop(0.78, '#1e1b4b');
+    mcGrad.addColorStop(0.92, '#0f172a');
+    mcGrad.addColorStop(1.0, '#ffffff');
+    mcCtx.fillStyle = mcGrad;
+    mcCtx.fillRect(0, 0, 512, 512);
+
+    const matcapTex = new THREE.CanvasTexture(mcCanvas);
+
+    // 3D Mobius Infinity Ribbon Geometry
+    const geo = new THREE.TorusKnotGeometry(1.85, 0.54, 180, 32, 2, 3);
+    const mat = new THREE.MeshMatcapMaterial({
+      matcap: matcapTex,
+      transparent: true,
+      opacity: 0.95
+    });
+
+    const mobiusMesh = new THREE.Mesh(geo, mat);
+    scene.add(mobiusMesh);
+
+    let mouseX = 0, mouseY = 0;
+    let targetRotX = 0, targetRotY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      targetRotY = mouseX * 0.75;
+      targetRotX = mouseY * 0.45;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      mobiusMesh.rotation.x += 0.008;
+      mobiusMesh.rotation.y += 0.012;
+
+      mobiusMesh.rotation.y += (targetRotY - mobiusMesh.rotation.y) * 0.05;
+      mobiusMesh.rotation.x += (targetRotX - mobiusMesh.rotation.x) * 0.05;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
   });
 })();
 </script>
