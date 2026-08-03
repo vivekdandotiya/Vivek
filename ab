@@ -2432,11 +2432,11 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 </script>
 
-<!-- ==================== INTERACTIVE JELLY BACKGROUND CANVAS ==================== -->
+<!-- ==================== INTERACTIVE DEFORMABLE JELLY GRID MESH ==================== -->
 <script>
 (function() {
   const canvas = document.createElement('canvas');
-  canvas.id = 'jelly-canvas';
+  canvas.id = 'jelly-grid-canvas';
   canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;';
   document.body.prepend(canvas);
 
@@ -2444,18 +2444,43 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
 
+  const GRID_SIZE = 120;
+  let cols, rows, nodes;
+
+  function initGrid() {
+    cols = Math.ceil(width / GRID_SIZE) + 2;
+    rows = Math.ceil(height / GRID_SIZE) + 2;
+    nodes = [];
+
+    for (let r = 0; r <= rows; r++) {
+      nodes[r] = [];
+      for (let c = 0; c <= cols; c++) {
+        const bx = c * GRID_SIZE;
+        const by = r * GRID_SIZE;
+        nodes[r][c] = {
+          baseX: bx,
+          baseY: by,
+          x: bx,
+          y: by,
+          vx: 0,
+          vy: 0
+        };
+      }
+    }
+  }
+
+  initGrid();
+
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
+    initGrid();
   });
 
-  let mouseX = width / 2;
-  let mouseY = height / 2;
-  let curX = mouseX;
-  let curY = mouseY;
-  let vx = 0;
-  let vy = 0;
-  let time = 0;
+  let mouseX = -1000;
+  let mouseY = -1000;
+  let prevMouseX = -1000;
+  let prevMouseY = -1000;
 
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
@@ -2469,76 +2494,151 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
     }
   }, { passive: true });
 
-  const NUM_POINTS = 32;
-  const BASE_RADIUS = 160;
+  const EFFECT_RADIUS = 240;
+  const FORCE_FACTOR = 0.55;
+  const SPRING = 0.045;
+  const DAMPING = 0.84;
 
   function render() {
     ctx.clearRect(0, 0, width, height);
 
-    const dx = mouseX - curX;
-    const dy = mouseY - curY;
-    vx += dx * 0.08;
-    vy += dy * 0.08;
-    vx *= 0.76;
-    vy *= 0.76;
-
-    curX += vx;
-    curY += vy;
-
-    const speed = Math.hypot(vx, vy);
-    const angle = Math.atan2(vy, vx);
-    time += 0.04 + Math.min(speed * 0.008, 0.06);
-
-    ctx.save();
-    ctx.translate(curX, curY);
-
-    const points = [];
-    for (let i = 0; i < NUM_POINTS; i++) {
-      const theta = (i / NUM_POINTS) * Math.PI * 2;
-      const stretch = Math.sin(2 * (theta - angle)) * Math.min(speed * 1.6, 75);
-      const wobble = Math.sin(theta * 4 + time) * 14 + Math.cos(theta * 3 - time * 0.9) * 9;
-      const r = BASE_RADIUS + stretch + wobble;
-
-      points.push({
-        x: Math.cos(theta) * r,
-        y: Math.sin(theta) * r
-      });
-    }
-
-    ctx.beginPath();
-    ctx.moveTo((points[0].x + points[NUM_POINTS - 1].x) / 2, (points[0].y + points[NUM_POINTS - 1].y) / 2);
-
-    for (let i = 0; i < NUM_POINTS; i++) {
-      const p1 = points[i];
-      const p2 = points[(i + 1) % NUM_POINTS];
-      const midX = (p1.x + p2.x) / 2;
-      const midY = (p1.y + p2.y) / 2;
-      ctx.quadraticCurveTo(p1.x, p1.y, midX, midY);
-    }
-    ctx.closePath();
-
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    const grad = ctx.createRadialGradient(0, 0, 10, 0, 0, BASE_RADIUS + 90);
+    const baseLineColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.095)';
+    const glowColor = isLight ? 'rgba(0, 0, 0, 0.65)' : 'rgba(184, 255, 87, 0.85)';
 
-    if (isLight) {
-      grad.addColorStop(0, 'rgba(0, 0, 0, 0.12)');
-      grad.addColorStop(0.5, 'rgba(184, 255, 87, 0.25)');
-      grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
-    } else {
-      grad.addColorStop(0, 'rgba(184, 255, 87, 0.24)');
-      grad.addColorStop(0.4, 'rgba(0, 242, 254, 0.12)');
-      grad.addColorStop(0.75, 'rgba(138, 43, 226, 0.05)');
-      grad.addColorStop(1, 'rgba(10, 10, 10, 0)');
+    const mouseVx = mouseX - prevMouseX;
+    const mouseVy = mouseY - prevMouseY;
+    prevMouseX = mouseX;
+    prevMouseY = mouseY;
+
+    for (let r = 0; r <= rows; r++) {
+      for (let c = 0; c <= cols; c++) {
+        const n = nodes[r][c];
+        const dx = n.x - mouseX;
+        const dy = n.y - mouseY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < EFFECT_RADIUS && dist > 0) {
+          const power = Math.pow((1 - dist / EFFECT_RADIUS), 2);
+          const pushX = (dx / dist) * power * 70 + mouseVx * power * FORCE_FACTOR;
+          const pushY = (dy / dist) * power * 70 + mouseVy * power * FORCE_FACTOR;
+
+          n.vx += pushX * 0.12;
+          n.vy += pushY * 0.12;
+        }
+
+        const springX = (n.baseX - n.x) * SPRING;
+        const springY = (n.baseY - n.y) * SPRING;
+
+        n.vx += springX;
+        n.vy += springY;
+        n.vx *= DAMPING;
+        n.vy *= DAMPING;
+
+        n.x += n.vx;
+        n.y += n.vy;
+      }
     }
 
-    ctx.fillStyle = grad;
-    ctx.fill();
+    for (let r = 0; r <= rows; r++) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[r][0].x, nodes[r][0].y);
 
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(184, 255, 87, 0.18)';
-    ctx.stroke();
+      for (let c = 0; c < cols; c++) {
+        const n1 = nodes[r][c];
+        const n2 = nodes[r][c + 1];
+        const midX = (n1.x + n2.x) / 2;
+        const midY = (n1.y + n2.y) / 2;
+        ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+      }
 
-    ctx.restore();
+      ctx.strokeStyle = baseLineColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    for (let c = 0; c <= cols; c++) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[0][c].x, nodes[0][c].y);
+
+      for (let r = 0; r < rows; r++) {
+        const n1 = nodes[r][c];
+        const n2 = nodes[r + 1][c];
+        const midX = (n1.x + n2.x) / 2;
+        const midY = (n1.y + n2.y) / 2;
+        ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+      }
+
+      ctx.strokeStyle = baseLineColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    if (mouseX > 0 && mouseY > 0) {
+      const spotGrad = ctx.createRadialGradient(mouseX, mouseY, 10, mouseX, mouseY, EFFECT_RADIUS);
+      spotGrad.addColorStop(0, isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(184, 255, 87, 0.08)');
+      spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = spotGrad;
+      ctx.beginPath();
+      ctx.arc(mouseX, mouseY, EFFECT_RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let r = 0; r <= rows; r++) {
+        ctx.beginPath();
+        let active = false;
+
+        for (let c = 0; c < cols; c++) {
+          const n1 = nodes[r][c];
+          const n2 = nodes[r][c + 1];
+          const midX = (n1.x + n2.x) / 2;
+          const midY = (n1.y + n2.y) / 2;
+          const dist = Math.hypot(midX - mouseX, midY - mouseY);
+
+          if (dist < EFFECT_RADIUS + 30) {
+            if (!active) {
+              ctx.moveTo(n1.x, n1.y);
+              active = true;
+            }
+            ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+          } else {
+            active = false;
+          }
+        }
+        if (active) {
+          ctx.strokeStyle = glowColor;
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+        }
+      }
+
+      for (let c = 0; c <= cols; c++) {
+        ctx.beginPath();
+        let active = false;
+
+        for (let r = 0; r < rows; r++) {
+          const n1 = nodes[r][c];
+          const n2 = nodes[r + 1][c];
+          const midX = (n1.x + n2.x) / 2;
+          const midY = (n1.y + n2.y) / 2;
+          const dist = Math.hypot(midX - mouseX, midY - mouseY);
+
+          if (dist < EFFECT_RADIUS + 30) {
+            if (!active) {
+              ctx.moveTo(n1.x, n1.y);
+              active = true;
+            }
+            ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+          } else {
+            active = false;
+          }
+        }
+        if (active) {
+          ctx.strokeStyle = glowColor;
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+        }
+      }
+    }
 
     requestAnimationFrame(render);
   }
