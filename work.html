@@ -2869,17 +2869,21 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 
-<!-- ==================== 3D LIQUID MERCURY DROPLET CURSOR ENGINE ==================== -->
+<!-- ==================== REALTIME PHOTOREALISTIC LIQUID MERCURY SHADER ENGINE ==================== -->
 <script>
 (function() {
   const style = document.createElement('style');
+  style.id = 'mercury-cursor-style';
   style.innerHTML = 'body, a, button, input, select, textarea, .btn, [role="button"] { cursor: none !important; } #cur, #cur-ring { display: none !important; }';
   document.head.appendChild(style);
 
-  const canvas = document.createElement('canvas');
-  canvas.id = 'mercury-cursor-canvas';
-  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:99999;';
-  document.body.appendChild(canvas);
+  let canvas = document.getElementById('mercury-cursor-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'mercury-cursor-canvas';
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;';
+    document.body.appendChild(canvas);
+  }
 
   function loadThree(cb) {
     if (typeof THREE !== 'undefined') {
@@ -2907,42 +2911,85 @@ document.addEventListener('keydown', e => {
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    const baseGeo = new THREE.SphereGeometry(0.32, 64, 64);
-    const posAttr = baseGeo.attributes.position;
-    const origPositions = new Float32Array(posAttr.array.length);
-    origPositions.set(posAttr.array);
+    const uniforms = {
+      uTime: { value: 0 },
+      uSpeed: { value: 0 },
+      uDirection: { value: new THREE.Vector2(0, 0) }
+    };
 
-    const mat = new THREE.MeshStandardMaterial({
-      color: 0xeeeeee,
-      metalness: 0.98,
-      roughness: 0.05,
-      roughnessMap: null
+    const vertShader = `
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
+      varying vec3 vWorldPosition;
+      uniform float uTime;
+      uniform float uSpeed;
+      uniform vec2 uDirection;
+
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        vec3 p = position;
+        
+        float theta = atan(p.y, p.x);
+        float wobble = sin(theta * 5.0 + uTime * 4.0) * 0.035 + cos(p.z * 8.0 + uTime * 3.0) * 0.025;
+        float dirAngle = atan(uDirection.y, uDirection.x);
+        float stretch = sin(2.0 * (theta - dirAngle)) * min(uSpeed * 0.4, 0.22);
+        
+        p += normal * (wobble + stretch);
+        
+        vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+        vViewPosition = -mvPosition.xyz;
+        vWorldPosition = (modelMatrix * vec4(p, 1.0)).xyz;
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `;
+
+    const fragShader = `
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
+      varying vec3 vWorldPosition;
+      uniform float uTime;
+
+      void main() {
+        vec3 normal = normalize(vNormal);
+        vec3 viewDir = normalize(vViewPosition);
+        
+        float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 2.5);
+        vec3 refl = reflect(-viewDir, normal);
+        
+        float spec1 = pow(max(dot(refl, normalize(vec3(0.6, 0.9, 0.7))), 0.0), 48.0);
+        float spec2 = pow(max(dot(refl, normalize(vec3(-0.6, -0.5, 0.5))), 0.0), 24.0);
+        
+        vec3 mercuryBase = vec3(0.88, 0.90, 0.94);
+        vec3 chromeDark = vec3(0.10, 0.11, 0.14);
+        vec3 pureWhite = vec3(1.0, 1.0, 1.0);
+        
+        float stripe = sin(refl.y * 6.0 + refl.x * 4.0 + uTime * 2.0) * 0.5 + 0.5;
+        vec3 col = mix(chromeDark, mercuryBase, smoothstep(0.2, 0.8, stripe));
+        
+        col += pureWhite * spec1 * 2.2;
+        col += vec3(0.92, 0.96, 1.0) * spec2 * 1.2;
+        col += pureWhite * fresnel * 0.95;
+        
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const geo = new THREE.SphereGeometry(0.24, 64, 64);
+    const mat = new THREE.ShaderMaterial({
+      vertexShader: vertShader,
+      fragmentShader: fragShader,
+      uniforms: uniforms,
+      transparent: true
     });
 
-    const mercuryMesh = new THREE.Mesh(baseGeo, mat);
+    const mercuryMesh = new THREE.Mesh(geo, mat);
     scene.add(mercuryMesh);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-
-    const keyLight = new THREE.DirectionalLight(0xffffff, 3.0);
-    keyLight.position.set(5, 8, 10);
-    scene.add(keyLight);
-
-    const rimLight = new THREE.PointLight(0xb8ff57, 4.0, 15);
-    rimLight.position.set(-6, -6, 6);
-    scene.add(rimLight);
-
-    const fillLight = new THREE.PointLight(0x00f2fe, 3.0, 15);
-    fillLight.position.set(6, -6, 6);
-    scene.add(fillLight);
 
     let mouseX = 0, mouseY = 0;
     let targetX = 0, targetY = 0;
     let curX = 0, curY = 0;
     let vx = 0, vy = 0;
     let isHovered = false;
-    let time = 0;
 
     document.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
@@ -2976,14 +3023,14 @@ document.addEventListener('keydown', e => {
 
     function animate() {
       requestAnimationFrame(animate);
-      time += 0.045;
+      uniforms.uTime.value += 0.035;
 
       const dx = targetX - curX;
       const dy = targetY - curY;
-      vx += dx * 0.16;
-      vy += dy * 0.16;
-      vx *= 0.70;
-      vy *= 0.70;
+      vx += dx * 0.25;
+      vy += dy * 0.25;
+      vx *= 0.62;
+      vy *= 0.62;
 
       curX += vx;
       curY += vy;

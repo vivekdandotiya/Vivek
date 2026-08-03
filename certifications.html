@@ -1498,5 +1498,407 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 })();
 </script>
 
+<!-- ==================== INTERACTIVE DEFORMABLE JELLY GRID MESH ==================== -->
+<script>
+(function() {
+  const canvas = document.createElement('canvas');
+  canvas.id = 'jelly-grid-canvas';
+  canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:0;';
+  document.body.prepend(canvas);
+
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const GRID_SIZE = 120;
+  let cols, rows, nodes;
+
+  function initGrid() {
+    cols = Math.ceil(width / GRID_SIZE) + 2;
+    rows = Math.ceil(height / GRID_SIZE) + 2;
+    nodes = [];
+
+    for (let r = 0; r <= rows; r++) {
+      nodes[r] = [];
+      for (let c = 0; c <= cols; c++) {
+        const bx = c * GRID_SIZE;
+        const by = r * GRID_SIZE;
+        nodes[r][c] = {
+          baseX: bx,
+          baseY: by,
+          x: bx,
+          y: by,
+          vx: 0,
+          vy: 0
+        };
+      }
+    }
+  }
+
+  initGrid();
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    initGrid();
+  });
+
+  let mouseX = -1000;
+  let mouseY = -1000;
+  let prevMouseX = -1000;
+  let prevMouseY = -1000;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  document.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      mouseX = e.touches[0].clientX;
+      mouseY = e.touches[0].clientY;
+    }
+  }, { passive: true });
+
+  const EFFECT_RADIUS = 240;
+  const FORCE_FACTOR = 0.55;
+  const SPRING = 0.045;
+  const DAMPING = 0.84;
+
+  function render() {
+    ctx.clearRect(0, 0, width, height);
+
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const baseLineColor = isLight ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.095)';
+    const glowColor = isLight ? 'rgba(0, 0, 0, 0.65)' : 'rgba(184, 255, 87, 0.85)';
+
+    const mouseVx = mouseX - prevMouseX;
+    const mouseVy = mouseY - prevMouseY;
+    prevMouseX = mouseX;
+    prevMouseY = mouseY;
+
+    for (let r = 0; r <= rows; r++) {
+      for (let c = 0; c <= cols; c++) {
+        const n = nodes[r][c];
+        const dx = n.x - mouseX;
+        const dy = n.y - mouseY;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < EFFECT_RADIUS && dist > 0) {
+          const power = Math.pow((1 - dist / EFFECT_RADIUS), 2);
+          const pushX = (dx / dist) * power * 70 + mouseVx * power * FORCE_FACTOR;
+          const pushY = (dy / dist) * power * 70 + mouseVy * power * FORCE_FACTOR;
+
+          n.vx += pushX * 0.12;
+          n.vy += pushY * 0.12;
+        }
+
+        const springX = (n.baseX - n.x) * SPRING;
+        const springY = (n.baseY - n.y) * SPRING;
+
+        n.vx += springX;
+        n.vy += springY;
+        n.vx *= DAMPING;
+        n.vy *= DAMPING;
+
+        n.x += n.vx;
+        n.y += n.vy;
+      }
+    }
+
+    for (let r = 0; r <= rows; r++) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[r][0].x, nodes[r][0].y);
+
+      for (let c = 0; c < cols; c++) {
+        const n1 = nodes[r][c];
+        const n2 = nodes[r][c + 1];
+        const midX = (n1.x + n2.x) / 2;
+        const midY = (n1.y + n2.y) / 2;
+        ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+      }
+
+      ctx.strokeStyle = baseLineColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    for (let c = 0; c <= cols; c++) {
+      ctx.beginPath();
+      ctx.moveTo(nodes[0][c].x, nodes[0][c].y);
+
+      for (let r = 0; r < rows; r++) {
+        const n1 = nodes[r][c];
+        const n2 = nodes[r + 1][c];
+        const midX = (n1.x + n2.x) / 2;
+        const midY = (n1.y + n2.y) / 2;
+        ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+      }
+
+      ctx.strokeStyle = baseLineColor;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    if (mouseX > 0 && mouseY > 0) {
+      const spotGrad = ctx.createRadialGradient(mouseX, mouseY, 10, mouseX, mouseY, EFFECT_RADIUS);
+      spotGrad.addColorStop(0, isLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(184, 255, 87, 0.08)');
+      spotGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = spotGrad;
+      ctx.beginPath();
+      ctx.arc(mouseX, mouseY, EFFECT_RADIUS, 0, Math.PI * 2);
+      ctx.fill();
+
+      for (let r = 0; r <= rows; r++) {
+        ctx.beginPath();
+        let active = false;
+
+        for (let c = 0; c < cols; c++) {
+          const n1 = nodes[r][c];
+          const n2 = nodes[r][c + 1];
+          const midX = (n1.x + n2.x) / 2;
+          const midY = (n1.y + n2.y) / 2;
+          const dist = Math.hypot(midX - mouseX, midY - mouseY);
+
+          if (dist < EFFECT_RADIUS + 30) {
+            if (!active) {
+              ctx.moveTo(n1.x, n1.y);
+              active = true;
+            }
+            ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+          } else {
+            active = false;
+          }
+        }
+        if (active) {
+          ctx.strokeStyle = glowColor;
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+        }
+      }
+
+      for (let c = 0; c <= cols; c++) {
+        ctx.beginPath();
+        let active = false;
+
+        for (let r = 0; r < rows; r++) {
+          const n1 = nodes[r][c];
+          const n2 = nodes[r + 1][c];
+          const midX = (n1.x + n2.x) / 2;
+          const midY = (n1.y + n2.y) / 2;
+          const dist = Math.hypot(midX - mouseX, midY - mouseY);
+
+          if (dist < EFFECT_RADIUS + 30) {
+            if (!active) {
+              ctx.moveTo(n1.x, n1.y);
+              active = true;
+            }
+            ctx.quadraticCurveTo(n1.x, n1.y, midX, midY);
+          } else {
+            active = false;
+          }
+        }
+        if (active) {
+          ctx.strokeStyle = glowColor;
+          ctx.lineWidth = 1.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+})();
+</script>
+
+<!-- ==================== REALTIME PHOTOREALISTIC LIQUID MERCURY SHADER ENGINE ==================== -->
+<script>
+(function() {
+  const style = document.createElement('style');
+  style.id = 'mercury-cursor-style';
+  style.innerHTML = 'body, a, button, input, select, textarea, .btn, [role="button"] { cursor: none !important; } #cur, #cur-ring { display: none !important; }';
+  document.head.appendChild(style);
+
+  let canvas = document.getElementById('mercury-cursor-canvas');
+  if (!canvas) {
+    canvas = document.createElement('canvas');
+    canvas.id = 'mercury-cursor-canvas';
+    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:999999;';
+    document.body.appendChild(canvas);
+  }
+
+  function loadThree(cb) {
+    if (typeof THREE !== 'undefined') {
+      cb();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      script.onload = cb;
+      document.head.appendChild(script);
+    }
+  }
+
+  loadThree(() => {
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 10;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uSpeed: { value: 0 },
+      uDirection: { value: new THREE.Vector2(0, 0) }
+    };
+
+    const vertShader = `
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
+      varying vec3 vWorldPosition;
+      uniform float uTime;
+      uniform float uSpeed;
+      uniform vec2 uDirection;
+
+      void main() {
+        vNormal = normalize(normalMatrix * normal);
+        vec3 p = position;
+        
+        float theta = atan(p.y, p.x);
+        float wobble = sin(theta * 5.0 + uTime * 4.0) * 0.035 + cos(p.z * 8.0 + uTime * 3.0) * 0.025;
+        float dirAngle = atan(uDirection.y, uDirection.x);
+        float stretch = sin(2.0 * (theta - dirAngle)) * min(uSpeed * 0.4, 0.22);
+        
+        p += normal * (wobble + stretch);
+        
+        vec4 mvPosition = modelViewMatrix * vec4(p, 1.0);
+        vViewPosition = -mvPosition.xyz;
+        vWorldPosition = (modelMatrix * vec4(p, 1.0)).xyz;
+        gl_Position = projectionMatrix * mvPosition;
+      }
+    `;
+
+    const fragShader = `
+      varying vec3 vNormal;
+      varying vec3 vViewPosition;
+      varying vec3 vWorldPosition;
+      uniform float uTime;
+
+      void main() {
+        vec3 normal = normalize(vNormal);
+        vec3 viewDir = normalize(vViewPosition);
+        
+        float fresnel = pow(1.0 - max(dot(normal, viewDir), 0.0), 2.5);
+        vec3 refl = reflect(-viewDir, normal);
+        
+        float spec1 = pow(max(dot(refl, normalize(vec3(0.6, 0.9, 0.7))), 0.0), 48.0);
+        float spec2 = pow(max(dot(refl, normalize(vec3(-0.6, -0.5, 0.5))), 0.0), 24.0);
+        
+        vec3 mercuryBase = vec3(0.88, 0.90, 0.94);
+        vec3 chromeDark = vec3(0.10, 0.11, 0.14);
+        vec3 pureWhite = vec3(1.0, 1.0, 1.0);
+        
+        float stripe = sin(refl.y * 6.0 + refl.x * 4.0 + uTime * 2.0) * 0.5 + 0.5;
+        vec3 col = mix(chromeDark, mercuryBase, smoothstep(0.2, 0.8, stripe));
+        
+        col += pureWhite * spec1 * 2.2;
+        col += vec3(0.92, 0.96, 1.0) * spec2 * 1.2;
+        col += pureWhite * fresnel * 0.95;
+        
+        gl_FragColor = vec4(col, 1.0);
+      }
+    `;
+
+    const geo = new THREE.SphereGeometry(0.24, 64, 64);
+    const mat = new THREE.ShaderMaterial({
+      vertexShader: vertShader,
+      fragmentShader: fragShader,
+      uniforms: uniforms,
+      transparent: true
+    });
+
+    const mercuryMesh = new THREE.Mesh(geo, mat);
+    scene.add(mercuryMesh);
+
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    let curX = 0, curY = 0;
+    let vx = 0, vy = 0;
+    let isHovered = false;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      const v = new THREE.Vector3(
+        (e.clientX / window.innerWidth) * 2 - 1,
+        -(e.clientY / window.innerHeight) * 2 + 1,
+        0.5
+      );
+      v.unproject(camera);
+      const dir = v.sub(camera.position).normalize();
+      const distance = -camera.position.z / dir.z;
+      const pos = camera.position.clone().add(dir.multiplyScalar(distance));
+
+      targetX = pos.x;
+      targetY = pos.y;
+    });
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('a, button, input, select, textarea, .btn, [role="button"]')) {
+        isHovered = true;
+      }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('a, button, input, select, textarea, .btn, [role="button"]')) {
+        isHovered = false;
+      }
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      uniforms.uTime.value += 0.035;
+
+      const dx = targetX - curX;
+      const dy = targetY - curY;
+      vx += dx * 0.25;
+      vy += dy * 0.25;
+      vx *= 0.62;
+      vy *= 0.62;
+
+      curX += vx;
+      curY += vy;
+
+      mercuryMesh.position.x = curX;
+      mercuryMesh.position.y = curY;
+
+      const speed = Math.hypot(vx, vy);
+      uniforms.uSpeed.value = speed;
+      uniforms.uDirection.value.set(vx, vy);
+
+      const targetScale = isHovered ? 1.55 : 1.0;
+      mercuryMesh.scale.set(targetScale, targetScale, targetScale);
+
+      mercuryMesh.rotation.x += 0.01;
+      mercuryMesh.rotation.y += 0.015;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+  });
+})();
+</script>
+
 </body>
 </html>
