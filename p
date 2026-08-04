@@ -2978,9 +2978,9 @@ document.addEventListener('keydown', e => {
       update(scroll) {
         this.mesh.position.y = this.y - scroll.current - this.extra;
 
-        const position = map(this.mesh.position.y, -viewportHeight, viewportHeight, 5, 15);
+        const posVal = (this.mesh.position.y + scroll.current * 1.2) * 0.25 + 5.0;
 
-        this.material.uniforms.uPosition.value = position;
+        this.material.uniforms.uPosition.value = posVal;
         this.material.uniforms.uTime.value += 0.04;
         this.material.uniforms.uSpeed.value = scroll.current;
 
@@ -2999,7 +2999,7 @@ document.addEventListener('keydown', e => {
 
     const medias = items.map((img, i) => new MediaItem({ scene, image: img, length: items.length, index: i }));
 
-    const scroll = { ease: 0.02, current: 0, target: 0, last: 0 };
+    const scroll = { ease: 0.035, current: 0, target: 5.0, last: 0 };
     let isDown = false;
     let startY = 0;
     let scrollPos = 0;
