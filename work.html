@@ -1568,7 +1568,33 @@ body.theme-transition, body.theme-transition * {
     var(--grid-line) 85%, 
     transparent 100%
   );
-}}</style>
+/* ==================== 3D FLYING POSTERS SECTION ==================== */
+.sec-flying-posters {
+  position: relative;
+  width: 100vw;
+  height: 600px;
+  background: #060608;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  cursor: grab;
+  z-index: 5;
+}
+.sec-flying-posters:active {
+  cursor: grabbing;
+}
+
+.posters-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.posters-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+</style>
 </head>
 <body>
 <!-- BACKGROUND LAYOUT GRID LINES -->
@@ -1607,91 +1633,10 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- SECTION 2: STICKY HORIZONTAL SCROLL CARDS SHOWCASE -->
-<section class="sec-stack">
-  <div class="sec-stack-sticky">
-    <div class="stack-header reveal">
-      <p class="eyebrow">— Layout Showcase</p>
-      <h2>Revolutionizing <em>Interaction</em> Design</h2>
-      <p class="sub">Dynamic, responsive grid layouts fanned out with smooth parallax, customized CSS layers, and rich dark textures.</p>
-    </div>
-    
-    <div class="stack-track-container">
-      <div class="stack-track" id="stackTrack">
-        <div class="horizontal-card" style="background-image: url('images/varta_mockup.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">CHAT APP</span>
-            <h3 class="h-card-title">VARTA Messenger</h3>
-            <p class="h-card-desc">Realtime encrypted WebSocket messaging engine.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/analytics_mockup.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">TELEMETRY</span>
-            <h3 class="h-card-title">Realtime Dashboard</h3>
-            <p class="h-card-desc">Live client browser telemetry analytics portal.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/skills_mockup.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">INTERACTIVE</span>
-            <h3 class="h-card-title">Skills Matrix Visualizer</h3>
-            <p class="h-card-desc">Dynamic developer tech stack grid.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/globe_mockup.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">WEBGL 3D</span>
-            <h3 class="h-card-title">3D Interactive Globe</h3>
-            <p class="h-card-desc">Custom Three.js particle globe visualization.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/portfolio_mockup.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">PORTFOLIO</span>
-            <h3 class="h-card-title">Interactive Portfolio</h3>
-            <p class="h-card-desc">Hand-crafted high-performance web product.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/proj4.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">FULLSTACK</span>
-            <h3 class="h-card-title">Smart Task Engine</h3>
-            <p class="h-card-desc">Full-stack productivity workspace.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/proj6.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">AI TOOL</span>
-            <h3 class="h-card-title">AI Prompt Studio</h3>
-            <p class="h-card-desc">Interactive creative prompt generator.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/proj3.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">FINTECH</span>
-            <h3 class="h-card-title">Live Crypto Tracker</h3>
-            <p class="h-card-desc">Real-time cryptocurrency price tracker.</p>
-          </div>
-        </div>
-        <div class="horizontal-card" style="background-image: url('images/proj2.png');">
-          <div class="horizontal-card-glow"></div>
-          <div class="h-card-overlay">
-            <span class="h-card-tag">CLIENT WORK</span>
-            <h3 class="h-card-title">Freelancing Portal</h3>
-            <p class="h-card-desc">Client showcase & service booking platform.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- SECTION 2: 3D FLYING POSTERS OGL SHOWCASE -->
+<section class="sec-flying-posters">
+  <div class="posters-container" id="postersContainer">
+    <canvas id="postersCanvas" class="posters-canvas"></canvas>
   </div>
 </section>
 
@@ -2810,6 +2755,391 @@ document.addEventListener('keydown', e => {
     el.addEventListener('mouseleave', () => {
       el.style.transform = 'translate3d(0, 0, 0) scale(1)';
       el.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
+})();
+
+// ==================== 3D FLYING POSTERS OGL SHADER ENGINE ====================
+(function initVanillaFlyingPosters() {
+  function loadOGL(cb) {
+    if (window.ogl || typeof OGL !== 'undefined') {
+      cb();
+    } else {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/ogl@0.0.103/dist/ogl.umd.js';
+      script.onload = cb;
+      script.onerror = () => {
+        const fallback = document.createElement('script');
+        fallback.src = 'https://unpkg.com/ogl';
+        fallback.onload = cb;
+        document.head.appendChild(fallback);
+      };
+      document.head.appendChild(script);
+    }
+  }
+
+  loadOGL(() => {
+    const { Renderer, Camera, Transform, Plane, Program, Mesh, Texture } = window.ogl || OGL;
+
+    const container = document.getElementById('postersContainer');
+    const canvas = document.getElementById('postersCanvas');
+    if (!container || !canvas) return;
+
+    const items = [
+      'images/varta_mockup.png',
+      'images/analytics_mockup.png',
+      'images/skills_mockup.png',
+      'images/globe_mockup.png',
+      'images/portfolio_mockup.png',
+      'images/proj4.png',
+      'images/proj6.png',
+      'images/proj3.png',
+      'images/proj2.png',
+      'images/proj1.png',
+      'images/proj5.png'
+    ];
+
+    const vertexShader = `
+      precision highp float;
+
+      attribute vec3 position;
+      attribute vec2 uv;
+      attribute vec3 normal;
+
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+      uniform mat3 normalMatrix;
+
+      uniform float uPosition;
+      uniform float uTime;
+      uniform float uSpeed;
+      uniform vec3 distortionAxis;
+      uniform vec3 rotationAxis;
+      uniform float uDistortion;
+
+      varying vec2 vUv;
+      varying vec3 vNormal;
+
+      float PI = 3.141592653589793238;
+      mat4 rotationMatrix(vec3 axis, float angle) {
+          axis = normalize(axis);
+          float s = sin(angle);
+          float c = cos(angle);
+          float oc = 1.0 - c;
+          
+          return mat4(
+            oc * axis.x * axis.x + c,         oc * axis.x * axis.y - axis.z * s,  oc * axis.z * axis.x + axis.y * s,  0.0,
+            oc * axis.x * axis.y + axis.z * s,oc * axis.y * axis.y + c,           oc * axis.y * axis.z - axis.x * s,  0.0,
+            oc * axis.z * axis.x - axis.y * s,oc * axis.y * axis.z + axis.x * s,  oc * axis.z * axis.z + c,           0.0,
+            0.0,                              0.0,                                0.0,                                1.0
+          );
+      }
+
+      vec3 rotate(vec3 v, vec3 axis, float angle) {
+        mat4 m = rotationMatrix(axis, angle);
+        return (m * vec4(v, 1.0)).xyz;
+      }
+
+      float qinticInOut(float t) {
+        return t < 0.5
+          ? 16.0 * pow(t, 5.0)
+          : -0.5 * abs(pow(2.0 * t - 2.0, 5.0)) + 1.0;
+      }
+
+      void main() {
+        vUv = uv;
+        
+        float norm = 0.5;
+        vec3 newpos = position;
+        float offset = (dot(distortionAxis, position) + norm / 2.) / norm;
+        float localprogress = clamp(
+          (fract(uPosition * 5.0 * 0.01) - 0.01 * uDistortion * offset) / (1. - 0.01 * uDistortion),
+          0.,
+          2.
+        );
+        localprogress = qinticInOut(localprogress) * PI;
+        newpos = rotate(newpos, rotationAxis, localprogress);
+
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(newpos, 1.0);
+      }
+    `;
+
+    const fragmentShader = `
+      precision highp float;
+
+      uniform vec2 uImageSize;
+      uniform vec2 uPlaneSize;
+      uniform sampler2D tMap;
+
+      varying vec2 vUv;
+
+      void main() {
+        vec2 imageSize = uImageSize;
+        vec2 planeSize = uPlaneSize;
+
+        float imageAspect = imageSize.x / imageSize.y;
+        float planeAspect = planeSize.x / planeSize.y;
+        vec2 scale = vec2(1.0, 1.0);
+
+        if (planeAspect > imageAspect) {
+            scale.x = imageAspect / planeAspect;
+        } else {
+            scale.y = planeAspect / imageAspect;
+        }
+
+        vec2 uv = vUv * scale + (1.0 - scale) * 0.5;
+
+        gl_FragColor = texture2D(tMap, uv);
+      }
+    `;
+
+    function lerp(p1, p2, t) {
+      return p1 + (p2 - p1) * t;
+    }
+
+    function map(num, min1, max1, min2, max2, round = false) {
+      const num1 = (num - min1) / (max1 - min1);
+      const num2 = num1 * (max2 - min2) + min2;
+      return round ? Math.round(num2) : num2;
+    }
+
+    class Media {
+      constructor({ gl, geometry, scene, screen, viewport, image, length, index, planeWidth, planeHeight, distortion }) {
+        this.extra = 0;
+        this.gl = gl;
+        this.geometry = geometry;
+        this.scene = scene;
+        this.screen = screen;
+        this.viewport = viewport;
+        this.image = image;
+        this.length = length;
+        this.index = index;
+        this.planeWidth = planeWidth;
+        this.planeHeight = planeHeight;
+        this.distortion = distortion;
+
+        this.createShader();
+        this.createMesh();
+        this.onResize();
+      }
+
+      createShader() {
+        const texture = new Texture(this.gl, { generateMipmaps: false });
+
+        this.program = new Program(this.gl, {
+          depthTest: false,
+          depthWrite: false,
+          fragment: fragmentShader,
+          vertex: vertexShader,
+          uniforms: {
+            tMap: { value: texture },
+            uPosition: { value: 0 },
+            uPlaneSize: { value: [0, 0] },
+            uImageSize: { value: [0, 0] },
+            uSpeed: { value: 0 },
+            rotationAxis: { value: [0, 1, 0] },
+            distortionAxis: { value: [1, 1, 0] },
+            uDistortion: { value: this.distortion },
+            uViewportSize: { value: [this.viewport.width, this.viewport.height] },
+            uTime: { value: 0 }
+          },
+          cullFace: false
+        });
+
+        const img = new Image();
+        img.src = this.image;
+        img.onload = () => {
+          texture.image = img;
+          this.program.uniforms.uImageSize.value = [img.naturalWidth || 500, img.naturalHeight || 500];
+        };
+      }
+
+      createMesh() {
+        this.plane = new Mesh(this.gl, {
+          geometry: this.geometry,
+          program: this.program
+        });
+        this.plane.setParent(this.scene);
+      }
+
+      setScale() {
+        this.plane.scale.x = (this.viewport.width * this.planeWidth) / this.screen.width;
+        this.plane.scale.y = (this.viewport.height * this.planeHeight) / this.screen.height;
+
+        this.plane.position.x = 0;
+        this.plane.program.uniforms.uPlaneSize.value = [this.plane.scale.x, this.plane.scale.y];
+      }
+
+      onResize({ screen, viewport } = {}) {
+        if (screen) this.screen = screen;
+        if (viewport) {
+          this.viewport = viewport;
+          this.plane.program.uniforms.uViewportSize.value = [this.viewport.width, this.viewport.height];
+        }
+        this.setScale();
+
+        this.padding = 4;
+        this.height = this.plane.scale.y + this.padding;
+        this.heightTotal = this.height * this.length;
+
+        this.y = -this.heightTotal / 2 + (this.index + 0.5) * this.height;
+      }
+
+      update(scroll) {
+        this.plane.position.y = this.y - scroll.current - this.extra;
+
+        const position = map(this.plane.position.y, -this.viewport.height, this.viewport.height, 5, 15);
+
+        this.program.uniforms.uPosition.value = position;
+        this.program.uniforms.uTime.value += 0.04;
+        this.program.uniforms.uSpeed.value = scroll.current;
+
+        const planeHeight = this.plane.scale.y;
+        const viewportHeight = this.viewport.height;
+
+        const topEdge = this.plane.position.y + planeHeight / 2;
+        const bottomEdge = this.plane.position.y - planeHeight / 2;
+
+        if (topEdge < -viewportHeight / 2) {
+          this.extra -= this.heightTotal;
+        } else if (bottomEdge > viewportHeight / 2) {
+          this.extra += this.heightTotal;
+        }
+      }
+    }
+
+    class CanvasEngine {
+      constructor() {
+        this.container = container;
+        this.canvas = canvas;
+        this.items = items;
+        this.planeWidth = 320;
+        this.planeHeight = 320;
+        this.distortion = 3;
+        this.scroll = { ease: 0.01, current: 0, target: 0, last: 0 };
+        this.cameraFov = 49;
+        this.cameraZ = 24;
+
+        this.createRenderer();
+        this.createCamera();
+        this.createScene();
+        this.onResize();
+
+        this.createGeometry();
+        this.createMedias();
+        this.update();
+        this.addEventListeners();
+      }
+
+      createRenderer() {
+        this.renderer = new Renderer({
+          canvas: this.canvas,
+          alpha: true,
+          antialias: true,
+          dpr: Math.min(window.devicePixelRatio, 2)
+        });
+        this.gl = this.renderer.gl;
+      }
+
+      createCamera() {
+        this.camera = new Camera(this.gl);
+        this.camera.fov = this.cameraFov;
+        this.camera.position.z = this.cameraZ;
+      }
+
+      createScene() {
+        this.scene = new Transform();
+      }
+
+      createGeometry() {
+        this.planeGeometry = new Plane(this.gl, { heightSegments: 1, widthSegments: 100 });
+      }
+
+      createMedias() {
+        this.medias = this.items.map((image, index) => {
+          return new Media({
+            gl: this.gl,
+            geometry: this.planeGeometry,
+            scene: this.scene,
+            screen: this.screen,
+            viewport: this.viewport,
+            image,
+            length: this.items.length,
+            index,
+            planeWidth: this.planeWidth,
+            planeHeight: this.planeHeight,
+            distortion: this.distortion
+          });
+        });
+      }
+
+      onResize() {
+        const rect = this.container.getBoundingClientRect();
+        this.screen = { width: rect.width || window.innerWidth, height: rect.height || 600 };
+
+        this.renderer.setSize(this.screen.width, this.screen.height);
+
+        this.camera.perspective({ aspect: this.gl.canvas.width / this.gl.canvas.height });
+
+        const fov = (this.camera.fov * Math.PI) / 180;
+        const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+        const width = height * this.camera.aspect;
+
+        this.viewport = { height, width };
+
+        if (this.medias) {
+          this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+        }
+      }
+
+      onTouchDown(e) {
+        this.isDown = true;
+        this.scroll.position = this.scroll.current;
+        this.start = e.touches ? e.touches[0].clientY : e.clientY;
+      }
+
+      onTouchMove(e) {
+        if (!this.isDown) return;
+        const y = e.touches ? e.touches[0].clientY : e.clientY;
+        const distance = (this.start - y) * 0.1;
+        this.scroll.target = this.scroll.position + distance;
+      }
+
+      onTouchUp() {
+        this.isDown = false;
+      }
+
+      onWheel(e) {
+        const speed = e.deltaY;
+        this.scroll.target += speed * 0.005;
+      }
+
+      update() {
+        this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+
+        if (this.medias) {
+          this.medias.forEach(media => media.update(this.scroll));
+        }
+        this.renderer.render({ scene: this.scene, camera: this.camera });
+        this.scroll.last = this.scroll.current;
+        requestAnimationFrame(this.update.bind(this));
+      }
+
+      addEventListeners() {
+        window.addEventListener('resize', this.onResize.bind(this));
+        
+        container.addEventListener('wheel', this.onWheel.bind(this), { passive: true });
+
+        container.addEventListener('mousedown', this.onTouchDown.bind(this));
+        window.addEventListener('mousemove', this.onTouchMove.bind(this));
+        window.addEventListener('mouseup', this.onTouchUp.bind(this));
+
+        container.addEventListener('touchstart', this.onTouchDown.bind(this), { passive: true });
+        window.addEventListener('touchmove', this.onTouchMove.bind(this), { passive: true });
+        window.addEventListener('touchend', this.onTouchUp.bind(this));
+      }
+    }
+
+    new CanvasEngine();
   });
 })();
 </script>
