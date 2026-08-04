@@ -1602,52 +1602,6 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-
-.posters-overlay-content {
-  position: absolute;
-  top: 14%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 10;
-  pointer-events: none;
-  width: 90%;
-  max-width: 900px;
-}
-
-.posters-eyebrow {
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.25em;
-  color: var(--accent);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-
-.posters-title {
-  font-family: 'Inter', 'Space Grotesk', sans-serif;
-  font-size: clamp(2.4rem, 5.5vw, 4.8rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  color: #fff;
-  line-height: 1;
-}
-.posters-title em {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent2);
-}
-
-.posters-hint {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
-  margin-top: 0.8rem;
-  font-family: 'Space Grotesk', sans-serif;
-  letter-spacing: 0.05em;
-}
-
 </style>
 </head>
 <body>
@@ -1691,11 +1645,6 @@ body.theme-transition, body.theme-transition * {
 <section class="flying-posters-hero">
   <div class="posters-container" id="postersContainer">
     <canvas id="postersCanvas" class="posters-canvas"></canvas>
-  </div>
-  <div class="posters-overlay-content reveal">
-    <p class="posters-eyebrow">— INTERACTIVE WORK GALLERY</p>
-    <h1 class="posters-title">FLYING <em>POSTERS</em></h1>
-    <p class="posters-hint">Drag or scroll up & down to explore 3D distorted project showcases ↕</p>
   </div>
 </section>
 
@@ -3093,11 +3042,10 @@ document.addEventListener('keydown', e => {
         });
 
         const img = new Image();
-        img.crossOrigin = 'anonymous';
         img.src = this.image;
         img.onload = () => {
           texture.image = img;
-          this.program.uniforms.uImageSize.value = [img.naturalWidth, img.naturalHeight];
+          this.program.uniforms.uImageSize.value = [img.naturalWidth || 500, img.naturalHeight || 500];
         };
       }
 
