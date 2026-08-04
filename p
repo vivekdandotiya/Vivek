@@ -1572,8 +1572,12 @@ body.theme-transition, body.theme-transition * {
 .sec-flying-posters {
   position: relative;
   width: 100vw;
-  height: 600px;
+  height: 650px;
+  min-height: 550px;
   background: #060608;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(0, 242, 254, 0.08), transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(184, 255, 87, 0.08), transparent 50%);
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   cursor: grab;
@@ -1584,12 +1588,16 @@ body.theme-transition, body.theme-transition * {
 }
 
 .posters-container {
-  position: relative;
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
 }
 
 .posters-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   display: block;
@@ -2877,7 +2885,9 @@ document.addEventListener('keydown', e => {
 
         vec2 uv = vUv * scale + (1.0 - scale) * 0.5;
 
-        gl_FragColor = texture2D(tMap, uv);
+        vec4 texColor = texture2D(tMap, uv);
+        vec4 fallbackColor = vec4(0.08, 0.1, 0.15, 0.95);
+        gl_FragColor = mix(fallbackColor, texColor, texColor.a);
       }
     `;
 
@@ -2909,6 +2919,10 @@ document.addEventListener('keydown', e => {
         this.distortion = 3;
 
         this.texture = textureLoader.load(image, (tex) => {
+          tex.needsUpdate = true;
+          tex.minFilter = THREE.LinearFilter;
+          tex.magFilter = THREE.LinearFilter;
+          tex.generateMipmaps = false;
           if (tex.image) {
             this.material.uniforms.uImageSize.value.set(tex.image.width || 500, tex.image.height || 500);
           }
@@ -2942,10 +2956,10 @@ document.addEventListener('keydown', e => {
 
       setScale() {
         const screenW = container.clientWidth || window.innerWidth;
-        const screenH = container.clientHeight || 600;
+        const screenH = container.clientHeight || 650;
 
-        this.mesh.scale.x = (viewportWidth * this.planeWidth) / screenW;
-        this.mesh.scale.y = (viewportHeight * this.planeHeight) / screenH;
+        this.mesh.scale.x = (viewportWidth * 420) / screenW;
+        this.mesh.scale.y = (viewportHeight * 420) / screenH;
 
         this.mesh.position.x = 0;
         this.material.uniforms.uPlaneSize.value.set(this.mesh.scale.x, this.mesh.scale.y);
@@ -2953,7 +2967,7 @@ document.addEventListener('keydown', e => {
 
       onResize() {
         this.setScale();
-        this.padding = 4.5;
+        this.padding = 1.4;
         this.height = this.mesh.scale.y + this.padding;
         this.heightTotal = this.height * this.length;
 
