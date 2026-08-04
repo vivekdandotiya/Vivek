@@ -2767,17 +2767,34 @@ document.addEventListener('keydown', e => {
   });
 })();
 
-// ==================== 3D FLYING POSTERS THREE.JS SHADER ENGINE ====================
-(function initThreeFlyingPosters() {
+// ==================== 3D FLYING POSTERS OGL SHADER ENGINE ====================
+(function initOGLFlyingPosters() {
   function startEngine() {
     const container = document.getElementById('postersContainer');
     const canvas = document.getElementById('postersCanvas');
     if (!container || !canvas) return;
 
-    if (typeof THREE === 'undefined') {
+    if (typeof OGL === 'undefined' && !window.OGL && !window.ogl) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/ogl@0.0.103/dist/ogl.umd.js';
+      script.onload = () => setTimeout(startEngine, 20);
+      script.onerror = () => {
+        const script2 = document.createElement('script');
+        script2.src = 'https://unpkg.com/ogl';
+        script2.onload = () => setTimeout(startEngine, 20);
+        document.head.appendChild(script2);
+      };
+      document.head.appendChild(script);
+      return;
+    }
+
+    const OGLObj = window.OGL || window.ogl || (typeof OGL !== 'undefined' ? OGL : null);
+    if (!OGLObj) {
       setTimeout(startEngine, 50);
       return;
     }
+
+    const { Renderer, Camera, Transform, Plane, Program, Mesh, Texture } = OGLObj;
 
     const items = [
       'images/varta_mockup.png',
@@ -2792,23 +2809,17 @@ document.addEventListener('keydown', e => {
       'images/proj1.png'
     ];
 
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(49, window.innerWidth / (container.clientHeight || 600), 0.1, 1000);
-    camera.position.z = 24;
-
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true,
-      antialias: true
-    });
-    const width = container.clientWidth || window.innerWidth;
-    const height = container.clientHeight || 600;
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    const planeGeometry = new THREE.PlaneGeometry(1, 1, 100, 1);
-
     const vertexShader = `
+      precision highp float;
+
+      attribute vec3 position;
+      attribute vec2 uv;
+      attribute vec3 normal;
+
+      uniform mat4 modelViewMatrix;
+      uniform mat4 projectionMatrix;
+      uniform mat3 normalMatrix;
+
       uniform float uPosition;
       uniform float uTime;
       uniform float uSpeed;
@@ -2864,6 +2875,8 @@ document.addEventListener('keydown', e => {
     `;
 
     const fragmentShader = `
+      precision highp float;
+
       uniform vec2 uImageSize;
       uniform vec2 uPlaneSize;
       uniform sampler2D tMap;
@@ -2886,9 +2899,7 @@ document.addEventListener('keydown', e => {
 
         vec2 uv = vUv * scale + (1.0 - scale) * 0.5;
 
-        vec4 texColor = texture2D(tMap, uv);
-        vec4 fallbackColor = vec4(0.08, 0.1, 0.15, 0.95);
-        gl_FragColor = mix(fallbackColor, texColor, texColor.a);
+        gl_FragColor = texture2D(tMap, uv);
       }
     `;
 
@@ -2902,92 +2913,105 @@ document.addEventListener('keydown', e => {
       return round ? Math.round(num2) : num2;
     }
 
-    const fov = (camera.fov * Math.PI) / 180;
-    let viewportHeight = 2 * Math.tan(fov / 2) * camera.position.z;
-    let viewportWidth = viewportHeight * camera.aspect;
-
-    const textureLoader = new THREE.TextureLoader();
-
-    class MediaItem {
-      constructor({ scene, image, length, index }) {
+    class Media {
+      constructor({ gl, geometry, scene, screen, viewport, image, length, index, planeWidth, planeHeight, distortion }) {
         this.extra = 0;
+        this.gl = gl;
+        this.geometry = geometry;
         this.scene = scene;
+        this.screen = screen;
+        this.viewport = viewport;
         this.image = image;
         this.length = length;
         this.index = index;
-        this.planeWidth = 320;
-        this.planeHeight = 320;
-        this.distortion = 3;
+        this.planeWidth = planeWidth;
+        this.planeHeight = planeHeight;
+        this.distortion = distortion;
 
-        this.texture = textureLoader.load(image, (tex) => {
-          tex.needsUpdate = true;
-          tex.minFilter = THREE.LinearFilter;
-          tex.magFilter = THREE.LinearFilter;
-          tex.generateMipmaps = false;
-          if (tex.image) {
-            this.material.uniforms.uImageSize.value.set(tex.image.width || 500, tex.image.height || 500);
-          }
-        });
-
-        this.material = new THREE.ShaderMaterial({
-          depthTest: false,
-          depthWrite: false,
-          fragmentShader: fragmentShader,
-          vertexShader: vertexShader,
-          uniforms: {
-            tMap: { value: this.texture },
-            uPosition: { value: 0 },
-            uPlaneSize: { value: new THREE.Vector2(1, 1) },
-            uImageSize: { value: new THREE.Vector2(500, 500) },
-            uSpeed: { value: 0 },
-            rotationAxis: { value: new THREE.Vector3(0, 1, 0) },
-            distortionAxis: { value: new THREE.Vector3(1, 1, 0) },
-            uDistortion: { value: this.distortion },
-            uViewportSize: { value: new THREE.Vector2(viewportWidth, viewportHeight) },
-            uTime: { value: 0 }
-          },
-          side: THREE.DoubleSide,
-          transparent: true
-        });
-
-        this.mesh = new THREE.Mesh(planeGeometry, this.material);
-        this.scene.add(this.mesh);
+        this.createShader();
+        this.createMesh();
         this.onResize();
       }
 
-      setScale() {
-        const screenW = container.clientWidth || window.innerWidth;
-        const screenH = container.clientHeight || 650;
+      createShader() {
+        const texture = new Texture(this.gl, {
+          generateMipmaps: false
+        });
 
-        this.mesh.scale.x = (viewportWidth * 420) / screenW;
-        this.mesh.scale.y = (viewportHeight * 420) / screenH;
+        this.program = new Program(this.gl, {
+          depthTest: false,
+          depthWrite: false,
+          fragment: fragmentShader,
+          vertex: vertexShader,
+          uniforms: {
+            tMap: { value: texture },
+            uPosition: { value: 0 },
+            uPlaneSize: { value: [0, 0] },
+            uImageSize: { value: [0, 0] },
+            uSpeed: { value: 0 },
+            rotationAxis: { value: [0, 1, 0] },
+            distortionAxis: { value: [1, 1, 0] },
+            uDistortion: { value: this.distortion },
+            uViewportSize: { value: [this.viewport.width, this.viewport.height] },
+            uTime: { value: 0 }
+          },
+          cullFace: false
+        });
 
-        this.mesh.position.x = 0;
-        this.material.uniforms.uPlaneSize.value.set(this.mesh.scale.x, this.mesh.scale.y);
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = this.image;
+        img.onload = () => {
+          texture.image = img;
+          this.program.uniforms.uImageSize.value = [img.naturalWidth || 500, img.naturalHeight || 500];
+        };
       }
 
-      onResize() {
+      createMesh() {
+        this.plane = new Mesh(this.gl, {
+          geometry: this.geometry,
+          program: this.program
+        });
+        this.plane.setParent(this.scene);
+      }
+
+      setScale() {
+        this.plane.scale.x = (this.viewport.width * this.planeWidth) / this.screen.width;
+        this.plane.scale.y = (this.viewport.height * this.planeHeight) / this.screen.height;
+
+        this.plane.position.x = 0;
+        this.plane.program.uniforms.uPlaneSize.value = [this.plane.scale.x, this.plane.scale.y];
+      }
+
+      onResize({ screen, viewport } = {}) {
+        if (screen) this.screen = screen;
+        if (viewport) {
+          this.viewport = viewport;
+          this.plane.program.uniforms.uViewportSize.value = [this.viewport.width, this.viewport.height];
+        }
         this.setScale();
-        this.padding = 1.4;
-        this.height = this.mesh.scale.y + this.padding;
+
+        this.padding = 4;
+        this.height = this.plane.scale.y + this.padding;
         this.heightTotal = this.height * this.length;
 
         this.y = -this.heightTotal / 2 + (this.index + 0.5) * this.height;
       }
 
       update(scroll) {
-        this.mesh.position.y = this.y - scroll.current - this.extra;
+        this.plane.position.y = this.y - scroll.current - this.extra;
 
-        const posVal = (this.mesh.position.y + scroll.current * 1.2) * 0.25 + 5.0;
+        const position = map(this.plane.position.y, -this.viewport.height, this.viewport.height, 5, 15);
 
-        this.material.uniforms.uPosition.value = posVal;
-        this.material.uniforms.uTime.value += 0.04;
-        this.material.uniforms.uSpeed.value = scroll.current;
+        this.program.uniforms.uPosition.value = position;
+        this.program.uniforms.uTime.value += 0.04;
+        this.program.uniforms.uSpeed.value = scroll.current;
 
-        const planeH = this.mesh.scale.y;
+        const planeHeight = this.plane.scale.y;
+        const viewportHeight = this.viewport.height;
 
-        const topEdge = this.mesh.position.y + planeH / 2;
-        const bottomEdge = this.mesh.position.y - planeH / 2;
+        const topEdge = this.plane.position.y + planeHeight / 2;
+        const bottomEdge = this.plane.position.y - planeHeight / 2;
 
         if (topEdge < -viewportHeight / 2) {
           this.extra -= this.heightTotal;
@@ -2997,68 +3021,168 @@ document.addEventListener('keydown', e => {
       }
     }
 
-    const medias = items.map((img, i) => new MediaItem({ scene, image: img, length: items.length, index: i }));
+    class Canvas {
+      constructor({ container, canvas, items, planeWidth, planeHeight, distortion, scrollEase, cameraFov, cameraZ }) {
+        this.container = container;
+        this.canvas = canvas;
+        this.items = items;
+        this.planeWidth = planeWidth || 320;
+        this.planeHeight = planeHeight || 320;
+        this.distortion = distortion || 3;
+        this.scroll = {
+          ease: scrollEase || 0.01,
+          current: 0,
+          target: 0,
+          last: 0
+        };
+        this.cameraFov = cameraFov || 49;
+        this.cameraZ = cameraZ || 24;
 
-    const scroll = { ease: 0.035, current: 0, target: 5.0, last: 0 };
-    let isDown = false;
-    let startY = 0;
-    let scrollPos = 0;
+        this.onResize = this.onResize.bind(this);
+        this.onWheel = this.onWheel.bind(this);
+        this.onTouchDown = this.onTouchDown.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onTouchUp = this.onTouchUp.bind(this);
+        this.update = this.update.bind(this);
 
-    function onResize() {
-      const w = container.clientWidth || window.innerWidth;
-      const h = container.clientHeight || 600;
-      renderer.setSize(w, h);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
+        this.createRenderer();
+        this.createCamera();
+        this.createScene();
+        this.onResize();
 
-      viewportHeight = 2 * Math.tan(fov / 2) * camera.position.z;
-      viewportWidth = viewportHeight * camera.aspect;
+        this.createGeometry();
+        this.createMedias();
+        this.update();
+        this.addEventListeners();
+      }
 
-      medias.forEach(m => m.onResize());
+      createRenderer() {
+        this.renderer = new Renderer({
+          canvas: this.canvas,
+          alpha: true,
+          antialias: true,
+          dpr: Math.min(window.devicePixelRatio, 2)
+        });
+        this.gl = this.renderer.gl;
+      }
+
+      createCamera() {
+        this.camera = new Camera(this.gl);
+        this.camera.fov = this.cameraFov;
+        this.camera.position.z = this.cameraZ;
+      }
+
+      createScene() {
+        this.scene = new Transform();
+      }
+
+      createGeometry() {
+        this.planeGeometry = new Plane(this.gl, {
+          heightSegments: 1,
+          widthSegments: 100
+        });
+      }
+
+      createMedias() {
+        this.medias = this.items.map((image, index) => {
+          return new Media({
+            gl: this.gl,
+            geometry: this.planeGeometry,
+            scene: this.scene,
+            screen: this.screen,
+            viewport: this.viewport,
+            image,
+            length: this.items.length,
+            index,
+            planeWidth: this.planeWidth,
+            planeHeight: this.planeHeight,
+            distortion: this.distortion
+          });
+        });
+      }
+
+      onResize() {
+        const rect = this.container.getBoundingClientRect();
+        this.screen = {
+          width: rect.width || window.innerWidth,
+          height: rect.height || 600
+        };
+
+        this.renderer.setSize(this.screen.width, this.screen.height);
+
+        this.camera.perspective({
+          aspect: this.gl.canvas.width / this.gl.canvas.height
+        });
+
+        const fov = (this.camera.fov * Math.PI) / 180;
+        const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+        const width = height * this.camera.aspect;
+
+        this.viewport = { height, width };
+
+        if (this.medias) {
+          this.medias.forEach(media => media.onResize({ screen: this.screen, viewport: this.viewport }));
+        }
+      }
+
+      onTouchDown(e) {
+        this.isDown = true;
+        this.scroll.position = this.scroll.current;
+        this.start = e.touches ? e.touches[0].clientY : e.clientY;
+      }
+
+      onTouchMove(e) {
+        if (!this.isDown) return;
+        const y = e.touches ? e.touches[0].clientY : e.clientY;
+        const distance = (this.start - y) * 0.1;
+        this.scroll.target = this.scroll.position + distance;
+      }
+
+      onTouchUp() {
+        this.isDown = false;
+      }
+
+      onWheel(e) {
+        const speed = e.deltaY;
+        this.scroll.target += speed * 0.005;
+      }
+
+      update() {
+        this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+
+        if (this.medias) {
+          this.medias.forEach(media => media.update(this.scroll));
+        }
+        this.renderer.render({ scene: this.scene, camera: this.camera });
+        this.scroll.last = this.scroll.current;
+        requestAnimationFrame(this.update);
+      }
+
+      addEventListeners() {
+        window.addEventListener('resize', this.onResize);
+        this.container.addEventListener('wheel', this.onWheel, { passive: true });
+
+        this.container.addEventListener('mousedown', this.onTouchDown);
+        window.addEventListener('mousemove', this.onTouchMove);
+        window.addEventListener('mouseup', this.onTouchUp);
+
+        this.container.addEventListener('touchstart', this.onTouchDown, { passive: true });
+        window.addEventListener('touchmove', this.onTouchMove, { passive: true });
+        window.addEventListener('touchend', this.onTouchUp);
+      }
     }
 
-    window.addEventListener('resize', onResize);
-
-    container.addEventListener('wheel', (e) => {
-      scroll.target += e.deltaY * 0.005;
-    }, { passive: true });
-
-    container.addEventListener('mousedown', (e) => {
-      isDown = true;
-      scrollPos = scroll.current;
-      startY = e.clientY;
+    new Canvas({
+      container,
+      canvas,
+      items,
+      planeWidth: 320,
+      planeHeight: 320,
+      distortion: 3,
+      scrollEase: 0.01,
+      cameraFov: 49,
+      cameraZ: 24
     });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      const dist = (startY - e.clientY) * 0.08;
-      scroll.target = scrollPos + dist;
-    });
-
-    window.addEventListener('mouseup', () => { isDown = false; });
-
-    container.addEventListener('touchstart', (e) => {
-      isDown = true;
-      scrollPos = scroll.current;
-      startY = e.touches[0].clientY;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      if (!isDown) return;
-      const dist = (startY - e.touches[0].clientY) * 0.08;
-      scroll.target = scrollPos + dist;
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => { isDown = false; });
-
-    function animate() {
-      requestAnimationFrame(animate);
-      scroll.current = lerp(scroll.current, scroll.target, scroll.ease);
-      medias.forEach(m => m.update(scroll));
-      renderer.render(scene, camera);
-    }
-
-    animate();
   }
 
   if (document.readyState === 'loading') {
