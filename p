@@ -1612,58 +1612,36 @@ body.theme-transition, body.theme-transition * {
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   z-index: 10;
 }
 
-.strands-header {
-  text-align: center;
-  max-width: 800px;
-  margin-bottom: 3rem;
-}
-.strands-header .eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.75rem;
-}
-.strands-header h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 1rem;
-}
-.strands-header h2 em {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-.strands-header .sub {
-  font-size: 1rem;
-  color: var(--text2);
-  line-height: 1.6;
+.strands-layout-grid {
+  max-width: 1350px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
 }
 
-.strands-wrapper {
-  max-width: 1300px;
-  width: 100%;
+@media (max-width: 1024px) {
+  .strands-layout-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
 
 .strands-canvas-card {
   position: relative;
   width: 100%;
-  height: 580px;
+  height: 520px;
   background: var(--surface);
   border: 1px solid var(--border2);
-  border-radius: 20px;
+  border-radius: 24px;
   overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
 }
 
 .strands-canvas-container {
@@ -1673,13 +1651,13 @@ body.theme-transition, body.theme-transition * {
 
 .strands-badge {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 1.2rem;
+  left: 1.2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.9rem;
-  background: rgba(10, 10, 10, 0.75);
+  background: rgba(10, 10, 10, 0.8);
   backdrop-filter: blur(12px);
   border: 1px solid var(--border2);
   border-radius: 999px;
@@ -1694,6 +1672,75 @@ body.theme-transition, body.theme-transition * {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 10px var(--accent);
+}
+
+.strands-header {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+
+.strands-header .eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+}
+
+.strands-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #fff;
+}
+
+.strands-header h2 em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.strands-header .sub {
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 500px;
+}
+
+.strands-features {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+}
+
+.feature-item .feat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  font-size: 0.85rem;
 }
 </style>
 </head>
@@ -1756,19 +1803,25 @@ body.theme-transition, body.theme-transition * {
 
 <!-- SECTION: STRANDS WEBGL COMPONENT SHOWCASE -->
 <section class="sec-strands-showcase" id="strands-showcase">
-  <div class="strands-header">
-    <p class="eyebrow">✦ Interactive WebGL Component</p>
-    <h2>Animated <em>Strands</em> & Glass Shader</h2>
-    <p class="sub">Dynamic multi-strand sine wave WebGL shader with customizable color palettes, glow response, and chromatic glass lens refraction.</p>
-  </div>
-
-  <div class="strands-wrapper">
-    <!-- WebGL Canvas Box -->
+  <div class="strands-layout-grid">
+    <!-- WebGL Canvas Box (LEFT SIDE) -->
     <div class="strands-canvas-card">
       <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
       <!-- Floating Glass Badge -->
       <div class="strands-badge">
         <span class="strands-dot"></span> WebGL 2.0 Shader Engine
+      </div>
+    </div>
+
+    <!-- Header Text Block (RIGHT SIDE) -->
+    <div class="strands-header">
+      <p class="eyebrow">✦ Interactive WebGL Component</p>
+      <h2>Animated <em>Strands</em> & Glass Shader</h2>
+      <p class="sub">Dynamic multi-strand sine wave WebGL shader with customizable color palettes, glow response, and a 3D volumetric glass lens refraction orb.</p>
+      <div class="strands-features">
+        <div class="feature-item"><span class="feat-icon">⚡</span> Real-time GLSL sine waves</div>
+        <div class="feature-item"><span class="feat-icon">💎</span> 3D Volumetric drop shadow</div>
+        <div class="feature-item"><span class="feat-icon">🌈</span> Chromatic RGB dispersion</div>
       </div>
     </div>
   </div>
