@@ -1,4 +1,4 @@
-// Standalone High-Performance WebGL Shader Engine for Strands & Glass Refraction
+// Standalone High-Performance WebGL Shader Engine for Strands & 3D Glass Refraction
 (function() {
   function createStrandsEngine(containerId) {
     const ctn = document.getElementById(containerId);
@@ -158,13 +158,27 @@
         float d = length(p);
         float r = uRadius;
 
+        // 3D Soft Contact Shadow directly under sphere
+        vec2 shadowPos = p - vec2(0.0, -0.05);
+        shadowPos.x *= 1.25;
+        float shadowD = length(shadowPos);
+        float shadowAlpha = (1.0 - smoothstep(r * 0.65, r * 1.15, shadowD)) * 0.35;
+
+        vec2 sceneP = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
+        vec3 bgScene = texture2D(uScene, toUv(sceneP)).rgb;
+
+        // Darken scene underneath for soft 3D ground shadow depth
+        bgScene = mix(bgScene, bgScene * 0.30, shadowAlpha);
+
         float edge = 0.005;
         float mask = 1.0 - smoothstep(r - edge, r + edge, d);
         if (mask <= 0.0) {
-          gl_FragColor = vec4(0.0);
+          float bgLum = max(max(bgScene.r, bgScene.g), bgScene.b);
+          gl_FragColor = vec4(bgScene, clamp(bgLum + shadowAlpha * 0.3, 0.0, 1.0));
           return;
         }
 
+        // 3D Glass Lens Refraction
         float z = sqrt(max(r * r - d * d, 0.0)) / r;
         float nd = d / r;
 
@@ -178,22 +192,24 @@
         light.g = texture2D(uScene, toUv(p + offset)).g;
         light.b = texture2D(uScene, toUv(p + offset + disp)).b;
 
-        float fres = pow(1.0 - z, 3.0);
-        vec3 rim = vec3(1.0) * fres * 0.22;
+        // Fresnel Rim Light
+        float fres = pow(1.0 - z, 3.2);
+        vec3 rim = vec3(1.0) * fres * 0.28;
 
-        vec2 lightDir = normalize(vec2(-0.55, 0.6));
-        float spec = pow(max(dot(p / max(r, 1e-4), lightDir), 0.0), 6.0);
-        spec *= smoothstep(r, r * 0.55, d);
+        // Key Light 3D Specular Highlight
+        vec2 lightDir = normalize(vec2(-0.55, 0.65));
+        float spec1 = pow(max(dot(p / max(r, 1e-4), lightDir), 0.0), 8.0) * 0.5;
+        
+        // Ambient Bounce Specular Highlight
+        float spec2 = pow(max(dot(p / max(r, 1e-4), vec2(0.55, -0.6)), 0.0), 5.0) * 0.2;
 
-        vec3 emissive = light + rim + vec3(spec) * 0.45;
+        vec3 emissive = light + rim + vec3(spec1 + spec2);
         float emissiveA = clamp(max(max(emissive.r, emissive.g), emissive.b), 0.0, 1.0);
 
-        float bodyA = 0.05 + fres * 0.05;
-
+        float bodyA = 0.06 + fres * 0.08;
         float outA = emissiveA + bodyA * (1.0 - emissiveA);
-        vec3 outRGB = emissive;
 
-        outRGB *= mask;
+        vec3 outRGB = emissive * mask;
         outA *= mask;
 
         gl_FragColor = vec4(outRGB, outA);
@@ -276,7 +292,7 @@
 
     function resize() {
       const w = ctn.offsetWidth || 800;
-      const h = ctn.offsetHeight || 600;
+      const h = ctn.offsetHeight || 540;
       if (w === width && h === height) return;
       width = w;
       height = h;

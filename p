@@ -1607,20 +1607,103 @@ body.theme-transition, body.theme-transition * {
 .sec-hero-strands {
   position: relative;
   width: 100vw;
-  height: 520px;
-  min-height: 400px;
+  padding-top: 105px;
+  padding-bottom: 4rem;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-bottom: 1px solid var(--border);
   background: #060608;
   z-index: 5;
 }
 
-.sec-hero-strands #strandsCanvasContainer {
+.hero-strands-card {
+  position: relative;
+  width: min(92vw, 1280px);
+  height: 540px;
+  background: rgba(10, 10, 14, 0.75);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 
+    0 30px 90px rgba(0, 0, 0, 0.85),
+    0 0 50px rgba(184, 255, 87, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15);
+}
+
+.hero-strands-card #strandsCanvasContainer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+.card-crosshair {
+  position: absolute;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.35);
+  z-index: 10;
+  user-select: none;
+  pointer-events: none;
+}
+.card-crosshair.top-left { top: 0.8rem; left: 1rem; }
+.card-crosshair.top-right { top: 0.8rem; right: 1rem; }
+.card-crosshair.bottom-left { bottom: 0.8rem; left: 1rem; }
+.card-crosshair.bottom-right { bottom: 0.8rem; right: 1rem; }
+
+.hero-card-header {
+  position: absolute;
+  top: 1.2rem;
+  left: 2.2rem;
+  right: 2.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.header-tag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+}
+.pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.header-fps {
+  color: rgba(255, 255, 255, 0.45);
+}
+.header-fps span {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.hero-ground-shadow {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 60px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.7) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 3;
 }
 </style>
 </head>
@@ -1663,8 +1746,26 @@ body.theme-transition, body.theme-transition * {
 
 <!-- TOP HERO SECTION WITH LIVE WEBGL STRANDS & GLASS SHADER -->
 <section class="sec-hero-strands" id="hero-strands">
-  <!-- Live WebGL Strands & Glass Background Canvas -->
-  <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
+  <div class="hero-strands-card">
+    <div class="card-crosshair top-left">+</div>
+    <div class="card-crosshair top-right">+</div>
+    <div class="card-crosshair bottom-left">+</div>
+    <div class="card-crosshair bottom-right">+</div>
+
+    <div class="hero-card-header">
+      <div class="header-tag">
+        <span class="pulse-dot"></span> SHADER ENGINE // GLSL WEBGL 2.0
+      </div>
+      <div class="header-fps">
+        <span>60 FPS</span> ✦ CHROMATIC REFRACTION
+      </div>
+    </div>
+
+    <!-- Live WebGL Strands & Glass Background Canvas -->
+    <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
+
+    <div class="hero-ground-shadow"></div>
+  </div>
 </section>
 
 <!-- SECTION 3: 3D CYLINDER GALLERY GRID WALL -->
