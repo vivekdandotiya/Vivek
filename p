@@ -1617,15 +1617,10 @@ body.theme-transition, body.theme-transition * {
   z-index: 10;
 }
 
-.sec-strands-showcase .reveal {
-  opacity: 1 !important;
-  transform: none !important;
-}
-
 .strands-header {
   text-align: center;
   max-width: 800px;
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 .strands-header .eyebrow {
   font-size: 0.75rem;
@@ -1656,82 +1651,19 @@ body.theme-transition, body.theme-transition * {
 }
 
 .strands-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 2rem;
   max-width: 1300px;
   width: 100%;
-  margin-bottom: 3rem;
-}
-
-@media (max-width: 1024px) {
-  .strands-wrapper {
-    grid-template-columns: 1fr;
-  }
 }
 
 .strands-canvas-card {
   position: relative;
   width: 100%;
-  height: 520px;
+  height: 580px;
   background: var(--surface);
   border: 1px solid var(--border2);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-}
-
-.strands-bg-text {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 5;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  max-width: 220px;
-  user-select: none;
-}
-.strands-bg-text.left {
-  left: 2.5rem;
-  text-align: left;
-}
-.strands-bg-text.right {
-  right: 2.5rem;
-  text-align: right;
-  align-items: flex-end;
-}
-
-.strands-bg-text .bg-num {
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: var(--accent);
-  text-transform: uppercase;
-}
-
-.strands-bg-text .bg-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-  color: rgba(255, 255, 255, 0.92);
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
-}
-
-.strands-bg-text .bg-sub {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.55);
-  line-height: 1.4;
-}
-
-@media (max-width: 768px) {
-  .strands-bg-text {
-    display: none;
-  }
 }
 
 .strands-canvas-container {
@@ -1762,256 +1694,6 @@ body.theme-transition, body.theme-transition * {
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 10px var(--accent);
-}
-
-.strands-controls-panel {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 20px;
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-}
-
-.panel-header {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding-bottom: 0.8rem;
-  border-bottom: 1px solid var(--border);
-}
-.panel-icon {
-  font-size: 1.1rem;
-  color: var(--accent);
-}
-.panel-header h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #fff;
-}
-
-.control-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  max-height: 340px;
-  overflow-y: auto;
-  padding-right: 0.4rem;
-}
-.control-grid::-webkit-scrollbar {
-  width: 4px;
-}
-.control-grid::-webkit-scrollbar-thumb {
-  background: var(--border2);
-  border-radius: 4px;
-}
-
-.control-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-.control-group label {
-  font-size: 0.78rem;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  color: var(--text2);
-  display: flex;
-  justify-content: space-between;
-}
-.control-group label span {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.control-group input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 5px;
-  background: var(--border2);
-  border-radius: 3px;
-  outline: none;
-}
-.control-group input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--accent);
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-.control-group input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.25);
-}
-
-.toggle-switch {
-  position: relative;
-  display: inline-block;
-  width: 42px;
-  height: 22px;
-}
-.toggle-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider-toggle {
-  position: absolute;
-  cursor: pointer;
-  inset: 0;
-  background-color: var(--border2);
-  transition: .3s;
-  border-radius: 22px;
-}
-.slider-toggle:before {
-  position: absolute;
-  content: "";
-  height: 16px;
-  width: 16px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .3s;
-  border-radius: 50%;
-}
-input:checked + .slider-toggle {
-  background-color: var(--accent);
-}
-input:checked + .slider-toggle:before {
-  transform: translateX(20px);
-  background-color: #000;
-}
-
-.preset-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--border);
-}
-.preset-label {
-  font-size: 0.72rem;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  color: var(--text3);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-.preset-btn {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  color: var(--text2);
-  padding: 0.4rem 0.8rem;
-  border-radius: 8px;
-  font-size: 0.78rem;
-  font-family: 'Space Grotesk', sans-serif;
-  cursor: pointer;
-  text-align: left;
-  transition: all 0.2s;
-}
-.preset-btn:hover, .preset-btn.active {
-  background: rgba(184, 255, 87, 0.1);
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.strands-code-showcase {
-  max-width: 1300px;
-  width: 100%;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-}
-
-.code-install-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(15, 15, 15, 0.9);
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.pm-tabs {
-  display: flex;
-  gap: 0.4rem;
-}
-.pm-tab {
-  background: transparent;
-  border: none;
-  color: var(--text3);
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.85rem;
-  padding: 0.35rem 0.8rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.pm-tab:hover {
-  color: var(--text2);
-}
-.pm-tab.active {
-  background: var(--surface2);
-  color: #fff;
-}
-.install-cmd-box {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  background: #000;
-  border: 1px solid var(--border2);
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  max-width: 100%;
-}
-.install-cmd-box code {
-  font-family: 'DM Mono', monospace, monospace;
-  font-size: 0.88rem;
-  color: #e2e8f0;
-  white-space: nowrap;
-}
-.copy-btn {
-  background: transparent;
-  border: none;
-  color: var(--text2);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.3rem;
-  border-radius: 6px;
-  transition: color 0.2s, background 0.2s;
-}
-.copy-btn:hover {
-  color: var(--accent);
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.code-usage-box {
-  padding: 1.5rem;
-  background: #0a0a0a;
-}
-.code-usage-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.82rem;
-  color: var(--text3);
-}
-.code-usage-box pre {
-  margin: 0;
-  font-family: 'DM Mono', monospace, monospace;
-  font-size: 0.88rem;
-  line-height: 1.6;
-  color: #e2e8f0;
-  overflow-x: auto;
 }
 </style>
 </head>
@@ -2074,148 +1756,20 @@ input:checked + .slider-toggle:before {
 
 <!-- SECTION: STRANDS WEBGL COMPONENT SHOWCASE -->
 <section class="sec-strands-showcase" id="strands-showcase">
-  <div class="strands-header reveal">
+  <div class="strands-header">
     <p class="eyebrow">✦ Interactive WebGL Component</p>
     <h2>Animated <em>Strands</em> & Glass Shader</h2>
     <p class="sub">Dynamic multi-strand sine wave WebGL shader with customizable color palettes, glow response, and chromatic glass lens refraction.</p>
   </div>
 
-  <div class="strands-wrapper reveal">
+  <div class="strands-wrapper">
     <!-- WebGL Canvas Box -->
     <div class="strands-canvas-card">
-      <!-- Left Side Typography Overlay -->
-      <div class="strands-bg-text left">
-        <span class="bg-num">01 // CREATIVE CODE</span>
-        <h3 class="bg-title">DYNAMIC<br>WAVES</h3>
-        <p class="bg-sub">GLSL Multi-strand sin waves</p>
-      </div>
-
-      <!-- Right Side Typography Overlay -->
-      <div class="strands-bg-text right">
-        <span class="bg-num">02 // CHROMATIC LENS</span>
-        <h3 class="bg-title">GLASS<br>REFRACTION</h3>
-        <p class="bg-sub">RGB dispersion & fresnel rim</p>
-      </div>
-
       <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
-
-      <!-- Floating Glass Controls Badge -->
+      <!-- Floating Glass Badge -->
       <div class="strands-badge">
         <span class="strands-dot"></span> WebGL 2.0 Shader Engine
       </div>
-    </div>
-
-    <!-- Interactive Parameter Control Panel -->
-    <div class="strands-controls-panel">
-      <div class="panel-header">
-        <span class="panel-icon">⚙</span>
-        <h3>Live Shader Parameters</h3>
-      </div>
-      
-      <div class="control-grid">
-        <div class="control-group">
-          <label>Strand Count: <span id="valCount">10</span></label>
-          <input type="range" id="paramCount" min="1" max="12" step="1" value="10">
-        </div>
-        <div class="control-group">
-          <label>Speed: <span id="valSpeed">0.3</span></label>
-          <input type="range" id="paramSpeed" min="0.05" max="1.5" step="0.05" value="0.3">
-        </div>
-        <div class="control-group">
-          <label>Amplitude: <span id="valAmplitude">1.6</span></label>
-          <input type="range" id="paramAmplitude" min="0.1" max="3" step="0.1" value="1.6">
-        </div>
-        <div class="control-group">
-          <label>Waviness: <span id="valWaviness">0.8</span></label>
-          <input type="range" id="paramWaviness" min="0.1" max="3" step="0.1" value="0.8">
-        </div>
-        <div class="control-group">
-          <label>Thickness: <span id="valThickness">1.1</span></label>
-          <input type="range" id="paramThickness" min="0.1" max="2.5" step="0.1" value="1.1">
-        </div>
-        <div class="control-group">
-          <label>Glow: <span id="valGlow">3.0</span></label>
-          <input type="range" id="paramGlow" min="0.5" max="6" step="0.1" value="3">
-        </div>
-        <div class="control-group" style="flex-direction:row;justify-content:space-between;align-items:center;">
-          <label style="margin:0;">Glass Refraction</label>
-          <label class="toggle-switch">
-            <input type="checkbox" id="paramGlass" checked>
-            <span class="slider-toggle"></span>
-          </label>
-        </div>
-        <div class="control-group">
-          <label>Refraction: <span id="valRefraction">0.5</span></label>
-          <input type="range" id="paramRefraction" min="0" max="2" step="0.05" value="0.5">
-        </div>
-        <div class="control-group">
-          <label>Dispersion: <span id="valDispersion">4.0</span></label>
-          <input type="range" id="paramDispersion" min="0" max="8" step="0.2" value="4">
-        </div>
-        <div class="control-group">
-          <label>Glass Size: <span id="valGlassSize">0.48</span></label>
-          <input type="range" id="paramGlassSize" min="0.1" max="0.9" step="0.02" value="0.48">
-        </div>
-      </div>
-      
-      <div class="preset-buttons">
-        <span class="preset-label">Color Presets:</span>
-        <button class="preset-btn active" data-colors="#F97316,#7C3AED,#06B6D4">Sunset Dusk</button>
-        <button class="preset-btn" data-colors="#FF4242,#7C3AED,#06B6D4,#EAB308">Neon Quad</button>
-        <button class="preset-btn" data-colors="#b8ff57,#06B6D4,#3B82F6">Acid Wave</button>
-        <button class="preset-btn" data-colors="#EC4899,#8B5CF6,#6366F1">Cyber Pink</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Component Installation & Code Usage Box -->
-  <div class="strands-code-showcase reveal">
-    <div class="code-install-bar">
-      <div class="pm-tabs">
-        <button class="pm-tab active" data-pm="pnpm">pnpm</button>
-        <button class="pm-tab" data-pm="npm">npm</button>
-        <button class="pm-tab" data-pm="yarn">yarn</button>
-        <button class="pm-tab" data-pm="bun">bun</button>
-      </div>
-      <div class="install-cmd-box">
-        <code id="installCmdText">pnpm dlx shadcn@latest add @react-bits/Strands-JS-CSS</code>
-        <button class="copy-btn" id="copyInstallBtn" title="Copy command">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        </button>
-      </div>
-    </div>
-
-    <div class="code-usage-box">
-      <div class="code-usage-header">
-        <span>Usage (with your settings)</span>
-        <button class="copy-btn" id="copyUsageBtn" title="Copy code">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        </button>
-      </div>
-      <pre><code class="language-jsx" id="usageCodeBlock">import Strands from './Strands';
-
-&lt;div style={{ width: '100%', height: '600px', position: 'relative' }}&gt;
-  &lt;Strands
-    colors={["#F97316","#7C3AED","#06B6D4"]}
-    count={10}
-    speed={0.3}
-    amplitude={1.6}
-    waviness={0.8}
-    thickness={1.1}
-    glow={3}
-    taper={2.3}
-    spread={1.5}
-    intensity={0}
-    saturation={2}
-    opacity={1}
-    scale={0.7}
-    glass
-    refraction={0.5}
-    dispersion={4}
-    glassSize={0.48}
-    hueShift={0.13}
-  /&gt;
-&lt;/div&gt;</code></pre>
     </div>
   </div>
 </section>

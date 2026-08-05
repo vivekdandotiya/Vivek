@@ -33,55 +33,6 @@
       -1,  1,  1, -1,  1,  1
     ]), gl.STATIC_DRAW);
 
-    // 2D Text Canvas for Refracted Text Pass
-    const textCanvas = document.createElement('canvas');
-    const textCtx = textCanvas.getContext('2d');
-    let textTexture = gl.createTexture();
-
-    function updateTextTexture(w, h) {
-      textCanvas.width = w;
-      textCanvas.height = h;
-      textCtx.clearRect(0, 0, w, h);
-
-      // Left Text
-      textCtx.save();
-      textCtx.fillStyle = 'rgba(184, 255, 87, 0.95)';
-      textCtx.font = '700 13px "Space Grotesk", sans-serif';
-      textCtx.fillText('01 // CREATIVE CODE', 40, h / 2 - 45);
-
-      textCtx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-      textCtx.font = '800 32px "Space Grotesk", sans-serif';
-      textCtx.fillText('DYNAMIC WAVES', 40, h / 2 - 10);
-
-      textCtx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-      textCtx.font = '400 13px "Inter", sans-serif';
-      textCtx.fillText('GLSL Multi-strand sin waves', 40, h / 2 + 18);
-      textCtx.restore();
-
-      // Right Text
-      textCtx.save();
-      textCtx.textAlign = 'right';
-      textCtx.fillStyle = 'rgba(184, 255, 87, 0.95)';
-      textCtx.font = '700 13px "Space Grotesk", sans-serif';
-      textCtx.fillText('02 // CHROMATIC LENS', w - 40, h / 2 - 45);
-
-      textCtx.fillStyle = 'rgba(255, 255, 255, 0.92)';
-      textCtx.font = '800 32px "Space Grotesk", sans-serif';
-      textCtx.fillText('GLASS REFRACTION', w - 40, h / 2 - 10);
-
-      textCtx.fillStyle = 'rgba(255, 255, 255, 0.55)';
-      textCtx.font = '400 13px "Inter", sans-serif';
-      textCtx.fillText('RGB dispersion & fresnel rim', w - 40, h / 2 + 18);
-      textCtx.restore();
-
-      gl.bindTexture(gl.TEXTURE_2D, textTexture);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textCanvas);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-    }
-
     // Shaders
     const VERT = `
       attribute vec2 position;
@@ -93,7 +44,6 @@
     const FRAG = `
       precision highp float;
 
-      uniform sampler2D uTextTexture;
       uniform float uTime;
       uniform vec2 uResolution;
       uniform vec3 uColors[8];
@@ -183,13 +133,8 @@
         float gray = dot(col, vec3(0.2126, 0.7152, 0.0722));
         col = max(mix(vec3(gray), col, uSaturation), 0.0);
 
-        // Blend Background Text
-        vec2 textUv = gl_FragCoord.xy / uResolution;
-        vec4 textCol = texture2D(uTextTexture, textUv);
-        col = mix(col, textCol.rgb + col * 0.3, textCol.a * 0.95);
-
         float lum = max(max(col.r, col.g), col.b);
-        float alpha = clamp(max(lum, textCol.a), 0.0, 1.0) * uOpacity;
+        float alpha = clamp(lum, 0.0, 1.0) * uOpacity;
 
         gl_FragColor = vec4(col * uOpacity, alpha);
       }
@@ -331,7 +276,7 @@
 
     function resize() {
       const w = ctn.offsetWidth || 800;
-      const h = ctn.offsetHeight || 520;
+      const h = ctn.offsetHeight || 600;
       if (w === width && h === height) return;
       width = w;
       height = h;
@@ -340,7 +285,6 @@
       canvas.height = Math.floor(h * window.devicePixelRatio);
       gl.viewport(0, 0, canvas.width, canvas.height);
 
-      updateTextTexture(canvas.width, canvas.height);
       initFBO(canvas.width, canvas.height);
     }
 
@@ -392,10 +336,6 @@
       gl.enableVertexAttribArray(posLoc);
       gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
 
-      gl.activeTexture(gl.TEXTURE1);
-      gl.bindTexture(gl.TEXTURE_2D, textTexture);
-      gl.uniform1i(gl.getUniformLocation(strandsProg, 'uTextTexture'), 1);
-
       gl.uniform1f(gl.getUniformLocation(strandsProg, 'uTime'), time);
       gl.uniform2f(gl.getUniformLocation(strandsProg, 'uResolution'), w, h);
       gl.uniform3fv(gl.getUniformLocation(strandsProg, 'uColors'), buildPalette(params.colors));
@@ -445,125 +385,6 @@
     }
 
     requestAnimationFrame(render);
-
-    function setupControls() {
-      const bindRange = (id, labelId, prop, isFloat = true) => {
-        const input = document.getElementById(id);
-        const label = document.getElementById(labelId);
-        if (!input) return;
-        input.addEventListener('input', (e) => {
-          const val = isFloat ? parseFloat(e.target.value) : parseInt(e.target.value);
-          params[prop] = val;
-          if (label) label.textContent = val.toString();
-          updateCodeSnippet();
-        });
-      };
-
-      bindRange('paramCount', 'valCount', 'count', false);
-      bindRange('paramSpeed', 'valSpeed', 'speed');
-      bindRange('paramAmplitude', 'valAmplitude', 'amplitude');
-      bindRange('paramWaviness', 'valWaviness', 'waviness');
-      bindRange('paramThickness', 'valThickness', 'thickness');
-      bindRange('paramGlow', 'valGlow', 'glow');
-      bindRange('paramRefraction', 'valRefraction', 'refraction');
-      bindRange('paramDispersion', 'valDispersion', 'dispersion');
-      bindRange('paramGlassSize', 'valGlassSize', 'glassSize');
-
-      const glassToggle = document.getElementById('paramGlass');
-      if (glassToggle) {
-        glassToggle.addEventListener('change', (e) => {
-          params.glass = e.target.checked;
-          updateCodeSnippet();
-        });
-      }
-
-      document.querySelectorAll('.preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const cols = btn.dataset.colors.split(',');
-          params.colors = cols;
-          updateCodeSnippet();
-        });
-      });
-
-      const pmCommands = {
-        pnpm: 'pnpm dlx shadcn@latest add @react-bits/Strands-JS-CSS',
-        npm: 'npx shadcn@latest add @react-bits/Strands-JS-CSS',
-        yarn: 'npx shadcn@latest add @react-bits/Strands-JS-CSS',
-        bun: 'bunx --bun shadcn@latest add @react-bits/Strands-JS-CSS'
-      };
-
-      document.querySelectorAll('.pm-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-          document.querySelectorAll('.pm-tab').forEach(t => t.classList.remove('active'));
-          tab.classList.add('active');
-          const pm = tab.dataset.pm;
-          const cmd = pmCommands[pm] || pmCommands.npm;
-          const cmdBox = document.getElementById('installCmdText');
-          if (cmdBox) cmdBox.textContent = cmd;
-        });
-      });
-
-      const copyInstallBtn = document.getElementById('copyInstallBtn');
-      if (copyInstallBtn) {
-        copyInstallBtn.addEventListener('click', () => {
-          const txt = document.getElementById('installCmdText')?.textContent;
-          if (txt) {
-            navigator.clipboard.writeText(txt);
-            copyInstallBtn.innerHTML = `✓`;
-            setTimeout(() => {
-              copyInstallBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-            }, 2000);
-          }
-        });
-      }
-
-      const copyUsageBtn = document.getElementById('copyUsageBtn');
-      if (copyUsageBtn) {
-        copyUsageBtn.addEventListener('click', () => {
-          const txt = document.getElementById('usageCodeBlock')?.textContent;
-          if (txt) {
-            navigator.clipboard.writeText(txt);
-            copyUsageBtn.innerHTML = `✓`;
-            setTimeout(() => {
-              copyUsageBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
-            }, 2000);
-          }
-        });
-      }
-    }
-
-    function updateCodeSnippet() {
-      const codeBlock = document.getElementById('usageCodeBlock');
-      if (!codeBlock) return;
-      const colorsStr = JSON.stringify(params.colors);
-      codeBlock.textContent = `import Strands from './Strands';
-
-<div style={{ width: '100%', height: '600px', position: 'relative' }}>
-  <Strands
-    colors={${colorsStr}}
-    count={${params.count}}
-    speed={${params.speed}}
-    amplitude={${params.amplitude}}
-    waviness={${params.waviness}}
-    thickness={${params.thickness}}
-    glow={${params.glow}}
-    taper={${params.taper}}
-    spread={${params.spread}}
-    intensity={${params.intensity}}
-    saturation={${params.saturation}}
-    opacity={${params.opacity}}
-    scale={${params.scale}}${params.glass ? '\n    glass' : ''}
-    refraction={${params.refraction}}
-    dispersion={${params.dispersion}}
-    glassSize={${params.glassSize}}
-    hueShift={${params.hueShift}}
-  />
-</div>`;
-    }
-
-    setupControls();
   }
 
   if (document.readyState === 'loading') {
