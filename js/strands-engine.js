@@ -1,4 +1,4 @@
-// Standalone High-Performance WebGL Shader Engine for Strands & 3D Glass Refraction
+// Standalone High-Performance WebGL Shader Engine for Strands & Glass Refraction
 (function() {
   function createStrandsEngine(containerId) {
     const ctn = document.getElementById(containerId);
@@ -154,63 +154,49 @@
       }
 
       void main() {
-        // Shift glass sphere center to the LEFT side
-        vec2 glassCenter = vec2(-0.25, 0.0);
-        vec2 p = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y - glassCenter;
-        
+        vec2 p = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
         float d = length(p);
         float r = uRadius;
-
-        // 1. 3D Volumetric Drop Shadow
-        vec2 lightDir = normalize(vec2(-0.55, 0.75));
-        vec2 shadowOffset = -lightDir * r * 0.35;
-        vec2 sp = p - shadowOffset;
-        float sd = length(sp);
-        
-        float shadowMask = 1.0 - smoothstep(r * 0.4, r * 1.4, sd);
-        float shadowAlpha = shadowMask * 0.55;
-
-        vec2 sceneP = (gl_FragCoord.xy - 0.5 * uResolution) / uResolution.y;
-        vec3 bgScene = texture2D(uScene, toUv(sceneP)).rgb;
-
-        bgScene = mix(bgScene, bgScene * 0.20, shadowAlpha);
 
         float edge = 0.005;
         float mask = 1.0 - smoothstep(r - edge, r + edge, d);
         if (mask <= 0.0) {
-          float bgLum = max(max(bgScene.r, bgScene.g), bgScene.b);
-          gl_FragColor = vec4(bgScene, clamp(bgLum + shadowAlpha * 0.35, 0.0, 1.0));
+          gl_FragColor = vec4(0.0);
           return;
         }
 
-        // 2. 3D Glass Sphere Refraction & Lighting
         float z = sqrt(max(r * r - d * d, 0.0)) / r;
         float nd = d / r;
 
         vec2 dir = d > 0.0 ? p / d : vec2(0.0);
-        float lens = smoothstep(0.80, 1.0, nd) * pow(nd, 5.0);
+        float lens = smoothstep(0.85, 1.0, nd) * pow(nd, 6.0);
         vec2 offset = -dir * lens * uRefraction * 0.15;
-        vec2 disp = -dir * lens * uDispersion * 0.014;
+        vec2 disp = -dir * lens * uDispersion * 0.012;
 
         vec3 light;
-        light.r = texture2D(uScene, toUv(sceneP + offset - disp)).r;
-        light.g = texture2D(uScene, toUv(sceneP + offset)).g;
-        light.b = texture2D(uScene, toUv(sceneP + offset + disp)).b;
+        light.r = texture2D(uScene, toUv(p + offset - disp)).r;
+        light.g = texture2D(uScene, toUv(p + offset)).g;
+        light.b = texture2D(uScene, toUv(p + offset + disp)).b;
 
-        float fres = pow(1.0 - z, 3.5);
-        vec3 rim = vec3(1.0) * fres * 0.28;
+        float fres = pow(1.0 - z, 3.0);
+        vec3 rim = vec3(1.0) * fres * 0.22;
 
-        float spec1 = pow(max(dot(dir, -lightDir), 0.0), 16.0) * z;
-        float spec2 = pow(max(dot(dir, vec2(0.6, -0.6)), 0.0), 8.0) * 0.15;
-        float innerShadow = smoothstep(0.0, r, d) * (1.0 - z) * 0.35;
+        vec2 lightDir = normalize(vec2(-0.55, 0.6));
+        float spec = pow(max(dot(p / max(r, 1e-4), lightDir), 0.0), 6.0);
+        spec *= smoothstep(r, r * 0.55, d);
 
-        vec3 emissive = light * (1.0 - innerShadow) + rim + vec3(spec1 * 0.65 + spec2);
+        vec3 emissive = light + rim + vec3(spec) * 0.45;
         float emissiveA = clamp(max(max(emissive.r, emissive.g), emissive.b), 0.0, 1.0);
 
-        float bodyA = 0.08 + fres * 0.12;
-        float outA = emissiveA + bodyA * (1.0 - emissiveA);
+        float bodyA = 0.05 + fres * 0.05;
 
-        gl_FragColor = vec4(emissive * mask, outA * mask);
+        float outA = emissiveA + bodyA * (1.0 - emissiveA);
+        vec3 outRGB = emissive;
+
+        outRGB *= mask;
+        outA *= mask;
+
+        gl_FragColor = vec4(outRGB, outA);
       }
     `;
 
@@ -323,7 +309,7 @@
       glass: true,
       refraction: 0.5,
       dispersion: 4.0,
-      glassSize: 0.52
+      glassSize: 0.48
     };
 
     function render(t) {

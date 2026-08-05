@@ -1603,56 +1603,129 @@ body.theme-transition, body.theme-transition * {
   display: block;
 }
 
-/* ==================== STRANDS SHOWCASE STYLING ==================== */
-.sec-strands-showcase {
+/* ==================== HERO WEBGL STRANDS & GLASS SECTION ==================== */
+.sec-hero-strands {
+  position: relative;
   width: 100vw;
-  position: relative;
+  height: 85vh;
+  min-height: 560px;
+  max-height: 850px;
+  padding-top: 110px;
   overflow: hidden;
-  padding: 6rem 2rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--bg);
   display: flex;
+  align-items: center;
   justify-content: center;
-  align-items: center;
-  z-index: 10;
+  border-bottom: 1px solid var(--border);
+  background: #060608;
+  z-index: 5;
 }
 
-.strands-layout-grid {
-  max-width: 1350px;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 3.5rem;
-  align-items: center;
-}
-
-@media (max-width: 1024px) {
-  .strands-layout-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
-}
-
-.strands-canvas-card {
-  position: relative;
-  width: 100%;
-  height: 520px;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
-}
-
-.strands-canvas-container {
+.sec-hero-strands #strandsCanvasContainer {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
 
-.strands-badge {
+.hero-strands-content {
+  position: relative;
+  z-index: 5;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.3rem;
+  padding: 0 1.5rem;
+  pointer-events: none;
+}
+
+.hero-strands-content a {
+  pointer-events: auto;
+}
+
+.hero-strands-content .eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+}
+
+.hero-strands-content h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  color: #ffffff;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+}
+
+.hero-strands-content h1 em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.hero-strands-content .sub {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 640px;
+  line-height: 1.6;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.hero-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-hero-primary {
+  background: var(--accent);
+  color: #000;
+  padding: 0.75rem 1.8rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(184, 255, 87, 0.4);
+}
+
+.btn-hero-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid var(--border2);
+  padding: 0.75rem 1.8rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+.hero-strands-badge {
   position: absolute;
-  top: 1.2rem;
-  left: 1.2rem;
+  bottom: 1.5rem;
+  left: 2rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -1666,81 +1739,13 @@ body.theme-transition, body.theme-transition * {
   font-family: 'Space Grotesk', monospace, sans-serif;
   z-index: 10;
 }
-.strands-dot {
+
+.hero-strands-badge .strands-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 10px var(--accent);
-}
-
-.strands-header {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.2rem;
-}
-
-.strands-header .eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-}
-
-.strands-header h2 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.2rem, 4vw, 3.4rem);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  color: #fff;
-}
-
-.strands-header h2 em {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-.strands-header .sub {
-  font-size: 1rem;
-  color: var(--text2);
-  line-height: 1.65;
-  max-width: 500px;
-}
-
-.strands-features {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.feature-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.85);
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 600;
-}
-
-.feature-item .feat-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  font-size: 0.85rem;
 }
 </style>
 </head>
@@ -1781,49 +1786,25 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- HERO INTRO SECTION -->
-<section class="sec-intro" style="padding-top: 110px; padding-bottom: 4rem; min-height: auto; width: 100vw; text-align: center; border-bottom: 1px solid var(--border);">
-  <div style="max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; padding: 0 1.5rem;">
-    <p class="eyebrow" style="font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent);">✦ Selected Projects & WebGL Showcase</p>
-    <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1.1; color: #fff;">Interactive <em>Digital</em> Workspace</h1>
-    <p style="font-size: 1.05rem; color: var(--text2); max-width: 640px; line-height: 1.6;">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
-    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; justify-content: center;">
-      <a href="#strands-showcase" class="intro-btn" style="background: var(--accent); color: #000; padding: 0.75rem 1.8rem; border-radius: 999px; text-decoration: none; font-weight: 700; font-family: 'Space Grotesk', sans-serif;">View WebGL Strands ↓</a>
-      <a href="#projects-stage" style="background: var(--surface2); color: #fff; border: 1px solid var(--border2); padding: 0.75rem 1.8rem; border-radius: 999px; text-decoration: none; font-weight: 600; font-family: 'Space Grotesk', sans-serif;">Cylinder Gallery ↓</a>
+<!-- TOP HERO SECTION WITH LIVE WEBGL STRANDS & GLASS SHADER -->
+<section class="sec-hero-strands" id="hero-strands">
+  <!-- Live WebGL Strands & Glass Background Canvas -->
+  <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
+
+  <!-- Hero Content -->
+  <div class="hero-strands-content">
+    <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
+    <h1>Interactive <em>Digital</em> Workspace</h1>
+    <p class="sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
+    <div class="hero-btns">
+      <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
+      <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
     </div>
   </div>
-</section>
 
-<!-- SECTION 2: 3D FLYING POSTERS OGL SHOWCASE -->
-<section class="sec-flying-posters">
-  <div class="posters-container" id="postersContainer">
-    <canvas id="postersCanvas" class="posters-canvas"></canvas>
-  </div>
-</section>
-
-<!-- SECTION: STRANDS WEBGL COMPONENT SHOWCASE -->
-<section class="sec-strands-showcase" id="strands-showcase">
-  <div class="strands-layout-grid">
-    <!-- WebGL Canvas Box (LEFT SIDE) -->
-    <div class="strands-canvas-card">
-      <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
-      <!-- Floating Glass Badge -->
-      <div class="strands-badge">
-        <span class="strands-dot"></span> WebGL 2.0 Shader Engine
-      </div>
-    </div>
-
-    <!-- Header Text Block (RIGHT SIDE) -->
-    <div class="strands-header">
-      <p class="eyebrow">✦ Interactive WebGL Component</p>
-      <h2>Animated <em>Strands</em> & Glass Shader</h2>
-      <p class="sub">Dynamic multi-strand sine wave WebGL shader with customizable color palettes, glow response, and a 3D volumetric glass lens refraction orb.</p>
-      <div class="strands-features">
-        <div class="feature-item"><span class="feat-icon">⚡</span> Real-time GLSL sine waves</div>
-        <div class="feature-item"><span class="feat-icon">💎</span> 3D Volumetric drop shadow</div>
-        <div class="feature-item"><span class="feat-icon">🌈</span> Chromatic RGB dispersion</div>
-      </div>
-    </div>
+  <!-- Floating WebGL Engine Badge -->
+  <div class="hero-strands-badge">
+    <span class="strands-dot"></span> WebGL 2.0 Shader Engine
   </div>
 </section>
 
