@@ -1607,14 +1607,9 @@ body.theme-transition, body.theme-transition * {
 .sec-hero-strands {
   position: relative;
   width: 100vw;
-  height: 85vh;
-  min-height: 560px;
-  max-height: 850px;
-  padding-top: 110px;
+  height: 520px;
+  min-height: 400px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-bottom: 1px solid var(--border);
   background: #060608;
   z-index: 5;
@@ -1626,126 +1621,6 @@ body.theme-transition, body.theme-transition * {
   width: 100%;
   height: 100%;
   z-index: 1;
-}
-
-.hero-strands-content {
-  position: relative;
-  z-index: 5;
-  max-width: 860px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.3rem;
-  padding: 0 1.5rem;
-  pointer-events: none;
-}
-
-.hero-strands-content a {
-  pointer-events: auto;
-}
-
-.hero-strands-content .eyebrow {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent);
-  font-weight: 700;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-}
-
-.hero-strands-content h1 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.8rem, 6.5vw, 4.8rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.08;
-  color: #ffffff;
-  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
-}
-
-.hero-strands-content h1 em {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-.hero-strands-content .sub {
-  font-size: 1.05rem;
-  color: rgba(255, 255, 255, 0.8);
-  max-width: 640px;
-  line-height: 1.6;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
-}
-
-.hero-btns {
-  display: flex;
-  gap: 1rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.btn-hero-primary {
-  background: var(--accent);
-  color: #000;
-  padding: 0.75rem 1.8rem;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 700;
-  font-family: 'Space Grotesk', sans-serif;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.btn-hero-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(184, 255, 87, 0.4);
-}
-
-.btn-hero-secondary {
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(10px);
-  color: #fff;
-  border: 1px solid var(--border2);
-  padding: 0.75rem 1.8rem;
-  border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
-  font-family: 'Space Grotesk', sans-serif;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.btn-hero-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: #fff;
-}
-
-.hero-strands-badge {
-  position: absolute;
-  bottom: 1.5rem;
-  left: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.4rem 0.9rem;
-  background: rgba(10, 10, 10, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border2);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  color: var(--text2);
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  z-index: 10;
-}
-
-.hero-strands-badge .strands-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
 }
 </style>
 </head>
@@ -1790,22 +1665,6 @@ body.theme-transition, body.theme-transition * {
 <section class="sec-hero-strands" id="hero-strands">
   <!-- Live WebGL Strands & Glass Background Canvas -->
   <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
-
-  <!-- Hero Content -->
-  <div class="hero-strands-content">
-    <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
-    <h1>Interactive <em>Digital</em> Workspace</h1>
-    <p class="sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
-    <div class="hero-btns">
-      <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
-      <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
-    </div>
-  </div>
-
-  <!-- Floating WebGL Engine Badge -->
-  <div class="hero-strands-badge">
-    <span class="strands-dot"></span> WebGL 2.0 Shader Engine
-  </div>
 </section>
 
 <!-- SECTION 3: 3D CYLINDER GALLERY GRID WALL -->
