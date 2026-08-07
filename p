@@ -1655,44 +1655,6 @@ body.theme-transition, body.theme-transition * {
 .card-crosshair.bottom-left { bottom: 0.8rem; left: 1rem; }
 .card-crosshair.bottom-right { bottom: 0.8rem; right: 1rem; }
 
-.hero-card-header {
-  position: absolute;
-  top: 1.2rem;
-  left: 2.2rem;
-  right: 2.2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 10;
-  pointer-events: none;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-.header-tag {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 700;
-}
-.pulse-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
-}
-
-.header-fps {
-  color: rgba(255, 255, 255, 0.45);
-}
-.header-fps span {
-  color: var(--accent);
-  font-weight: 700;
-}
 
 .hero-ground-shadow {
   position: absolute;
@@ -1751,15 +1713,6 @@ body.theme-transition, body.theme-transition * {
     <div class="card-crosshair top-right">+</div>
     <div class="card-crosshair bottom-left">+</div>
     <div class="card-crosshair bottom-right">+</div>
-
-    <div class="hero-card-header">
-      <div class="header-tag">
-        <span class="pulse-dot"></span> SHADER ENGINE // GLSL WEBGL 2.0
-      </div>
-      <div class="header-fps">
-        <span>60 FPS</span> ✦ CHROMATIC REFRACTION
-      </div>
-    </div>
 
     <!-- Live WebGL Strands & Glass Background Canvas -->
     <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
