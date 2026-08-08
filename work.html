@@ -1605,23 +1605,50 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ==================== WORK PAGE TYPOGRAPHY HERO HEADER ==================== */
-.about-hero {
-  padding-top: 130px;
-  padding-bottom: 3.5rem;
-  min-height: 70vh;
+/* ==================== HERO SCROLL EXPAND STAGE & TYPOGRAPHY ==================== */
+.sec-scroll-expand {
+  position: relative;
+  width: 100vw;
+  background: #060608;
+  border-bottom: 1px solid var(--border);
+  z-index: 5;
+}
+
+.scroll-expand {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-expand__track {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-expand__stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-  background: #060608;
-  width: 100vw;
-  box-sizing: border-box;
+}
+
+.scroll-expand__header {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  z-index: 5;
+  padding-bottom: 14vh;
+  z-index: 10;
+  pointer-events: none;
+  will-change: opacity, transform;
 }
 
 .about-hero-bg {
@@ -1630,7 +1657,7 @@ body.theme-transition, body.theme-transition * {
   height: 700px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -1639,7 +1666,7 @@ body.theme-transition, body.theme-transition * {
 .about-hero-title {
   font-family: 'Inter', 'Space Grotesk', sans-serif;
   font-weight: 900;
-  font-size: clamp(4.5rem, 16vw, 18rem);
+  font-size: clamp(3.8rem, 14vw, 15rem);
   letter-spacing: -0.08em;
   line-height: 0.82;
   text-align: center;
@@ -1665,8 +1692,8 @@ body.theme-transition, body.theme-transition * {
 }
 
 .about-hero-sub {
-  margin-top: 2rem;
-  font-size: 0.75rem;
+  margin-top: 1.5rem;
+  font-size: 0.72rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text3);
@@ -1679,9 +1706,9 @@ body.theme-transition, body.theme-transition * {
 .about-hero-sub2 {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-size: clamp(1.4rem, 3vw, 2.4rem);
   color: #ffffff;
-  margin-top: 0.3rem;
+  margin-top: 0.2rem;
   text-align: center;
   display: block;
   width: 100%;
@@ -1732,43 +1759,16 @@ body.theme-transition, body.theme-transition * {
   text-align: right;
 }
 
-/* ==================== SCROLL EXPAND COMPONENT ==================== */
-.sec-scroll-expand {
-  position: relative;
-  width: 100vw;
-  background: #060608;
-  border-bottom: 1px solid var(--border);
-  z-index: 5;
-}
-
-.scroll-expand {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__track {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__stage {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-}
-
 .scroll-expand__frame {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  clip-path: inset(22% 28% 22% 28% round 24px);
+  clip-path: inset(52% 36% 12% 36% round 20px);
   will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
+  z-index: 5;
 }
 
 .scroll-expand__media {
@@ -1969,24 +1969,27 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- WORK HERO TYPOGRAPHY HEADER -->
-<section class="about-hero">
-  <div class="about-hero-bg"></div>
-  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
-  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
-  <h1 class="about-hero-title">MY WORK</h1>
-  <p class="about-hero-sub">Explore Selected Projects & Digital</p>
-  <p class="about-hero-sub2">workspace.</p>
-</section>
-
-<!-- HERO SCROLL EXPAND SECTION -->
+<!-- HERO SCROLL EXPAND SECTION WITH INTEGRATED TYPOGRAPHY HEADER -->
 <section class="sec-scroll-expand" id="hero-scroll-expand">
   <div class="scroll-expand" id="scrollExpandHero">
     <div class="scroll-expand__track">
       <div class="scroll-expand__stage">
+        
+        <!-- TYPOGRAPHY HEADER OVERLAY (Fades out smoothly on scroll) -->
+        <div class="scroll-expand__header">
+          <div class="about-hero-bg"></div>
+          <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
+          <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+          <h1 class="about-hero-title">MY WORK</h1>
+          <p class="about-hero-sub">Explore Selected Projects & Digital</p>
+          <p class="about-hero-sub2">workspace.</p>
+        </div>
+
+        <!-- EXPANDING PHOTO FRAME -->
         <div class="scroll-expand__frame">
           <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Blueprint Showcase" draggable="false" />
         </div>
+
       </div>
     </div>
   </div>
