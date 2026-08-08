@@ -22,16 +22,17 @@
     };
 
     const config = {
-      startWidth: 20,
-      startHeight: 28,
-      startRadius: 18,
+      startTop: 24,
+      startSide: 38,
+      startBottom: 30,
+      startRadius: 20,
       endRadius: 0,
       mediaZoom: 1.35,
       scrollDistance: 0.85,
       holdDistance: 0.10,
       smoothing: 0.08,
       overlayScrim: 0.65,
-      topOffset: 120
+      topOffset: 0
     };
 
     let current = 0;
@@ -43,13 +44,12 @@
     function applyProgress(p) {
       const e = smoothstep(0, 1, p);
 
-      const w = config.startWidth + (100 - config.startWidth) * e;
-      const h = config.startHeight + (100 - config.startHeight) * e;
-      const ix = Math.max(0, (100 - w) / 2);
-      const iy = Math.max(0, (100 - h) / 2);
-      const r = config.startRadius + (config.endRadius - config.startRadius) * e;
+      const topInset = config.startTop * (1 - e);
+      const botInset = config.startBottom * (1 - e);
+      const sideInset = config.startSide * (1 - e);
+      const r = config.startRadius * (1 - e);
 
-      frame.style.clipPath = `inset(${iy.toFixed(3)}% ${ix.toFixed(3)}% ${iy.toFixed(3)}% ${ix.toFixed(3)}% round ${r.toFixed(1)}px)`;
+      frame.style.clipPath = `inset(${topInset.toFixed(3)}% ${sideInset.toFixed(3)}% ${botInset.toFixed(3)}% ${sideInset.toFixed(3)}% round ${r.toFixed(1)}px)`;
       media.style.transform = `scale(${(config.mediaZoom + (1 - config.mediaZoom) * e).toFixed(4)})`;
 
       if (scrim) scrim.style.opacity = `${(config.overlayScrim * e).toFixed(3)}`;
@@ -74,7 +74,7 @@
     }
 
     function measure() {
-      stageH = window.innerHeight - config.topOffset;
+      stageH = window.innerHeight;
       if (stageH <= 0) return;
       stage.style.height = `${stageH}px`;
       track.style.height = `${stageH * (1 + config.scrollDistance + config.holdDistance)}px`;
@@ -85,7 +85,7 @@
 
     function readProgress() {
       const rect = track.getBoundingClientRect();
-      const scrollOffset = -rect.top + config.topOffset;
+      const scrollOffset = -rect.top;
       const span = stageH * Math.max(0.01, config.scrollDistance);
       return clamp(scrollOffset / span, 0, 1);
     }
