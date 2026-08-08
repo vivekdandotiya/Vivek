@@ -22,16 +22,16 @@
     };
 
     const config = {
-      startWidth: 15,
-      startHeight: 22,
-      startRadius: 20,
+      startWidth: 20,
+      startHeight: 28,
+      startRadius: 18,
       endRadius: 0,
       mediaZoom: 1.35,
-      scrollDistance: 0.65,
+      scrollDistance: 0.85,
       holdDistance: 0.10,
       smoothing: 0.08,
       overlayScrim: 0.65,
-      topOffset: 200
+      topOffset: 120
     };
 
     let current = 0;
@@ -84,9 +84,10 @@
     }
 
     function readProgress() {
+      const rect = track.getBoundingClientRect();
+      const scrollOffset = -rect.top + config.topOffset;
       const span = stageH * Math.max(0.01, config.scrollDistance);
-      const top = track.getBoundingClientRect().top - config.topOffset;
-      return clamp(-top / span, 0, 1);
+      return clamp(scrollOffset / span, 0, 1);
     }
 
     function tick() {

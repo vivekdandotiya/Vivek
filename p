@@ -1609,7 +1609,7 @@ body.theme-transition, body.theme-transition * {
 .sec-scroll-expand {
   position: relative;
   width: 100vw;
-  padding-top: 50px;
+  padding-top: 120px;
   background: #060608;
   border-bottom: 1px solid var(--border);
 }
@@ -1626,9 +1626,9 @@ body.theme-transition, body.theme-transition * {
 
 .scroll-expand__stage {
   position: sticky;
-  top: 200px;
+  top: 120px;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 120px);
   overflow: hidden;
   --se-title-size: clamp(2.5rem, 6.5vw, 4.8rem);
 }
@@ -1636,7 +1636,7 @@ body.theme-transition, body.theme-transition * {
 .scroll-expand__frame {
   position: absolute;
   inset: 0;
-  clip-path: inset(39% 42.5% 39% 42.5% round 20px);
+  clip-path: inset(36% 40% 36% 40% round 18px);
   will-change: clip-path;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }
