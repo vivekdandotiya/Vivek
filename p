@@ -1607,8 +1607,9 @@ body.theme-transition, body.theme-transition * {
 }
 /* ==================== WORK PAGE TYPOGRAPHY HERO HEADER ==================== */
 .about-hero {
-  padding-top: 110px;
-  min-height: 75vh;
+  padding-top: 130px;
+  padding-bottom: 3.5rem;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1628,7 +1629,7 @@ body.theme-transition, body.theme-transition * {
   width: 700px;
   height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.035), transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1636,15 +1637,15 @@ body.theme-transition, body.theme-transition * {
 }
 
 .about-hero-title {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', 'Space Grotesk', sans-serif;
   font-weight: 900;
   font-size: clamp(4.5rem, 16vw, 18rem);
   letter-spacing: -0.08em;
-  line-height: 0.8;
+  line-height: 0.82;
   text-align: center;
   margin: 0 auto;
-  opacity: 0;
-  animation: fadeUp 0.8s 0.2s forwards;
+  display: block;
+  width: 100%;
   position: relative;
   z-index: 2;
   background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
@@ -1652,6 +1653,7 @@ body.theme-transition, body.theme-transition * {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ffffff;
+  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
 }
 
 [data-theme='light'] .about-hero-title { 
@@ -1664,33 +1666,48 @@ body.theme-transition, body.theme-transition * {
 
 .about-hero-sub {
   margin-top: 2rem;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text3);
-  opacity: 0;
-  animation: fadeUp 0.6s 0.5s forwards;
   text-align: center;
+  display: block;
+  width: 100%;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .about-hero-sub2 {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   color: #ffffff;
-  opacity: 0;
-  animation: fadeUp 0.7s 0.7s forwards;
   margin-top: 0.3rem;
   text-align: center;
+  display: block;
+  width: 100%;
+  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
 }
 
 [data-theme='light'] .about-hero-sub2 {
   color: #000000;
 }
 
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(35px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
 .about-corner {
   position: absolute;
-  font-size: 0.6rem;
+  font-size: 0.62rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text3);
@@ -1705,13 +1722,13 @@ body.theme-transition, body.theme-transition * {
 }
 
 .about-corner.bl {
-  bottom: 3rem;
-  left: 3rem;
+  bottom: 2.5rem;
+  left: 2.5rem;
 }
 
 .about-corner.br {
-  bottom: 3rem;
-  right: 3rem;
+  bottom: 2.5rem;
+  right: 2.5rem;
   text-align: right;
 }
 
