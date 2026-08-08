@@ -1605,6 +1605,84 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
+/* ==================== HERO TEXT HEADER ==================== */
+.sec-hero-text-header {
+  position: relative;
+  width: 100vw;
+  padding-top: 130px;
+  padding-bottom: 2.5rem;
+  background: #060608;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+}
+
+.hero-text-container {
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.eyebrow-badge {
+  display: inline-block;
+  padding: 0.4rem 1.1rem;
+  background: rgba(184, 255, 87, 0.08);
+  border: 1px solid rgba(184, 255, 87, 0.25);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  box-shadow: 0 0 20px rgba(184, 255, 87, 0.15);
+}
+
+.hero-animated-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.6rem, 6vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  color: #ffffff;
+}
+
+.gradient-text-shimmer {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(135deg, #b8ff57 0%, #06b6d4 50%, #7c3aed 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 5s linear infinite;
+}
+
+@keyframes shimmerText {
+  to { background-position: 200% center; }
+}
+
+.hero-animated-sub {
+  font-size: 1.08rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 660px;
+  line-height: 1.65;
+}
+
+.hero-action-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 /* ==================== SCROLL EXPAND COMPONENT ==================== */
 .sec-scroll-expand {
   position: relative;
@@ -1639,7 +1717,7 @@ body.theme-transition, body.theme-transition * {
   left: 0;
   width: 100vw;
   height: 100vh;
-  clip-path: inset(32% 38% 32% 38% round 24px);
+  clip-path: inset(22% 28% 22% 28% round 24px);
   will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }
@@ -1842,13 +1920,26 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
+<!-- TOP HERO TEXT HEADER WITH ANIMATED TYPOGRAPHY -->
+<section class="sec-hero-text-header" id="hero-text-header">
+  <div class="hero-text-container reveal">
+    <p class="eyebrow-badge">✦ Selected Projects & WebGL Showcase</p>
+    <h1 class="hero-animated-title">Interactive <em class="gradient-text-shimmer">Digital</em> Workspace</h1>
+    <p class="hero-animated-sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
+    <div class="hero-action-btns">
+      <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
+      <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
+    </div>
+  </div>
+</section>
+
 <!-- HERO SCROLL EXPAND SECTION -->
 <section class="sec-scroll-expand" id="hero-scroll-expand">
   <div class="scroll-expand" id="scrollExpandHero">
     <div class="scroll-expand__track">
       <div class="scroll-expand__stage">
         <div class="scroll-expand__frame">
-          <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Hero" draggable="false" />
+          <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Blueprint Showcase" draggable="false" />
         </div>
       </div>
     </div>

@@ -8,10 +8,6 @@
     const stage = root.querySelector('.scroll-expand__stage');
     const frame = root.querySelector('.scroll-expand__frame');
     const media = root.querySelector('.scroll-expand__media');
-    const title = root.querySelector('.scroll-expand__title');
-    const overlay = root.querySelector('.scroll-expand__overlay');
-    const scrim = root.querySelector('.scroll-expand__scrim');
-    const hint = root.querySelector('.scroll-expand__hint');
 
     if (!track || !stage || !frame || !media) return;
 
@@ -22,15 +18,14 @@
     };
 
     const config = {
-      startWidth: 24,
-      startHeight: 36,
+      startWidth: 44,
+      startHeight: 56,
       startRadius: 24,
       endRadius: 0,
       mediaZoom: 1.35,
       scrollDistance: 1.0,
       holdDistance: 0.25,
-      smoothing: 0.08,
-      overlayScrim: 0.65
+      smoothing: 0.08
     };
 
     let current = 0;
@@ -57,26 +52,6 @@
       }
 
       media.style.transform = `scale(${(config.mediaZoom + (1 - config.mediaZoom) * e).toFixed(4)})`;
-
-      if (scrim) scrim.style.opacity = `${(config.overlayScrim * e).toFixed(3)}`;
-
-      if (title) {
-        const out = smoothstep(0.32, 0.82, p);
-        title.style.opacity = `${(1 - out).toFixed(3)}`;
-        title.style.transform = `translate3d(0, ${(-32 * out).toFixed(2)}px, 0) scale(${(1 + 0.06 * out).toFixed(3)})`;
-      }
-
-      if (hint) {
-        const gone = smoothstep(0, 0.15, p);
-        hint.style.opacity = `${(1 - gone).toFixed(3)}`;
-        hint.style.transform = `translate3d(0, ${(12 * gone).toFixed(2)}px, 0)`;
-      }
-
-      if (overlay) {
-        const inn = smoothstep(0.65, 0.98, p);
-        overlay.style.opacity = `${inn.toFixed(3)}`;
-        overlay.style.transform = `translate3d(0, ${(20 * (1 - inn)).toFixed(2)}px, 0)`;
-      }
     }
 
     function measure() {
@@ -84,9 +59,6 @@
       if (stageH <= 0) return;
       stage.style.height = `${stageH}px`;
       track.style.height = `${stageH * (1 + config.scrollDistance + config.holdDistance)}px`;
-
-      const w = root.clientWidth || window.innerWidth;
-      stage.style.setProperty('--se-title-size', `${clamp(w * 0.065, 24, 76)}px`);
     }
 
     function readProgress() {
