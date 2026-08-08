@@ -1605,6 +1605,106 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
+/* ==================== WORK PAGE TYPOGRAPHY HERO HEADER ==================== */
+.work-hero-section {
+  padding-top: 90px;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+  background: #060608;
+  z-index: 5;
+}
+
+.work-hero-bg {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.035), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.work-hero-title {
+  font-family: 'Inter', 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: clamp(4.5rem, 16vw, 18rem);
+  letter-spacing: -0.07em;
+  line-height: 0.85;
+  text-align: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffffff;
+}
+
+[data-theme='light'] .work-hero-title { 
+  background: linear-gradient(180deg, #000000 0%, #444444 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #000000;
+}
+
+.work-hero-sub {
+  margin-top: 1.8rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  opacity: 0;
+  animation: fadeUp 0.6s 0.5s forwards;
+}
+
+.work-hero-sub2 {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  color: #ffffff;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.7s forwards;
+  margin-top: 0.3rem;
+}
+
+.work-corner {
+  position: absolute;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text3);
+  z-index: 4;
+}
+
+.work-corner strong {
+  display: block;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.work-corner.bl {
+  bottom: 2.5rem;
+  left: 2.5rem;
+}
+
+.work-corner.br {
+  bottom: 2.5rem;
+  right: 2.5rem;
+  text-align: right;
+}
+
 /* ==================== SCROLL EXPAND COMPONENT ==================== */
 .sec-scroll-expand {
   position: relative;
@@ -1842,7 +1942,15 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- HERO SCROLL EXPAND SECTION -->
+<!-- WORK HERO TYPOGRAPHY HEADER -->
+<section class="work-hero-section">
+  <div class="work-hero-bg"></div>
+  <div class="work-corner bl">📍 Based In<strong>M.P., India</strong></div>
+  <div class="work-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+  <h1 class="work-hero-title">MY WORK</h1>
+  <p class="work-hero-sub">Explore Selected Projects & Digital</p>
+  <p class="work-hero-sub2">workspace.</p>
+</section>
 
 <!-- HERO SCROLL EXPAND SECTION -->
 <section class="sec-scroll-expand" id="hero-scroll-expand">
