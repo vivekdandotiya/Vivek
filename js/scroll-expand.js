@@ -8,7 +8,6 @@
     const stage = root.querySelector('.scroll-expand__stage');
     const frame = root.querySelector('.scroll-expand__frame');
     const media = root.querySelector('.scroll-expand__media');
-    const header = root.querySelector('.scroll-expand__header');
 
     if (!track || !stage || !frame || !media) return;
 
@@ -53,12 +52,6 @@
       }
 
       media.style.transform = `scale(${(config.mediaZoom + (1 - config.mediaZoom) * e).toFixed(4)})`;
-
-      if (header) {
-        const fade = smoothstep(0, 0.45, p);
-        header.style.opacity = `${(1 - fade).toFixed(3)}`;
-        header.style.transform = `translate3d(0, ${(-40 * fade).toFixed(2)}px, 0)`;
-      }
     }
 
     function measure() {

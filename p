@@ -1605,50 +1605,23 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ==================== HERO SCROLL EXPAND STAGE & TYPOGRAPHY ==================== */
-.sec-scroll-expand {
+/* ==================== WORK PAGE HERO HEADER ==================== */
+.about-hero {
+  padding-top: 130px;
+  padding-bottom: 4rem;
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
-  width: 100vw;
-  background: #060608;
-  border-bottom: 1px solid var(--border);
-  z-index: 5;
-}
-
-.scroll-expand {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__track {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__stage {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.scroll-expand__header {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  background: #060608;
+  width: 100vw;
+  box-sizing: border-box;
   text-align: center;
-  padding-bottom: 14vh;
-  z-index: 10;
-  pointer-events: none;
-  will-change: opacity, transform;
+  z-index: 2;
 }
 
 .about-hero-bg {
@@ -1657,22 +1630,22 @@ body.theme-transition, body.theme-transition * {
   height: 700px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
 .about-hero-title {
-  font-family: 'Inter', 'Space Grotesk', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-weight: 900;
-  font-size: clamp(3.8rem, 14vw, 15rem);
+  font-size: clamp(4.5rem, 17vw, 19rem);
   letter-spacing: -0.08em;
   line-height: 0.82;
   text-align: center;
   margin: 0 auto;
-  display: block;
-  width: 100%;
+  opacity: 0;
+  animation: heroFadeUp 0.8s 0.2s forwards;
   position: relative;
   z-index: 2;
   background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
@@ -1680,7 +1653,8 @@ body.theme-transition, body.theme-transition * {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ffffff;
-  animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+  display: block;
+  width: 100%;
 }
 
 [data-theme='light'] .about-hero-title { 
@@ -1692,27 +1666,29 @@ body.theme-transition, body.theme-transition * {
 }
 
 .about-hero-sub {
-  margin-top: 1.5rem;
-  font-size: 0.72rem;
+  margin-top: 2rem;
+  font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text3);
+  opacity: 0;
+  animation: heroFadeUp 0.6s 0.5s forwards;
   text-align: center;
   display: block;
   width: 100%;
-  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .about-hero-sub2 {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
   color: #ffffff;
-  margin-top: 0.2rem;
+  opacity: 0;
+  animation: heroFadeUp 0.7s 0.7s forwards;
+  margin-top: 0.3rem;
   text-align: center;
   display: block;
   width: 100%;
-  animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
 }
 
 [data-theme='light'] .about-hero-sub2 {
@@ -1749,14 +1725,42 @@ body.theme-transition, body.theme-transition * {
 }
 
 .about-corner.bl {
-  bottom: 2.5rem;
-  left: 2.5rem;
+  bottom: 3rem;
+  left: 3rem;
 }
 
 .about-corner.br {
-  bottom: 2.5rem;
-  right: 2.5rem;
+  bottom: 3rem;
+  right: 3rem;
   text-align: right;
+}
+
+/* ==================== SCROLL EXPAND COMPONENT ==================== */
+.sec-scroll-expand {
+  position: relative;
+  width: 100vw;
+  background: #060608;
+  border-bottom: 1px solid var(--border);
+  z-index: 3;
+}
+
+.scroll-expand {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-expand__track {
+  position: relative;
+  width: 100%;
+}
+
+.scroll-expand__stage {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .scroll-expand__frame {
@@ -1765,10 +1769,9 @@ body.theme-transition, body.theme-transition * {
   left: 0;
   width: 100vw;
   height: 100vh;
-  clip-path: inset(52% 36% 12% 36% round 20px);
+  clip-path: inset(22% 28% 22% 28% round 24px);
   will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
-  z-index: 5;
 }
 
 .scroll-expand__media {
@@ -1969,27 +1972,24 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- HERO SCROLL EXPAND SECTION WITH INTEGRATED TYPOGRAPHY HEADER -->
+<!-- ── HERO TYPOGRAPHY HEADER (1:1 with about.html) ── -->
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
+  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+  <h1 class="about-hero-title">MY WORK</h1>
+  <p class="about-hero-sub">Explore Selected Projects & Digital</p>
+  <p class="about-hero-sub2">workspace.</p>
+</section>
+
+<!-- ── HERO SCROLL EXPAND SECTION ── -->
 <section class="sec-scroll-expand" id="hero-scroll-expand">
   <div class="scroll-expand" id="scrollExpandHero">
     <div class="scroll-expand__track">
       <div class="scroll-expand__stage">
-        
-        <!-- TYPOGRAPHY HEADER OVERLAY (Fades out smoothly on scroll) -->
-        <div class="scroll-expand__header">
-          <div class="about-hero-bg"></div>
-          <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
-          <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
-          <h1 class="about-hero-title">MY WORK</h1>
-          <p class="about-hero-sub">Explore Selected Projects & Digital</p>
-          <p class="about-hero-sub2">workspace.</p>
-        </div>
-
-        <!-- EXPANDING PHOTO FRAME -->
         <div class="scroll-expand__frame">
           <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Blueprint Showcase" draggable="false" />
         </div>
-
       </div>
     </div>
   </div>
