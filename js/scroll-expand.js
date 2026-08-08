@@ -30,7 +30,8 @@
       scrollDistance: 0.65,
       holdDistance: 0.10,
       smoothing: 0.08,
-      overlayScrim: 0.65
+      overlayScrim: 0.65,
+      topOffset: 95
     };
 
     let current = 0;
@@ -73,7 +74,7 @@
     }
 
     function measure() {
-      stageH = window.innerHeight;
+      stageH = window.innerHeight - config.topOffset;
       if (stageH <= 0) return;
       stage.style.height = `${stageH}px`;
       track.style.height = `${stageH * (1 + config.scrollDistance + config.holdDistance)}px`;
@@ -84,7 +85,7 @@
 
     function readProgress() {
       const span = stageH * Math.max(0.01, config.scrollDistance);
-      const top = track.getBoundingClientRect().top;
+      const top = track.getBoundingClientRect().top - config.topOffset;
       return clamp(-top / span, 0, 1);
     }
 
