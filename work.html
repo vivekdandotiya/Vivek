@@ -1842,22 +1842,6 @@ body.theme-transition, body.theme-transition * {
       <div class="scroll-expand__stage">
         <div class="scroll-expand__frame">
           <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Hero" draggable="false" />
-          <div class="scroll-expand__scrim"></div>
-          <div class="scroll-expand__overlay">
-            <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
-            <h1 class="overlay-title">Interactive <em>Digital</em> Workspace</h1>
-            <p class="overlay-sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
-            <div class="overlay-btns">
-              <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
-              <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
-            </div>
-          </div>
-        </div>
-        <div class="scroll-expand__title">
-          Interactive <em>Digital</em> Workspace
-        </div>
-        <div class="scroll-expand__hint">
-          Scroll inside to expand ↓
         </div>
       </div>
     </div>
@@ -3624,6 +3608,5 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 <script src="js/scroll-expand.js"></script>
-<script src="js/swarm-cursor.js"></script>
 </body>
 </html>
