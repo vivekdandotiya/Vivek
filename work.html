@@ -1605,135 +1605,50 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ==================== WORK PAGE HERO HEADER ==================== */
-.about-hero {
-  padding-top: 130px;
-  padding-bottom: 4rem;
-  min-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--border);
-  background: #060608;
-  width: 100vw;
-  box-sizing: border-box;
-  text-align: center;
-  z-index: 2;
+/* ── HERO (1:1 with about.html) ── */
+.about-hero{
+  padding-top:130px;padding-bottom:4rem;min-height:80vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+  width:100vw;box-sizing:border-box;background:#060608;z-index:2;
 }
-
-.about-hero-bg {
-  position: absolute;
-  width: 700px;
-  height: 700px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
+.about-hero-bg{
+  position:absolute;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
 }
-
-.about-hero-title {
-  font-family: 'Inter', sans-serif;
-  font-weight: 900;
-  font-size: clamp(4.5rem, 17vw, 19rem);
-  letter-spacing: -0.08em;
-  line-height: 0.82;
-  text-align: center;
-  margin: 0 auto;
-  opacity: 0;
-  animation: heroFadeUp 0.8s 0.2s forwards;
-  position: relative;
-  z-index: 2;
-  background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
+.about-hero-title{
+  font-family:'Inter',sans-serif;font-weight:900;
+  font-size:clamp(5rem,18vw,20rem);letter-spacing:-.08em;line-height:.8;
+  text-align:center;opacity:0;animation:fadeUp .8s .2s forwards;
+  position:relative;z-index:2;
+  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #ffffff;
-  display: block;
-  width: 100%;
+  color: #fff;
 }
-
 [data-theme='light'] .about-hero-title { 
-  background: linear-gradient(180deg, #000000 0%, #444444 100%);
+  background: linear-gradient(180deg, #000 0%, #444 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  color: #000000;
+  color: #000;
 }
-
-.about-hero-sub {
-  margin-top: 2rem;
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--text3);
-  opacity: 0;
-  animation: heroFadeUp 0.6s 0.5s forwards;
-  text-align: center;
-  display: block;
-  width: 100%;
+.about-hero-sub{
+  margin-top:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text3);opacity:0;animation:fadeUp .6s .5s forwards;text-align:center;
 }
-
-.about-hero-sub2 {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
-  color: #ffffff;
-  opacity: 0;
-  animation: heroFadeUp 0.7s 0.7s forwards;
-  margin-top: 0.3rem;
-  text-align: center;
-  display: block;
-  width: 100%;
+.about-hero-sub2{
+  font-family:'DM Serif Display',serif;font-style:italic;
+  font-size:clamp(1.5rem,3vw,2.5rem);color:#fff;
+  opacity:0;animation:fadeUp .7s .7s forwards;margin-top:.3rem;text-align:center;
 }
-
-[data-theme='light'] .about-hero-sub2 {
-  color: #000000;
-}
-
-@keyframes heroFadeUp {
-  0% {
-    opacity: 0;
-    transform: translateY(35px);
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
-  }
-}
-
-.about-corner {
-  position: absolute;
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text3);
-  z-index: 4;
-}
-
-.about-corner strong {
-  display: block;
-  color: var(--text);
-  font-weight: 700;
-  margin-top: 2px;
-}
-
-.about-corner.bl {
-  bottom: 3rem;
-  left: 3rem;
-}
-
-.about-corner.br {
-  bottom: 3rem;
-  right: 3rem;
-  text-align: right;
-}
+[data-theme='light'] .about-hero-sub2 { color: #000; }
+.about-corner{position:absolute;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);}
+.about-corner.bl{bottom:3rem;left:3rem;}
+.about-corner.br{bottom:3rem;right:3rem;text-align:right;}
+.about-corner strong{display:block;font-size:.75rem;color:var(--text);margin-top:.2rem;}
 
 /* ==================== SCROLL EXPAND COMPONENT ==================== */
 .sec-scroll-expand {
