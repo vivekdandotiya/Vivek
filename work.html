@@ -1606,13 +1606,13 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ==================== HERO INTRO SECTION ==================== */
-.sec-hero-intro {
+/* ==================== HERO WEBGL STRANDS & GLASS SECTION ==================== */
+.sec-hero-strands {
   position: relative;
   width: 100vw;
-  min-height: 70vh;
-  padding-top: 130px;
-  padding-bottom: 5rem;
+  min-height: 80vh;
+  padding-top: 110px;
+  padding-bottom: 4rem;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -1622,7 +1622,15 @@ body.theme-transition, body.theme-transition * {
   z-index: 5;
 }
 
-.hero-intro-container {
+.sec-hero-strands #strandsCanvasContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-strands-content {
   position: relative;
   z-index: 5;
   max-width: 860px;
@@ -1633,9 +1641,14 @@ body.theme-transition, body.theme-transition * {
   align-items: center;
   gap: 1.3rem;
   padding: 0 1.5rem;
+  pointer-events: none;
 }
 
-.hero-intro-container .eyebrow {
+.hero-strands-content a {
+  pointer-events: auto;
+}
+
+.hero-strands-content .eyebrow {
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
@@ -1644,27 +1657,29 @@ body.theme-transition, body.theme-transition * {
   font-family: 'Space Grotesk', monospace, sans-serif;
 }
 
-.hero-intro-container h1 {
+.hero-strands-content h1 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2.8rem, 6.5vw, 4.8rem);
   font-weight: 900;
   letter-spacing: -0.04em;
   line-height: 1.08;
   color: #ffffff;
+  text-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
 }
 
-.hero-intro-container h1 em {
+.hero-strands-content h1 em {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
   font-weight: 400;
   color: var(--accent);
 }
 
-.hero-intro-container .sub {
+.hero-strands-content .sub {
   font-size: 1.05rem;
   color: rgba(255, 255, 255, 0.8);
   max-width: 640px;
   line-height: 1.6;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
 }
 
 .hero-btns {
@@ -1749,9 +1764,13 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- TOP HERO SECTION -->
-<section class="sec-hero-intro" id="hero-intro">
-  <div class="hero-intro-container">
+<!-- TOP HERO SECTION WITH LIVE WEBGL STRANDS & GLASS SHADER -->
+<section class="sec-hero-strands" id="hero-strands">
+  <!-- Live WebGL Strands & Glass Background Canvas -->
+  <div class="strands-canvas-container" id="strandsCanvasContainer"></div>
+
+  <!-- Hero Content -->
+  <div class="hero-strands-content">
     <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
     <h1>Interactive <em>Digital</em> Workspace</h1>
     <p class="sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
@@ -3521,5 +3540,6 @@ document.addEventListener('keydown', e => {
   requestAnimationFrame(render);
 })();
 </script>
+<script src="js/strands-engine.js"></script>
 </body>
 </html>
