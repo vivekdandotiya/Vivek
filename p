@@ -27,10 +27,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);overf
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 120px 120px;
   animation: gridMove 25s linear infinite;}
-#cur{position:fixed;width:10px;height:10px;background:#fff;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
-#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s;}
-body:has(a:hover) #cur,body:has(button:hover) #cur{width:6px;height:6px;}
-body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:52px;height:52px;}
+#cur{position:fixed;width:8px;height:8px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(255,255,255,.3);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .35s,height .35s,border-color .3s;}
+body:has(a:hover) #cur-ring,body:has(button:hover) #cur-ring{width:52px;height:52px;border-color:rgba(255,255,255,.6);}
 /* FLAME FOOTER DESIGN */
 .footer-section {
   position: relative;
@@ -512,8 +511,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 /* SECTION 3: CYLINDER GRID WALL OVERRIDES */
 .sec-cylinder {
-  padding-top: 7rem;
-  padding-bottom: 6rem;
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
   min-height: 100vh;
   justify-content: center;
   border-bottom: none;
@@ -523,7 +522,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 }
 .sec-cylinder .wall-header {
   position: relative;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   text-align: center;
   z-index: 10;
   pointer-events: auto;
@@ -1610,6 +1609,7 @@ body.theme-transition, body.theme-transition * {
 .sec-scroll-expand {
   position: relative;
   width: 100vw;
+  padding-top: 110px;
   background: #060608;
   border-bottom: 1px solid var(--border);
 }

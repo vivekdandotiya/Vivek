@@ -27,8 +27,8 @@
       startRadius: 28,
       endRadius: 0,
       mediaZoom: 1.35,
-      scrollDistance: 1.1,
-      holdDistance: 0.55,
+      scrollDistance: 0.65,
+      holdDistance: 0.10,
       smoothing: 0.08,
       overlayScrim: 0.65
     };
