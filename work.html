@@ -1609,7 +1609,7 @@ body.theme-transition, body.theme-transition * {
 .sec-scroll-expand {
   position: relative;
   width: 100vw;
-  padding-top: 40px;
+  padding-top: 50px;
   background: #060608;
   border-bottom: 1px solid var(--border);
 }
@@ -1626,9 +1626,9 @@ body.theme-transition, body.theme-transition * {
 
 .scroll-expand__stage {
   position: sticky;
-  top: 155px;
+  top: 200px;
   width: 100%;
-  height: calc(100vh - 155px);
+  height: calc(100vh - 200px);
   overflow: hidden;
   --se-title-size: clamp(2.5rem, 6.5vw, 4.8rem);
 }
@@ -1636,9 +1636,9 @@ body.theme-transition, body.theme-transition * {
 .scroll-expand__frame {
   position: absolute;
   inset: 0;
-  clip-path: inset(21% 29% 21% 29% round 24px);
+  clip-path: inset(27% 35% 27% 35% round 24px);
   will-change: clip-path;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }
 
 .scroll-expand__media {

@@ -22,16 +22,16 @@
     };
 
     const config = {
-      startWidth: 44,
-      startHeight: 60,
-      startRadius: 28,
+      startWidth: 30,
+      startHeight: 46,
+      startRadius: 24,
       endRadius: 0,
       mediaZoom: 1.35,
       scrollDistance: 0.65,
       holdDistance: 0.10,
       smoothing: 0.08,
       overlayScrim: 0.65,
-      topOffset: 155
+      topOffset: 200
     };
 
     let current = 0;
