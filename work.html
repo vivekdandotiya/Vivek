@@ -3624,5 +3624,6 @@ document.addEventListener('keydown', e => {
 })();
 </script>
 <script src="js/scroll-expand.js"></script>
+<script src="js/swarm-cursor.js"></script>
 </body>
 </html>
