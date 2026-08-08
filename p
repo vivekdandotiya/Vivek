@@ -1606,117 +1606,73 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ==================== SCROLL EXPAND COMPONENT ==================== */
-.sec-scroll-expand {
+/* ==================== HERO INTRO SECTION ==================== */
+.sec-hero-intro {
   position: relative;
   width: 100vw;
-  background: #060608;
-  border-bottom: 1px solid var(--border);
-}
-
-.scroll-expand {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__track {
-  position: relative;
-  width: 100%;
-}
-
-.scroll-expand__stage {
-  position: sticky;
-  top: 0;
-  width: 100%;
-  height: 100vh;
+  min-height: 70vh;
+  padding-top: 130px;
+  padding-bottom: 5rem;
   overflow: hidden;
-  --se-title-size: clamp(2.5rem, 6.5vw, 4.8rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--border);
+  background: #060608;
+  z-index: 5;
 }
 
-.scroll-expand__frame {
-  position: absolute;
-  inset: 0;
-  clip-path: inset(21% 29% 21% 29% round 24px);
-  will-change: clip-path;
-  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
-}
-
-.scroll-expand__media {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  will-change: transform;
-  transform-origin: center;
-  user-select: none;
-  -webkit-user-drag: none;
-}
-
-.scroll-expand__scrim {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(to top, rgba(6, 6, 8, 0.95), rgba(6, 6, 8, 0.3) 45%, rgba(6, 6, 8, 0.6));
-  opacity: 0;
-}
-
-.scroll-expand__overlay {
-  position: absolute;
-  inset: 0;
+.hero-intro-container {
+  position: relative;
+  z-index: 5;
+  max-width: 860px;
+  margin: 0 auto;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 6%;
-  opacity: 0;
-  will-change: opacity, transform;
+  gap: 1.3rem;
+  padding: 0 1.5rem;
 }
 
-.scroll-expand__overlay .eyebrow {
+.hero-intro-container .eyebrow {
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--accent);
   font-weight: 700;
   font-family: 'Space Grotesk', monospace, sans-serif;
-  margin-bottom: 0.75rem;
 }
 
-.scroll-expand__overlay .overlay-title {
+.hero-intro-container h1 {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+  font-size: clamp(2.8rem, 6.5vw, 4.8rem);
   font-weight: 900;
   letter-spacing: -0.04em;
-  line-height: 1.1;
-  color: #fff;
-  margin-bottom: 1rem;
+  line-height: 1.08;
+  color: #ffffff;
 }
 
-.scroll-expand__overlay .overlay-title em {
+.hero-intro-container h1 em {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
   font-weight: 400;
   color: var(--accent);
 }
 
-.scroll-expand__overlay .overlay-sub {
-  font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.85);
+.hero-intro-container .sub {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.8);
   max-width: 640px;
   line-height: 1.6;
-  margin-bottom: 1.8rem;
 }
 
-.overlay-btns {
+.hero-btns {
   display: flex;
   gap: 1rem;
   margin-top: 0.5rem;
   flex-wrap: wrap;
   justify-content: center;
-  z-index: 10;
-  pointer-events: auto;
 }
 
 .btn-hero-primary {
@@ -1753,48 +1709,6 @@ body.theme-transition, body.theme-transition * {
 .btn-hero-secondary:hover {
   background: rgba(255, 255, 255, 0.18);
   border-color: #fff;
-}
-
-.scroll-expand__title {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0 6%;
-  text-align: center;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: var(--se-title-size);
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #fff;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.85);
-  pointer-events: none;
-  will-change: opacity, transform;
-}
-
-.scroll-expand__title em {
-  font-family: 'DM Serif Display', serif;
-  font-style: italic;
-  font-weight: 400;
-  color: var(--accent);
-}
-
-.scroll-expand__hint {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 2.5rem;
-  text-align: center;
-  font-size: 0.85rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  font-family: 'Space Grotesk', monospace, sans-serif;
-  color: rgba(255, 255, 255, 0.7);
-  pointer-events: none;
-  will-change: opacity, transform;
 }
 </style>
 </head>
@@ -1835,31 +1749,15 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- HERO SCROLL EXPAND SECTION -->
-<section class="sec-scroll-expand" id="hero-scroll-expand">
-  <div class="scroll-expand" id="scrollExpandHero">
-    <div class="scroll-expand__track">
-      <div class="scroll-expand__stage">
-        <div class="scroll-expand__frame">
-          <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Hero" draggable="false" />
-          <div class="scroll-expand__scrim"></div>
-          <div class="scroll-expand__overlay">
-            <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
-            <h1 class="overlay-title">Interactive <em>Digital</em> Workspace</h1>
-            <p class="overlay-sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
-            <div class="overlay-btns">
-              <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
-              <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
-            </div>
-          </div>
-        </div>
-        <div class="scroll-expand__title">
-          Interactive <em>Digital</em> Workspace
-        </div>
-        <div class="scroll-expand__hint">
-          Scroll inside to expand ↓
-        </div>
-      </div>
+<!-- TOP HERO SECTION -->
+<section class="sec-hero-intro" id="hero-intro">
+  <div class="hero-intro-container">
+    <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
+    <h1>Interactive <em>Digital</em> Workspace</h1>
+    <p class="sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
+    <div class="hero-btns">
+      <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
+      <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
     </div>
   </div>
 </section>
@@ -3623,6 +3521,5 @@ document.addEventListener('keydown', e => {
   requestAnimationFrame(render);
 })();
 </script>
-<script src="js/scroll-expand.js"></script>
 </body>
 </html>
