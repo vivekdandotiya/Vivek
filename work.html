@@ -1605,58 +1605,13 @@ body.theme-transition, body.theme-transition * {
   height: 100%;
   display: block;
 }
-/* ── HERO (1:1 with about.html) ── */
-.about-hero{
-  padding-top:130px;padding-bottom:4rem;min-height:80vh;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  position:relative;overflow:hidden;border-bottom:1px solid var(--border);
-  width:100vw;box-sizing:border-box;background:#060608;z-index:2;
-}
-.about-hero-bg{
-  position:absolute;width:700px;height:700px;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,255,255,.035),transparent 70%);
-  top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
-}
-.about-hero-title{
-  font-family:'Inter',sans-serif;font-weight:900;
-  font-size:clamp(5rem,18vw,20rem);letter-spacing:-.08em;line-height:.8;
-  text-align:center;opacity:0;animation:fadeUp .8s .2s forwards;
-  position:relative;z-index:2;
-  background: linear-gradient(180deg, #fff 0%, #aaa 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #fff;
-}
-[data-theme='light'] .about-hero-title { 
-  background: linear-gradient(180deg, #000 0%, #444 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: #000;
-}
-.about-hero-sub{
-  margin-top:2rem;font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
-  color:var(--text3);opacity:0;animation:fadeUp .6s .5s forwards;text-align:center;
-}
-.about-hero-sub2{
-  font-family:'DM Serif Display',serif;font-style:italic;
-  font-size:clamp(1.5rem,3vw,2.5rem);color:#fff;
-  opacity:0;animation:fadeUp .7s .7s forwards;margin-top:.3rem;text-align:center;
-}
-[data-theme='light'] .about-hero-sub2 { color: #000; }
-.about-corner{position:absolute;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:var(--text3);}
-.about-corner.bl{bottom:3rem;left:3rem;}
-.about-corner.br{bottom:3rem;right:3rem;text-align:right;}
-.about-corner strong{display:block;font-size:.75rem;color:var(--text);margin-top:.2rem;}
-
-/* ==================== SCROLL EXPAND COMPONENT ==================== */
+/* ==================== HERO SCROLL EXPAND STAGE ==================== */
 .sec-scroll-expand {
   position: relative;
   width: 100vw;
   background: #060608;
   border-bottom: 1px solid var(--border);
-  z-index: 3;
+  z-index: 5;
 }
 
 .scroll-expand {
@@ -1676,6 +1631,123 @@ body.theme-transition, body.theme-transition * {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 100px;
+  box-sizing: border-box;
+}
+
+.scroll-expand__header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.about-hero-bg {
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.about-hero-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: clamp(3.5rem, 11vw, 11rem);
+  letter-spacing: -0.08em;
+  line-height: 0.85;
+  text-align: center;
+  margin: 0 auto;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(180deg, #ffffff 0%, #aaaaaa 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #ffffff;
+  display: block;
+  width: 100%;
+}
+
+[data-theme='light'] .about-hero-title { 
+  background: linear-gradient(180deg, #000000 0%, #444444 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #000000;
+}
+
+.about-hero-sub {
+  margin-top: 1.2rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text3);
+  opacity: 0;
+  animation: fadeUp 0.6s 0.5s forwards;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+.about-hero-sub2 {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: clamp(1.3rem, 2.5vw, 2.2rem);
+  color: #ffffff;
+  opacity: 0;
+  animation: fadeUp 0.7s 0.7s forwards;
+  margin-top: 0.2rem;
+  text-align: center;
+  display: block;
+  width: 100%;
+}
+
+[data-theme='light'] .about-hero-sub2 {
+  color: #000000;
+}
+
+.about-corner {
+  position: absolute;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text3);
+  z-index: 4;
+}
+
+.about-corner strong {
+  display: block;
+  color: var(--text);
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.about-corner.bl {
+  bottom: 2rem;
+  left: 2.5rem;
+}
+
+.about-corner.br {
+  bottom: 2rem;
+  right: 2.5rem;
+  text-align: right;
 }
 
 .scroll-expand__frame {
@@ -1684,9 +1756,10 @@ body.theme-transition, body.theme-transition * {
   left: 0;
   width: 100vw;
   height: 100vh;
-  clip-path: inset(22% 28% 22% 28% round 24px);
+  clip-path: inset(54% 35% 8% 35% round 20px);
   will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
+  z-index: 5;
 }
 
 .scroll-expand__media {
@@ -1887,24 +1960,27 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- ── HERO TYPOGRAPHY HEADER (1:1 with about.html) ── -->
-<section class="about-hero">
-  <div class="about-hero-bg"></div>
-  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
-  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
-  <h1 class="about-hero-title">MY WORK</h1>
-  <p class="about-hero-sub">Explore Selected Projects & Digital</p>
-  <p class="about-hero-sub2">workspace.</p>
-</section>
-
-<!-- ── HERO SCROLL EXPAND SECTION ── -->
+<!-- ── HERO SCROLL EXPAND SECTION WITH INTEGRATED HEADER ── -->
 <section class="sec-scroll-expand" id="hero-scroll-expand">
   <div class="scroll-expand" id="scrollExpandHero">
     <div class="scroll-expand__track">
       <div class="scroll-expand__stage">
+        
+        <!-- TYPOGRAPHY HEADER -->
+        <div class="scroll-expand__header">
+          <div class="about-hero-bg"></div>
+          <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
+          <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+          <h1 class="about-hero-title">MY WORK</h1>
+          <p class="about-hero-sub">Explore Selected Projects & Digital</p>
+          <p class="about-hero-sub2">workspace.</p>
+        </div>
+
+        <!-- EXPANDING BLUEPRINT PHOTO FRAME -->
         <div class="scroll-expand__frame">
           <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Blueprint Showcase" draggable="false" />
         </div>
+
       </div>
     </div>
   </div>
