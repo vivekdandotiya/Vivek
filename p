@@ -1607,8 +1607,11 @@ body.theme-transition, body.theme-transition * {
 }
 /* ==================== WORK PAGE TYPOGRAPHY HERO HEADER ==================== */
 .work-hero-section {
-  padding-top: 90px;
-  min-height: 70vh;
+  width: 100%;
+  max-width: 100vw;
+  min-height: 80vh;
+  padding-top: 110px;
+  padding-bottom: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1617,6 +1620,8 @@ body.theme-transition, body.theme-transition * {
   overflow: hidden;
   border-bottom: 1px solid var(--border);
   background: #060608;
+  box-sizing: border-box;
+  text-align: center;
   z-index: 5;
 }
 
@@ -1625,7 +1630,7 @@ body.theme-transition, body.theme-transition * {
   width: 700px;
   height: 700px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.035), transparent 70%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -1635,19 +1640,21 @@ body.theme-transition, body.theme-transition * {
 .work-hero-title {
   font-family: 'Inter', 'Space Grotesk', sans-serif;
   font-weight: 900;
-  font-size: clamp(4.5rem, 16vw, 18rem);
+  font-size: clamp(4rem, 15vw, 16rem);
   letter-spacing: -0.07em;
   line-height: 0.85;
   text-align: center;
+  margin: 0 auto;
   opacity: 0;
   animation: fadeUp 0.8s 0.2s forwards;
   position: relative;
   z-index: 2;
-  background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   color: #ffffff;
+  width: 100%;
 }
 
 [data-theme='light'] .work-hero-title { 
@@ -1659,28 +1666,34 @@ body.theme-transition, body.theme-transition * {
 }
 
 .work-hero-sub {
-  margin-top: 1.8rem;
-  font-size: 0.75rem;
+  margin-top: 2rem;
+  font-size: 0.7rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--text3);
   opacity: 0;
   animation: fadeUp 0.6s 0.5s forwards;
+  text-align: center;
 }
 
 .work-hero-sub2 {
   font-family: 'DM Serif Display', serif;
   font-style: italic;
-  font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
   color: #ffffff;
   opacity: 0;
   animation: fadeUp 0.7s 0.7s forwards;
   margin-top: 0.3rem;
+  text-align: center;
+}
+
+[data-theme='light'] .work-hero-sub2 {
+  color: #000000;
 }
 
 .work-corner {
   position: absolute;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text3);
@@ -1689,7 +1702,7 @@ body.theme-transition, body.theme-transition * {
 
 .work-corner strong {
   display: block;
-  color: #ffffff;
+  color: var(--text);
   font-weight: 700;
   margin-top: 2px;
 }
