@@ -1609,7 +1609,7 @@ body.theme-transition, body.theme-transition * {
 .sec-scroll-expand {
   position: relative;
   width: 100vw;
-  padding-top: 30px;
+  padding-top: 40px;
   background: #060608;
   border-bottom: 1px solid var(--border);
 }
@@ -1626,9 +1626,9 @@ body.theme-transition, body.theme-transition * {
 
 .scroll-expand__stage {
   position: sticky;
-  top: 95px;
+  top: 155px;
   width: 100%;
-  height: calc(100vh - 95px);
+  height: calc(100vh - 155px);
   overflow: hidden;
   --se-title-size: clamp(2.5rem, 6.5vw, 4.8rem);
 }

@@ -31,7 +31,7 @@
       holdDistance: 0.10,
       smoothing: 0.08,
       overlayScrim: 0.65,
-      topOffset: 95
+      topOffset: 155
     };
 
     let current = 0;
