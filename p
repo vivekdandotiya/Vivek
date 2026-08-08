@@ -1694,18 +1694,35 @@ body.theme-transition, body.theme-transition * {
   margin-bottom: 1rem;
 }
 
+.scroll-expand__overlay .overlay-title em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
 .scroll-expand__overlay .overlay-sub {
   font-size: 1.1rem;
-  color: rgba(255, 255, 255, 0.82);
-  max-width: 620px;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 640px;
   line-height: 1.6;
   margin-bottom: 1.8rem;
 }
 
-.btn-hero-expand {
+.overlay-btns {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.btn-hero-primary {
   background: var(--accent);
   color: #000;
-  padding: 0.8rem 2rem;
+  padding: 0.75rem 1.8rem;
   border-radius: 999px;
   text-decoration: none;
   font-weight: 700;
@@ -1714,9 +1731,28 @@ body.theme-transition, body.theme-transition * {
   display: inline-block;
 }
 
-.btn-hero-expand:hover {
+.btn-hero-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(184, 255, 87, 0.4);
+  box-shadow: 0 10px 25px rgba(184, 255, 87, 0.4);
+}
+
+.btn-hero-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid var(--border2);
+  padding: 0.75rem 1.8rem;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: background 0.2s, border-color 0.2s;
+  display: inline-block;
+}
+
+.btn-hero-secondary:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #fff;
 }
 
 .scroll-expand__title {
@@ -1809,10 +1845,11 @@ body.theme-transition, body.theme-transition * {
           <div class="scroll-expand__scrim"></div>
           <div class="scroll-expand__overlay">
             <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
-            <h2 class="overlay-title">Every Pixel, Everywhere</h2>
-            <p class="overlay-sub">The frame opens up to reveal custom WebGL shader engines, 3D interactive components, and full-stack digital workspace built by Vivek Dandotiya.</p>
+            <h1 class="overlay-title">Interactive <em>Digital</em> Workspace</h1>
+            <p class="overlay-sub">Explore custom WebGL shader engines, 3D interactive components, real-time web applications, and full-stack digital experiences built by Vivek Dandotiya.</p>
             <div class="overlay-btns">
-              <a href="#projects-stage" class="btn-hero-expand">Explore Cylinder Gallery ↓</a>
+              <a href="#postersContainer" class="btn-hero-primary">3D Posters Gallery ↓</a>
+              <a href="#projects-stage" class="btn-hero-secondary">Cylinder Gallery ↓</a>
             </div>
           </div>
         </div>
