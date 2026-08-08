@@ -1611,6 +1611,7 @@ body.theme-transition, body.theme-transition * {
   width: 100vw;
   background: #060608;
   border-bottom: 1px solid var(--border);
+  z-index: 50;
 }
 
 .scroll-expand {
@@ -1626,28 +1627,35 @@ body.theme-transition, body.theme-transition * {
 .scroll-expand__stage {
   position: sticky;
   top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  --se-title-size: clamp(2.5rem, 6.5vw, 4.8rem);
 }
 
 .scroll-expand__frame {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   clip-path: inset(24% 38% 30% 38% round 20px);
-  will-change: clip-path;
+  will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }
 
 .scroll-expand__media {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   object-fit: cover;
   will-change: transform;
   transform-origin: center;
+  user-select: none;
+  -webkit-user-drag: none;
+}
   user-select: none;
   -webkit-user-drag: none;
 }

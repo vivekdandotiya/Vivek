@@ -44,12 +44,18 @@
     function applyProgress(p) {
       const e = smoothstep(0, 1, p);
 
-      const topInset = config.startTop * (1 - e);
-      const botInset = config.startBottom * (1 - e);
-      const sideInset = config.startSide * (1 - e);
-      const r = config.startRadius * (1 - e);
+      if (e >= 0.998) {
+        frame.style.clipPath = 'none';
+        frame.style.borderRadius = '0px';
+      } else {
+        const topInset = config.startTop * (1 - e);
+        const botInset = config.startBottom * (1 - e);
+        const sideInset = config.startSide * (1 - e);
+        const r = config.startRadius * (1 - e);
 
-      frame.style.clipPath = `inset(${topInset.toFixed(3)}% ${sideInset.toFixed(3)}% ${botInset.toFixed(3)}% ${sideInset.toFixed(3)}% round ${r.toFixed(1)}px)`;
+        frame.style.clipPath = `inset(${topInset.toFixed(3)}% ${sideInset.toFixed(3)}% ${botInset.toFixed(3)}% ${sideInset.toFixed(3)}% round ${r.toFixed(1)}px)`;
+      }
+
       media.style.transform = `scale(${(config.mediaZoom + (1 - config.mediaZoom) * e).toFixed(4)})`;
 
       if (scrim) scrim.style.opacity = `${(config.overlayScrim * e).toFixed(3)}`;
