@@ -1611,7 +1611,7 @@ body.theme-transition, body.theme-transition * {
   width: 100vw;
   background: #060608;
   border-bottom: 1px solid var(--border);
-  z-index: 50;
+  z-index: 5;
 }
 
 .scroll-expand {
@@ -1639,7 +1639,7 @@ body.theme-transition, body.theme-transition * {
   left: 0;
   width: 100vw;
   height: 100vh;
-  clip-path: inset(24% 38% 30% 38% round 20px);
+  clip-path: inset(32% 38% 32% 38% round 24px);
   will-change: clip-path, transform;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }

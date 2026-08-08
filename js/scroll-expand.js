@@ -22,17 +22,15 @@
     };
 
     const config = {
-      startTop: 24,
-      startSide: 38,
-      startBottom: 30,
-      startRadius: 20,
+      startWidth: 24,
+      startHeight: 36,
+      startRadius: 24,
       endRadius: 0,
       mediaZoom: 1.35,
-      scrollDistance: 0.85,
-      holdDistance: 0.10,
+      scrollDistance: 1.0,
+      holdDistance: 0.25,
       smoothing: 0.08,
-      overlayScrim: 0.65,
-      topOffset: 0
+      overlayScrim: 0.65
     };
 
     let current = 0;
@@ -44,16 +42,18 @@
     function applyProgress(p) {
       const e = smoothstep(0, 1, p);
 
+      const w = config.startWidth + (100 - config.startWidth) * e;
+      const h = config.startHeight + (100 - config.startHeight) * e;
+      const ix = Math.max(0, (100 - w) / 2);
+      const iy = Math.max(0, (100 - h) / 2);
+      const r = config.startRadius + (config.endRadius - config.startRadius) * e;
+
       if (e >= 0.998) {
         frame.style.clipPath = 'none';
         frame.style.borderRadius = '0px';
       } else {
-        const topInset = config.startTop * (1 - e);
-        const botInset = config.startBottom * (1 - e);
-        const sideInset = config.startSide * (1 - e);
-        const r = config.startRadius * (1 - e);
-
-        frame.style.clipPath = `inset(${topInset.toFixed(3)}% ${sideInset.toFixed(3)}% ${botInset.toFixed(3)}% ${sideInset.toFixed(3)}% round ${r.toFixed(1)}px)`;
+        frame.style.clipPath = `inset(${iy.toFixed(3)}% ${ix.toFixed(3)}% ${iy.toFixed(3)}% ${ix.toFixed(3)}% round ${r.toFixed(1)}px)`;
+        frame.style.borderRadius = `${r.toFixed(1)}px`;
       }
 
       media.style.transform = `scale(${(config.mediaZoom + (1 - config.mediaZoom) * e).toFixed(4)})`;
