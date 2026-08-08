@@ -22,9 +22,9 @@
     };
 
     const config = {
-      startWidth: 20,
-      startHeight: 30,
-      startRadius: 24,
+      startWidth: 15,
+      startHeight: 22,
+      startRadius: 20,
       endRadius: 0,
       mediaZoom: 1.35,
       scrollDistance: 0.65,

@@ -1636,7 +1636,7 @@ body.theme-transition, body.theme-transition * {
 .scroll-expand__frame {
   position: absolute;
   inset: 0;
-  clip-path: inset(35% 40% 35% 40% round 24px);
+  clip-path: inset(39% 42.5% 39% 42.5% round 20px);
   will-change: clip-path;
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.85);
 }
