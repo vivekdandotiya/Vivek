@@ -1970,13 +1970,13 @@ body.theme-transition, body.theme-transition * {
 </div>
 
 <!-- WORK HERO TYPOGRAPHY HEADER -->
-<section class="work-hero-section">
-  <div class="work-hero-bg"></div>
-  <div class="work-corner bl">📍 Based In<strong>M.P., India</strong></div>
-  <div class="work-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
-  <h1 class="work-hero-title">MY WORK</h1>
-  <p class="work-hero-sub">Explore Selected Projects & Digital</p>
-  <p class="work-hero-sub2">workspace.</p>
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
+  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
+  <h1 class="about-hero-title">MY WORK</h1>
+  <p class="about-hero-sub">Explore Selected Projects & Digital</p>
+  <p class="about-hero-sub2">workspace.</p>
 </section>
 
 <!-- HERO SCROLL EXPAND SECTION -->
