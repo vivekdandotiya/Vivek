@@ -1805,7 +1805,7 @@ body.theme-transition, body.theme-transition * {
     <div class="scroll-expand__track">
       <div class="scroll-expand__stage">
         <div class="scroll-expand__frame">
-          <img class="scroll-expand__media" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2560&auto=format&fit=crop" alt="Interactive Digital Workspace Hero" draggable="false" />
+          <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Hero" draggable="false" />
           <div class="scroll-expand__scrim"></div>
           <div class="scroll-expand__overlay">
             <p class="eyebrow">✦ Selected Projects & WebGL Showcase</p>
