@@ -27,8 +27,8 @@
       startRadius: 28,
       endRadius: 0,
       mediaZoom: 1.35,
-      scrollDistance: 1.2,
-      holdDistance: 0.35,
+      scrollDistance: 1.1,
+      holdDistance: 0.55,
       smoothing: 0.08,
       overlayScrim: 0.65
     };
@@ -54,7 +54,7 @@
       if (scrim) scrim.style.opacity = `${(config.overlayScrim * e).toFixed(3)}`;
 
       if (title) {
-        const out = smoothstep(0.35, 0.88, p);
+        const out = smoothstep(0.32, 0.82, p);
         title.style.opacity = `${(1 - out).toFixed(3)}`;
         title.style.transform = `translate3d(0, ${(-32 * out).toFixed(2)}px, 0) scale(${(1 + 0.06 * out).toFixed(3)})`;
       }
@@ -66,7 +66,7 @@
       }
 
       if (overlay) {
-        const inn = smoothstep(0.68, 1, p);
+        const inn = smoothstep(0.65, 0.98, p);
         overlay.style.opacity = `${inn.toFixed(3)}`;
         overlay.style.transform = `translate3d(0, ${(20 * (1 - inn)).toFixed(2)}px, 0)`;
       }

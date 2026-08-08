@@ -512,17 +512,21 @@ nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:cen
 
 /* SECTION 3: CYLINDER GRID WALL OVERRIDES */
 .sec-cylinder {
-  padding: 0;
+  padding-top: 7rem;
+  padding-bottom: 6rem;
   min-height: 100vh;
   justify-content: center;
   border-bottom: none;
+  background: #060608;
+  position: relative;
+  z-index: 10;
 }
 .sec-cylinder .wall-header {
-  position: absolute;
-  top: 60px;
+  position: relative;
+  margin-bottom: 2.5rem;
   text-align: center;
   z-index: 10;
-  pointer-events: none;
+  pointer-events: auto;
   width: 100%;
 }
 .sec-cylinder .wall-header .eyebrow {
