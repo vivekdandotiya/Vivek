@@ -1951,28 +1951,9 @@ body.theme-transition, body.theme-transition * {
   <a href="certifications.html">Certifications</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
 </div>
 
-<!-- ── HERO SCROLL EXPAND SECTION WITH INTEGRATED HEADER ── -->
-<!-- ── 1. HERO TYPOGRAPHY HEADER (1:1 with about.html) ── -->
-<section class="about-hero">
-  <div class="about-hero-bg"></div>
-  <div class="about-corner bl">📍 Based In<strong>M.P., India</strong></div>
-  <div class="about-corner br">⚡ Role<strong>Web Designer & Developer</strong></div>
-  <h1 class="about-hero-title">MY WORK</h1>
-  <p class="about-hero-sub">Explore Selected Projects & Digital</p>
-  <p class="about-hero-sub2">workspace.</p>
-</section>
-
-<!-- ── 2. HERO SCROLL EXPAND SECTION ── -->
-<section class="sec-scroll-expand" id="hero-scroll-expand">
-  <div class="scroll-expand" id="scrollExpandHero">
-    <div class="scroll-expand__track">
-      <div class="scroll-expand__stage">
-        <div class="scroll-expand__frame">
-          <img class="scroll-expand__media" src="expand.jpg" alt="Interactive Digital Workspace Blueprint Showcase" draggable="false" />
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- ── NEW BLUEPRINT HERO SECTION ── -->
+<section class="sec-blueprint-hero" id="hero-blueprint">
+  <!-- Blueprint hero container will be populated here -->
 </section>
 
 <!-- SECTION 3: 3D CYLINDER GALLERY GRID WALL -->
