@@ -3968,6 +3968,38 @@ document.addEventListener('keydown', e => {
   requestAnimationFrame(render);
 })();
 </script>
-<script src="js/scroll-expand.js"></script>
+<script>
+// Interactive Mouse Parallax for Blueprint Hero Background
+(function() {
+  const hero = document.getElementById('hero-blueprint');
+  const bgImg = document.getElementById('bpHeroBgImg');
+  if (!hero || !bgImg) return;
+
+  let mouseX = 0, mouseY = 0;
+  let currentX = 0, currentY = 0;
+
+  hero.addEventListener('mousemove', function(e) {
+    const rect = hero.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    mouseX = x * 24; // 24px max parallax shift
+    mouseY = y * 24;
+  });
+
+  hero.addEventListener('mouseleave', function() {
+    mouseX = 0;
+    mouseY = 0;
+  });
+
+  function renderParallax() {
+    currentX += (mouseX - currentX) * 0.05;
+    currentY += (mouseY - currentY) * 0.05;
+    bgImg.style.transform = `scale(1.06) translate3d(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px, 0)`;
+    requestAnimationFrame(renderParallax);
+  }
+
+  requestAnimationFrame(renderParallax);
+})();
+</script>
 </body>
 </html>
