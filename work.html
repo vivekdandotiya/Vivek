@@ -1953,7 +1953,72 @@ body.theme-transition, body.theme-transition * {
 
 <!-- ── NEW BLUEPRINT HERO SECTION ── -->
 <section class="sec-blueprint-hero" id="hero-blueprint">
-  <!-- Blueprint hero container will be populated here -->
+  <!-- Panning / Scaling Background Image Container -->
+  <div class="bp-hero-bg-wrapper">
+    <img src="expand.jpg" alt="Architectural Blueprint Wireframe" class="bp-hero-bg-img" id="bpHeroBgImg" />
+    <div class="bp-hero-overlay"></div>
+    <div class="bp-hero-grid-overlay"></div>
+  </div>
+
+  <div class="bp-hero-container">
+    <!-- Eyebrow Badge -->
+    <div class="bp-eyebrow-wrapper">
+      <span class="bp-hero-badge">
+        <span class="bp-badge-dot"></span>
+        FEATURED WORKSPACE &bull; ARCHITECTURAL BLUEPRINT
+      </span>
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="bp-hero-title">
+      CRAFTING DIGITAL <br>
+      <span class="bp-gradient-shimmer">ARCHITECTURES.</span>
+    </h1>
+
+    <!-- Subtitle -->
+    <p class="bp-hero-subtitle">
+      An immersive showcase of full-stack engineering, interactive 3D WebGL interfaces, and high-performance frontend designs built by <em>Vivek Dandotiya</em>.
+    </p>
+
+    <!-- Quick Stats Bar -->
+    <div class="bp-hero-stats">
+      <div class="bp-stat-card">
+        <span class="bp-stat-num">100%</span>
+        <span class="bp-stat-lbl">Custom Code Architecture</span>
+      </div>
+      <div class="bp-stat-card">
+        <span class="bp-stat-num">60FPS</span>
+        <span class="bp-stat-lbl">WebGL Canvas Performance</span>
+      </div>
+      <div class="bp-stat-card">
+        <span class="bp-stat-num">0.2s</span>
+        <span class="bp-stat-lbl">Ultra-Fast Load Response</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="bp-hero-actions">
+      <a href="#projects-stage" class="bp-btn-primary">
+        <span>Explore Work Projects</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+      </a>
+      <a href="contact.html" class="bp-btn-secondary">
+        <span>Book a Project Call</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Corner Badges -->
+  <div class="bp-corner bl">📍 Location <strong>MADHYA PRADESH, INDIA</strong></div>
+  <div class="bp-corner br">⚡ Role <strong>WEB DESIGNER & DEVELOPER</strong></div>
+
+  <!-- Scroll Down Indicator -->
+  <div class="bp-scroll-indicator">
+    <div class="bp-mouse-icon">
+      <div class="bp-wheel"></div>
+    </div>
+    <span>SCROLL TO DIVE IN</span>
+  </div>
 </section>
 
 <!-- SECTION 3: 3D CYLINDER GALLERY GRID WALL -->
