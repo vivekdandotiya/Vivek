@@ -1675,6 +1675,104 @@ body.theme-transition, body.theme-transition * {
   align-items: center;
   text-align: center;
 }
+
+/* Eyebrow Badge */
+.bp-eyebrow-wrapper {
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: heroFadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bp-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 1.2rem;
+  background: rgba(184, 255, 87, 0.06);
+  border: 1px solid rgba(184, 255, 87, 0.22);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: 'Space Grotesk', monospace, sans-serif;
+  box-shadow: 0 0 25px rgba(184, 255, 87, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.bp-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* Main Title & Gradient Shimmer */
+.bp-hero-title {
+  font-family: 'Inter', 'Space Grotesk', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 6.5vw, 5.8rem);
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  color: #ffffff;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: heroFadeUp 0.9s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bp-gradient-shimmer {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-weight: 400;
+  background: linear-gradient(135deg, #ffffff 0%, #b8ff57 40%, #06b6d4 75%, #7c3aed 100%);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bpShimmerText 6s linear infinite;
+}
+
+@keyframes bpShimmerText {
+  0% { background-position: 0% center; }
+  100% { background-position: 250% center; }
+}
+
+/* Subtitle */
+.bp-hero-subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.22rem);
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 720px;
+  line-height: 1.7;
+  margin: 0 auto 2.5rem;
+  opacity: 0;
+  animation: heroFadeUp 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bp-hero-subtitle em {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  color: #ffffff;
+}
+
+@keyframes heroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
   user-select: none;
   -webkit-user-drag: none;
 }
