@@ -1773,6 +1773,81 @@ body.theme-transition, body.theme-transition * {
     filter: blur(0);
   }
 }
+
+/* Quick Stats Bar */
+.bp-hero-stats {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2.8rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: heroFadeUp 0.8s 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.bp-stat-card {
+  background: rgba(17, 17, 24, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  padding: 1rem 1.8rem;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bp-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 255, 87, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(184, 255, 87, 0.1);
+}
+
+.bp-stat-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+}
+
+.bp-stat-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--text3);
+}
+
+/* Corner Info Badges */
+.bp-corner {
+  position: absolute;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text3);
+  z-index: 10;
+}
+
+.bp-corner strong {
+  display: block;
+  font-size: 0.78rem;
+  color: #ffffff;
+  font-weight: 700;
+  margin-top: 0.2rem;
+  letter-spacing: 0.1em;
+}
+
+.bp-corner.bl {
+  bottom: 2.8rem;
+  left: 3rem;
+}
+
+.bp-corner.br {
+  bottom: 2.8rem;
+  right: 3rem;
+  text-align: right;
+}
   user-select: none;
   -webkit-user-drag: none;
 }
