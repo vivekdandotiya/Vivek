@@ -1953,6 +1953,27 @@ body.theme-transition, body.theme-transition * {
   color: var(--text3);
   font-family: 'Space Grotesk', monospace, sans-serif;
 }
+
+/* Responsive Tweaks for Blueprint Hero */
+@media (max-width: 768px) {
+  .sec-blueprint-hero {
+    padding-top: 100px;
+    padding-bottom: 5rem;
+  }
+  .bp-hero-title {
+    font-size: clamp(2.2rem, 9.5vw, 3.8rem);
+  }
+  .bp-hero-stats {
+    gap: 0.8rem;
+  }
+  .bp-stat-card {
+    padding: 0.8rem 1.2rem;
+    width: 45%;
+  }
+  .bp-corner.bl, .bp-corner.br {
+    display: none;
+  }
+}
   user-select: none;
   -webkit-user-drag: none;
 }
