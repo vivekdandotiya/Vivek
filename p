@@ -175,37 +175,48 @@
       </div>
     </section>
 
-    <!-- ── 3. INTERACTIVE CYLINDER GRID GALLERY ── -->
-    <section class="sec-cylinder" id="projects-stage" aria-label="Interactive 3D Cylinder Projects Stage">
-      <div class="wall-header">
-        <p class="eyebrow">// 02. SYSTEM ARCHITECTURE & REGISTRY</p>
-        <h2>Interactive <em>Workspace</em> Matrix</h2>
-        <svg class="wall-header-underline" viewBox="0 0 140 6" fill="none">
-          <path d="M0 3 L140 3" stroke="currentColor"/>
+    <!-- ── 3. INTERACTIVE BENTO DECK SHOWCASE ── -->
+    <section class="sec-projects-showcase" id="projects-stage" aria-label="Interactive Projects Showcase Stage">
+      <div class="showcase-header">
+        <p class="eyebrow">// 02. ARCHITECTURAL SHOWCASE & REGISTRY</p>
+        <h2>Featured <em>Digital</em> Architectures</h2>
+        <svg class="showcase-header-underline" viewBox="0 0 160 6" fill="none">
+          <path d="M0 3 L160 3" stroke="currentColor"/>
         </svg>
-        <p class="sub">Tactile 3D cylindrical panoramic grid. Drag, swipe or scroll to rotate through digital architecture prototypes. Click any card to expand its technical blueprint.</p>
+        <p class="sub">Curated showcase of high-performance web applications, 3D WebGL interfaces, and production design systems. Click any card to expand its technical blueprint.</p>
       </div>
 
-      <!-- 3D Perspective Viewport -->
-      <div class="wall-perspective-container" aria-label="3D Cylindrical Projects Wall">
-        <div class="curved-wall-grid" id="curvedWallGrid">
-          <!-- Injected dynamically via js/work.js -->
+      <!-- Controls Toolbar: Filter Chips + Real-time Search Console -->
+      <div class="showcase-toolbar">
+        <div class="showcase-search-bar">
+          <span class="search-sparkle">✦</span>
+          <input type="text" id="showcaseSearchInput" placeholder="Filter by title, stack, or keyword (e.g. React, Three.js, Crypto)..." aria-label="Search architectural database">
+          <button class="search-clear-btn" id="searchClearBtn" title="Clear Search">✕</button>
+        </div>
+
+        <div class="showcase-filter-tags" role="toolbar" aria-label="Project Category Filters">
+          <button class="filter-tag-btn active" data-tag="all">
+            <span>ALL</span>
+            <span class="filter-count">12</span>
+          </button>
+          <button class="filter-tag-btn" data-tag="web">
+            <span>WEB DEV</span>
+            <span class="filter-count">7</span>
+          </button>
+          <button class="filter-tag-btn" data-tag="design">
+            <span>UI/UX DESIGN</span>
+            <span class="filter-count">3</span>
+          </button>
+          <button class="filter-tag-btn" data-tag="chat">
+            <span>REAL-TIME CHAT</span>
+            <span class="filter-count">2</span>
+          </button>
         </div>
       </div>
 
-      <!-- Architectural Search Console & Filter Tags -->
-      <div class="prompt-bar-container">
-        <div class="prompt-bar">
-          <span class="prompt-sparkle">✦</span>
-          <input type="text" id="promptInput" placeholder="Query architectural database..." readonly aria-label="Database Query Filter Console">
-          <button class="prompt-btn" id="promptBtn">Execute ✧</button>
-        </div>
-        <div class="prompt-tags" role="toolbar" aria-label="Project Category Filters">
-          <button class="prompt-tag active" data-tag="all">ALL</button>
-          <button class="prompt-tag" data-tag="web">WEB DEV</button>
-          <button class="prompt-tag" data-tag="design">UI/UX DESIGN</button>
-          <button class="prompt-tag" data-tag="chat">REAL-TIME CHAT</button>
-        </div>
+      <!-- Interactive Bento Cards Grid (Populated dynamically via js/work.js) -->
+      <div class="showcase-cards-grid" id="showcaseCardsGrid">
+        <!-- Rendered by js/work.js with 3D perspective tilt & cursor spotlight -->
       </div>
     </section>
   </main>

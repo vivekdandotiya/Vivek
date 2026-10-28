@@ -1,6 +1,6 @@
 /**
- * WORK.JS — AWARD-LEVEL MOTION & INTERACTION ENGINE
- * Built with GSAP, ScrollTrigger, Lenis Smooth Scroll, and 3D Perspective CSS
+ * WORK.JS — RED & BLACK ARCHITECTURAL BLUEPRINT MOTION ENGINE
+ * Built with GSAP, ScrollTrigger, Lenis Smooth Scroll, and 3D Interactive Bento Showcase
  * Vivek Dandotiya Portfolio (https://vivek0052.in)
  */
 
@@ -37,7 +37,8 @@
       metrics: { perf: 99, quality: 'A+', qualityBar: 98, best: 100, access: 98 },
       dbName: 'LocalStorage (Theme & State Cache)',
       category: 'web',
-      themeColor: '#00f0ff'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '02',
@@ -62,7 +63,8 @@
       metrics: { perf: 96, quality: 'A', qualityBar: 92, best: 95, access: 98 },
       dbName: 'Supabase SQL Database',
       category: 'web',
-      themeColor: '#38bdf8'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '03',
@@ -87,7 +89,8 @@
       metrics: { perf: 94, quality: 'A+', qualityBar: 96, best: 98, access: 95 },
       dbName: 'LocalStorage (Watchlists Cache)',
       category: 'web',
-      themeColor: '#34d399'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '04',
@@ -112,7 +115,8 @@
       metrics: { perf: 92, quality: 'B+', qualityBar: 88, best: 90, access: 94 },
       dbName: 'Firebase Realtime DB',
       category: 'web',
-      themeColor: '#e11d48'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '05',
@@ -137,7 +141,8 @@
       metrics: { perf: 98, quality: 'A+', qualityBar: 98, best: 100, access: 98 },
       dbName: 'PostgreSQL Server Instance',
       category: 'web',
-      themeColor: '#00f0ff'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '06',
@@ -162,7 +167,8 @@
       metrics: { perf: 95, quality: 'A', qualityBar: 93, best: 96, access: 97 },
       dbName: 'MongoDB Cluster (Catalog Database)',
       category: 'web',
-      themeColor: '#f97316'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '07',
@@ -187,7 +193,8 @@
       metrics: { perf: 97, quality: 'A', qualityBar: 92, best: 98, access: 96 },
       dbName: 'LocalStorage (Tasks File)',
       category: 'web',
-      themeColor: '#fbbf24'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     },
     {
       num: '08',
@@ -212,7 +219,8 @@
       metrics: { perf: 100, quality: 'A+', qualityBar: 100, best: 100, access: 99 },
       dbName: 'Figma Variables Library',
       category: 'design',
-      themeColor: '#ff7262'
+      categoryLabel: 'UI/UX DESIGN',
+      themeColor: '#ff2a55'
     },
     {
       num: '09',
@@ -237,7 +245,8 @@
       metrics: { perf: 93, quality: 'A', qualityBar: 91, best: 94, access: 96 },
       dbName: 'Framer CMS Database',
       category: 'design',
-      themeColor: '#e2e8f0'
+      categoryLabel: 'UI/UX DESIGN',
+      themeColor: '#ff2a55'
     },
     {
       num: '10',
@@ -262,7 +271,8 @@
       metrics: { perf: 95, quality: 'A', qualityBar: 94, best: 96, access: 95 },
       dbName: 'MongoDB Replica Set',
       category: 'chat',
-      themeColor: '#00ffd5'
+      categoryLabel: 'REAL-TIME CHAT',
+      themeColor: '#ff2a55'
     },
     {
       num: '11',
@@ -287,7 +297,8 @@
       metrics: { perf: 99, quality: 'A+', qualityBar: 98, best: 99, access: 98 },
       dbName: 'LocalStorage Config Cache',
       category: 'design',
-      themeColor: '#ff7262'
+      categoryLabel: 'UI/UX DESIGN',
+      themeColor: '#ff2a55'
     },
     {
       num: '12',
@@ -312,7 +323,8 @@
       metrics: { perf: 95, quality: 'A', qualityBar: 94, best: 96, access: 95 },
       dbName: 'Three.js Camera Telemetry',
       category: 'web',
-      themeColor: '#38bdf8'
+      categoryLabel: 'WEB DEV',
+      themeColor: '#ff2a55'
     }
   ];
 
@@ -418,7 +430,7 @@
       );
     }
 
-    // Draw SVG blueprint technical draft lines behind text
+    // Draw SVG technical draft lines behind text
     if (svgDraftLines.length > 0) {
       heroTl.to(svgDraftLines, {
         strokeDashoffset: 0,
@@ -450,7 +462,7 @@
       heroTl.fromTo(scrollIndicator, { opacity: 0 }, { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.2');
     }
 
-    // Slow Blueprint Background Parallax on Scroll
+    // Slow Background Parallax on Scroll
     if (window.ScrollTrigger) {
       gsap.to('#bpHeroBgImg', {
         yPercent: 18,
@@ -469,17 +481,15 @@
         trigger: '#projects-stage',
         start: 'top 75%',
         onEnter: () => {
-          const header = document.querySelector('.wall-header');
+          const header = document.querySelector('.showcase-header');
           if (header) header.classList.add('in-view');
         }
       });
     }
 
-    // Hero Mouse Parallax Depth
     initHeroMouseParallax();
   }
 
-  // Count up stats smoothly with tabular numbers
   function initStatsCountUp() {
     const statsNums = document.querySelectorAll('.bp-stat-num');
     if (!statsNums.length) return;
@@ -517,7 +527,6 @@
     });
   }
 
-  // Interactive mouse depth on hero image
   function initHeroMouseParallax() {
     const hero = document.getElementById('hero-blueprint');
     const bgImg = document.getElementById('bpHeroBgImg');
@@ -564,21 +573,18 @@
         window.requestAnimationFrame(() => {
           const currentY = window.pageYOffset || 0;
 
-          // Scroll progress bar
           if (scrollBar) {
             const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
             const progress = totalDocHeight > 0 ? (currentY / totalDocHeight) * 100 : 0;
             scrollBar.style.width = `${progress}%`;
           }
 
-          // Glass style
           if (currentY > 24) {
             nav.classList.add('scrolled');
           } else {
             nav.classList.remove('scrolled');
           }
 
-          // Smart auto-hide (hide on scroll down, show on scroll up)
           if (currentY > 160 && currentY > lastScrollY && !mob.classList.contains('open')) {
             nav.classList.add('nav-hidden');
           } else {
@@ -592,10 +598,8 @@
       }
     }, { passive: true });
 
-    // Magnetic CTA Button
     initMagneticElements();
 
-    // Mobile nav
     if (ham && mob) {
       ham.addEventListener('click', () => {
         const isOpen = ham.classList.toggle('active');
@@ -620,7 +624,6 @@
       });
     }
 
-    // Theme Toggle with View Transitions API (Circular Reveal)
     if (themeBtn) {
       themeBtn.addEventListener('click', (e) => {
         toggleTheme(e);
@@ -648,7 +651,6 @@
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-    // View Transitions API
     if (!document.startViewTransition || prefersReducedMotion) {
       applyTheme(nextTheme);
       return;
@@ -679,7 +681,6 @@
     });
   }
 
-  // Magnetic hover on buttons & nav elements
   function initMagneticElements() {
     if (isTouchDevice || prefersReducedMotion) return;
 
@@ -698,300 +699,199 @@
     });
   }
 
-  // ── 6. BUTTERY 3D CYLINDER GALLERY GRID (INERTIA DRAG, HOVER TILT, AUTOPLAY) ──
-  const numCols = 6;
-  const radius = 980; // 3D cylinder depth radius in pixels
-  const baseGap = 26; // gap in degrees between columns
-  let curvedWallGrid = null;
-  let wallStage = null;
+  // ── 6. NEW HOLOGRAPHIC BENTO DECK & INTERACTIVE CARDS GRID ──
+  let cardsContainer = null;
+  let searchInput = null;
+  let activeCategory = 'all';
 
-  let yaw = 0;
-  let pitch = 0;
-  let targetYaw = 0;
-  let targetPitch = 0;
-  let rotationOffset = 0;
-  let isDragging = false;
-  let isHovered = false;
-  let startX = 0;
-  let lastX = 0;
-  let velocity = 0;
-  let currentFilter = 'all';
+  function initShowcaseGrid() {
+    cardsContainer = document.getElementById('showcaseCardsGrid');
+    searchInput = document.getElementById('showcaseSearchInput');
+    if (!cardsContainer) return;
 
-  function initCylinder() {
-    curvedWallGrid = document.getElementById('curvedWallGrid');
-    wallStage = document.querySelector('.wall-perspective-container');
-    if (!curvedWallGrid || !wallStage) return;
-
-    renderCylinderCards();
-    setupCylinderInteractions();
-    setupFilters();
+    renderProjectCards(projects);
+    setupShowcaseFilters();
+    setupShowcaseSearch();
   }
 
-  function createCardElement(p, idx) {
-    const card = document.createElement('div');
-    card.className = 'wall-card';
-    card.dataset.cat = p.category;
-    card.dataset.index = idx;
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '0');
-    card.setAttribute('aria-label', `View Blueprint for ${p.name}`);
+  function renderProjectCards(list) {
+    cardsContainer.innerHTML = '';
 
-    card.innerHTML = `
-      <div class="wall-card-preview" style="background-image: url('${p.img}');"></div>
-      <div class="wall-card-glow"></div>
-      <div class="wall-card-overlay">
-        <div class="wall-card-top">
-          <span class="wall-card-badge">${p.category}</span>
-          <span class="wall-card-num">${p.num}</span>
-        </div>
-        <div class="wall-card-bottom">
-          <h3 class="wall-card-title">${p.name}</h3>
-          <p class="wall-card-desc">${p.desc}</p>
-          <div class="wall-card-actions">
-            <button class="card-btn-bp" onclick="event.stopPropagation(); window.openProjectModal(${idx});">Blueprint ⚙</button>
-            <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="card-btn-demo" onclick="event.stopPropagation();">Live Demo ↗</a>
+    list.forEach((p, idx) => {
+      const card = document.createElement('article');
+      card.className = 'project-bento-card';
+      card.dataset.cat = p.category;
+      card.dataset.name = p.name.toLowerCase();
+      card.dataset.desc = p.desc.toLowerCase();
+      card.dataset.index = idx;
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('aria-label', `View Blueprint for ${p.name}`);
+
+      card.innerHTML = `
+        <div class="card-corner-marker tl">+</div>
+        <div class="card-corner-marker tr">+</div>
+        <div class="card-cursor-spotlight"></div>
+
+        <!-- Visual Stage -->
+        <div class="card-visual-stage">
+          <img src="${p.img}" alt="${p.name} preview" class="card-mockup-img" loading="lazy" width="600" height="340" />
+          <div class="card-visual-scrim"></div>
+          <div class="card-badge-row">
+            <span class="card-num-badge">[${p.num}]</span>
+            <span class="card-cat-badge">${p.categoryLabel || p.category.toUpperCase()}</span>
           </div>
         </div>
-      </div>
-    `;
 
-    // Click card to open blueprint modal
-    card.addEventListener('click', () => {
-      openModal(idx);
-    });
+        <!-- Content Body -->
+        <div class="card-body-content">
+          <div class="card-title-row">
+            <h3 class="card-project-title">${p.name}</h3>
+            <span class="card-project-sub">${p.sub}</span>
+          </div>
 
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
+          <p class="card-project-desc">${p.desc}</p>
+
+          <!-- Tech Stack Chips -->
+          <div class="card-tech-chips">
+            ${p.tags.map(t => `<span class="card-tech-pill">${t}</span>`).join('')}
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="card-metrics-row">
+            <div class="card-metric-badge">
+              <span class="card-status-dot"></span>
+              <span>STATUS:</span>
+              <strong>${p.status.toUpperCase()}</strong>
+            </div>
+            <div class="card-metric-badge">
+              <span>PERF:</span>
+              <strong class="tabular">${p.metrics.perf}%</strong>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="card-action-bar">
+            <button class="btn-card-blueprint" onclick="event.stopPropagation(); window.openProjectModal(${idx});">
+              Blueprint ⚙
+            </button>
+            <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="btn-card-demo" onclick="event.stopPropagation();">
+              Live Demo ↗
+            </a>
+          </div>
+        </div>
+      `;
+
+      // Open Modal on Card Click
+      card.addEventListener('click', () => {
         openModal(idx);
-      }
-    });
-
-    // Hover 3D perspective tilt
-    if (!isTouchDevice && !prefersReducedMotion) {
-      card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
-        card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotX = ((y - centerY) / centerY) * -8;
-        const rotY = ((x - centerX) / centerX) * 8;
-        card.style.transform = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(36px) scale(1.05)`;
       });
 
-      card.addEventListener('mouseenter', () => {
-        isHovered = true;
-        curvedWallGrid.classList.add('has-active');
-        document.body.classList.add('cursor-view');
-      });
-
-      card.addEventListener('mouseleave', () => {
-        isHovered = false;
-        curvedWallGrid.classList.remove('has-active');
-        card.style.transform = '';
-        document.body.classList.remove('cursor-view');
-      });
-    }
-
-    return card;
-  }
-
-  function renderCylinderCards() {
-    curvedWallGrid.innerHTML = '';
-    for (let c = 0; c < numCols; c++) {
-      const colAngle = (c - (numCols - 1) / 2) * baseGap;
-      const colEl = document.createElement('div');
-      colEl.className = 'wall-col';
-      colEl.style.transform = `rotateY(${colAngle}deg) translateZ(${-radius}px) rotateY(${-colAngle * 0.15}deg)`;
-
-      // Row 0 Card
-      const p1Idx = c * 2;
-      if (p1Idx < N) {
-        colEl.appendChild(createCardElement(projects[p1Idx], p1Idx));
-      }
-      // Row 1 Card
-      const p2Idx = c * 2 + 1;
-      if (p2Idx < N) {
-        colEl.appendChild(createCardElement(projects[p2Idx], p2Idx));
-      }
-
-      curvedWallGrid.appendChild(colEl);
-    }
-  }
-
-  function setupCylinderInteractions() {
-    // Mouse move perspective tracking over whole stage
-    document.addEventListener('mousemove', (e) => {
-      if (isDragging) return;
-      const xPercent = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-      const yPercent = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      targetYaw = xPercent * 20;
-      targetPitch = -yPercent * 10;
-    });
-
-    // Drag / Touch rotation
-    wallStage.addEventListener('mousedown', (e) => {
-      if (e.target.closest('button') || e.target.closest('a')) return;
-      isDragging = true;
-      startX = e.clientX;
-      lastX = e.clientX;
-      velocity = 0;
-      document.body.classList.add('cursor-drag');
-    });
-
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const delta = e.clientX - lastX;
-      velocity = delta * 0.12;
-      rotationOffset += velocity;
-      lastX = e.clientX;
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      document.body.classList.remove('cursor-drag');
-      // Snap to nearest column angle on release
-      snapToNearestCard();
-    });
-
-    // Touch support for mobile & tablets
-    wallStage.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 0) {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        lastX = e.touches[0].clientX;
-        velocity = 0;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging || e.touches.length === 0) return;
-      const clientX = e.touches[0].clientX;
-      const delta = clientX - lastX;
-      velocity = delta * 0.15;
-      rotationOffset += velocity;
-      lastX = clientX;
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => {
-      isDragging = false;
-      snapToNearestCard();
-    });
-
-    // Wheel rotation
-    wallStage.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      rotationOffset += e.deltaY * -0.06;
-      snapToNearestCard();
-    }, { passive: false });
-
-    // Enter stage cursor label
-    wallStage.addEventListener('mouseenter', () => {
-      document.body.classList.add('cursor-drag');
-    });
-    wallStage.addEventListener('mouseleave', () => {
-      document.body.classList.remove('cursor-drag');
-      isHovered = false;
-    });
-
-    // RAF Damping & Momentum Animation Loop
-    function updateCylinderPhysics() {
-      if (!isDragging) {
-        // Inertia deceleration
-        if (Math.abs(velocity) > 0.005) {
-          rotationOffset += velocity;
-          velocity *= 0.92;
+      card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openModal(idx);
         }
+      });
 
-        // Idle slow rotation when not hovered
-        if (!isHovered && Math.abs(velocity) < 0.01 && !prefersReducedMotion) {
-          rotationOffset += 0.035;
-        }
+      // 3D Perspective Card Tilt on Mousemove
+      if (!isTouchDevice && !prefersReducedMotion) {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
 
-        yaw += (targetYaw - yaw) * 0.08;
-        pitch += (targetPitch - pitch) * 0.08;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotX = ((y - centerY) / centerY) * -7;
+          const rotY = ((x - centerX) / centerX) * 7;
+
+          card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-8px) scale(1.02)`;
+        });
+
+        card.addEventListener('mouseenter', () => {
+          document.body.classList.add('cursor-view');
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = '';
+          document.body.classList.remove('cursor-view');
+        });
       }
 
-      if (curvedWallGrid) {
-        curvedWallGrid.style.transform = `rotateX(${pitch.toFixed(3)}deg) rotateY(${(yaw + rotationOffset).toFixed(3)}deg)`;
-      }
-      requestAnimationFrame(updateCylinderPhysics);
-    }
-    requestAnimationFrame(updateCylinderPhysics);
-  }
-
-  function snapToNearestCard() {
-    const totalAngle = yaw + rotationOffset;
-    const nearestColIndex = Math.round(totalAngle / baseGap);
-    const snapTarget = nearestColIndex * baseGap - yaw;
-    gsap.to({ val: rotationOffset }, {
-      val: snapTarget,
-      duration: 0.65,
-      ease: 'power3.out',
-      onUpdate: function () {
-        rotationOffset = this.targets()[0].val;
-      }
+      cardsContainer.appendChild(card);
     });
+
+    // Stagger in cards smoothly
+    if (!prefersReducedMotion) {
+      gsap.fromTo('.project-bento-card', 
+        { opacity: 0, y: 35, scale: 0.96 }, 
+        { opacity: 1, y: 0, scale: 1, duration: 0.55, stagger: 0.05, ease: 'power3.out' }
+      );
+    }
   }
 
-  // ── 7. TYPEWRITER PROMPT FILTER CONTROLLERS ──
-  const promptMap = {
-    all: "Displaying full architectural registry: WebGL engines, full-stack portals, and design systems...",
-    web: "Query: Filter high-performance responsive web portals, dashboards, and live telemetry feeds...",
-    design: "Query: Filter pixel-perfect Figma UI kits, motion prototypes, and Framer design systems...",
-    chat: "Query: Filter real-time bidirectional WebSocket messaging networks and socket rooms..."
-  };
-
-  let typewriterTimer = null;
-  function typePromptText(text) {
-    const input = document.getElementById('promptInput');
-    if (!input) return;
-    clearInterval(typewriterTimer);
-    input.value = '';
-    let i = 0;
-    typewriterTimer = setInterval(() => {
-      if (i < text.length) {
-        input.value += text.charAt(i);
-        i++;
-      } else {
-        clearInterval(typewriterTimer);
-      }
-    }, 18);
-  }
-
-  function setupFilters() {
-    const tags = document.querySelectorAll('.prompt-tag');
-    tags.forEach((tagBtn) => {
-      tagBtn.addEventListener('click', () => {
-        tags.forEach(t => t.classList.remove('active'));
-        tagBtn.classList.add('active');
-        const tag = tagBtn.dataset.tag;
-        currentFilter = tag;
-        typePromptText(promptMap[tag] || promptMap.all);
-        filterCards(tag);
+  function setupShowcaseFilters() {
+    const filterBtns = document.querySelectorAll('.filter-tag-btn');
+    filterBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.tag;
+        applyShowcaseFilter();
       });
     });
-
-    typePromptText(promptMap.all);
   }
 
-  function filterCards(tag) {
-    document.querySelectorAll('.wall-card').forEach((card) => {
+  function setupShowcaseSearch() {
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', () => {
+      applyShowcaseFilter();
+    });
+
+    const clearBtn = document.getElementById('searchClearBtn');
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        applyShowcaseFilter();
+      });
+    }
+  }
+
+  function applyShowcaseFilter() {
+    const query = (searchInput ? searchInput.value : '').toLowerCase().trim();
+    const cards = document.querySelectorAll('.project-bento-card');
+    let visibleCards = [];
+
+    cards.forEach((card) => {
       const cat = card.dataset.cat;
-      if (tag === 'all' || cat === tag) {
+      const name = card.dataset.name;
+      const desc = card.dataset.desc;
+
+      const matchesCat = (activeCategory === 'all' || cat === activeCategory);
+      const matchesQuery = (!query || name.includes(query) || desc.includes(query));
+
+      if (matchesCat && matchesQuery) {
         card.classList.remove('filtered-out');
+        visibleCards.push(card);
       } else {
         card.classList.add('filtered-out');
       }
     });
+
+    if (!prefersReducedMotion && visibleCards.length > 0) {
+      gsap.fromTo(visibleCards, 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.4, stagger: 0.04, ease: 'power3.out' }
+      );
+    }
   }
 
-  // ── 8. DYNAMIC SVG BLUEPRINT GENERATORS ──
+  // ── 7. DYNAMIC SVG BLUEPRINT GENERATORS (RED & BLACK RESKIN) ──
   function generateSystemLayoutSVG(p) {
     const isMobile = p.num === '10';
     const isDesign = p.num === '08';
@@ -999,48 +899,40 @@
     if (isMobile) {
       return `
         <svg class="bp-svg" viewBox="0 0 800 480" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="rgba(0, 240, 255, 0.2)" stroke-width="1">
-            <line x1="80" y1="0" x2="80" y2="480" stroke="rgba(0,240,255,0.04)" />
-            <line x1="720" y1="0" x2="720" y2="480" stroke="rgba(0,240,255,0.04)" />
+          <g fill="none" stroke="rgba(255, 42, 85, 0.25)" stroke-width="1">
+            <line x1="80" y1="0" x2="80" y2="480" stroke="rgba(255, 42, 85, 0.06)" />
+            <line x1="720" y1="0" x2="720" y2="480" stroke="rgba(255, 42, 85, 0.06)" />
             
             <!-- Mobile Phone Blueprint Shell -->
-            <rect x="290" y="24" width="220" height="432" rx="32" stroke="rgba(0, 240, 255, 0.85)" stroke-width="2.5" />
-            <rect x="302" y="36" width="196" height="408" rx="22" stroke="rgba(0, 240, 255, 0.4)" stroke-width="1.5" />
+            <rect x="290" y="24" width="220" height="432" rx="32" stroke="rgba(255, 42, 85, 0.85)" stroke-width="2.5" />
+            <rect x="302" y="36" width="196" height="408" rx="22" stroke="rgba(255, 42, 85, 0.4)" stroke-width="1.5" />
             
-            <!-- Dynamic Island / Speaker Notch -->
-            <path d="M 370 36 Q 370 50, 385 50 L 415 50 Q 430 50, 430 36" fill="rgba(0, 240, 255, 0.15)" stroke="rgba(0, 240, 255, 0.8)" />
+            <!-- Notch -->
+            <path d="M 370 36 Q 370 50, 385 50 L 415 50 Q 430 50, 430 36" fill="rgba(255, 42, 85, 0.15)" stroke="rgba(255, 42, 85, 0.8)" />
             
             <!-- Header bar -->
-            <line x1="302" y1="80" x2="498" y2="80" stroke="rgba(0, 240, 255, 0.45)" stroke-width="1.5" />
-            <circle cx="330" cy="62" r="10" stroke="rgba(0, 240, 255, 0.6)" stroke-width="1.5" />
-            <rect x="350" y="57" width="80" height="10" rx="3" fill="rgba(0, 240, 255, 0.2)" />
+            <line x1="302" y1="80" x2="498" y2="80" stroke="rgba(255, 42, 85, 0.45)" stroke-width="1.5" />
+            <circle cx="330" cy="62" r="10" stroke="rgba(255, 42, 85, 0.6)" stroke-width="1.5" />
+            <rect x="350" y="57" width="80" height="10" rx="3" fill="rgba(255, 42, 85, 0.2)" />
             
             <!-- Message Chat Bubbles -->
-            <rect x="314" y="102" width="115" height="36" rx="8" fill="rgba(0, 240, 255, 0.08)" stroke="rgba(0, 240, 255, 0.4)" />
-            <rect x="326" y="112" width="90" height="6" rx="2" fill="rgba(0, 240, 255, 0.3)" />
-            <rect x="326" y="124" width="55" height="6" rx="2" fill="rgba(0, 240, 255, 0.3)" />
+            <rect x="314" y="102" width="115" height="36" rx="8" fill="rgba(255, 42, 85, 0.08)" stroke="rgba(255, 42, 85, 0.4)" />
+            <rect x="326" y="112" width="90" height="6" rx="2" fill="rgba(255, 42, 85, 0.3)" />
+            <rect x="326" y="124" width="55" height="6" rx="2" fill="rgba(255, 42, 85, 0.3)" />
             
-            <rect x="370" y="152" width="118" height="48" rx="8" fill="rgba(0, 255, 213, 0.1)" stroke="rgba(0, 255, 213, 0.5)" />
-            <rect x="382" y="162" width="95" height="6" rx="2" fill="rgba(0, 255, 213, 0.4)" />
-            <rect x="382" y="174" width="75" height="6" rx="2" fill="rgba(0, 255, 213, 0.4)" />
-            <rect x="382" y="186" width="45" height="6" rx="2" fill="rgba(0, 255, 213, 0.4)" />
-            
-            <rect x="314" y="214" width="125" height="38" rx="8" fill="rgba(0, 240, 255, 0.08)" stroke="rgba(0, 240, 255, 0.4)" />
-            <rect x="326" y="225" width="102" height="6" rx="2" fill="rgba(0, 240, 255, 0.3)" />
-            <rect x="326" y="237" width="60" height="6" rx="2" fill="rgba(0, 240, 255, 0.3)" />
+            <rect x="370" y="152" width="118" height="48" rx="8" fill="rgba(255, 82, 119, 0.12)" stroke="rgba(255, 82, 119, 0.6)" />
+            <rect x="382" y="162" width="95" height="6" rx="2" fill="rgba(255, 82, 119, 0.45)" />
+            <rect x="382" y="174" width="75" height="6" rx="2" fill="rgba(255, 82, 119, 0.45)" />
+            <rect x="382" y="186" width="45" height="6" rx="2" fill="rgba(255, 82, 119, 0.45)" />
             
             <!-- Input Console -->
-            <rect x="314" y="402" width="145" height="26" rx="13" stroke="rgba(0, 240, 255, 0.6)" />
-            <circle cx="478" cy="415" r="12" fill="rgba(0, 255, 213, 0.2)" stroke="rgba(0, 255, 213, 0.8)" />
+            <rect x="314" y="402" width="145" height="26" rx="13" stroke="rgba(255, 42, 85, 0.6)" />
+            <circle cx="478" cy="415" r="12" fill="rgba(255, 82, 119, 0.2)" stroke="rgba(255, 82, 119, 0.85)" />
             
-            <!-- Technical Dimension Annotations -->
-            <line x1="512" y1="240" x2="620" y2="240" stroke="rgba(0, 240, 255, 0.8)" stroke-dasharray="3,3" />
-            <circle cx="512" cy="240" r="3" fill="rgba(0, 240, 255, 0.8)" />
-            <text x="630" y="244" fill="rgba(0, 240, 255, 0.85)" font-family="monospace" font-size="11">VIEWPORT: 375x812px</text>
-            
-            <line x1="290" y1="120" x2="160" y2="120" stroke="rgba(0, 240, 255, 0.8)" stroke-dasharray="3,3" />
-            <circle cx="290" cy="120" r="3" fill="rgba(0, 240, 255, 0.8)" />
-            <text x="40" y="124" fill="rgba(0, 240, 255, 0.85)" font-family="monospace" font-size="11">WEBSOCKET PIPELINE</text>
+            <!-- Annotations -->
+            <line x1="512" y1="240" x2="620" y2="240" stroke="rgba(255, 42, 85, 0.8)" stroke-dasharray="3,3" />
+            <circle cx="512" cy="240" r="3" fill="rgba(255, 42, 85, 0.8)" />
+            <text x="630" y="244" fill="rgba(255, 42, 85, 0.9)" font-family="monospace" font-size="11">VIEWPORT: 375x812px</text>
           </g>
         </svg>
       `;
@@ -1049,69 +941,65 @@
     if (isDesign) {
       return `
         <svg class="bp-svg" viewBox="0 0 800 480" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-          <g fill="none" stroke="rgba(0, 240, 255, 0.18)" stroke-width="1">
-            <rect x="40" y="24" width="720" height="432" stroke="rgba(0, 240, 255, 0.6)" stroke-width="2" />
-            <rect x="40" y="24" width="170" height="432" stroke="rgba(0, 240, 255, 0.4)" />
-            <text x="56" y="52" fill="rgba(0, 240, 255, 0.9)" font-family="monospace" font-size="12" font-weight="bold">DESIGN SYSTEM</text>
-            <text x="56" y="80" fill="rgba(0, 240, 255, 0.6)" font-family="monospace" font-size="11"># Hero Banner</text>
-            <text x="56" y="105" fill="rgba(0, 240, 255, 0.6)" font-family="monospace" font-size="11"># Typography Scale</text>
-            <text x="56" y="130" fill="rgba(0, 240, 255, 0.6)" font-family="monospace" font-size="11"># Product Card Matrix</text>
+          <g fill="none" stroke="rgba(255, 42, 85, 0.22)" stroke-width="1">
+            <rect x="40" y="24" width="720" height="432" stroke="rgba(255, 42, 85, 0.6)" stroke-width="2" />
+            <rect x="40" y="24" width="170" height="432" stroke="rgba(255, 42, 85, 0.4)" />
+            <text x="56" y="52" fill="rgba(255, 42, 85, 0.95)" font-family="monospace" font-size="12" font-weight="bold">DESIGN SYSTEM</text>
+            <text x="56" y="80" fill="rgba(255, 42, 85, 0.65)" font-family="monospace" font-size="11"># Hero Banner</text>
+            <text x="56" y="105" fill="rgba(255, 42, 85, 0.65)" font-family="monospace" font-size="11"># Typography Scale</text>
+            <text x="56" y="130" fill="rgba(255, 42, 85, 0.65)" font-family="monospace" font-size="11"># Card Matrix</text>
             
             <!-- Canvas Frames -->
-            <rect x="240" y="60" width="240" height="160" stroke="rgba(0, 240, 255, 0.8)" stroke-width="1.5" />
-            <text x="240" y="50" fill="rgba(0, 240, 255, 0.8)" font-family="monospace" font-size="11">Desktop - Artboard 01</text>
+            <rect x="240" y="60" width="240" height="160" stroke="rgba(255, 42, 85, 0.8)" stroke-width="1.5" />
+            <text x="240" y="50" fill="rgba(255, 42, 85, 0.85)" font-family="monospace" font-size="11">Desktop - Artboard 01</text>
             
-            <rect x="520" y="60" width="110" height="190" stroke="rgba(0, 240, 255, 0.8)" stroke-width="1.5" />
-            <text x="520" y="50" fill="rgba(0, 240, 255, 0.8)" font-family="monospace" font-size="11">Mobile - Frame 02</text>
+            <rect x="520" y="60" width="110" height="190" stroke="rgba(255, 42, 85, 0.8)" stroke-width="1.5" />
+            <text x="520" y="50" fill="rgba(255, 42, 85, 0.85)" font-family="monospace" font-size="11">Mobile - Frame 02</text>
             
-            <path d="M 480 140 C 510 140, 500 190, 520 190" stroke="rgba(0, 255, 213, 0.85)" stroke-width="2" stroke-dasharray="4,4" />
-            <polygon points="520,190 514,186 514,194" fill="rgba(0, 255, 213, 0.85)" />
-            <text x="440" y="235" fill="rgba(0, 255, 213, 0.85)" font-family="monospace" font-size="10">PROTOTYPE LINK</text>
+            <path d="M 480 140 C 510 140, 500 190, 520 190" stroke="rgba(255, 82, 119, 0.85)" stroke-width="2" stroke-dasharray="4,4" />
+            <polygon points="520,190 514,186 514,194" fill="rgba(255, 82, 119, 0.85)" />
+            <text x="440" y="235" fill="rgba(255, 82, 119, 0.85)" font-family="monospace" font-size="10">INTERACTIVE FLOW</text>
           </g>
         </svg>
       `;
     }
 
-    // Default High-Performance Web Architecture Browser View
+    // Default Web Architecture View
     return `
       <svg class="bp-svg" viewBox="0 0 800 480" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" stroke="rgba(0, 240, 255, 0.18)" stroke-width="1">
-          <!-- Browser Shell -->
-          <rect x="70" y="32" width="660" height="416" rx="8" stroke="rgba(0, 240, 255, 0.85)" stroke-width="2" />
-          <line x1="70" y1="74" x2="730" y2="74" stroke="rgba(0, 240, 255, 0.75)" stroke-width="1.5" />
+        <g fill="none" stroke="rgba(255, 42, 85, 0.22)" stroke-width="1">
+          <rect x="70" y="32" width="660" height="416" rx="8" stroke="rgba(255, 42, 85, 0.85)" stroke-width="2" />
+          <line x1="70" y1="74" x2="730" y2="74" stroke="rgba(255, 42, 85, 0.75)" stroke-width="1.5" />
           
           <!-- Window Controls -->
-          <circle cx="95" cy="53" r="5" fill="rgba(0, 240, 255, 0.2)" stroke="rgba(0, 240, 255, 0.8)" />
-          <circle cx="110" cy="53" r="5" fill="rgba(0, 240, 255, 0.2)" stroke="rgba(0, 240, 255, 0.8)" />
-          <circle cx="125" cy="53" r="5" fill="rgba(0, 240, 255, 0.2)" stroke="rgba(0, 240, 255, 0.8)" />
+          <circle cx="95" cy="53" r="5" fill="rgba(255, 42, 85, 0.2)" stroke="rgba(255, 42, 85, 0.8)" />
+          <circle cx="110" cy="53" r="5" fill="rgba(255, 42, 85, 0.2)" stroke="rgba(255, 42, 85, 0.8)" />
+          <circle cx="125" cy="53" r="5" fill="rgba(255, 42, 85, 0.2)" stroke="rgba(255, 42, 85, 0.8)" />
           
-          <rect x="150" y="43" width="480" height="20" rx="5" stroke="rgba(0, 240, 255, 0.4)" />
-          <line x1="165" y1="53" x2="260" y2="53" stroke="rgba(0, 240, 255, 0.6)" stroke-width="1.5" />
+          <rect x="150" y="43" width="480" height="20" rx="5" stroke="rgba(255, 42, 85, 0.4)" />
+          <line x1="165" y1="53" x2="260" y2="53" stroke="rgba(255, 42, 85, 0.6)" stroke-width="1.5" />
           
           <!-- Sidebar -->
-          <rect x="70" y="74" width="150" height="374" stroke="rgba(0, 240, 255, 0.35)" />
-          <line x1="90" y1="110" x2="195" y2="110" stroke="rgba(0, 240, 255, 0.3)" />
-          <line x1="90" y1="140" x2="175" y2="140" stroke="rgba(0, 240, 255, 0.3)" />
-          <line x1="90" y1="170" x2="185" y2="170" stroke="rgba(0, 240, 255, 0.3)" />
+          <rect x="70" y="74" width="150" height="374" stroke="rgba(255, 42, 85, 0.35)" />
           
           <!-- Main Content Grid -->
-          <rect x="245" y="94" width="460" height="105" rx="6" fill="rgba(0, 240, 255, 0.04)" stroke="rgba(0, 240, 255, 0.4)" />
-          <line x1="265" y1="125" x2="420" y2="125" stroke="rgba(0, 240, 255, 0.7)" stroke-width="2" />
-          <line x1="265" y1="150" x2="560" y2="150" stroke="rgba(0, 240, 255, 0.3)" />
+          <rect x="245" y="94" width="460" height="105" rx="6" fill="rgba(255, 42, 85, 0.05)" stroke="rgba(255, 42, 85, 0.4)" />
+          <line x1="265" y1="125" x2="420" y2="125" stroke="rgba(255, 42, 85, 0.7)" stroke-width="2" />
+          <line x1="265" y1="150" x2="560" y2="150" stroke="rgba(255, 42, 85, 0.3)" />
           
           <!-- Bento Grid Columns -->
-          <rect x="245" y="224" width="140" height="194" rx="6" fill="rgba(0, 240, 255, 0.04)" stroke="rgba(0, 240, 255, 0.4)" />
-          <circle cx="315" cy="265" r="20" stroke="rgba(0, 240, 255, 0.5)" />
+          <rect x="245" y="224" width="140" height="194" rx="6" fill="rgba(255, 42, 85, 0.05)" stroke="rgba(255, 42, 85, 0.4)" />
+          <circle cx="315" cy="265" r="20" stroke="rgba(255, 42, 85, 0.5)" />
           
-          <rect x="405" y="224" width="140" height="194" rx="6" fill="rgba(0, 240, 255, 0.04)" stroke="rgba(0, 240, 255, 0.4)" />
-          <circle cx="475" cy="265" r="20" stroke="rgba(0, 240, 255, 0.5)" />
+          <rect x="405" y="224" width="140" height="194" rx="6" fill="rgba(255, 42, 85, 0.05)" stroke="rgba(255, 42, 85, 0.4)" />
+          <circle cx="475" cy="265" r="20" stroke="rgba(255, 42, 85, 0.5)" />
           
-          <rect x="565" y="224" width="140" height="194" rx="6" fill="rgba(0, 240, 255, 0.04)" stroke="rgba(0, 240, 255, 0.4)" />
-          <circle cx="635" cy="265" r="20" stroke="rgba(0, 240, 255, 0.5)" />
+          <rect x="565" y="224" width="140" height="194" rx="6" fill="rgba(255, 42, 85, 0.05)" stroke="rgba(255, 42, 85, 0.4)" />
+          <circle cx="635" cy="265" r="20" stroke="rgba(255, 42, 85, 0.5)" />
           
-          <!-- Dimensional Marker -->
-          <line x1="400" y1="32" x2="400" y2="8" stroke="rgba(0, 240, 255, 0.85)" stroke-width="1" />
-          <text x="410" y="22" fill="rgba(0, 240, 255, 0.85)" font-family="monospace" font-size="11">MAX-WIDTH: 1280px</text>
+          <!-- Dimension -->
+          <line x1="400" y1="32" x2="400" y2="8" stroke="rgba(255, 42, 85, 0.85)" stroke-width="1" />
+          <text x="410" y="22" fill="rgba(255, 42, 85, 0.85)" font-family="monospace" font-size="11">MAX-WIDTH: 1280px</text>
         </g>
       </svg>
     `;
@@ -1131,49 +1019,49 @@
 
     return `
       <svg class="bp-svg" viewBox="0 0 800 480" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-        <g fill="none" stroke="rgba(0, 240, 255, 0.18)" stroke-width="1">
-          <rect x="50" y="24" width="700" height="40" rx="5" fill="rgba(0, 240, 255, 0.05)" stroke="rgba(0, 240, 255, 0.5)" />
-          <text x="70" y="49" fill="rgba(0, 255, 213, 0.9)" font-family="monospace" font-size="12" font-weight="bold">${dbTech.toUpperCase()} // ENTITY RELATIONSHIP</text>
-          <circle cx="720" cy="44" r="6" fill="rgba(0, 255, 213, 0.85)" />
+        <g fill="none" stroke="rgba(255, 42, 85, 0.22)" stroke-width="1">
+          <rect x="50" y="24" width="700" height="40" rx="5" fill="rgba(255, 42, 85, 0.06)" stroke="rgba(255, 42, 85, 0.5)" />
+          <text x="70" y="49" fill="rgba(255, 82, 119, 0.95)" font-family="monospace" font-size="12" font-weight="bold">${dbTech.toUpperCase()} // ENTITY RELATIONSHIP</text>
+          <circle cx="720" cy="44" r="6" fill="rgba(255, 82, 119, 0.85)" />
           
           <!-- Table 1 -->
-          <rect x="50" y="100" width="180" height="190" rx="6" fill="rgba(0, 240, 255, 0.03)" stroke="rgba(0, 240, 255, 0.6)" stroke-width="1.5" />
-          <rect x="50" y="100" width="180" height="30" fill="rgba(0, 240, 255, 0.15)" />
-          <text x="60" y="121" fill="rgba(0, 240, 255, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t1Name}</text>
+          <rect x="50" y="100" width="180" height="190" rx="6" fill="rgba(255, 42, 85, 0.04)" stroke="rgba(255, 42, 85, 0.6)" stroke-width="1.5" />
+          <rect x="50" y="100" width="180" height="30" fill="rgba(255, 42, 85, 0.16)" />
+          <text x="60" y="121" fill="rgba(255, 42, 85, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t1Name}</text>
           ${t1Cols.map((c, i) => `
-            <text x="60" y="${154 + i * 26}" fill="rgba(0, 240, 255, 0.75)" font-family="monospace" font-size="10">${c}</text>
-            <line x1="50" y1="${164 + i * 26}" x2="230" y2="${164 + i * 26}" stroke="rgba(0, 240, 255, 0.08)" />
+            <text x="60" y="${154 + i * 26}" fill="rgba(255, 42, 85, 0.75)" font-family="monospace" font-size="10">${c}</text>
+            <line x1="50" y1="${164 + i * 26}" x2="230" y2="${164 + i * 26}" stroke="rgba(255, 42, 85, 0.08)" />
           `).join('')}
           
           <!-- Table 2 -->
-          <rect x="310" y="100" width="180" height="210" rx="6" fill="rgba(0, 240, 255, 0.03)" stroke="rgba(0, 240, 255, 0.6)" stroke-width="1.5" />
-          <rect x="310" y="100" width="180" height="30" fill="rgba(0, 240, 255, 0.15)" />
-          <text x="320" y="121" fill="rgba(0, 240, 255, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t2Name}</text>
+          <rect x="310" y="100" width="180" height="210" rx="6" fill="rgba(255, 42, 85, 0.04)" stroke="rgba(255, 42, 85, 0.6)" stroke-width="1.5" />
+          <rect x="310" y="100" width="180" height="30" fill="rgba(255, 42, 85, 0.16)" />
+          <text x="320" y="121" fill="rgba(255, 42, 85, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t2Name}</text>
           ${t2Cols.map((c, i) => `
-            <text x="320" y="${154 + i * 26}" fill="rgba(0, 240, 255, 0.75)" font-family="monospace" font-size="10">${c}</text>
-            <line x1="310" y1="${164 + i * 26}" x2="490" y2="${164 + i * 26}" stroke="rgba(0, 240, 255, 0.08)" />
+            <text x="320" y="${154 + i * 26}" fill="rgba(255, 42, 85, 0.75)" font-family="monospace" font-size="10">${c}</text>
+            <line x1="310" y1="${164 + i * 26}" x2="490" y2="${164 + i * 26}" stroke="rgba(255, 42, 85, 0.08)" />
           `).join('')}
           
           <!-- Table 3 -->
-          <rect x="570" y="100" width="180" height="190" rx="6" fill="rgba(0, 240, 255, 0.03)" stroke="rgba(0, 240, 255, 0.6)" stroke-width="1.5" />
-          <rect x="570" y="100" width="180" height="30" fill="rgba(0, 240, 255, 0.15)" />
-          <text x="580" y="121" fill="rgba(0, 240, 255, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t3Name}</text>
+          <rect x="570" y="100" width="180" height="190" rx="6" fill="rgba(255, 42, 85, 0.04)" stroke="rgba(255, 42, 85, 0.6)" stroke-width="1.5" />
+          <rect x="570" y="100" width="180" height="30" fill="rgba(255, 42, 85, 0.16)" />
+          <text x="580" y="121" fill="rgba(255, 42, 85, 0.95)" font-family="monospace" font-size="12" font-weight="bold">TABLE: ${t3Name}</text>
           ${t3Cols.map((c, i) => `
-            <text x="580" y="${154 + i * 26}" fill="rgba(0, 240, 255, 0.75)" font-family="monospace" font-size="10">${c}</text>
-            <line x1="570" y1="${164 + i * 26}" x2="750" y2="${164 + i * 26}" stroke="rgba(0, 240, 255, 0.08)" />
+            <text x="580" y="${154 + i * 26}" fill="rgba(255, 42, 85, 0.75)" font-family="monospace" font-size="10">${c}</text>
+            <line x1="570" y1="${164 + i * 26}" x2="750" y2="${164 + i * 26}" stroke="rgba(255, 42, 85, 0.08)" />
           `).join('')}
           
           <!-- Relational Links -->
-          <path d="M 230 150 C 270 150, 270 180, 310 180" stroke="rgba(0, 255, 213, 0.85)" stroke-width="2" />
-          <circle cx="230" cy="150" r="3.5" fill="rgba(0, 255, 213, 0.9)" />
-          <circle cx="310" cy="180" r="3.5" fill="rgba(0, 255, 213, 0.9)" />
-          <text x="245" y="142" fill="rgba(0, 255, 213, 0.85)" font-family="monospace" font-size="9">1:N FK</text>
+          <path d="M 230 150 C 270 150, 270 180, 310 180" stroke="rgba(255, 82, 119, 0.85)" stroke-width="2" />
+          <circle cx="230" cy="150" r="3.5" fill="rgba(255, 82, 119, 0.9)" />
+          <circle cx="310" cy="180" r="3.5" fill="rgba(255, 82, 119, 0.9)" />
+          <text x="245" y="142" fill="rgba(255, 82, 119, 0.85)" font-family="monospace" font-size="9">1:N FK</text>
         </g>
       </svg>
     `;
   }
 
-  // ── 9. BLUEPRINT DETAIL MODAL CONTROLLER ──
+  // ── 8. BLUEPRINT DETAIL MODAL CONTROLLER ──
   const modalOverlay = document.getElementById('modal-overlay');
   let currentModalIdx = 0;
   let activeTab = 'layout';
@@ -1194,7 +1082,6 @@
       modalOverlay.setAttribute('aria-hidden', 'false');
       if (lenis) lenis.stop();
 
-      // Animate modal appearance with clip-path expansion
       if (!prefersReducedMotion) {
         gsap.fromTo('.modal-card', 
           { scale: 0.92, opacity: 0 }, 
@@ -1230,7 +1117,6 @@
     const p = projects[idx];
     if (!p) return;
 
-    // Header & Info
     const mHeaderMeta = document.getElementById('mHeaderMeta');
     const mTitle = document.getElementById('mTitle');
     const mSubtitle = document.getElementById('mSubtitle');
@@ -1243,7 +1129,7 @@
     const mLink = document.getElementById('mLink');
     const mGhLink = document.getElementById('mGhLink');
 
-    if (mHeaderMeta) mHeaderMeta.textContent = `BLUEPRINT // REGISTRY SPEC // ${p.num}`;
+    if (mHeaderMeta) mHeaderMeta.textContent = `BLUEPRINT // REGISTRY SPEC // [${p.num}]`;
     if (mTitle) mTitle.textContent = p.name;
     if (mSubtitle) mSubtitle.textContent = p.sub;
     if (mOverview) mOverview.textContent = p.overview;
@@ -1251,12 +1137,10 @@
     if (mRole) mRole.textContent = p.role;
     if (mStatus) mStatus.textContent = p.status;
 
-    // Tech Stack Chips
     if (mTechGrid) {
       mTechGrid.innerHTML = p.tags.map(t => `<span class="bp-tech-pill">${t}</span>`).join('');
     }
 
-    // Key Features List
     if (mFeaturesList) {
       mFeaturesList.innerHTML = p.features.map(f => `
         <div class="bp-feature-item">
@@ -1266,11 +1150,9 @@
       `).join('');
     }
 
-    // Links
     if (mLink) mLink.href = p.link;
     if (mGhLink) mGhLink.href = p.gh;
 
-    // Reset & Animate Metrics Bars
     const perfBar = document.getElementById('mPerfBar');
     const qualityBar = document.getElementById('mQualityBar');
     const bestBar = document.getElementById('mBestBar');
@@ -1298,7 +1180,6 @@
       if (accessBar) accessBar.style.width = p.metrics.access + '%';
     }, 120);
 
-    // Switch Viewport Content to layout tab
     switchBlueprintTab(activeTab);
   }
 
@@ -1335,7 +1216,6 @@
       });
     }
 
-    // Tabs
     const btnSys = document.getElementById('btnTabSys');
     const btnDb = document.getElementById('btnTabDb');
     const btnImg = document.getElementById('btnTabImg');
@@ -1344,7 +1224,6 @@
     if (btnDb) btnDb.addEventListener('click', () => switchBlueprintTab('db'));
     if (btnImg) btnImg.addEventListener('click', () => switchBlueprintTab('img'));
 
-    // Viewport Width Switchers (1200px / 800px / 375px)
     const resBtns = document.querySelectorAll('.bp-res-btn');
     const viewportOuter = document.querySelector('.bp-viewport-outer');
     const coordH = document.querySelector('.bp-coord-h');
@@ -1370,7 +1249,6 @@
       });
     });
 
-    // Keyboard navigation
     document.addEventListener('keydown', (e) => {
       if (!modalOpen) return;
       if (e.key === 'Escape') closeModal();
@@ -1385,7 +1263,7 @@
     });
   }
 
-  // ── 10. HIGH-PRECISION DRAFTING CURSOR ──
+  // ── 9. HIGH-PRECISION DRAFTING CURSOR (RED GLOW) ──
   function initCustomCursor() {
     if (isTouchDevice || prefersReducedMotion) return;
 
@@ -1412,11 +1290,10 @@
     }
     requestAnimationFrame(renderCursor);
 
-    // Dynamic Hover classes
-    const hoverTargets = document.querySelectorAll('a, button, input, .wall-card, .prompt-tag');
+    const hoverTargets = document.querySelectorAll('a, button, input, .project-bento-card, .filter-tag-btn');
     hoverTargets.forEach((el) => {
       el.addEventListener('mouseenter', () => {
-        if (!document.body.classList.contains('cursor-drag') && !document.body.classList.contains('cursor-view')) {
+        if (!document.body.classList.contains('cursor-view')) {
           document.body.classList.add('cursor-hover');
         }
       });
@@ -1426,7 +1303,7 @@
     });
   }
 
-  // ── 11. SMOOTH PAGE EXIT TRANSITION ──
+  // ── 10. SMOOTH PAGE EXIT TRANSITION ──
   function initPageExitTransition() {
     const veil = document.getElementById('page-exit-veil');
     if (!veil || prefersReducedMotion) return;
@@ -1450,31 +1327,17 @@
     });
   }
 
-  // ── 12. INITIALIZATION ON DOM READY ──
+  // ── 11. INITIALIZATION ──
   function init() {
-    // 1. Initial theme application
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
 
-    // 2. Initialize smooth scrolling
     initLenis();
-
-    // 3. Setup custom cursor
     initCustomCursor();
-
-    // 4. Initialize navbar
     initNavbar();
-
-    // 5. Setup cylinder grid
-    initCylinder();
-
-    // 6. Setup modal handlers
+    initShowcaseGrid();
     setupModalHandlers();
-
-    // 7. Setup page exit
     initPageExitTransition();
-
-    // 8. Run preloader and entrance animation
     initPreloader();
   }
 
