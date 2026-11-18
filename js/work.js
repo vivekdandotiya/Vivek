@@ -333,29 +333,24 @@
   const N = projects.length;
   const mod = (n, m) => ((n % m) + m) % m;
 
-  // ── 2. LENIS SMOOTH SCROLL ──
-  let lenis = null;
-  function initLenis() {
-    if (prefersReducedMotion || typeof Lenis === 'undefined') return;
-    lenis = new Lenis({
-      duration: 1.15,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      touchMultiplier: 1.25,
-      infinite: false
-    });
+  // ── 2. VIDEO AUTOPLAY OBSERVER (PERFORMANCE ACCELERATOR) ──
+  function initVideoAutoplayObserver() {
+    if (!('IntersectionObserver' in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const vid = entry.target;
+        if (entry.isIntersecting) {
+          vid.play().catch(() => {});
+        } else {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.1 });
 
-    if (window.ScrollTrigger) {
-      lenis.on('scroll', ScrollTrigger.update);
-      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-      gsap.ticker.lagSmoothing(0);
-    } else {
-      function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-      requestAnimationFrame(raf);
-    }
+    document.querySelectorAll('.proj-video').forEach(vid => observer.observe(vid));
   }
 
-  // ── 3. CURSOR & NAVIGATION ENGINE ──
+  // ── 3. CURSOR & NAVIGATION ENGINE (HIGH REFRESH RATE, ZERO LAG) ──
   function initCursor() {
     if (isTouchDevice || prefersReducedMotion) return;
     const cur = document.getElementById('cur');
@@ -370,13 +365,27 @@
       mouseY = e.clientY;
       cur.style.left = `${mouseX}px`;
       cur.style.top = `${mouseY}px`;
-    });
+    }, { passive: true });
+
+    document.addEventListener('mouseover', (e) => {
+      if (e.target.closest('a, button, .proj-card, .editorial-item, .filter-btn, .view-btn, [role="button"]')) {
+        cur.classList.add('hovering');
+        ring.classList.add('hovering');
+      }
+    }, { passive: true });
+
+    document.addEventListener('mouseout', (e) => {
+      if (e.target.closest('a, button, .proj-card, .editorial-item, .filter-btn, .view-btn, [role="button"]')) {
+        cur.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      }
+    }, { passive: true });
 
     function loop() {
-      ringX += (mouseX - ringX) * 0.16;
-      ringY += (mouseY - ringY) * 0.16;
-      ring.style.left = `${ringX.toFixed(2)}px`;
-      ring.style.top = `${ringY.toFixed(2)}px`;
+      ringX += (mouseX - ringX) * 0.2;
+      ringY += (mouseY - ringY) * 0.2;
+      ring.style.left = `${ringX.toFixed(1)}px`;
+      ring.style.top = `${ringY.toFixed(1)}px`;
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
@@ -389,17 +398,22 @@
     const mob = document.getElementById('mob');
     const scrollBar = document.getElementById('scroll-progress');
 
+    let isTicking = false;
     window.addEventListener('scroll', () => {
-      const currentY = window.pageYOffset || 0;
-      if (scrollBar) {
-        const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = totalDocHeight > 0 ? (currentY / totalDocHeight) * 100 : 0;
-        scrollBar.style.width = `${progress}%`;
-      }
-      if (currentY > 20) {
-        nav.style.background = 'rgba(5, 5, 5, 0.9)';
-      } else {
-        nav.style.background = 'rgba(5, 5, 5, 0.75)';
+      if (!isTicking) {
+        requestAnimationFrame(() => {
+          const currentY = window.pageYOffset || document.documentElement.scrollTop;
+          if (scrollBar) {
+            const totalDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = totalDocHeight > 0 ? (currentY / totalDocHeight) * 100 : 0;
+            scrollBar.style.width = `${progress}%`;
+          }
+          if (nav) {
+            nav.style.background = currentY > 20 ? 'rgba(5, 5, 5, 0.92)' : 'rgba(5, 5, 5, 0.75)';
+          }
+          isTicking = false;
+        });
+        isTicking = true;
       }
     }, { passive: true });
 
@@ -541,28 +555,33 @@
         }
       });
 
-      // 3D Perspective Tilt on Mousemove
+      // Smooth, lightweight Perspective Tilt on Mousemove
       if (!isTouchDevice && !prefersReducedMotion) {
+        let cardRect = null;
+        card.addEventListener('mouseenter', () => {
+          cardRect = card.getBoundingClientRect();
+        }, { passive: true });
+
         card.addEventListener('mousemove', (e) => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-          const rotX = ((y - centerY) / centerY) * -5.5;
-          const rotY = ((x - centerX) / centerX) * 5.5;
-          card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateY(-5px)`;
-        });
+          if (!cardRect) cardRect = card.getBoundingClientRect();
+          const x = e.clientX - cardRect.left;
+          const y = e.clientY - cardRect.top;
+          const rotX = ((y - cardRect.height / 2) / (cardRect.height / 2)) * -4;
+          const rotY = ((x - cardRect.width / 2) / (cardRect.width / 2)) * 4;
+          card.style.transform = `perspective(800px) rotateX(${rotX.toFixed(1)}deg) rotateY(${rotY.toFixed(1)}deg) translateY(-4px)`;
+        }, { passive: true });
 
         card.addEventListener('mouseleave', () => {
+          cardRect = null;
           card.style.transform = '';
-        });
+        }, { passive: true });
       }
 
       cardsContainer.appendChild(card);
     });
 
     updateProjectCount();
+    initVideoAutoplayObserver();
   }
 
   window.toggleVideo = function (btn) {
@@ -799,7 +818,7 @@
     if (modalOverlay) {
       modalOverlay.classList.add('open');
       modalOverlay.setAttribute('aria-hidden', 'false');
-      if (lenis) lenis.stop();
+      document.body.style.overflow = 'hidden';
     }
   };
 
@@ -807,7 +826,7 @@
     if (!modalOverlay) return;
     modalOverlay.classList.remove('open');
     modalOverlay.setAttribute('aria-hidden', 'true');
-    if (lenis) lenis.start();
+    document.body.style.overflow = '';
   }
 
   function fillModalData(idx) {
@@ -951,7 +970,6 @@
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
 
-    initLenis();
     initCursor();
     initNavbar();
     initShowcase();

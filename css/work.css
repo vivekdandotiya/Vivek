@@ -53,7 +53,6 @@ body {
   cursor: none;
   background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 120px 120px;
-  animation: gridMove 25s linear infinite;
 }
 
 /* ── Top Scroll Progress Bar ── */
@@ -122,13 +121,13 @@ body {
   transition: width .3s, height .3s, border-color .3s;
 }
 
-body:has(a:hover) #cur, body:has(button:hover) #cur, body:has(.proj-card:hover) #cur {
+#cur.hovering {
   width: 6px;
   height: 6px;
   background: var(--accent);
 }
 
-body:has(a:hover) #cur-ring, body:has(button:hover) #cur-ring, body:has(.proj-card:hover) #cur-ring {
+#cur-ring.hovering {
   width: 54px;
   height: 54px;
   border-color: var(--accent);
@@ -648,20 +647,19 @@ nav {
   .cards-grid { grid-template-columns: 1fr; }
 }
 
-/* 3D Glassmorphic Bento Card */
+/* Bento Card */
 .proj-card {
   cursor: none;
-  background: var(--surface);
+  background: #0e0e14;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
-  transition: border-color .4s, box-shadow .4s, transform .35s;
+  transition: border-color .3s ease, box-shadow .3s ease, transform .25s ease;
   display: flex;
   flex-direction: column;
   position: relative;
-  backdrop-filter: blur(16px);
-  transform-style: preserve-3d;
-  transform: perspective(1000px);
+  content-visibility: auto;
+  contain-intrinsic-size: auto 550px;
 }
 
 .proj-card:hover {
